@@ -110,7 +110,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     />
                                 </div>
                             </div>
-
+                            
                             <div className="p-3 border rounded-md">
                                 <SettingsToggle label="Sobreposição Escura" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
                                 {pageConfig.overlay.active && (
@@ -123,6 +123,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 min={0.1}
                                                 max={1}
                                                 step={0.1}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                            <div className="p-3 border rounded-md">
+                                <SettingsToggle label="Desfoque de Fundo" checked={pageConfig.blur.active} onCheckedChange={checked => onConfigChange(['blur', 'active'], checked)} />
+                                {pageConfig.blur.active && (
+                                    <div className="pt-4 space-y-4 border-t mt-4">
+                                        <div className="space-y-2">
+                                            <Label>Intensidade ({pageConfig.blur.intensity}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.blur.intensity]}
+                                                onValueChange={(value) => onConfigChange(['blur', 'intensity'], value[0])}
+                                                min={1}
+                                                max={50}
+                                                step={1}
                                             />
                                         </div>
                                     </div>
@@ -266,5 +283,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 

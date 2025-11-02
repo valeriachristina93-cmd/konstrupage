@@ -4,23 +4,35 @@ import type { PageConfig } from './definitions';
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
         desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab,
-        popups, footer, disclaimer, overlay, customization
+        popups, footer, disclaimer, overlay, blur, customization
     } = config;
 
     const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active;
 
     const getDesktopBgStyle = () => {
+        let style = '';
         if (overlay.active && !anyPopupActive) {
-            return `background-image: linear-gradient(rgba(0,0,0,${overlay.opacity}), rgba(0,0,0,${overlay.opacity})), url('${desktopImage}');`;
+            style += `background-image: linear-gradient(rgba(0,0,0,${overlay.opacity}), rgba(0,0,0,${overlay.opacity})), url('${desktopImage}');`;
+        } else {
+            style += `background-image: url('${desktopImage}');`;
         }
-        return `background-image: url('${desktopImage}');`;
+        if (blur.active && !anyPopupActive) {
+            style += ` filter: blur(${blur.intensity}px);`;
+        }
+        return style;
     };
     
     const getMobileBgStyle = () => {
+         let style = '';
         if (overlay.active && !anyPopupActive) {
-            return `background-image: linear-gradient(rgba(0,0,0,${overlay.opacity}), rgba(0,0,0,${overlay.opacity})), url('${mobileImage}');`;
+            style += `background-image: linear-gradient(rgba(0,0,0,${overlay.opacity}), rgba(0,0,0,${overlay.opacity})), url('${mobileImage}');`;
+        } else {
+            style += `background-image: url('${mobileImage}');`;
         }
-        return `background-image: url('${mobileImage}');`;
+        if (blur.active && !anyPopupActive) {
+            style += ` filter: blur(${blur.intensity}px);`;
+        }
+        return style;
     };
 
 
@@ -111,21 +123,31 @@ export const generatePresellHtml = (config: PageConfig) => {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Presell Page</title>
         <style>
-            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden;}
+            .main-wrapper {
+                position: relative;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+            }
             .main-section {
                 cursor: pointer;
-                ${getDesktopBgStyle()}
                 background-size: cover;
-                background-position: center top;
+                background-position: center;
                 height: ${imageHeightDesktop}vh;
                 position: relative;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                width: 100%;
+                transition: filter 0.3s ease-in-out;
             }
+            .bg-desktop { ${getDesktopBgStyle()} }
+            .bg-mobile { ${getMobileBgStyle()} display: none; }
+
             .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); }
-            .disclaimer { background: #f3f4f6; padding: 8px; text-align: center; font-size: 12px; color: #4b5563; }
-            footer { padding: 16px; text-align: center; font-size: 14px; }
+            .disclaimer { background: #f3f4f6; padding: 8px; text-align: center; font-size: 12px; color: #4b5563; position: fixed; bottom: ${footer.active ? '49px' : '0'}; width: 100%; z-index: 10;}
+            footer { padding: 16px; text-align: center; font-size: 14px; position: fixed; bottom: 0; width: 100%; z-index: 10;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; }
             .popup-wrapper {
                 position: fixed;
@@ -134,6 +156,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 width: 100%;
                 height: 100%;
                 background-color: ${anyPopupActive && overlay.active ? `rgba(0,0,0,${overlay.opacity})` : 'transparent'};
+                backdrop-filter: ${anyPopupActive && blur.active ? `blur(${blur.intensity}px)` : 'none'};
+                -webkit-backdrop-filter: ${anyPopupActive && blur.active ? `blur(${blur.intensity}px)` : 'none'};
                 z-index: 99;
                 display: ${anyPopupActive ? 'block' : 'none'};
                 pointer-events: ${anyPopupActive ? 'auto' : 'none'};
@@ -153,8 +177,10 @@ export const generatePresellHtml = (config: PageConfig) => {
             @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, -45%); } to { opacity: 1; transform: translate(-50%, -50%); } }
             .popup-bottom { animation: slideInUp 0.3s ease-in-out; }
             @keyframes slideInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translateX(-50%); } }
+            
             @media (max-width: 768px) {
-                .main-section { ${getMobileBgStyle()} background-size: cover; background-position: center top; height: ${imageHeightMobile}vh; }
+                .bg-desktop { display: none; }
+                .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
                 .popup-content { padding: 16px; }
@@ -165,14 +191,17 @@ export const generatePresellHtml = (config: PageConfig) => {
         </style>
     </head>
     <body>
-        <div class="main-section" onclick="mainAction()">
-            ${overlay.active && !anyPopupActive ? '' : ''}
+        <div class="main-wrapper">
+             <div class="main-section bg-desktop" onclick="mainAction()"></div>
+             <div class="main-section bg-mobile" onclick="mainAction()"></div>
+            
             <div class="popup-wrapper">
                 ${cookiePopup}
                 ${agePopup}
                 ${discountPopup}
             </div>
         </div>
+
         ${exitPopup}
         ${disclaimerSection}
         ${footerSection}
@@ -205,15 +234,27 @@ export const generatePresellHtml = (config: PageConfig) => {
                 document.addEventListener('mouseleave', function(e) {
                     if (e.clientY < 0 && !exitIntentFired) {
                         const exitPopup = document.getElementById('exit-popup');
-                        if (exitPopup) exitPopup.style.display = 'block';
+                        if (exitPopup) {
+                             const wrapper = document.querySelector('.main-wrapper');
+                             if (wrapper) {
+                                wrapper.style.transition = 'filter 0.3s ease-in-out';
+                                wrapper.style.filter = 'blur(${blur.intensity}px)';
+                             }
+                             exitPopup.style.display = 'block';
+                        }
                         exitIntentFired = true;
                     }
                 });
                 const exitPopup = document.getElementById('exit-popup');
                 if(exitPopup) {
                     exitPopup.addEventListener('click', function(e) {
-                        if (e.target.id === 'exit-popup') {
+                        const isButton = e.target.tagName === 'BUTTON';
+                         if (e.target === this && !isButton) {
                             this.style.display = 'none';
+                             const wrapper = document.querySelector('.main-wrapper');
+                             if (wrapper) {
+                                wrapper.style.filter = 'none';
+                             }
                         }
                     });
                 }

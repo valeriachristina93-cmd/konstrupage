@@ -43,6 +43,10 @@ export type PageConfig = {
     active: boolean;
     opacity: number;
   };
+  blur: {
+    active: boolean;
+    intensity: number;
+  };
   customization: {
     language: string;
     buttonColor: string;
@@ -51,4 +55,5 @@ export type PageConfig = {
     customHtml: string;
   };
 };
+
 

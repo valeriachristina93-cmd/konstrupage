@@ -24,6 +24,7 @@ export const initialPageConfig: PageConfig = {
     footer: { active: true, privacyLink: '#', termsLink: '#', theme: 'dark' },
     disclaimer: { active: true, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.' },
     overlay: { active: false, opacity: 0.5 },
+    blur: { active: false, intensity: 5 },
     customization: {
         language: 'pt-BR',
         buttonColor: '#3B82F6',
@@ -49,5 +50,6 @@ export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
 ];
+
 
 
