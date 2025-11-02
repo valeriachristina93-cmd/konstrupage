@@ -30,7 +30,7 @@ const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; ch
 
 export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isSuggestingLayout }: SettingsPanelProps) {
     return (
-        <div className="flex flex-col w-[448px] bg-background shadow-lg rounded-lg m-2 overflow-hidden border">
+        <div className="flex flex-col bg-background shadow-sm rounded-lg h-full border">
             <div className="p-4 border-b">
                 <h2 className="text-xl font-bold">Configurações da Página</h2>
             </div>

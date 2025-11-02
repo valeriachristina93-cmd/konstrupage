@@ -86,22 +86,26 @@ export default function EditorPage() {
                 isGenerating={isGenerating}
                 affiliateLink={pageConfig.affiliateLink}
             />
-            <main className="flex flex-1 overflow-hidden">
+            <main className="flex-1 p-4 md:p-6 overflow-y-auto">
                 <GenerateCodeModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     htmlContent={generatedHtml}
                 />
-
-                <SettingsPanel
-                    pageConfig={pageConfig}
-                    onConfigChange={handleConfigChange}
-                    onSuggestLayout={handleSuggestLayout}
-                    isSuggestingLayout={isAISuggesting}
-                />
-
-                <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-6 relative bg-background/20">
-                    <PreviewPanel pageConfig={pageConfig} />
+                
+                <div className="flex flex-col md:flex-row gap-8 justify-center">
+                    <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px]">
+                        <SettingsPanel
+                            pageConfig={pageConfig}
+                            onConfigChange={handleConfigChange}
+                            onSuggestLayout={handleSuggestLayout}
+                            isSuggestingLayout={isAISuggesting}
+                        />
+                    </div>
+                    
+                    <div className="flex-1 flex flex-col relative min-h-[600px]">
+                       <PreviewPanel pageConfig={pageConfig} />
+                    </div>
                 </div>
             </main>
         </div>

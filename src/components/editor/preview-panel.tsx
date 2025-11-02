@@ -31,7 +31,7 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
     }, [debouncedPageConfig]);
 
     return (
-        <>
+        <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-0 relative bg-background/20 rounded-lg border">
             <div className="absolute top-4 right-6 flex items-center space-x-2 bg-background/80 backdrop-blur-sm p-1 rounded-full shadow-md z-10">
                 <Button onClick={() => setPreviewMode('desktop')} variant={previewMode === 'desktop' ? 'primary' : 'ghost'} size="icon" className="rounded-full">
                     <Laptop className="w-5 h-5" />
@@ -59,6 +59,6 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
                     />
                 </div>
             </div>
-        </>
+        </div>
     );
 }
