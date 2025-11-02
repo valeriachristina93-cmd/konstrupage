@@ -155,10 +155,6 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                     <User className="mr-2 h-4 w-4" />
                                     <span>Perfil</span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>Planos</span>
-                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem className="text-destructive focus:text-destructive">
                                     <LogOut className="mr-2 h-4 w-4" />
