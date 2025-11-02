@@ -144,11 +144,8 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
 
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                                    <Avatar className="h-8 w-8">
-                                        <AvatarImage src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="@shadcn" />
-                                        <AvatarFallback>SC</AvatarFallback>
-                                    </Avatar>
+                                <Button variant="ghost" size="icon" className="rounded-full">
+                                    <User className="h-5 w-5" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
