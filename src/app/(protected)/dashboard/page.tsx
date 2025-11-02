@@ -12,7 +12,7 @@ export default function DashboardPage() {
       <div className="w-full max-w-4xl">
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-bold font-headline mb-2 text-foreground">
-            Bem-vindo ao Presell Pro
+            Bem-vindo ao Konstrupages
           </h1>
           <p className="text-xl text-muted-foreground">Sua ferramenta para criar páginas de presell de alta conversão.</p>
         </div>

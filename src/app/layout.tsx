@@ -5,7 +5,7 @@ import { ThemeProvider } from '@/components/theme-provider';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Stallo - Presell Page Generator',
+  title: 'Konstrupages - Presell Page Generator',
   description: 'Crie presell pages de alta conversão em minutos.',
 };
 

@@ -53,7 +53,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
                         <Sparkles className="h-6 w-6 text-primary" />
-                        <span className="hidden sm:inline-block">Presell Pro</span>
+                        <span className="hidden sm:inline-block">Konstrupages</span>
                     </Link>
                     <Badge variant="outline">BETA</Badge>
                 </div>
@@ -63,7 +63,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         onClick={onGenerate}
                         disabled={isGenerating || !affiliateLink}
                         size="lg"
-                        className="font-bold text-base py-5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity ml-auto"
+                        className="font-bold text-base py-5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity"
                     >
                         {isGenerating && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                         Gerar Página
