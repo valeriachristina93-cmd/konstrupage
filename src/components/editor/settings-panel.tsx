@@ -164,7 +164,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                         <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
                             <div className="flex items-center gap-3">
                                 <Settings2 className="w-5 h-5 text-red-500" />
-                                <span className="font-semibold">Personalização Avançada</span>
+                                <span className="font-semibold">Configurações Avançadas</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4">
