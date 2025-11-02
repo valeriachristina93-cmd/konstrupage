@@ -36,7 +36,7 @@ export async function suggestImageLayout(input: SuggestImageLayoutInput): Promis
 const prompt = ai.definePrompt({
   name: 'suggestImageLayoutPrompt',
   input: {schema: SuggestImageLayoutInputSchema},
-  output: {schema: SuggestImageLayoutOutputSchema},
+  output: {schema: SuggestImageLayoutOutputSchema, format: 'json'},
   prompt: `Given the following information about a presell page, suggest an optimal layout and image sizes.
 
 Desktop Image URL: {{{desktopImage}}}
@@ -52,11 +52,7 @@ Consider these factors when suggesting layout and image sizes:
 
 Suggest a layout type (e.g., 'image-text', 'two-column', 'full-screen-image') and specific height in pixels for the desktop and mobile images.
 
-Ensure that your suggestion is precise and practical for implementation.
-
-Layout Type: {{suggestedLayout}}
-Desktop Image Height: {{suggestedDesktopHeight}}
-Mobile Image Height: {{suggestedMobileHeight}}`,
+Ensure that your suggestion is precise and practical for implementation. Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text or formatting.`,
 });
 
 const suggestImageLayoutFlow = ai.defineFlow(
@@ -70,4 +66,3 @@ const suggestImageLayoutFlow = ai.defineFlow(
     return output!;
   }
 );
-
