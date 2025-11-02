@@ -47,7 +47,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
     const [language, setLanguage] = useState('pt-br');
 
     return (
-        <header className="flex h-16 items-center border-b bg-background px-4 md:px-6 sticky top-0 z-40">
+        <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40">
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
                         <Sparkles className="h-6 w-6 text-primary" />
@@ -56,7 +56,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                     <Badge variant="outline">BETA</Badge>
                 </div>
 
-                <div className="flex items-center gap-2 md:gap-4 ml-auto">
+                <div className="flex items-center gap-2 md:gap-4">
                     <Button
                         onClick={onGenerate}
                         disabled={isGenerating || !affiliateLink}
@@ -154,6 +154,10 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                 <DropdownMenuItem>
                                     <User className="mr-2 h-4 w-4" />
                                     <span>Perfil</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <User className="mr-2 h-4 w-4" />
+                                    <span>Planos</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem className="text-destructive focus:text-destructive">
