@@ -21,8 +21,8 @@ export const initialPageConfig: PageConfig = {
         discount: { active: false, text: '25% de Desconto', icon: true },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://picsum.photos/seed/exit/800/450', redirectLink: '' }
     },
-    footer: { active: true, privacyLink: '#', termsLink: '#', theme: 'dark' },
-    disclaimer: { active: true, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.' },
+    footer: { active: false, privacyLink: '#', termsLink: '#', theme: 'dark' },
+    disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.' },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 5 },
     customization: {
@@ -50,6 +50,7 @@ export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
 ];
+
 
 
 
