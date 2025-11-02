@@ -56,7 +56,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                     <Badge variant="outline">BETA</Badge>
                 </div>
 
-                <div className="flex items-center gap-2 md:gap-4">
+                <div className="flex items-center gap-2 md:gap-4 ml-auto">
                     <Button
                         onClick={onGenerate}
                         disabled={isGenerating || !affiliateLink}
