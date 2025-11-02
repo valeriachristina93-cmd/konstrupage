@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useCallback, useTransition } from 'react';
@@ -15,7 +16,8 @@ export default function EditorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig>(initialPageConfig);
     const [generatedHtml, setGeneratedHtml] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isPending, startTransition] = useTransition();
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [isAISuggesting, startAITransition] = useTransition();
     const { toast } = useToast();
 
     const handleConfigChange = useCallback((keys: string[], value: any) => {
@@ -39,12 +41,17 @@ export default function EditorPage() {
             });
             return;
         }
-        setGeneratedHtml(generatePresellHtml(pageConfig));
-        setIsModalOpen(true);
+        setIsGenerating(true);
+        // Simulate generation time
+        setTimeout(() => {
+            setGeneratedHtml(generatePresellHtml(pageConfig));
+            setIsModalOpen(true);
+            setIsGenerating(false);
+        }, 500);
     };
 
     const handleSuggestLayout = () => {
-        startTransition(async () => {
+        startAITransition(async () => {
             try {
                 const suggestion = await getSuggestedLayout({
                     desktopImage: pageConfig.desktopImage,
@@ -73,38 +80,30 @@ export default function EditorPage() {
     };
 
     return (
-        <div className="flex flex-col md:flex-row h-screen-minus-header bg-secondary text-foreground">
-            <GenerateCodeModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                htmlContent={generatedHtml}
+        <div className="flex flex-col h-screen bg-secondary text-foreground">
+            <EditorHeader 
+                onGenerate={handleGenerate} 
+                isGenerating={isGenerating}
+                affiliateLink={pageConfig.affiliateLink}
             />
+            <main className="flex flex-1 overflow-hidden">
+                <GenerateCodeModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    htmlContent={generatedHtml}
+                />
 
-            <div className="w-full md:w-1/3 md:max-w-md h-full overflow-y-auto bg-background shadow-lg flex flex-col">
-                <EditorHeader onGenerate={handleGenerate} affiliateLink={pageConfig.affiliateLink} />
                 <SettingsPanel
                     pageConfig={pageConfig}
                     onConfigChange={handleConfigChange}
                     onSuggestLayout={handleSuggestLayout}
-                    isSuggestingLayout={isPending}
+                    isSuggestingLayout={isAISuggesting}
                 />
-            </div>
 
-            <div className="w-full md:w-2/3 flex-1 flex flex-col items-center justify-center p-2 sm:p-6 relative">
-                <PreviewPanel pageConfig={pageConfig} />
-            </div>
+                <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-6 relative bg-background/20">
+                    <PreviewPanel pageConfig={pageConfig} />
+                </div>
+            </main>
         </div>
     );
-}
-
-// Add a helper style to layout to calculate height correctly
-const css = `
-  .h-screen-minus-header {
-    height: calc(100vh - 61px);
-  }
-`;
-const style = typeof document !== 'undefined' ? document.createElement('style') : null;
-if (style) {
-  style.textContent = css;
-  document.head.append(style);
 }
