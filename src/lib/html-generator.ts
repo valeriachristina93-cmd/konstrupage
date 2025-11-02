@@ -7,7 +7,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, customization
     } = config;
 
-    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active || popups.choice.active;
+    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active || popups.choice.active || popups.captcha.active;
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -111,6 +111,20 @@ export const generatePresellHtml = (config: PageConfig) => {
         </div>
     ` : '';
 
+    const captchaPopup = popups.captcha.active ? `
+        <div id="captcha-popup" class="popup popup-center" style="${popupStyles[customization.popupColor]}">
+            <div class="popup-content">
+                <h2>${popups.captcha.title}</h2>
+                <p>${popups.captcha.description}</p>
+                <div class="captcha-box">
+                    <input type="checkbox" id="captcha-checkbox" onclick="acceptAction()">
+                    <label for="captcha-checkbox">Não sou um robô</label>
+                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
+                </div>
+            </div>
+        </div>
+    ` : '';
+
 
     const exitPopup = popups.exit.active ? `
         <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles[customization.popupColor]}">
@@ -201,6 +215,10 @@ export const generatePresellHtml = (config: PageConfig) => {
             .choice-images { display: flex; justify-content: center; gap: 20px; }
             .choice-images img { width: 120px; height: auto; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
             .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.buttonColor}; }
+            .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; margin-top: 20px; }
+            .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; }
+            .captcha-box input[type="checkbox"] { width: 28px; height: 28px; margin-right: 12px; cursor: pointer; accent-color: ${customization.buttonColor}; }
+            .captcha-box img { width: 48px; height: 48px; }
             @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, -45%); } to { opacity: 1; transform: translate(-50%, -50%); } }
             .popup-bottom { animation: slideInUp 0.3s ease-in-out; }
             @keyframes slideInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translateX(-50%); } }
@@ -229,6 +247,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${discountPopup}
                 ${customPopup}
                 ${choicePopup}
+                ${captchaPopup}
             </div>
         </div>
 

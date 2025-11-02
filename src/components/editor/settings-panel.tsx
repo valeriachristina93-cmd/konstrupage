@@ -181,6 +181,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </>
                                     )}
                                 </div>
+                                 <div className="p-3 border rounded-md space-y-3">
+                                    <SettingsToggle label="Pop-up Captcha" checked={pageConfig.popups.captcha.active} onCheckedChange={checked => onConfigChange(['popups', 'captcha', 'active'], checked)} />
+                                    {pageConfig.popups.captcha.active && (
+                                        <>
+                                            <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.captcha.title} onChange={e => onConfigChange(['popups', 'captcha', 'title'], e.target.value)} />
+                                            <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.captcha.description} onChange={e => onConfigChange(['popups', 'captcha', 'description'], e.target.value)} className="text-sm h-24" />
+                                        </>
+                                    )}
+                                </div>
                                 <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Desconto" checked={pageConfig.popups.discount.active} onCheckedChange={checked => onConfigChange(['popups', 'discount', 'active'], checked)} />
                                     {pageConfig.popups.discount.active && (
@@ -310,6 +319,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 
 

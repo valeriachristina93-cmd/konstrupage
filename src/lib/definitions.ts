@@ -41,6 +41,11 @@ export type PageConfig = {
       image1Url: string;
       image2Url: string;
     };
+    captcha: {
+      active: boolean;
+      title: string;
+      description: string;
+    };
   };
   footer: {
     active: boolean;
@@ -68,6 +73,7 @@ export type PageConfig = {
     customHtml: string;
   };
 };
+
 
 
 
