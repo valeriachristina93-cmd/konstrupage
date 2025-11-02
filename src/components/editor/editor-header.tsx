@@ -48,11 +48,10 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
 
     return (
         <header className="flex h-16 items-center border-b bg-background px-4 md:px-6 sticky top-0 z-40">
-            <div className="container mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
                         <Sparkles className="h-6 w-6 text-primary" />
-                        <span>konstrupages</span>
+                        <span>Presell Pro</span>
                     </Link>
                     <Badge variant="outline">BETA</Badge>
                 </div>
@@ -169,7 +168,6 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         </DropdownMenu>
                     </div>
                 </div>
-            </div>
         </header>
     );
 }

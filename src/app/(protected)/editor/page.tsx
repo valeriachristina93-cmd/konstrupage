@@ -72,7 +72,7 @@ export default function EditorPage() {
                 isGenerating={isGenerating}
                 affiliateLink={pageConfig.affiliateLink}
             />
-            <main className="flex-1 flex flex-col md:flex-row gap-8 justify-center overflow-y-auto">
+            <main className="flex-1 flex flex-col md:flex-row gap-8 justify-center overflow-y-auto p-4 md:p-8">
                  <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col bg-card shadow-sm border rounded-lg">
                     <SettingsPanel
                         pageConfig={pageConfig}

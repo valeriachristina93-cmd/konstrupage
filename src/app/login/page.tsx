@@ -31,14 +31,14 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-md mx-4 shadow-xl">
         <CardHeader className="text-center">
-          <h1 className="text-5xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary to-blue-400">Stallo</h1>
+          <h1 className="text-5xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary to-blue-400">Presell Pro</h1>
           <CardDescription className="pt-2">Crie presell pages de alta conversão em minutos.</CardDescription>
         </CardHeader>
         <CardContent>
           <form className="space-y-6" onSubmit={handleSubmit}>
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
-              <Input id="email" type="email" placeholder="email@exemplo.com" required defaultValue="demo@stallo.com" />
+              <Input id="email" type="email" placeholder="email@exemplo.com" required defaultValue="demo@presell.pro" />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Senha</Label>
