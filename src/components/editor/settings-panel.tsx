@@ -13,7 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { FileText, MessageSquare, LayoutPanelLeft, Settings2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
-import { ViewMode } from '@/app/(protected)/editor/page';
+import type { ViewMode } from '@/app/(protected)/editor/page';
 import { SliderWithControls } from './slider-with-controls';
 
 
@@ -94,9 +94,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <SliderWithControls
                                         value={[pageConfig.imageHeightDesktop]}
                                         onValueChange={(value) => onConfigChange(['imageHeightDesktop'], value[0])}
-                                        min={100}
-                                        max={500}
-                                        step={10}
+                                        min={10}
+                                        max={200}
+                                        step={5}
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -104,9 +104,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <SliderWithControls
                                         value={[pageConfig.imageHeightMobile]}
                                         onValueChange={(value) => onConfigChange(['imageHeightMobile'], value[0])}
-                                        min={100}
-                                        max={500}
-                                        step={10}
+                                        min={10}
+                                        max={200}
+                                        step={5}
                                     />
                                 </div>
                             </div>
@@ -114,10 +114,21 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             <Accordion type="multiple" className="w-full space-y-2">
                                 <AccordionItem value="overlay" className="p-3 border rounded-md">
                                     <AccordionTrigger className="p-0 hover:no-underline">
-                                        Sobreposição Escura
+                                        <SettingsToggle label="Sobreposição Escura" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
                                     </AccordionTrigger>
-                                    <AccordionContent className="pt-4">
-                                        <SettingsToggle label="Ativar Sobreposição" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
+                                    <AccordionContent className="pt-4 space-y-4">
+                                         {pageConfig.overlay.active && (
+                                            <div className="space-y-2">
+                                                <Label>Opacidade ({pageConfig.overlay.opacity})</Label>
+                                                <SliderWithControls
+                                                    value={[pageConfig.overlay.opacity]}
+                                                    onValueChange={(value) => onConfigChange(['overlay', 'opacity'], value[0])}
+                                                    min={0.1}
+                                                    max={1}
+                                                    step={0.1}
+                                                />
+                                            </div>
+                                         )}
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
@@ -259,3 +270,4 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+

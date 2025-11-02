@@ -41,6 +41,7 @@ export type PageConfig = {
   };
   overlay: {
     active: boolean;
+    opacity: number;
   };
   customization: {
     language: string;
@@ -50,3 +51,4 @@ export type PageConfig = {
     customHtml: string;
   };
 };
+

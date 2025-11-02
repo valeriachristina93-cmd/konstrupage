@@ -7,6 +7,23 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, customization
     } = config;
 
+    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active;
+
+    const getDesktopBgStyle = () => {
+        if (overlay.active && !anyPopupActive) {
+            return `background-image: linear-gradient(rgba(0,0,0,${overlay.opacity}), rgba(0,0,0,${overlay.opacity})), url('${desktopImage}');`;
+        }
+        return `background-image: url('${desktopImage}');`;
+    };
+    
+    const getMobileBgStyle = () => {
+        if (overlay.active && !anyPopupActive) {
+            return `background-image: linear-gradient(rgba(0,0,0,${overlay.opacity}), rgba(0,0,0,${overlay.opacity})), url('${mobileImage}');`;
+        }
+        return `background-image: url('${mobileImage}');`;
+    };
+
+
     const popupStyles = {
         'dark': 'background-color: #1F2937; color: #F3F4F6;',
         'white': 'background-color: #FFFFFF; color: #1F2937; border: 1px solid #E5E7EB;',
@@ -97,7 +114,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; }
             .main-section {
                 cursor: pointer;
-                background-image: url('${desktopImage}');
+                ${getDesktopBgStyle()}
                 background-size: cover;
                 background-position: center top;
                 height: ${imageHeightDesktop}vh;
@@ -110,6 +127,17 @@ export const generatePresellHtml = (config: PageConfig) => {
             .disclaimer { background: #f3f4f6; padding: 8px; text-align: center; font-size: 12px; color: #4b5563; }
             footer { padding: 16px; text-align: center; font-size: 14px; }
             footer a { color: inherit; text-decoration: none; margin: 0 8px; }
+            .popup-wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: ${anyPopupActive && overlay.active ? `rgba(0,0,0,${overlay.opacity})` : 'transparent'};
+                z-index: 99;
+                display: ${anyPopupActive ? 'block' : 'none'};
+                pointer-events: ${anyPopupActive ? 'auto' : 'none'};
+            }
             .popup { position: fixed; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 8px; animation: fadeIn 0.3s ease-in-out; box-sizing: border-box; }
             .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; }
             .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; }
@@ -126,7 +154,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { animation: slideInUp 0.3s ease-in-out; }
             @keyframes slideInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translateX(-50%); } }
             @media (max-width: 768px) {
-                .main-section { background-image: url('${mobileImage}'); height: ${imageHeightMobile}vh; }
+                .main-section { ${getMobileBgStyle()} background-size: cover; background-position: center top; height: ${imageHeightMobile}vh; }
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
                 .popup-content { padding: 16px; }
@@ -138,10 +166,12 @@ export const generatePresellHtml = (config: PageConfig) => {
     </head>
     <body>
         <div class="main-section" onclick="mainAction()">
-            ${overlay.active ? '<div class="overlay"></div>' : ''}
-            ${cookiePopup}
-            ${agePopup}
-            ${discountPopup}
+            ${overlay.active && !anyPopupActive ? '' : ''}
+            <div class="popup-wrapper">
+                ${cookiePopup}
+                ${agePopup}
+                ${discountPopup}
+            </div>
         </div>
         ${exitPopup}
         ${disclaimerSection}
@@ -150,7 +180,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         <script>
             const AFFILIATE_LINK = '${affiliateLink}';
             const NEW_TAB = ${newTab};
-            const popupsActive = ${popups.cookies.active || popups.ageVerification.active || popups.discount.active};
+            const popupsActive = ${anyPopupActive};
 
             function redirect(url, forceNewTab = false) {
                 if (!url) return;
@@ -188,7 +218,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     });
                 }
             ` : ''}
-        <\/script>
+        </script>
     </body>
     </html>`;
 };
