@@ -1,0 +1,50 @@
+export type PageConfig = {
+  desktopImage: string;
+  mobileImage: string;
+  imageHeightDesktop: number;
+  imageHeightMobile: number;
+  affiliateLink: string;
+  autoRedirect: {
+    active: boolean;
+    time: number;
+  };
+  popups: {
+    cookies: {
+      active: boolean;
+      message: string;
+    };
+    ageVerification: {
+      active: boolean;
+    };
+    discount: {
+      active: boolean;
+      text: string;
+      icon: boolean;
+    };
+    exit: {
+      active: boolean;
+      imageUrl: string;
+      redirectLink: string;
+    };
+  };
+  footer: {
+    active: boolean;
+    privacyLink: string;
+    termsLink: string;
+    theme: 'dark' | 'light';
+  };
+  disclaimer: {
+    active: boolean;
+    text: string;
+  };
+  overlay: {
+    active: boolean;
+  };
+  customization: {
+    language: string;
+    buttonColor: string;
+    popupColor: 'dark' | 'white' | 'light-gray' | 'dark-gray';
+    popupPosition: 'center' | 'bottom';
+    customHtml: string;
+  };
+};
