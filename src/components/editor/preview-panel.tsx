@@ -31,7 +31,7 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
     }, [debouncedPageConfig]);
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-0 relative bg-background/20 rounded-lg border">
+        <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-0 relative bg-background/20 rounded-lg border h-full">
             <div className="absolute top-4 right-6 flex items-center space-x-2 bg-background/80 backdrop-blur-sm p-1 rounded-full shadow-md z-10">
                 <Button onClick={() => setPreviewMode('desktop')} variant={previewMode === 'desktop' ? 'primary' : 'ghost'} size="icon" className="rounded-full">
                     <Laptop className="w-5 h-5" />
@@ -49,7 +49,7 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
                 )}
                 <div className={cn(
                     "transition-all duration-300 ease-in-out bg-background dark:bg-black rounded-xl shadow-2xl overflow-hidden",
-                    previewMode === 'desktop' ? 'w-full aspect-video' : 'w-[375px] h-[740px] border-8 border-black dark:border-gray-800'
+                    previewMode === 'desktop' ? 'w-full h-full' : 'w-[375px] h-[740px] border-8 border-black dark:border-gray-800'
                 )}>
                     <iframe
                         ref={iframeRef}

@@ -30,12 +30,13 @@ const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; ch
 
 export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isSuggestingLayout }: SettingsPanelProps) {
     return (
-        <div className="flex flex-col bg-background shadow-sm rounded-lg h-full border">
+        <div className="flex flex-col bg-background shadow-sm h-full border-r">
             <div className="p-4 border-b">
                 <h2 className="text-xl font-bold">Configurações da Página</h2>
             </div>
             <ScrollArea className="flex-grow">
-                <Accordion type="multiple" defaultValue={['layout']} className="w-full p-4">
+                <div className="p-4">
+                <Accordion type="multiple" defaultValue={['layout']} className="w-full">
                     
                     <AccordionItem value="layout" className="border-b-0 mb-2">
                         <AccordionTrigger className="hover:no-underline rounded-md bg-muted/50 px-3">
@@ -221,6 +222,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
+                </div>
             </ScrollArea>
         </div>
     );
