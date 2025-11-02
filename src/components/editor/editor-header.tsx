@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Camera, Bell, Languages, Loader2, User, LifeBuoy, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles } from 'lucide-react';
+import { Camera, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -156,7 +156,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                     <span>Perfil</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem>
-                                    <LifeBuoy className="mr-2 h-4 w-4" />
+                                    <User className="mr-2 h-4 w-4" />
                                     <span>Planos</span>
                                 </DropdownMenuItem>
                                 <DropdownMenuSeparator />
