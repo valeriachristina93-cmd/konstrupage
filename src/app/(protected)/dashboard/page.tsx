@@ -22,7 +22,7 @@ export default function DashboardPage() {
             </CardHeader>
           </Card>
         </Link>
-        <Card className="h-full bg-muted/50 cursor-not-allowed">
+        <Card className="h-full bg-card border-dashed cursor-not-allowed">
           <CardHeader>
             <CardTitle className="text-muted-foreground">Páginas de Reviews (Em Breve)</CardTitle>
             <CardDescription>

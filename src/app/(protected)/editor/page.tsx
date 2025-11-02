@@ -80,32 +80,30 @@ export default function EditorPage() {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-secondary text-foreground">
+        <div className="flex flex-col h-screen bg-background text-foreground">
             <EditorHeader 
                 onGenerate={handleGenerate} 
                 isGenerating={isGenerating}
                 affiliateLink={pageConfig.affiliateLink}
             />
-            <main className="flex-1 flex overflow-hidden">
+            <main className="flex-1 flex overflow-hidden p-4 gap-4">
                 <GenerateCodeModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     htmlContent={generatedHtml}
                 />
                 
-                <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-                    <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col">
-                        <SettingsPanel
-                            pageConfig={pageConfig}
-                            onConfigChange={handleConfigChange}
-                            onSuggestLayout={handleSuggestLayout}
-                            isSuggestingLayout={isAISuggesting}
-                        />
-                    </div>
-                    
-                    <div className="flex-1 flex flex-col relative p-4 md:p-6">
-                       <PreviewPanel pageConfig={pageConfig} />
-                    </div>
+                <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col">
+                    <SettingsPanel
+                        pageConfig={pageConfig}
+                        onConfigChange={handleConfigChange}
+                        onSuggestLayout={handleSuggestLayout}
+                        isSuggestingLayout={isAISuggesting}
+                    />
+                </div>
+                
+                <div className="flex-1 flex flex-col relative">
+                    <PreviewPanel pageConfig={pageConfig} />
                 </div>
             </main>
         </div>

@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { Camera, Bell, Languages, Loader2, User, LifeBuoy, LogOut, Moon, Sun, Monitor, Smartphone, Check } from 'lucide-react';
+import { Camera, Bell, Languages, Loader2, User, LifeBuoy, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -51,7 +51,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
             <div className="container mx-auto flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
-                        <Camera className="h-6 w-6 text-primary" />
+                        <Sparkles className="h-6 w-6 text-primary" />
                         <span>konstrupages</span>
                     </Link>
                     <Badge variant="outline">BETA</Badge>
@@ -62,7 +62,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         onClick={onGenerate}
                         disabled={isGenerating || !affiliateLink}
                         size="lg"
-                        className="font-bold text-lg py-6 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity"
+                        className="font-bold text-base py-5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity"
                     >
                         {isGenerating && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                         Gerar Página

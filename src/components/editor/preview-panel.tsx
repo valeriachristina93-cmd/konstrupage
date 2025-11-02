@@ -31,24 +31,24 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
     }, [debouncedPageConfig]);
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center p-2 sm:p-0 relative bg-background/20 rounded-lg border h-full">
-            <div className="absolute top-4 right-6 flex items-center space-x-2 bg-background/80 backdrop-blur-sm p-1 rounded-full shadow-md z-10">
-                <Button onClick={() => setPreviewMode('desktop')} variant={previewMode === 'desktop' ? 'primary' : 'ghost'} size="icon" className="rounded-full">
+        <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/30 rounded-lg border h-full">
+            <div className="absolute top-4 right-6 flex items-center space-x-1 bg-background/80 backdrop-blur-sm p-1 rounded-full shadow-md z-10">
+                <Button onClick={() => setPreviewMode('desktop')} variant={previewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
                     <Laptop className="w-5 h-5" />
                 </Button>
-                <Button onClick={() => setPreviewMode('mobile')} variant={previewMode === 'mobile' ? 'primary' : 'ghost'} size="icon" className="rounded-full">
+                <Button onClick={() => setPreviewMode('mobile')} variant={previewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
                     <Smartphone className="w-5 h-5" />
                 </Button>
             </div>
             
-            <div className="relative w-full h-full flex items-center justify-center">
+            <div className="relative w-full h-full flex items-center justify-center p-4">
                  {isRendering && (
-                    <div className="absolute inset-0 bg-background/30 backdrop-blur-sm flex items-center justify-center z-20">
+                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 )}
                 <div className={cn(
-                    "transition-all duration-300 ease-in-out bg-background dark:bg-black rounded-xl shadow-2xl overflow-hidden",
+                    "transition-all duration-300 ease-in-out bg-background dark:bg-black rounded-xl shadow-2xl overflow-hidden ring-1 ring-inset ring-black/10",
                     previewMode === 'desktop' ? 'w-full h-full' : 'w-[375px] h-[740px] border-8 border-black dark:border-gray-800'
                 )}>
                     <iframe

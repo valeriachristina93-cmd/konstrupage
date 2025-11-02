@@ -30,16 +30,16 @@ const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; ch
 
 export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isSuggestingLayout }: SettingsPanelProps) {
     return (
-        <div className="flex flex-col bg-background shadow-sm h-full border-r">
+        <div className="flex flex-col bg-card shadow-sm h-full border rounded-lg">
             <div className="p-4 border-b">
-                <h2 className="text-xl font-bold">Configurações da Página</h2>
+                <h2 className="text-lg font-semibold">Configurações</h2>
             </div>
             <ScrollArea className="flex-grow">
                 <div className="p-4">
                 <Accordion type="multiple" defaultValue={['layout']} className="w-full">
                     
                     <AccordionItem value="layout" className="border-b-0 mb-2">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted/50 px-3">
+                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
                             <div className="flex items-center gap-3">
                                 <LayoutPanelLeft className="w-5 h-5 text-primary" />
                                 <span className="font-semibold">Layout e Elementos</span>
@@ -92,7 +92,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                     </AccordionItem>
 
                     <AccordionItem value="popups" className="border-b-0 mb-2">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted/50 px-3">
+                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
                             <div className="flex items-center gap-3">
                                 <MessageSquare className="w-5 h-5 text-blue-500" />
                                 <span className="font-semibold">Pop-ups</span>
@@ -130,7 +130,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                     </AccordionItem>
                     
                      <AccordionItem value="content" className="border-b-0 mb-2">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted/50 px-3">
+                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
                             <div className="flex items-center gap-3">
                                 <FileText className="w-5 h-5 text-green-500" />
                                 <span className="font-semibold">Conteúdo</span>
@@ -161,7 +161,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                     </AccordionItem>
 
                     <AccordionItem value="advanced" className="border-b-0">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted/50 px-3">
+                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
                             <div className="flex items-center gap-3">
                                 <Settings2 className="w-5 h-5 text-red-500" />
                                 <span className="font-semibold">Personalização Avançada</span>
