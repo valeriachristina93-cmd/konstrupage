@@ -111,27 +111,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </div>
                             </div>
 
-                            <Accordion type="multiple" className="w-full space-y-2">
-                                <AccordionItem value="overlay" className="p-3 border rounded-md">
-                                    <AccordionTrigger className="p-0 hover:no-underline">
-                                        <SettingsToggle label="Sobreposição Escura" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
-                                    </AccordionTrigger>
-                                    <AccordionContent className="pt-4 space-y-4">
-                                         {pageConfig.overlay.active && (
-                                            <div className="space-y-2">
-                                                <Label>Opacidade ({pageConfig.overlay.opacity})</Label>
-                                                <SliderWithControls
-                                                    value={[pageConfig.overlay.opacity]}
-                                                    onValueChange={(value) => onConfigChange(['overlay', 'opacity'], value[0])}
-                                                    min={0.1}
-                                                    max={1}
-                                                    step={0.1}
-                                                />
-                                            </div>
-                                         )}
-                                    </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
+                            <div className="p-3 border rounded-md">
+                                <SettingsToggle label="Sobreposição Escura" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
+                                {pageConfig.overlay.active && (
+                                    <div className="pt-4 space-y-4 border-t mt-4">
+                                        <div className="space-y-2">
+                                            <Label>Opacidade ({pageConfig.overlay.opacity})</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.overlay.opacity]}
+                                                onValueChange={(value) => onConfigChange(['overlay', 'opacity'], value[0])}
+                                                min={0.1}
+                                                max={1}
+                                                step={0.1}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
 
@@ -270,4 +266,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
