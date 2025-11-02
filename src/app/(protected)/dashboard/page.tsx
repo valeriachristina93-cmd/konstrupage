@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Plus, Sparkles } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
 
 export default function DashboardPage() {
   return (
