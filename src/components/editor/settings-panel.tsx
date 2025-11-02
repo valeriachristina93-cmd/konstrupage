@@ -46,30 +46,51 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4">
                             <div className="space-y-2">
-                                <Label>Link de Afiliado (Obrigatório)</Label>
-                                <Input type="text" placeholder="https://seu-link.com" value={pageConfig.affiliateLink} onChange={e => onConfigChange(['affiliateLink'], e.target.value)} />
+                                <Label htmlFor="affiliateLink">Link de Afiliado <span className="text-red-500">(Obrigatório)</span></Label>
+                                <Input 
+                                    id="affiliateLink"
+                                    type="text" 
+                                    placeholder="https://seu-link.com" 
+                                    value={pageConfig.affiliateLink} 
+                                    onChange={e => onConfigChange(['affiliateLink'], e.target.value)}
+                                    className={!pageConfig.affiliateLink ? 'ring-2 ring-destructive/50' : ''}
+                                />
                             </div>
-                            <Button onClick={onSuggestLayout} disabled={isSuggestingLayout} size="sm" className="w-full mb-2">
+                             <Button onClick={onSuggestLayout} disabled={isSuggestingLayout} size="sm" className="w-full mb-2">
                                 {isSuggestingLayout ? <Sparkles className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
                                 Sugerir Layout com IA
                             </Button>
-                            <div className="space-y-2">
-                                <Label>Imagem Desktop (URL)</Label>
-                                <Input type="text" value={pageConfig.desktopImage} onChange={e => onConfigChange(['desktopImage'], e.target.value)} />
+                            <div className="space-y-4 p-3 border border-primary/20 bg-primary/5 rounded-md">
+                                <div className="space-y-2">
+                                    <Label>Imagem Desktop (URL)</Label>
+                                    <Input type="text" value={pageConfig.desktopImage} onChange={e => onConfigChange(['desktopImage'], e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Imagem Mobile (URL)</Label>
+                                    <Input type="text" value={pageConfig.mobileImage} onChange={e => onConfigChange(['mobileImage'], e.target.value)} />
+                                </div>
                             </div>
+                           
                             <div className="space-y-2">
                                 <Label>Altura Desktop ({pageConfig.imageHeightDesktop}px)</Label>
                                 <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightDesktop} onChange={e => onConfigChange(['imageHeightDesktop'], Number(e.target.value))} />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Imagem Mobile (URL)</Label>
-                                <Input type="text" value={pageConfig.mobileImage} onChange={e => onConfigChange(['mobileImage'], e.target.value)} />
-                            </div>
+                            
                             <div className="space-y-2">
                                 <Label>Altura Mobile ({pageConfig.imageHeightMobile}px)</Label>
                                 <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightMobile} onChange={e => onConfigChange(['imageHeightMobile'], Number(e.target.value))} />
                             </div>
-                            <SettingsToggle label="Sobreposição Escura" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
+
+                             <Accordion type="multiple" className="w-full space-y-2">
+                                <AccordionItem value="overlay" className="p-3 border rounded-md">
+                                    <AccordionTrigger className="p-0 hover:no-underline">
+                                        <Label>Sobreposição Escura</Label>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pt-4">
+                                        <SettingsToggle label="Ativar Sobreposição" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
+                                    </AccordionContent>
+                                </AccordionItem>
+                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
 
