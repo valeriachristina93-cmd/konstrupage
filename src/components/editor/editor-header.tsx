@@ -2,6 +2,7 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Camera, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -52,7 +53,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
         <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
-                        <Sparkles className="h-6 w-6 text-primary" />
+                        <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={24} height={24} />
                         <span className="hidden sm:inline-block">Konstrupages</span>
                     </Link>
                     <Badge variant="outline">BETA</Badge>
