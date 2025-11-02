@@ -12,6 +12,8 @@ import { getSuggestedLayout } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
 
+export type ViewMode = 'desktop' | 'mobile';
+
 export default function EditorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig>(initialPageConfig);
     const [generatedHtml, setGeneratedHtml] = useState('');
@@ -19,18 +21,32 @@ export default function EditorPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [isAISuggesting, startAITransition] = useTransition();
     const { toast } = useToast();
+    const [viewMode, setViewMode] = useState<ViewMode>('desktop');
 
-    const handleConfigChange = useCallback((keys: string[], value: any) => {
+    const handleConfigChange = useCallback((keys: (string | number)[], value: any) => {
         setPageConfig(prev => {
             const newConfig = JSON.parse(JSON.stringify(prev));
             let currentLevel: any = newConfig;
             for (let i = 0; i < keys.length - 1; i++) {
+                if (currentLevel[keys[i]] === undefined) {
+                    currentLevel[keys[i]] = {};
+                }
                 currentLevel = currentLevel[keys[i]];
             }
             currentLevel[keys[keys.length - 1]] = value;
             return newConfig;
         });
     }, []);
+
+    const handleImageUpload = (file: File, keys: (string | number)[]) => {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            if (event.target && typeof event.target.result === 'string') {
+                handleConfigChange(keys, event.target.result);
+            }
+        };
+        reader.readAsDataURL(file);
+    };
 
     const handleGenerate = () => {
         if (!pageConfig.affiliateLink) {
@@ -42,41 +58,11 @@ export default function EditorPage() {
             return;
         }
         setIsGenerating(true);
-        // Simulate generation time
         setTimeout(() => {
             setGeneratedHtml(generatePresellHtml(pageConfig));
             setIsModalOpen(true);
             setIsGenerating(false);
         }, 500);
-    };
-
-    const handleSuggestLayout = () => {
-        startAITransition(async () => {
-            try {
-                const suggestion = await getSuggestedLayout({
-                    desktopImage: pageConfig.desktopImage,
-                    mobileImage: pageConfig.mobileImage,
-                    imageHeightDesktop: pageConfig.imageHeightDesktop,
-                    imageHeightMobile: pageConfig.imageHeightMobile,
-                    overlayActive: pageConfig.overlay.active,
-                });
-                if(suggestion){
-                    handleConfigChange(['imageHeightDesktop'], suggestion.suggestedDesktopHeight);
-                    handleConfigChange(['imageHeightMobile'], suggestion.suggestedMobileHeight);
-                    toast({
-                        title: "Layout Otimizado!",
-                        description: `Alturas da imagem ajustadas para ${suggestion.suggestedDesktopHeight}px (desktop) e ${suggestion.suggestedMobileHeight}px (mobile).`,
-                    });
-                }
-            } catch (error) {
-                console.error("Failed to get layout suggestion:", error);
-                toast({
-                    variant: "destructive",
-                    title: "Erro na Sugestão",
-                    description: "Não foi possível obter uma sugestão de layout da IA.",
-                });
-            }
-        });
     };
 
     return (
@@ -86,24 +72,24 @@ export default function EditorPage() {
                 isGenerating={isGenerating}
                 affiliateLink={pageConfig.affiliateLink}
             />
-            <main className="flex-1 flex overflow-hidden p-4 gap-4">
+            <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
                 <GenerateCodeModal
                     isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     htmlContent={generatedHtml}
                 />
                 
-                <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col">
+                <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col bg-card shadow-sm border-r">
                     <SettingsPanel
                         pageConfig={pageConfig}
                         onConfigChange={handleConfigChange}
-                        onSuggestLayout={handleSuggestLayout}
-                        isSuggestingLayout={isAISuggesting}
+                        onImageUpload={handleImageUpload}
+                        setViewMode={setViewMode}
                     />
                 </div>
                 
-                <div className="flex-1 flex flex-col relative">
-                    <PreviewPanel pageConfig={pageConfig} />
+                <div className="flex-1 flex flex-col relative min-h-[600px] md:min-h-0">
+                    <PreviewPanel pageConfig={pageConfig} viewMode={viewMode} setViewMode={setViewMode} />
                 </div>
             </main>
         </div>

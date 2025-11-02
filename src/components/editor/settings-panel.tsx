@@ -13,12 +13,15 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { Code, Image as ImageIcon, Link as LinkIcon, MessageSquare, Sparkles, LayoutPanelLeft, FileText, Settings2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { ImageUploadInput } from './image-upload-input';
+import { ViewMode } from '@/app/(protected)/editor/page';
+
 
 interface SettingsPanelProps {
     pageConfig: PageConfig;
-    onConfigChange: (keys: string[], value: any) => void;
-    onSuggestLayout: () => void;
-    isSuggestingLayout: boolean;
+    onConfigChange: (keys: (string | number)[], value: any) => void;
+    onImageUpload: (file: File, keys: (string | number)[]) => void;
+    setViewMode: (mode: ViewMode) => void;
 }
 
 const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; checked: boolean; onCheckedChange: (checked: boolean) => void }) => (
@@ -28,77 +31,95 @@ const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; ch
     </div>
 );
 
-export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isSuggestingLayout }: SettingsPanelProps) {
+export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
     return (
-        <div className="flex flex-col bg-card shadow-sm h-full border rounded-lg">
+        <>
             <div className="p-4 border-b">
-                <h2 className="text-lg font-semibold">Configurações</h2>
+                <h2 className="text-lg font-semibold">Configurações da Página</h2>
             </div>
             <ScrollArea className="flex-grow">
-                <div className="p-4">
                 <Accordion type="multiple" defaultValue={['layout']} className="w-full">
                     
-                    <AccordionItem value="layout" className="border-b-0 mb-2">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
+                    <AccordionItem value="layout">
+                        <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <LayoutPanelLeft className="w-5 h-5 text-primary" />
                                 <span className="font-semibold">Layout e Elementos</span>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-4 space-y-4">
-                            <div className="space-y-2">
-                                <Label htmlFor="affiliateLink">Link de Afiliado <span className="text-red-500">(Obrigatório)</span></Label>
-                                <Input 
-                                    id="affiliateLink"
-                                    type="text" 
-                                    placeholder="https://seu-link.com" 
-                                    value={pageConfig.affiliateLink} 
-                                    onChange={e => onConfigChange(['affiliateLink'], e.target.value)}
-                                    className={!pageConfig.affiliateLink ? 'ring-2 ring-destructive/50' : ''}
-                                />
+                        <AccordionContent className="pt-4 space-y-6 px-4">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label htmlFor="affiliateLink">Link de Afiliado <span className="text-red-500 font-medium">(Obrigatório)</span></Label>
+                                    <Input 
+                                        id="affiliateLink"
+                                        type="text" 
+                                        placeholder="https://seu-link.com" 
+                                        value={pageConfig.affiliateLink} 
+                                        onChange={e => onConfigChange(['affiliateLink'], e.target.value)}
+                                        className={!pageConfig.affiliateLink ? 'ring-2 ring-destructive/50' : ''}
+                                    />
+                                </div>
+                                <SettingsToggle label="Abrir em nova guia" checked={pageConfig.newTab} onCheckedChange={(checked) => onConfigChange(['newTab'], checked)} />
                             </div>
+
                             <div className="space-y-4 p-3 border border-primary/20 bg-primary/5 rounded-md">
                                 <div className="space-y-2">
                                     <Label>Imagem Desktop (URL)</Label>
-                                    <Input type="text" value={pageConfig.desktopImage} onChange={e => onConfigChange(['desktopImage'], e.target.value)} />
+                                    <ImageUploadInput
+                                        value={pageConfig.desktopImage}
+                                        onChange={e => onConfigChange(['desktopImage'], e.target.value)}
+                                        onFileUpload={file => onImageUpload(file, ['desktopImage'])}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Imagem Mobile (URL)</Label>
-                                    <Input type="text" value={pageConfig.mobileImage} onChange={e => onConfigChange(['mobileImage'], e.target.value)} />
+                                     <ImageUploadInput
+                                        value={pageConfig.mobileImage}
+                                        onChange={e => {
+                                            onConfigChange(['mobileImage'], e.target.value);
+                                            setViewMode('mobile');
+                                        }}
+                                        onFileUpload={file => {
+                                            onImageUpload(file, ['mobileImage']);
+                                            setViewMode('mobile');
+                                        }}
+                                    />
                                 </div>
                             </div>
                            
-                            <div className="space-y-2">
-                                <Label>Altura Desktop ({pageConfig.imageHeightDesktop}px)</Label>
-                                <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightDesktop} onChange={e => onConfigChange(['imageHeightDesktop'], Number(e.target.value))} />
-                            </div>
-                            
-                            <div className="space-y-2">
-                                <Label>Altura Mobile ({pageConfig.imageHeightMobile}px)</Label>
-                                <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightMobile} onChange={e => onConfigChange(['imageHeightMobile'], Number(e.target.value))} />
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <Label>Altura Desktop ({pageConfig.imageHeightDesktop}px)</Label>
+                                    <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightDesktop} onChange={e => onConfigChange(['imageHeightDesktop'], Number(e.target.value))} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label>Altura Mobile ({pageConfig.imageHeightMobile}px)</Label>
+                                    <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightMobile} onChange={e => onConfigChange(['imageHeightMobile'], Number(e.target.value))} />
+                                </div>
                             </div>
 
-                             <Accordion type="multiple" className="w-full space-y-2">
+                            <Accordion type="multiple" className="w-full space-y-2">
                                 <AccordionItem value="overlay" className="p-3 border rounded-md">
                                     <AccordionTrigger className="p-0 hover:no-underline">
-                                        <Label>Sobreposição Escura</Label>
+                                        Sobreposição Escura
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4">
                                         <SettingsToggle label="Ativar Sobreposição" checked={pageConfig.overlay.active} onCheckedChange={checked => onConfigChange(['overlay', 'active'], checked)} />
                                     </AccordionContent>
                                 </AccordionItem>
-                             </Accordion>
+                            </Accordion>
                         </AccordionContent>
                     </AccordionItem>
 
-                    <AccordionItem value="popups" className="border-b-0 mb-2">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
+                    <AccordionItem value="popups">
+                        <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <MessageSquare className="w-5 h-5 text-blue-500" />
                                 <span className="font-semibold">Pop-ups</span>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-2">
+                        <AccordionContent className="pt-2 px-4">
                             <Accordion type="multiple" className="w-full space-y-2">
                                 <div className="p-3 border rounded-md">
                                     <SettingsToggle label="Pop-up de Cookies" checked={pageConfig.popups.cookies.active} onCheckedChange={checked => onConfigChange(['popups', 'cookies', 'active'], checked)} />
@@ -129,14 +150,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                         </AccordionContent>
                     </AccordionItem>
                     
-                     <AccordionItem value="content" className="border-b-0 mb-2">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
+                     <AccordionItem value="content">
+                        <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <FileText className="w-5 h-5 text-green-500" />
                                 <span className="font-semibold">Conteúdo</span>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-2 space-y-4">
+                        <AccordionContent className="pt-2 space-y-4 px-4">
                             <div className="p-3 border rounded-md space-y-3">
                                 <SettingsToggle label="Rodapé" checked={pageConfig.footer.active} onCheckedChange={checked => onConfigChange(['footer', 'active'], checked)} />
                                 {pageConfig.footer.active && (
@@ -160,14 +181,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                         </AccordionContent>
                     </AccordionItem>
 
-                    <AccordionItem value="advanced" className="border-b-0">
-                        <AccordionTrigger className="hover:no-underline rounded-md bg-muted px-3">
+                    <AccordionItem value="advanced">
+                        <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <Settings2 className="w-5 h-5 text-red-500" />
                                 <span className="font-semibold">Configurações Avançadas</span>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-4 space-y-4">
+                        <AccordionContent className="pt-4 space-y-4 px-4">
                             <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
                             {pageConfig.autoRedirect.active && (
                                 <div className="space-y-2">
@@ -222,8 +243,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
-                </div>
             </ScrollArea>
-        </div>
+        </>
     );
 }

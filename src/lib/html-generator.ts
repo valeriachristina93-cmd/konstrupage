@@ -1,8 +1,9 @@
+
 import type { PageConfig } from './definitions';
 
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
-        desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect,
+        desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab,
         popups, footer, disclaimer, overlay, customization
     } = config;
 
@@ -65,7 +66,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <div style="padding: 24px;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
-                    <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="redirect('${popups.exit.redirectLink || affiliateLink}')">Pegar Oferta</button>
+                    <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
                 </div>
             </div>
         </div>
@@ -148,10 +149,13 @@ export const generatePresellHtml = (config: PageConfig) => {
         ${customization.customHtml || ''}
         <script>
             const AFFILIATE_LINK = '${affiliateLink}';
+            const NEW_TAB = ${newTab};
             const popupsActive = ${popups.cookies.active || popups.ageVerification.active || popups.discount.active};
 
-            function redirect(url) {
-                if (url) window.location.href = url;
+            function redirect(url, forceNewTab = false) {
+                if (!url) return;
+                const target = (NEW_TAB || forceNewTab) ? '_blank' : '_self';
+                window.open(url, target);
             }
 
             function mainAction() {
@@ -170,15 +174,19 @@ export const generatePresellHtml = (config: PageConfig) => {
                 let exitIntentFired = false;
                 document.addEventListener('mouseleave', function(e) {
                     if (e.clientY < 0 && !exitIntentFired) {
-                        document.getElementById('exit-popup').style.display = 'block';
+                        const exitPopup = document.getElementById('exit-popup');
+                        if (exitPopup) exitPopup.style.display = 'block';
                         exitIntentFired = true;
                     }
                 });
-                document.getElementById('exit-popup').addEventListener('click', function(e) {
-                    if (e.target.id === 'exit-popup') {
-                        this.style.display = 'none';
-                    }
-                })
+                const exitPopup = document.getElementById('exit-popup');
+                if(exitPopup) {
+                    exitPopup.addEventListener('click', function(e) {
+                        if (e.target.id === 'exit-popup') {
+                            this.style.display = 'none';
+                        }
+                    });
+                }
             ` : ''}
         <\/script>
     </body>

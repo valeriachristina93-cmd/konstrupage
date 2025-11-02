@@ -1,3 +1,4 @@
+
 import type { PageConfig } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
 
@@ -12,6 +13,7 @@ export const initialPageConfig: PageConfig = {
     imageHeightDesktop: 900,
     imageHeightMobile: 1000,
     affiliateLink: '',
+    newTab: true,
     autoRedirect: { active: false, time: 5 },
     popups: {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.' },

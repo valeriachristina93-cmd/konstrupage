@@ -8,13 +8,15 @@ import { Laptop, Smartphone, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useDebounce } from '@/hooks/use-debounce';
+import type { ViewMode } from '@/app/(protected)/editor/page';
 
 interface PreviewPanelProps {
     pageConfig: PageConfig;
+    viewMode: ViewMode;
+    setViewMode: (mode: ViewMode) => void;
 }
 
-export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
-    const [previewMode, setPreviewMode] = useState<'desktop' | 'mobile'>('desktop');
+export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanelProps) {
     const [isRendering, setIsRendering] = useState(true);
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const debouncedPageConfig = useDebounce(pageConfig, 800);
@@ -22,26 +24,27 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
     useEffect(() => {
         setIsRendering(true);
         const html = generatePresellHtml(debouncedPageConfig);
-        if (iframeRef.current) {
-            iframeRef.current.srcdoc = html;
+        const iframe = iframeRef.current;
+        if (iframe) {
+            iframe.srcdoc = html;
             const handleLoad = () => setIsRendering(false);
-            iframeRef.current.addEventListener('load', handleLoad);
-            return () => iframeRef.current?.removeEventListener('load', handleLoad);
+            iframe.addEventListener('load', handleLoad);
+            return () => iframe.removeEventListener('load', handleLoad);
         }
     }, [debouncedPageConfig]);
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/30 rounded-lg border h-full">
+        <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/30 h-full">
             <div className="absolute top-4 right-6 flex items-center space-x-1 bg-background/80 backdrop-blur-sm p-1 rounded-full shadow-md z-10">
-                <Button onClick={() => setPreviewMode('desktop')} variant={previewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
+                <Button onClick={() => setViewMode('desktop')} variant={viewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
                     <Laptop className="w-5 h-5" />
                 </Button>
-                <Button onClick={() => setPreviewMode('mobile')} variant={previewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
+                <Button onClick={() => setViewMode('mobile')} variant={viewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
                     <Smartphone className="w-5 h-5" />
                 </Button>
             </div>
             
-            <div className="relative w-full h-full flex items-center justify-center p-4">
+            <div className="relative w-full h-full flex items-center justify-center p-4 md:p-8">
                  {isRendering && (
                     <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -49,7 +52,7 @@ export function PreviewPanel({ pageConfig }: PreviewPanelProps) {
                 )}
                 <div className={cn(
                     "transition-all duration-300 ease-in-out bg-background dark:bg-black rounded-xl shadow-2xl overflow-hidden ring-1 ring-inset ring-black/10",
-                    previewMode === 'desktop' ? 'w-full h-full' : 'w-[375px] h-[740px] border-8 border-black dark:border-gray-800'
+                    viewMode === 'desktop' ? 'w-full h-full' : 'w-[375px] h-[740px] border-8 border-black dark:border-gray-800'
                 )}>
                     <iframe
                         ref={iframeRef}

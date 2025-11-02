@@ -1,9 +1,11 @@
+
 export type PageConfig = {
   desktopImage: string;
   mobileImage: string;
   imageHeightDesktop: number;
   imageHeightMobile: number;
   affiliateLink: string;
+  newTab: boolean;
   autoRedirect: {
     active: boolean;
     time: number;
