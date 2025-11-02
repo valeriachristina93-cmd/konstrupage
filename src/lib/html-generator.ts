@@ -7,7 +7,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, customization
     } = config;
 
-    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active;
+    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active;
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -84,6 +84,16 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.discount.text}</h2>
                 <p>Oferta por tempo limitado!</p>
                 <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">Aproveitar Agora</button>
+            </div>
+        </div>
+    ` : '';
+
+    const customPopup = popups.custom.active ? `
+        <div id="custom-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles[customization.popupColor]}">
+            <div class="popup-content">
+                <h2>${popups.custom.title}</h2>
+                <p>${popups.custom.description}</p>
+                <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">${popups.custom.buttonText}</button>
             </div>
         </div>
     ` : '';
@@ -199,6 +209,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${cookiePopup}
                 ${agePopup}
                 ${discountPopup}
+                ${customPopup}
             </div>
         </div>
 

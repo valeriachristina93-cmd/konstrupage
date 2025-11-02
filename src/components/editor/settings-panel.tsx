@@ -182,6 +182,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </>
                                     )}
                                 </div>
+                                <div className="p-3 border rounded-md space-y-3">
+                                    <SettingsToggle label="Pop-up Personalizado" checked={pageConfig.popups.custom.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'active'], checked)} />
+                                    {pageConfig.popups.custom.active && (
+                                        <>
+                                            <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.custom.title} onChange={e => onConfigChange(['popups', 'custom', 'title'], e.target.value)} />
+                                            <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.custom.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
+                                            <Input type="text" placeholder="Texto do Botão" value={pageConfig.popups.custom.buttonText} onChange={e => onConfigChange(['popups', 'custom', 'buttonText'], e.target.value)} />
+                                        </>
+                                    )}
+                                </div>
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
@@ -283,6 +293,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 
 

@@ -28,6 +28,12 @@ export type PageConfig = {
       imageUrl: string;
       redirectLink: string;
     };
+    custom: {
+      active: boolean;
+      title: string;
+      description: string;
+      buttonText: string;
+    };
   };
   footer: {
     active: boolean;
@@ -55,6 +61,7 @@ export type PageConfig = {
     customHtml: string;
   };
 };
+
 
 
 

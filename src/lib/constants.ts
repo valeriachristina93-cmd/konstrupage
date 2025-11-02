@@ -19,7 +19,8 @@ export const initialPageConfig: PageConfig = {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.' },
         ageVerification: { active: false },
         discount: { active: false, text: '25% de Desconto', icon: true },
-        exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://picsum.photos/seed/exit/800/450', redirectLink: '' }
+        exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://picsum.photos/seed/exit/800/450', redirectLink: '' },
+        custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' }
     },
     footer: { active: false, privacyLink: '#', termsLink: '#', theme: 'dark' },
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.' },
@@ -50,6 +51,7 @@ export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
 ];
+
 
 
 
