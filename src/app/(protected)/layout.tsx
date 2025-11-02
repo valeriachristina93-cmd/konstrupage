@@ -1,7 +1,6 @@
 "use client";
 
 import { useAuth } from "@/context/auth-context";
-import { Header } from "@/components/header";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -25,7 +24,6 @@ export default function ProtectedLayout({
 
   return (
     <div className="min-h-screen bg-secondary">
-      <Header />
       <main>{children}</main>
     </div>
   );
