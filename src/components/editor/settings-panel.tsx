@@ -10,11 +10,11 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Code, Image as ImageIcon, Link as LinkIcon, MessageSquare, Sparkles, LayoutPanelLeft, FileText, Settings2 } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import { ViewMode } from '@/app/(protected)/editor/page';
+import { SliderWithControls } from './slider-with-controls';
 
 
 interface SettingsPanelProps {
@@ -88,14 +88,26 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </div>
                             </div>
                            
-                            <div className="space-y-4">
+                             <div className="space-y-4">
                                 <div className="space-y-2">
-                                    <Label>Altura Desktop ({pageConfig.imageHeightDesktop}px)</Label>
-                                    <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightDesktop} onChange={e => onConfigChange(['imageHeightDesktop'], Number(e.target.value))} />
+                                    <Label>Altura Desktop ({pageConfig.imageHeightDesktop}vh)</Label>
+                                     <SliderWithControls
+                                        value={[pageConfig.imageHeightDesktop]}
+                                        onValueChange={(value) => onConfigChange(['imageHeightDesktop'], value[0])}
+                                        min={100}
+                                        max={500}
+                                        step={10}
+                                    />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label>Altura Mobile ({pageConfig.imageHeightMobile}px)</Label>
-                                    <input type="range" min="100" max="2000" step="10" value={pageConfig.imageHeightMobile} onChange={e => onConfigChange(['imageHeightMobile'], Number(e.target.value))} />
+                                    <Label>Altura Mobile ({pageConfig.imageHeightMobile}vh)</Label>
+                                     <SliderWithControls
+                                        value={[pageConfig.imageHeightMobile]}
+                                        onValueChange={(value) => onConfigChange(['imageHeightMobile'], value[0])}
+                                        min={100}
+                                        max={500}
+                                        step={10}
+                                    />
                                 </div>
                             </div>
 

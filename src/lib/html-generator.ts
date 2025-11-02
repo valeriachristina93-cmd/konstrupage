@@ -100,7 +100,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 background-image: url('${desktopImage}');
                 background-size: cover;
                 background-position: center top;
-                height: ${imageHeightDesktop}px;
+                height: ${imageHeightDesktop}vh;
                 position: relative;
                 display: flex;
                 align-items: center;
@@ -126,7 +126,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { animation: slideInUp 0.3s ease-in-out; }
             @keyframes slideInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translateX(-50%); } }
             @media (max-width: 768px) {
-                .main-section { background-image: url('${mobileImage}'); height: ${imageHeightMobile}px; }
+                .main-section { background-image: url('${mobileImage}'); height: ${imageHeightMobile}vh; }
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
                 .popup-content { padding: 16px; }
