@@ -66,20 +66,14 @@ export default function EditorPage() {
     };
 
     return (
-        <div className="flex flex-col h-screen bg-background text-foreground">
+        <div className="flex flex-col h-screen bg-muted/30 text-foreground">
             <EditorHeader 
                 onGenerate={handleGenerate} 
                 isGenerating={isGenerating}
                 affiliateLink={pageConfig.affiliateLink}
             />
-            <main className="flex-1 flex flex-col md:flex-row overflow-hidden">
-                <GenerateCodeModal
-                    isOpen={isModalOpen}
-                    onClose={() => setIsModalOpen(false)}
-                    htmlContent={generatedHtml}
-                />
-                
-                <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col bg-card shadow-sm border-r">
+            <main className="flex-1 flex flex-col md:flex-row gap-8 justify-center overflow-y-auto">
+                 <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col bg-card shadow-sm border rounded-lg">
                     <SettingsPanel
                         pageConfig={pageConfig}
                         onConfigChange={handleConfigChange}
@@ -88,10 +82,15 @@ export default function EditorPage() {
                     />
                 </div>
                 
-                <div className="flex-1 flex flex-col relative min-h-[600px] md:min-h-0">
+                 <div className="flex-1 flex flex-col relative min-h-[600px] md:min-h-0">
                     <PreviewPanel pageConfig={pageConfig} viewMode={viewMode} setViewMode={setViewMode} />
                 </div>
             </main>
+            <GenerateCodeModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                htmlContent={generatedHtml}
+            />
         </div>
     );
 }

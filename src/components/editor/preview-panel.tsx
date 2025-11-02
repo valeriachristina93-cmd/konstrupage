@@ -34,19 +34,19 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
     }, [debouncedPageConfig]);
 
     return (
-        <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/30 h-full">
-            <div className="absolute top-4 right-6 flex items-center space-x-1 bg-background/80 backdrop-blur-sm p-1 rounded-full shadow-md z-10">
-                <Button onClick={() => setViewMode('desktop')} variant={viewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
+        <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/40 h-full rounded-lg border">
+            <div className="absolute top-4 right-6 flex items-center space-x-1 bg-card/80 backdrop-blur-sm p-1 rounded-lg shadow-md z-10">
+                <Button onClick={() => setViewMode('desktop')} variant={viewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="rounded-md">
                     <Laptop className="w-5 h-5" />
                 </Button>
-                <Button onClick={() => setViewMode('mobile')} variant={viewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="rounded-full">
+                <Button onClick={() => setViewMode('mobile')} variant={viewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="rounded-md">
                     <Smartphone className="w-5 h-5" />
                 </Button>
             </div>
             
             <div className="relative w-full h-full flex items-center justify-center p-4 md:p-8">
                  {isRendering && (
-                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20">
+                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20 rounded-lg">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 )}
@@ -57,7 +57,7 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
                     <iframe
                         ref={iframeRef}
                         title="Presell Preview"
-                        className="w-full h-full border-0"
+                        className={cn("w-full h-full border-0 transition-opacity duration-300", isRendering && 'opacity-50 blur-sm')}
                         sandbox="allow-scripts allow-same-origin"
                     />
                 </div>
