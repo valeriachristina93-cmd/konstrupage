@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useTransition } from 'react';
-import Link from 'next/link';
-import { ArrowLeft, Loader2 } from 'lucide-react';
+import React, { useState, useCallback, useTransition } from 'react';
 import type { PageConfig } from '@/lib/definitions';
 import { initialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
@@ -11,7 +9,7 @@ import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
 import { generatePresellHtml } from '@/lib/html-generator';
 import { getSuggestedLayout } from './actions';
 import { useToast } from '@/hooks/use-toast';
-import { Button } from '@/components/ui/button';
+import { EditorHeader } from '@/components/editor/editor-header';
 
 export default function EditorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig>(initialPageConfig);
@@ -33,6 +31,14 @@ export default function EditorPage() {
     }, []);
 
     const handleGenerate = () => {
+        if (!pageConfig.affiliateLink) {
+             toast({
+                variant: "destructive",
+                title: "Link de Afiliado Obrigatório",
+                description: "Por favor, insira um link de afiliado para gerar a página.",
+            });
+            return;
+        }
         setGeneratedHtml(generatePresellHtml(pageConfig));
         setIsModalOpen(true);
     };
@@ -75,28 +81,13 @@ export default function EditorPage() {
             />
 
             <div className="w-full md:w-1/3 md:max-w-md h-full overflow-y-auto bg-background shadow-lg flex flex-col">
-                <div className="p-4 border-b flex items-center justify-between sticky top-0 bg-background z-10">
-                    <Link href="/dashboard" className="flex items-center gap-2 text-sm text-primary hover:underline">
-                        <ArrowLeft className="w-4 h-4" />
-                        Voltar ao Dashboard
-                    </Link>
-                </div>
+                <EditorHeader onGenerate={handleGenerate} affiliateLink={pageConfig.affiliateLink} />
                 <SettingsPanel
                     pageConfig={pageConfig}
                     onConfigChange={handleConfigChange}
                     onSuggestLayout={handleSuggestLayout}
                     isSuggestingLayout={isPending}
                 />
-                 <div className="p-4 mt-auto border-t">
-                    <Button 
-                        onClick={handleGenerate} 
-                        disabled={!pageConfig.affiliateLink}
-                        className="w-full font-bold text-lg py-6 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-transform"
-                    >
-                        Gerar Página
-                    </Button>
-                    {!pageConfig.affiliateLink && <p className="text-xs text-destructive text-center mt-2">Insira um link de afiliado para gerar a página.</p>}
-                </div>
             </div>
 
             <div className="w-full md:w-2/3 flex-1 flex flex-col items-center justify-center p-2 sm:p-6 relative">

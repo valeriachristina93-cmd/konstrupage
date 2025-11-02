@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React from 'react';
 import type { PageConfig } from '@/lib/definitions';
 import { buttonColorOptions, popupColorOptions, languageOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -28,16 +28,16 @@ const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; ch
 
 export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isSuggestingLayout }: SettingsPanelProps) {
     return (
-        <div className="flex-grow overflow-y-auto">
+        <div className="flex-grow overflow-y-auto px-4">
             <Accordion type="single" defaultValue="image" collapsible className="w-full">
-                <AccordionItem value="image">
-                    <AccordionTrigger className="px-4 hover:no-underline">
+                <AccordionItem value="image" className="border-b-0">
+                    <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center gap-3">
                             <ImageIcon className="w-5 h-5 text-primary" />
                             <span className="font-semibold">Imagens e Layout</span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pt-2 space-y-4">
+                    <AccordionContent className="pt-2 space-y-4">
                         <div>
                             <Button onClick={onSuggestLayout} disabled={isSuggestingLayout} size="sm" className="w-full mb-4">
                                 {isSuggestingLayout ? <Sparkles className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
@@ -64,14 +64,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                     </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem value="redirect">
-                    <AccordionTrigger className="px-4 hover:no-underline">
+                <AccordionItem value="redirect" className="border-b-0">
+                    <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center gap-3">
                             <LinkIcon className="w-5 h-5 text-green-500" />
                             <span className="font-semibold">Redirecionamento</span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pt-2 space-y-4">
+                    <AccordionContent className="pt-2 space-y-4">
                         <div className="space-y-2">
                             <Label>Link de Afiliado (Obrigatório)</Label>
                             <Input type="text" placeholder="https://seu-link.com" value={pageConfig.affiliateLink} onChange={e => onConfigChange(['affiliateLink'], e.target.value)} />
@@ -86,14 +86,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                     </AccordionContent>
                 </AccordionItem>
                 
-                <AccordionItem value="popups">
-                    <AccordionTrigger className="px-4 hover:no-underline">
+                <AccordionItem value="popups" className="border-b-0">
+                    <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center gap-3">
                             <MessageSquare className="w-5 h-5 text-blue-500" />
                             <span className="font-semibold">Pop-ups e Elementos</span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pt-2 space-y-4">
+                    <AccordionContent className="pt-2 space-y-4">
                         <div className="p-3 border rounded-md space-y-3">
                             <SettingsToggle label="Pop-up de Cookies" checked={pageConfig.popups.cookies.active} onCheckedChange={checked => onConfigChange(['popups', 'cookies', 'active'], checked)} />
                             {pageConfig.popups.cookies.active && <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24" />}
@@ -142,14 +142,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                     </AccordionContent>
                 </AccordionItem>
 
-                <AccordionItem value="advanced">
-                    <AccordionTrigger className="px-4 hover:no-underline">
+                <AccordionItem value="advanced" className="border-b-0">
+                    <AccordionTrigger className="hover:no-underline">
                         <div className="flex items-center gap-3">
                             <Code className="w-5 h-5 text-red-500" />
                             <span className="font-semibold">Personalização Avançada</span>
                         </div>
                     </AccordionTrigger>
-                    <AccordionContent className="px-4 pt-2 space-y-4">
+                    <AccordionContent className="pt-2 space-y-4">
                         <div className="space-y-2">
                             <Label>Idioma da Página</Label>
                             <Select value={pageConfig.customization.language} onValueChange={value => onConfigChange(['customization', 'language'], value)}>
