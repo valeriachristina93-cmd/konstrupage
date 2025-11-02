@@ -56,10 +56,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onSuggestLayout, isS
                                     className={!pageConfig.affiliateLink ? 'ring-2 ring-destructive/50' : ''}
                                 />
                             </div>
-                             <Button onClick={onSuggestLayout} disabled={isSuggestingLayout} size="sm" className="w-full mb-2">
-                                {isSuggestingLayout ? <Sparkles className="mr-2 h-4 w-4 animate-spin" /> : <Sparkles className="mr-2 h-4 w-4" />}
-                                Sugerir Layout com IA
-                            </Button>
                             <div className="space-y-4 p-3 border border-primary/20 bg-primary/5 rounded-md">
                                 <div className="space-y-2">
                                     <Label>Imagem Desktop (URL)</Label>
