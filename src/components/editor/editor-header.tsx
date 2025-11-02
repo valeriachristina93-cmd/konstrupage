@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useState } from 'react';
+import { useAuth } from '@/context/auth-context';
 
 interface EditorHeaderProps {
     onGenerate: () => void;
@@ -45,23 +46,24 @@ const tools = [
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
     const [language, setLanguage] = useState('pt-br');
+    const { logout } = useAuth();
 
     return (
-        <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40">
+        <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
                         <Sparkles className="h-6 w-6 text-primary" />
-                        <span>Presell Pro</span>
+                        <span className="hidden sm:inline-block">Presell Pro</span>
                     </Link>
                     <Badge variant="outline">BETA</Badge>
                 </div>
 
-                <div className="flex items-center gap-2 md:gap-4">
-                    <Button
+                <div className="flex-1 flex items-center justify-end gap-2 md:gap-4">
+                     <Button
                         onClick={onGenerate}
                         disabled={isGenerating || !affiliateLink}
                         size="lg"
-                        className="font-bold text-base py-5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity"
+                        className="font-bold text-base py-5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity ml-auto"
                     >
                         {isGenerating && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                         Gerar Página
@@ -155,12 +157,8 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                     <User className="mr-2 h-4 w-4" />
                                     <span>Perfil</span>
                                 </DropdownMenuItem>
-                                <DropdownMenuItem>
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>Planos</span>
-                                </DropdownMenuItem>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem className="text-destructive focus:text-destructive">
+                                <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={logout}>
                                     <LogOut className="mr-2 h-4 w-4" />
                                     <span>Sair</span>
                                 </DropdownMenuItem>
