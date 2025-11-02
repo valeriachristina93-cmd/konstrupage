@@ -34,6 +34,13 @@ export type PageConfig = {
       description: string;
       buttonText: string;
     };
+    choice: {
+      active: boolean;
+      title: string;
+      description: string;
+      image1Url: string;
+      image2Url: string;
+    };
   };
   footer: {
     active: boolean;
@@ -61,6 +68,7 @@ export type PageConfig = {
     customHtml: string;
   };
 };
+
 
 
 

@@ -20,7 +20,8 @@ export const initialPageConfig: PageConfig = {
         ageVerification: { active: false },
         discount: { active: false, text: '25% de Desconto', icon: true },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://picsum.photos/seed/exit/800/450', redirectLink: '' },
-        custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' }
+        custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
+        choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', image1Url: 'https://flagcdn.com/w320/br.png', image2Url: 'https://flagcdn.com/w320/us.png' }
     },
     footer: { active: false, privacyLink: '#', termsLink: '#', theme: 'dark' },
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.' },
@@ -51,6 +52,7 @@ export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
 ];
+
 
 
 

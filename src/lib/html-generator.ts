@@ -7,7 +7,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, customization
     } = config;
 
-    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active;
+    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active || popups.choice.active;
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -97,6 +97,20 @@ export const generatePresellHtml = (config: PageConfig) => {
             </div>
         </div>
     ` : '';
+    
+    const choicePopup = popups.choice.active ? `
+        <div id="choice-popup" class="popup popup-center" style="${popupStyles[customization.popupColor]}">
+            <div class="popup-content">
+                <h2>${popups.choice.title}</h2>
+                <p>${popups.choice.description}</p>
+                <div class="choice-images">
+                    <img src="${popups.choice.image1Url}" onclick="acceptAction()" />
+                    <img src="${popups.choice.image2Url}" onclick="acceptAction()" />
+                </div>
+            </div>
+        </div>
+    ` : '';
+
 
     const exitPopup = popups.exit.active ? `
         <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles[customization.popupColor]}">
@@ -184,6 +198,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 transition: transform 0.2s, box-shadow 0.2s;
             }
             .popup button:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+            .choice-images { display: flex; justify-content: center; gap: 20px; }
+            .choice-images img { width: 120px; height: auto; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
+            .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.buttonColor}; }
             @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, -45%); } to { opacity: 1; transform: translate(-50%, -50%); } }
             .popup-bottom { animation: slideInUp 0.3s ease-in-out; }
             @keyframes slideInUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translateX(-50%); } }
@@ -197,6 +214,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: 22px; }
                 .popup p { font-size: 14px; }
                 .popup button { padding: 10px 20px; font-size: 14px; }
+                .choice-images { flex-direction: column; align-items: center; }
             }
         </style>
     </head>
@@ -210,6 +228,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${agePopup}
                 ${discountPopup}
                 ${customPopup}
+                ${choicePopup}
             </div>
         </div>
 

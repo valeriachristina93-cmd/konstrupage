@@ -165,6 +165,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <SettingsToggle label="Pop-up Verificação de Idade" checked={pageConfig.popups.ageVerification.active} onCheckedChange={checked => onConfigChange(['popups', 'ageVerification', 'active'], checked)} />
                                 </div>
                                 <div className="p-3 border rounded-md space-y-3">
+                                    <SettingsToggle label="Pop-up de Escolha" checked={pageConfig.popups.choice.active} onCheckedChange={checked => onConfigChange(['popups', 'choice', 'active'], checked)} />
+                                    {pageConfig.popups.choice.active && (
+                                        <>
+                                            <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.choice.title} onChange={e => onConfigChange(['popups', 'choice', 'title'], e.target.value)} />
+                                            <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.choice.description} onChange={e => onConfigChange(['popups', 'choice', 'description'], e.target.value)} className="text-sm h-24" />
+                                            <div className='space-y-2'>
+                                                <Label>Imagem 1 (URL)</Label>
+                                                <Input type="text" placeholder="URL da Imagem 1" value={pageConfig.popups.choice.image1Url} onChange={e => onConfigChange(['popups', 'choice', 'image1Url'], e.target.value)} />
+                                            </div>
+                                             <div className='space-y-2'>
+                                                <Label>Imagem 2 (URL)</Label>
+                                                <Input type="text" placeholder="URL da Imagem 2" value={pageConfig.popups.choice.image2Url} onChange={e => onConfigChange(['popups', 'choice', 'image2Url'], e.target.value)} />
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                                <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Desconto" checked={pageConfig.popups.discount.active} onCheckedChange={checked => onConfigChange(['popups', 'discount', 'active'], checked)} />
                                     {pageConfig.popups.discount.active && (
                                         <>
@@ -293,6 +310,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 
 
