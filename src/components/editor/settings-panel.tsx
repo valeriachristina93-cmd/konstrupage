@@ -157,9 +157,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                         </AccordionTrigger>
                         <AccordionContent className="pt-2 px-4">
                             <Accordion type="multiple" className="w-full space-y-2">
-                                <div className="p-3 border rounded-md">
+                                <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Cookies" checked={pageConfig.popups.cookies.active} onCheckedChange={checked => onConfigChange(['popups', 'cookies', 'active'], checked)} />
-                                    {pageConfig.popups.cookies.active && <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24 mt-2" />}
+                                    {pageConfig.popups.cookies.active && (
+                                      <>
+                                        <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24" />
+                                        <div className="space-y-2">
+                                            <Label>Texto do Botão</Label>
+                                            <Input type="text" placeholder="Texto do Botão" value={pageConfig.popups.cookies.buttonText} onChange={e => onConfigChange(['popups', 'cookies', 'buttonText'], e.target.value)} />
+                                        </div>
+                                      </>
+                                    )}
                                 </div>
                                 <div className="p-3 border rounded-md">
                                     <SettingsToggle label="Pop-up Verificação de Idade" checked={pageConfig.popups.ageVerification.active} onCheckedChange={checked => onConfigChange(['popups', 'ageVerification', 'active'], checked)} />
@@ -321,5 +329,3 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
-
-    

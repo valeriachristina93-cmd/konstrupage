@@ -14,6 +14,7 @@ export type PageConfig = {
     cookies: {
       active: boolean;
       message: string;
+      buttonText: string;
     };
     ageVerification: {
       active: boolean;
@@ -73,10 +74,3 @@ export type PageConfig = {
     customHtml: string;
   };
 };
-
-
-
-
-
-
-

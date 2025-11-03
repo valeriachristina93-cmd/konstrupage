@@ -60,7 +60,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             <div class="popup-content">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">Aceitar</button>
+                <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">${popups.cookies.buttonText}</button>
             </div>
         </div>
     ` : '';

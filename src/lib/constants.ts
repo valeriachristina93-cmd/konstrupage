@@ -16,7 +16,7 @@ export const initialPageConfig: PageConfig = {
     newTab: true,
     autoRedirect: { active: false, time: 5 },
     popups: {
-        cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.' },
+        cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
         ageVerification: { active: false },
         discount: { active: false, text: '25% de Desconto', icon: true },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://picsum.photos/seed/exit/800/450', redirectLink: '' },
@@ -53,13 +53,3 @@ export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
 ];
-
-
-
-
-
-
-
-
-
-
