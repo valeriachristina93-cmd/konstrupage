@@ -54,8 +54,13 @@ export const generatePresellHtml = (config: PageConfig) => {
         return 'popup-center';
     };
 
+    const closeButtonHtml = (popupId: string) => customization.showCloseButton 
+        ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
+        : '';
+
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles}">
+            ${closeButtonHtml('cookie-popup')}
             <div class="popup-content">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
@@ -66,6 +71,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     
     const agePopup = popups.ageVerification.active ? `
         <div id="age-popup" class="popup popup-bottom" style="${popupStyles}">
+             ${closeButtonHtml('age-popup')}
              <div class="popup-content">
                 <p>Você confirma que tem mais de 18 anos?</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
@@ -78,6 +84,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const discountPopup = popups.discount.active ? `
          <div id="discount-popup" class="popup popup-center" style="${popupStyles}">
+             ${closeButtonHtml('discount-popup')}
              <div class="popup-content">
                 ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
                 <h2>${popups.discount.text}</h2>
@@ -89,6 +96,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const customPopup = popups.custom.active ? `
         <div id="custom-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles}">
+            ${closeButtonHtml('custom-popup')}
             <div class="popup-content">
                 <h2>${popups.custom.title}</h2>
                 <p>${popups.custom.description}</p>
@@ -99,6 +107,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     
     const choicePopup = popups.choice.active ? `
         <div id="choice-popup" class="popup popup-center" style="${popupStyles}">
+            ${closeButtonHtml('choice-popup')}
             <div class="popup-content">
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
@@ -112,6 +121,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const captchaPopup = popups.captcha.active ? `
         <div id="captcha-popup" class="popup popup-center" style="${popupStyles}">
+            ${closeButtonHtml('captcha-popup')}
             <div class="popup-content">
                 <h2 style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.title}</h2>
                 <p style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.description}</p>
@@ -127,6 +137,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const exitPopup = popups.exit.active ? `
         <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles}">
+             ${closeButtonHtml('exit-popup')}
              <div class="popup-content" style="padding:0; max-width: 600px;">
                 <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-radius: 8px 8px 0 0;" />
                 <div style="padding: 24px;">
@@ -203,6 +214,18 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; }
             .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; }
             .popup-content { padding: 24px; text-align: center; }
+            .popup .close-button {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: transparent;
+                border: none;
+                font-size: 24px;
+                line-height: 1;
+                cursor: pointer;
+                color: inherit;
+                padding: 5px;
+            }
             .popup h3 { margin-top: 0; font-size: 20px; }
             .popup h2 { margin-top: 0; font-size: 28px; font-weight: bold; }
             .popup p { margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
@@ -259,6 +282,22 @@ export const generatePresellHtml = (config: PageConfig) => {
             const NEW_TAB = ${newTab};
             const popupsActive = ${anyPopupActive};
 
+            function closePopup(popupId, event) {
+                event.stopPropagation();
+                const popup = document.getElementById(popupId);
+                if (popup) {
+                    popup.style.display = 'none';
+                    const wrapper = document.querySelector('.popup-wrapper');
+                    
+                    // Check if any other popups are visible
+                    const anyOtherPopupVisible = Array.from(wrapper.querySelectorAll('.popup')).some(p => p.id !== popupId && window.getComputedStyle(p).display !== 'none');
+
+                    if (!anyOtherPopupVisible) {
+                        wrapper.style.display = 'none';
+                    }
+                }
+            }
+
             function redirect(url, forceNewTab = false) {
                 if (!url) return;
                 const target = (NEW_TAB || forceNewTab) ? '_blank' : '_self';
@@ -296,7 +335,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 const exitPopup = document.getElementById('exit-popup');
                 if(exitPopup) {
                     exitPopup.addEventListener('click', function(e) {
-                        const isButton = e.target.tagName === 'BUTTON';
+                        const isButton = e.target.tagName === 'BUTTON' || e.target.classList.contains('close-button');
                          if (e.target === this && !isButton) {
                             this.style.display = 'none';
                              const wrapper = document.querySelector('.main-wrapper');
@@ -311,3 +350,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+

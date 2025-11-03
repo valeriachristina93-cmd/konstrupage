@@ -75,6 +75,8 @@ export type PageConfig = {
     popupColor: string;
     popupPosition: 'center' | 'bottom';
     customHtml: string;
+    showCloseButton: boolean;
   };
 };
+
 

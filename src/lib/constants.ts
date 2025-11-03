@@ -33,7 +33,8 @@ export const initialPageConfig: PageConfig = {
         buttonColor: '#3B82F6',
         popupColor: '#1F2937',
         popupPosition: 'center',
-        customHtml: ''
+        customHtml: '',
+        showCloseButton: false,
     }
 };
 
@@ -65,7 +66,7 @@ export const flagOptions = [
     { name: 'Reino Unido', value: 'https://flagcdn.com/w320/gb.png' },
     { name: 'Canadá', value: 'https://flagcdn.com/w320/ca.png' },
     { name: 'Austrália', value: 'https://flagcdn.com/w320/au.png' },
-    { name: 'Alemanha', value: 'https://flagcdn com/w320/de.png' },
+    { name: 'Alemanha', value: 'https://flagcdn.com/w320/de.png' },
     { name: 'França', value: 'https://flagcdn.com/w320/fr.png' },
     { name: 'Itália', value: 'https://flagcdn.com/w320/it.png' },
     { name: 'Japão', value: 'https://flagcdn.com/w320/jp.png' },
@@ -73,3 +74,4 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
