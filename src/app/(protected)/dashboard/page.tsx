@@ -31,7 +31,7 @@ export default function DashboardPage() {
             </div>
             <CardFooter>
               <Link href="/editor" className="w-full">
-                <Button className="w-full font-bold text-lg py-6 group">
+                <Button className="w-full font-bold text-lg py-6 group bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all">
                   Começar a Criar
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>

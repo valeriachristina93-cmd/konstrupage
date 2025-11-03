@@ -31,7 +31,7 @@ export default function LoginPage() {
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="w-full max-w-md mx-4 shadow-xl">
         <CardHeader className="text-center">
-          <h1 className="text-5xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-br from-primary via-primary to-blue-400">Konstrupages</h1>
+          <h1 className="text-5xl font-bold font-headline bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600">Konstrupages</h1>
           <CardDescription className="pt-2">Crie presell pages de alta conversão em minutos.</CardDescription>
         </CardHeader>
         <CardContent>
@@ -44,7 +44,7 @@ export default function LoginPage() {
               <Label htmlFor="password">Senha</Label>
               <Input id="password" type="password" placeholder="••••••••" required defaultValue="password" />
             </div>
-            <Button type="submit" className="w-full font-semibold text-lg py-6 bg-gradient-to-r from-primary to-blue-500 hover:opacity-90 transition-opacity">
+            <Button type="submit" className="w-full font-semibold text-lg py-6 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all">
               Entrar
             </Button>
           </form>

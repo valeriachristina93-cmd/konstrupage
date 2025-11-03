@@ -64,7 +64,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         onClick={onGenerate}
                         disabled={isGenerating || !affiliateLink}
                         size="lg"
-                        className="font-bold text-base py-5 bg-gradient-to-r from-primary to-blue-500 text-primary-foreground hover:opacity-90 transition-opacity"
+                        className="font-bold text-base py-5 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
                     >
                         {isGenerating && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
                         Gerar Página
