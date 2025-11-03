@@ -85,12 +85,9 @@ export type PageConfig = {
     popupAnimation: 'fadeIn' | 'slideInDown' | 'slideInUp' | 'zoomIn';
     popupAnimationDuration: number;
     buttonWidth: number;
+    shadow: {
+      active: boolean;
+      intensity: number;
+    };
   };
 };
-
-
-
-
-
-
-

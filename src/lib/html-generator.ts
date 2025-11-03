@@ -63,6 +63,14 @@ export const generatePresellHtml = (config: PageConfig) => {
         return '';
     }
 
+    const getPopupShadowStyle = () => {
+        if (customization.shadow.active) {
+            const intensity = customization.shadow.intensity;
+            return `box-shadow: 0 0 ${intensity * 2}px rgba(0,0,0,${intensity / 50});`;
+        }
+        return 'box-shadow: 0 10px 25px rgba(0,0,0,0.2);';
+    }
+
     const getPopupAnimationClass = () => {
         return `popup-animation-${customization.popupAnimation}`;
     };
@@ -228,7 +236,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup { 
                 position: fixed; 
                 z-index: 100; 
-                box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+                ${getPopupShadowStyle()}
                 border-radius: 8px; 
                 box-sizing: border-box; 
                 animation-duration: ${customization.popupAnimationDuration}s; 
@@ -388,9 +396,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
-
-
-
-
-

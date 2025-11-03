@@ -359,6 +359,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </div>
                                 )}
                             </div>
+                            <div className="p-3 border rounded-md">
+                                <SettingsToggle label="Sombra do Pop-up" checked={pageConfig.customization.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'shadow', 'active'], checked)} />
+                                {pageConfig.customization.shadow.active && (
+                                    <div className="pt-4 space-y-4 border-t mt-4">
+                                        <div className="space-y-2">
+                                            <Label>Intensidade ({pageConfig.customization.shadow.intensity}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.shadow.intensity]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'shadow', 'intensity'], value[0])}
+                                                min={1}
+                                                max={50}
+                                                step={1}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
@@ -427,9 +444,3 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
-
-
-
-
-
-
