@@ -54,7 +54,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                 <div className="flex items-center gap-3">
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
                         <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={24} height={24} />
-                        <span className="hidden sm:inline-block">Konstrupages</span>
+                         <span className="hidden sm:inline-block bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Konstrupages</span>
                     </Link>
                     <Badge variant="outline">BETA</Badge>
                 </div>
