@@ -314,16 +314,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                              <div className="space-y-3 pt-2">
                                 <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Posição do Pop-up</Label>
-                                <Select value={pageConfig.customization.popupPosition} onValueChange={value => onConfigChange(['customization', 'popupPosition'], value)}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="center">Centro da Tela</SelectItem>
-                                        <SelectItem value="bottom">Inferior</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
@@ -353,6 +343,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                     <SelectContent>
                                         {languageOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                             <div className="space-y-2">
+                                <Label>Posição do Pop-up</Label>
+                                <Select value={pageConfig.customization.popupPosition} onValueChange={value => onConfigChange(['customization', 'popupPosition'], value)}>
+                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="center">Centro da Tela</SelectItem>
+                                        <SelectItem value="bottom">Inferior</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
