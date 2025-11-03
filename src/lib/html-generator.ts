@@ -4,7 +4,7 @@ import type { PageConfig } from './definitions';
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
         desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab,
-        popups, footer, disclaimer, overlay, blur, customization
+        popups, footer, disclaimer, overlay, blur, tracking, customization
     } = config;
 
     const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active || popups.choice.active || popups.captcha.active;
@@ -255,6 +255,37 @@ export const generatePresellHtml = (config: PageConfig) => {
         </div>
     ` : '';
     
+    const facebookPixelScript = tracking.facebookPixelId ? `
+        <!-- Facebook Pixel Code -->
+        <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '${tracking.facebookPixelId}');
+        fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=${tracking.facebookPixelId}&ev=PageView&noscript=1"
+        /></noscript>
+        <!-- End Facebook Pixel Code -->
+    ` : '';
+
+    const googleAdsScript = tracking.googleAdsId ? `
+        <!-- Google tag (gtag.js) -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=${tracking.googleAdsId}"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${tracking.googleAdsId}');
+        </script>
+    ` : '';
+
     return `
     <!DOCTYPE html>
     <html lang="pt-BR">
@@ -262,6 +293,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Presell Page</title>
+        ${facebookPixelScript}
+        ${googleAdsScript}
         <style>
             body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden;}
             .main-wrapper {

@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -637,6 +637,34 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
+                            <div className="p-3 border rounded-md space-y-4">
+                                <div className='flex items-center gap-2'>
+                                    <Target className="w-4 h-4" />
+                                    <h3 className='font-semibold text-sm'>Rastreamento</h3>
+                                </div>
+                                 <div className="space-y-2">
+                                    <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
+                                    <Input 
+                                        id="facebookPixelId"
+                                        type="text" 
+                                        placeholder="Cole apenas o número de ID do seu Pixel" 
+                                        value={pageConfig.tracking.facebookPixelId} 
+                                        onChange={e => onConfigChange(['tracking', 'facebookPixelId'], e.target.value)}
+                                    />
+                                    <p className='text-xs text-muted-foreground'>Irá disparar um evento de PageView.</p>
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
+                                    <Input 
+                                        id="googleAdsId"
+                                        type="text" 
+                                        placeholder="Ex: AW-123456789" 
+                                        value={pageConfig.tracking.googleAdsId} 
+                                        onChange={e => onConfigChange(['tracking', 'googleAdsId'], e.target.value)}
+                                    />
+                                    <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
+                                </div>
+                            </div>
                              <div className="p-3 border rounded-md">
                                 <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
                                 {pageConfig.autoRedirect.active && (

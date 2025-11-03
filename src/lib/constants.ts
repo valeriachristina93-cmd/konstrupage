@@ -29,6 +29,10 @@ export const initialPageConfig: PageConfig = {
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.', backgroundColor: '#F3F4F6', textColor: '#4B5563' },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 5 },
+    tracking: {
+        facebookPixelId: '',
+        googleAdsId: '',
+    },
     customization: {
         button: {
             color: '#3B82F6',
@@ -121,6 +125,7 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 
 

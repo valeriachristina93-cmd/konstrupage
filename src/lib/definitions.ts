@@ -80,6 +80,10 @@ export type PageConfig = {
     active: boolean;
     intensity: number;
   };
+  tracking: {
+    facebookPixelId: string;
+    googleAdsId: string;
+  };
   customization: {
     button: {
       color: string;
@@ -122,6 +126,7 @@ export type PageConfig = {
     };
   };
 };
+
 
 
 
