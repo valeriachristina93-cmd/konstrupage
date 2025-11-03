@@ -318,15 +318,20 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-content { padding: 24px; text-align: center; }
             .popup .close-button {
                 position: absolute;
-                top: 10px;
-                right: 10px;
+                top: 8px;
+                right: 8px;
                 background: transparent;
                 border: none;
-                font-size: 24px;
+                font-size: 28px;
+                font-weight: bold;
                 line-height: 1;
                 cursor: pointer;
                 color: inherit;
-                padding: 5px;
+                opacity: 0.7;
+                padding: 4px;
+            }
+            .popup .close-button:hover {
+                opacity: 1;
             }
             .popup h3 { margin-top: 0; font-weight: bold; }
             .popup h2 { margin-top: 0; font-weight: bold; }
