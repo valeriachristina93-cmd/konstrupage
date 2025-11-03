@@ -33,7 +33,7 @@ const PageConfigSchema = z.object({
   footer: z.object({ active: z.boolean(), privacyLink: z.string(), termsLink: z.string(), backgroundColor: z.string().describe("Hex color code"), textColor: z.string().describe("Hex color code") }),
   disclaimer: z.object({ active: z.boolean(), text: z.string(), backgroundColor: z.string().describe("Hex color code"), textColor: z.string().describe("Hex color code") }),
   overlay: z.object({ active: z.boolean(), opacity: z.number().min(0.1).max(1) }),
-  blur: z.object({ active: z.boolean(), intensity: z.number().min(1).max(50) }),
+  blur: z.object({ active: z.boolean(), intensity: znumber().min(1).max(50) }),
   customization: z.object({
     button: z.object({
       color: z.string().describe("Hex color code for the button."),
@@ -68,19 +68,19 @@ const generatePagePrompt = ai.definePrompt(
       output: { schema: PageConfigSchema, format: 'json' },
       prompt: `You are an expert in creating high-converting presell pages. Based on the user's description, generate a complete page configuration in JSON format.
 
-    User Description: "{{prompt}}"
+User Description: "{{prompt}}"
 
-    Your task is to populate all the fields in the provided JSON schema to create a cohesive and effective presell page. Make logical choices for colors, text, and images.
-    
-    - Images: Use placeholder URLs from an image service like unsplash or picsum. Make sure the images are relevant to the user's description.
-    - Popups: Only activate the popups that are explicitly or implicitly requested in the description. For example, if the user mentions "18+", activate the age verification popup. If they mention cookies, activate the cookie popup.
-    - Colors: Choose a color scheme that matches the product or theme. Use hex color codes.
-    - Text: Write compelling and relevant text for titles, descriptions, and buttons.
-    
-    Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
+Your task is to populate all the fields in the provided JSON schema to create a cohesive and effective presell page. Make logical choices for colors, text, and images.
+
+- Images: Use placeholder URLs from an image service like unsplash or picsum. Make sure the images are relevant to the user's description.
+- Popups: Only activate the popups that are explicitly or implicitly requested in the description. For example, if the user mentions "18+", activate the age verification popup. If they mention cookies, activate the cookie popup.
+- Colors: Choose a color scheme that matches the product or theme. Use hex color codes.
+- Text: Write compelling and relevant text for titles, descriptions, and buttons.
+
+Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
     },
   );
-  
+
 
 export const generatePageFlow = ai.defineFlow(
   {
