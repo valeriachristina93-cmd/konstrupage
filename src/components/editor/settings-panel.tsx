@@ -197,11 +197,19 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.choice.description} onChange={e => onConfigChange(['popups', 'choice', 'description'], e.target.value)} className="text-sm h-24" />
                                             <div className='space-y-2'>
                                                 <Label>Imagem 1 (URL)</Label>
-                                                <Input type="text" placeholder="URL da Imagem 1" value={pageConfig.popups.choice.image1Url} onChange={e => onConfigChange(['popups', 'choice', 'image1Url'], e.target.value)} />
+                                                <ImageUploadInput
+                                                    value={pageConfig.popups.choice.image1Url}
+                                                    onChange={e => onConfigChange(['popups', 'choice', 'image1Url'], e.target.value)}
+                                                    onFileUpload={file => onImageUpload(file, ['popups', 'choice', 'image1Url'])}
+                                                />
                                             </div>
                                              <div className='space-y-2'>
                                                 <Label>Imagem 2 (URL)</Label>
-                                                <Input type="text" placeholder="URL da Imagem 2" value={pageConfig.popups.choice.image2Url} onChange={e => onConfigChange(['popups', 'choice', 'image2Url'], e.target.value)} />
+                                                <ImageUploadInput
+                                                    value={pageConfig.popups.choice.image2Url}
+                                                    onChange={e => onConfigChange(['popups', 'choice', 'image2Url'], e.target.value)}
+                                                    onFileUpload={file => onImageUpload(file, ['popups', 'choice', 'image2Url'])}
+                                                />
                                             </div>
                                         </>
                                     )}
@@ -228,7 +236,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <SettingsToggle label="Pop-up de Saída" checked={pageConfig.popups.exit.active} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'active'], checked)} />
                                     {pageConfig.popups.exit.active && (
                                         <>
-                                            <Input type="text" placeholder="URL da Imagem (16:9)" value={pageConfig.popups.exit.imageUrl} onChange={e => onConfigChange(['popups', 'exit', 'imageUrl'], e.target.value)} />
+                                            <div className='space-y-2'>
+                                                <Label>Imagem (16:9)</Label>
+                                                <ImageUploadInput
+                                                    value={pageConfig.popups.exit.imageUrl}
+                                                    onChange={e => onConfigChange(['popups', 'exit', 'imageUrl'], e.target.value)}
+                                                    onFileUpload={file => onImageUpload(file, ['popups', 'exit', 'imageUrl'])}
+                                                />
+                                            </div>
                                             <Input type="text" placeholder="Link de Redirecionamento (Opcional)" value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
                                         </>
                                     )}
@@ -326,8 +341,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </Select>
                             </div>
                             <div className="space-y-3">
-                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '<!-- Seu código aqui -->' : '')} />
-                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
+                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '&lt;!-- Seu código aqui --&gt;' : '')} />
+                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
                             </div>
                         </AccordionContent>
                     </AccordionItem>
