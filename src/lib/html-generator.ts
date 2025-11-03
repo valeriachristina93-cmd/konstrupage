@@ -223,7 +223,16 @@ export const generatePresellHtml = (config: PageConfig) => {
                 display: ${anyPopupActive ? 'block' : 'none'};
                 pointer-events: ${anyPopupActive ? 'auto' : 'none'};
             }
-            .popup { position: fixed; z-index: 100; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border-radius: 8px; box-sizing: border-box; animation-duration: 0.4s; animation-timing-function: ease-out; animation-fill-mode: both; }
+            .popup { 
+                position: fixed; 
+                z-index: 100; 
+                box-shadow: 0 10px 25px rgba(0,0,0,0.2); 
+                border-radius: 8px; 
+                box-sizing: border-box; 
+                animation-duration: ${customization.popupAnimationDuration}s; 
+                animation-timing-function: ease-out; 
+                animation-fill-mode: both; 
+            }
             .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; }
             .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; }
             .popup-content { padding: 24px; text-align: center; }
@@ -376,6 +385,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 

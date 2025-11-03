@@ -400,6 +400,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </SelectContent>
                                 </Select>
                             </div>
+                            <div className="space-y-2">
+                                <Label>Duração da Animação ({pageConfig.customization.popupAnimationDuration}s)</Label>
+                                <SliderWithControls
+                                    value={[pageConfig.customization.popupAnimationDuration]}
+                                    onValueChange={(value) => onConfigChange(['customization', 'popupAnimationDuration'], value[0])}
+                                    min={0.1}
+                                    max={2}
+                                    step={0.1}
+                                />
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -407,6 +417,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 
 

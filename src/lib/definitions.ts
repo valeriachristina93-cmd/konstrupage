@@ -83,8 +83,10 @@ export type PageConfig = {
       color: string;
     };
     popupAnimation: 'fadeIn' | 'slideInDown' | 'slideInUp' | 'zoomIn';
+    popupAnimationDuration: number;
   };
 };
+
 
 
 
