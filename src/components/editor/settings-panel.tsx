@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2 } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -348,10 +348,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionContent>
                     </AccordionItem>
+                    <AccordionItem value="configuracao">
+                        <AccordionTrigger className="hover:no-underline px-4">
+                            <div className="flex items-center gap-3">
+                                <Settings className="w-5 h-5 text-primary" />
+                                <span className="font-semibold">Configuração</span>
+                            </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 space-y-4 px-4">
+                            {/* O conteúdo para a nova seção "Configuração" irá aqui */}
+                        </AccordionContent>
+                    </AccordionItem>
                 </Accordion>
             </ScrollArea>
         </>
     );
 }
+
+    
 
     
