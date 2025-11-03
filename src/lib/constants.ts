@@ -9,7 +9,7 @@ const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
 export const initialPageConfig: PageConfig = {
     desktopImage: desktopHero?.imageUrl ?? 'https://picsum.photos/seed/desktop/2070/900',
-    mobileImage: mobileHero?.imageUrl ?? 'https://picsum.photos/seed/mobile/1080/1000',
+    mobileImage: desktopHero?.imageUrl ?? 'https://picsum.photos/seed/desktop/2070/900',
     imageHeightDesktop: 100,
     imageHeightMobile: 100,
     affiliateLink: '',
@@ -53,6 +53,7 @@ export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
 ];
+
 
 
 
