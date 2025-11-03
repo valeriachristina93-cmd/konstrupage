@@ -30,7 +30,6 @@ export const initialPageConfig: PageConfig = {
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 5 },
     customization: {
-        language: 'pt-BR',
         button: {
             color: '#3B82F6',
             width: 100,
@@ -72,11 +71,6 @@ export const popupColorOptions = [
     { name: 'Cinza Claro', value: 'light-gray' }, { name: 'Cinza Escuro', value: 'dark-gray' }
 ];
 
-export const languageOptions = [
-    { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
-    { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
-];
-
 export const animationOptions = [
     { name: 'Fade In', value: 'fadeIn' },
     { name: 'Slide from Top', value: 'slideInDown' },
@@ -103,5 +97,6 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 

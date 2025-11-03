@@ -4,7 +4,7 @@
 
 import React from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { languageOptions, flagOptions, animationOptions } from '@/lib/constants';
+import { flagOptions, animationOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -487,15 +487,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             <div className="space-y-3 p-3 border rounded-md">
                                 <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '<!-- Seu código aqui -->' : '')} />
                                 {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
-                            </div>
-                             <div className="space-y-2">
-                                <Label>Idioma da Página</Label>
-                                <Select value={pageConfig.customization.language} onValueChange={value => onConfigChange(['customization', 'language'], value)}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        {languageOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
                             </div>
                              <div className="space-y-2">
                                 <Label>Posição do Pop-up</Label>

@@ -215,7 +215,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     
     return `
     <!DOCTYPE html>
-    <html lang="${customization.language}">
+    <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">

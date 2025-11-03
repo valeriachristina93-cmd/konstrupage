@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Link from 'next/link';
@@ -46,7 +47,6 @@ const tools = [
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
-    const [language, setLanguage] = useState('pt-br');
     const { logout } = useAuth();
 
     return (
@@ -96,28 +96,6 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                 </div>
                             </SheetContent>
                         </Sheet>
-
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" size="icon">
-                                    <Languages className="h-5 w-5" />
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Idioma</DropdownMenuLabel>
-                                <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
-                                    <DropdownMenuRadioItem value="pt-br">
-                                        Português (BR)
-                                    </DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="en-us">
-                                        English (US)
-                                    </DropdownMenuRadioItem>
-                                    <DropdownMenuRadioItem value="es">
-                                        Español
-                                    </DropdownMenuRadioItem>
-                                </DropdownMenuRadioGroup>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
 
                         <ThemeToggle />
 

@@ -73,7 +73,6 @@ export type PageConfig = {
     intensity: number;
   };
   customization: {
-    language: string;
     button: {
       color: string;
       width: number;
@@ -102,6 +101,7 @@ export type PageConfig = {
     };
   };
 };
+
 
 
 
