@@ -111,7 +111,7 @@ export const generatePresellHtml = (config: PageConfig) => {
              <div class="popup-content">
                 ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
                 <h2>${popups.discount.text}</h2>
-                <p>Oferta por tempo limitado!</p>
+                <p>${popups.discount.description}</p>
                 <button style="${buttonStyle}" onclick="acceptAction()">Aproveitar Agora</button>
             </div>
         </div>
@@ -396,4 +396,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 

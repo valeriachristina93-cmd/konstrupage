@@ -231,6 +231,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     {pageConfig.popups.discount.active && (
                                         <>
                                             <Input type="text" placeholder="Texto do desconto" value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
+                                            <Textarea placeholder="Descrição da oferta" value={pageConfig.popups.discount.description} onChange={e => onConfigChange(['popups', 'discount', 'description'], e.target.value)} className="text-sm h-24" />
                                             <SettingsToggle label="Mostrar Ícone" checked={pageConfig.popups.discount.icon} onCheckedChange={checked => onConfigChange(['popups', 'discount', 'icon'], checked)} />
                                         </>
                                     )}

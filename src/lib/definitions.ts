@@ -22,6 +22,7 @@ export type PageConfig = {
     discount: {
       active: boolean;
       text: string;
+      description: string;
       icon: boolean;
     };
     exit: {
@@ -91,3 +92,4 @@ export type PageConfig = {
     };
   };
 };
+

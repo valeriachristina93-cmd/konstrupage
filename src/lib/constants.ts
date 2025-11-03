@@ -19,7 +19,7 @@ export const initialPageConfig: PageConfig = {
     popups: {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
         ageVerification: { active: false },
-        discount: { active: false, text: '25% de Desconto', icon: true },
+        discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: true },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', redirectLink: '' },
         custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', image1Url: 'https://flagcdn.com/w320/br.png', image2Url: 'https://flagcdn.com/w320/us.png' },
@@ -95,3 +95,4 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
