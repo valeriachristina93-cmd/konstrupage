@@ -18,7 +18,7 @@ export const initialPageConfig: PageConfig = {
     autoRedirect: { active: false, time: 5 },
     popups: {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
-        ageVerification: { active: false },
+        ageVerification: { active: false, message: 'Você confirma que tem mais de 18 anos?', yesButtonText: 'Sim', noButtonText: 'Não', yesButtonColor: '#3B82F6', noButtonColor: '#6B7280', buttonWidth: 48 },
         discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: true },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', redirectLink: '' },
         custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
@@ -32,6 +32,7 @@ export const initialPageConfig: PageConfig = {
     customization: {
         button: {
             color: '#3B82F6',
+            textColor: '#FFFFFF',
             width: 100,
             borderRadius: 6,
             alignment: 'center',
@@ -97,6 +98,3 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
-
-
-

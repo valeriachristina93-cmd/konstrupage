@@ -189,6 +189,34 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </div>
                                 <div className="p-3 border rounded-md">
                                     <SettingsToggle label="Pop-up Verificação de Idade" checked={pageConfig.popups.ageVerification.active} onCheckedChange={checked => onConfigChange(['popups', 'ageVerification', 'active'], checked)} />
+                                     {pageConfig.popups.ageVerification.active && (
+                                        <div className="pt-4 space-y-4 border-t mt-4">
+                                            <div className="space-y-2">
+                                                <Label>Mensagem</Label>
+                                                <Textarea value={pageConfig.popups.ageVerification.message} onChange={e => onConfigChange(['popups', 'ageVerification', 'message'], e.target.value)} className="text-sm h-20" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Texto do Botão 'Sim'</Label>
+                                                <Input type="text" value={pageConfig.popups.ageVerification.yesButtonText} onChange={e => onConfigChange(['popups', 'ageVerification', 'yesButtonText'], e.target.value)} />
+                                            </div>
+                                             <div className="space-y-2">
+                                                <Label>Texto do Botão 'Não'</Label>
+                                                <Input type="text" value={pageConfig.popups.ageVerification.noButtonText} onChange={e => onConfigChange(['popups', 'ageVerification', 'noButtonText'], e.target.value)} />
+                                            </div>
+                                            <ColorInput label="Cor do Botão 'Sim'" value={pageConfig.popups.ageVerification.yesButtonColor} onChange={e => onConfigChange(['popups', 'ageVerification', 'yesButtonColor'], e.target.value)} />
+                                            <ColorInput label="Cor do Botão 'Não'" value={pageConfig.popups.ageVerification.noButtonColor} onChange={e => onConfigChange(['popups', 'ageVerification', 'noButtonColor'], e.target.value)} />
+                                            <div className="space-y-2">
+                                                <Label>Largura dos Botões ({pageConfig.popups.ageVerification.buttonWidth}%)</Label>
+                                                <SliderWithControls
+                                                    value={[pageConfig.popups.ageVerification.buttonWidth]}
+                                                    onValueChange={(value) => onConfigChange(['popups', 'ageVerification', 'buttonWidth'], value[0])}
+                                                    min={10}
+                                                    max={50}
+                                                    step={1}
+                                                />
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Escolha" checked={pageConfig.popups.choice.active} onCheckedChange={checked => onConfigChange(['popups', 'choice', 'active'], checked)} />
@@ -359,6 +387,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-3 pt-2">
                                             <ColorInput label="Cor do Botão" value={pageConfig.customization.button.color} onChange={e => onConfigChange(['customization', 'button', 'color'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto do Botão" value={pageConfig.customization.button.textColor} onChange={e => onConfigChange(['customization', 'button', 'textColor'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Largura do Botão ({pageConfig.customization.button.width}%)</Label>

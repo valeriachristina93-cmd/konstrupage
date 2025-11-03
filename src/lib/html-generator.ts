@@ -87,8 +87,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
-    const buttonStyle = `background-color: ${customization.button.color}; color: ${isColorLight(customization.button.color) ? '#000' : '#fff'}; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
-    const ageVerificationButtonStyle = `background-color: #6B7280; color: #fff; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
+    const buttonStyle = `background-color: ${customization.button.color}; color: ${customization.button.textColor}; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
     
     const getButtonAlignment = () => {
         switch(customization.button.alignment) {
@@ -117,10 +116,10 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div id="age-popup" class="popup popup-bottom ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('age-popup')}
              <div class="popup-content">
-                <p>Você confirma que tem mais de 18 anos?</p>
+                <p>${popups.ageVerification.message}</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button style="${buttonStyle}" onclick="acceptAction()">Sim</button>
-                    <button style="${ageVerificationButtonStyle}" onclick="window.history.back()">Não</button>
+                    <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
+                    <button style="background-color: ${popups.ageVerification.noButtonColor}; color: ${isColorLight(popups.ageVerification.noButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="window.history.back()">${popups.ageVerification.noButtonText}</button>
                 </div>
             </div>
         </div>
@@ -160,8 +159,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
                 <div class="choice-images">
-                    <img src="${popups.choice.image1Url}" onclick="acceptAction()" style="width: ${popups.choice.useCustomImages ? popups.choice.customImageWidth + 'px' : '120px'};" />
-                    <img src="${popups.choice.image2Url}" onclick="acceptAction()" style="width: ${popups.choice.useCustomImages ? popups.choice.customImageWidth + 'px' : '120px'};" />
+                    <img src="${popups.choice.image1Url}" onclick="acceptAction()" style="width: ${popups.choice.customImageWidth}px;" />
+                    <img src="${popups.choice.image2Url}" onclick="acceptAction()" style="width: ${popups.choice.customImageWidth}px;" />
                 </div>
             </div>
         </div>

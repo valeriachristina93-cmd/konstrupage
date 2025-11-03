@@ -18,6 +18,12 @@ export type PageConfig = {
     };
     ageVerification: {
       active: boolean;
+      message: string;
+      yesButtonText: string;
+      noButtonText: string;
+      yesButtonColor: string;
+      noButtonColor: string;
+      buttonWidth: number;
     };
     discount: {
       active: boolean;
@@ -75,6 +81,7 @@ export type PageConfig = {
   customization: {
     button: {
       color: string;
+      textColor: string;
       width: number;
       borderRadius: number;
       alignment: 'left' | 'center' | 'right';
@@ -101,7 +108,3 @@ export type PageConfig = {
     };
   };
 };
-
-
-
-
