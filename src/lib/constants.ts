@@ -24,7 +24,7 @@ export const initialPageConfig: PageConfig = {
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', image1Url: 'https://flagcdn.com/w320/br.png', image2Url: 'https://flagcdn.com/w320/us.png' },
         captcha: { active: false, title: 'Verificação Rápida', description: 'Clique abaixo para provar que você não é um robô e continuar.' }
     },
-    footer: { active: false, privacyLink: '#', termsLink: '#', theme: 'dark' },
+    footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB' },
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.' },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 5 },

@@ -43,11 +43,6 @@ export const generatePresellHtml = (config: PageConfig) => {
         'dark-gray': 'background-color: #374151; color: #F3F4F6;',
     };
     
-    const footerStyles = {
-        'dark': 'background-color: #111827; color: #D1D5DB;',
-        'light': 'background-color: #F9FAFB; color: #374151;',
-    };
-
     const getPopupPositionClass = () => {
         if (customization.popupPosition === 'bottom') {
             return 'popup-bottom';
@@ -140,10 +135,10 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const footerSection = footer.active ? `
-        <footer style="${footerStyles[footer.theme]}">
-            <a href="${footer.privacyLink}">Política de Privacidade</a>
+        <footer style="background-color: ${footer.backgroundColor}; color: ${footer.textColor};">
+            <a href="${footer.privacyLink}" style="color: ${footer.textColor};">Política de Privacidade</a>
             <span>|</span>
-            <a href="${footer.termsLink}">Termos de Uso</a>
+            <a href="${footer.termsLink}" style="color: ${footer.textColor};">Termos de Uso</a>
         </footer>
     ` : '';
 

@@ -31,6 +31,23 @@ const SettingsToggle = ({ label, checked, onCheckedChange }: { label: string; ch
     </div>
 );
 
+const ColorInput = ({ label, value, onChange }: { label: string; value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void }) => (
+    <div className="flex items-center justify-between">
+        <Label className="font-normal">{label}</Label>
+        <div className="flex items-center gap-2 border rounded-md px-2">
+            <input
+                type="color"
+                value={value}
+                onChange={onChange}
+                className="w-6 h-6 p-0 border-none bg-transparent"
+                aria-label={label}
+            />
+            <span className="font-mono text-sm">{value.toUpperCase()}</span>
+        </div>
+    </div>
+);
+
+
 export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
     return (
         <>
@@ -244,13 +261,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <>
                                         <Input type="text" placeholder="Link Política de Privacidade" value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
                                         <Input type="text" placeholder="Link Termos de Uso" value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
-                                        <Select value={pageConfig.footer.theme} onValueChange={value => onConfigChange(['footer', 'theme'], value)}>
-                                            <SelectTrigger><SelectValue /></SelectTrigger>
-                                            <SelectContent>
-                                                <SelectItem value="dark">Escuro</SelectItem>
-                                                <SelectItem value="light">Claro</SelectItem>
-                                            </SelectContent>
-                                        </Select>
+                                        <div className="space-y-3 pt-2">
+                                            <ColorInput label="Cor do Fundo" value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto" value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
+                                        </div>
                                     </>
                                 )}
                             </div>

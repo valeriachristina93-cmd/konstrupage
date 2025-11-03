@@ -52,7 +52,8 @@ export type PageConfig = {
     active: boolean;
     privacyLink: string;
     termsLink: string;
-    theme: 'dark' | 'light';
+    backgroundColor: string;
+    textColor: string;
   };
   disclaimer: {
     active: boolean;
