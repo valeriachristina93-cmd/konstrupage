@@ -33,7 +33,7 @@ const PageConfigSchema = z.object({
   footer: z.object({ active: z.boolean(), privacyLink: z.string(), termsLink: z.string(), backgroundColor: z.string().describe("Hex color code"), textColor: z.string().describe("Hex color code") }),
   disclaimer: z.object({ active: z.boolean(), text: z.string(), backgroundColor: z.string().describe("Hex color code"), textColor: z.string().describe("Hex color code") }),
   overlay: z.object({ active: z.boolean(), opacity: z.number().min(0.1).max(1) }),
-  blur: z.object({ active: z.boolean(), intensity: znumber().min(1).max(50) }),
+  blur: z.object({ active: z.boolean(), intensity: z.number().min(1).max(50) }),
   customization: z.object({
     button: z.object({
       color: z.string().describe("Hex color code for the button."),
