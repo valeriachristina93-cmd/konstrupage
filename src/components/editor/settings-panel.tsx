@@ -4,7 +4,7 @@
 
 import React from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { flagOptions, animationOptions } from '@/lib/constants';
+import { flagOptions, animationOptions, discountIconOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -308,7 +308,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         <>
                                             <Input type="text" placeholder="Texto do desconto" value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
                                             <Textarea placeholder="Descrição da oferta" value={pageConfig.popups.discount.description} onChange={e => onConfigChange(['popups', 'discount', 'description'], e.target.value)} className="text-sm h-24" />
-                                            <SettingsToggle label="Mostrar Ícone" checked={pageConfig.popups.discount.icon} onCheckedChange={checked => onConfigChange(['popups', 'discount', 'icon'], checked)} />
+                                            <div className="space-y-2">
+                                                <Label>Ícone</Label>
+                                                <Select value={pageConfig.popups.discount.icon} onValueChange={value => onConfigChange(['popups', 'discount', 'icon'], value)}>
+                                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                                    <SelectContent>
+                                                        {discountIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
                                         </>
                                     )}
                                 </div>

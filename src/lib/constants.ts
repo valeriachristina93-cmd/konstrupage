@@ -19,7 +19,7 @@ export const initialPageConfig: PageConfig = {
     popups: {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
         ageVerification: { active: false, message: 'Você confirma que tem mais de 18 anos?', yesButtonText: 'Sim', noButtonText: 'Não', yesButtonColor: '#3B82F6', noButtonColor: '#6B7280', buttonWidth: 48 },
-        discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: true },
+        discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: 'percent' },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', redirectLink: '' },
         custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w320/br.png', image2Url: 'https://flagcdn.com/w320/us.png', customImageWidth: 120 },
@@ -66,6 +66,17 @@ export const initialPageConfig: PageConfig = {
     }
 };
 
+export const discountIconOptions = [
+    { name: 'Nenhum', value: 'none' },
+    { name: 'Porcentagem', value: 'percent' },
+    { name: 'Sacola', value: 'shopping-bag' },
+    { name: 'Cupom', value: 'ticket-percent' },
+    { name: 'Relógio', value: 'clock' },
+    { name: 'Carrinho', value: 'shopping-cart' },
+    { name: 'Coração', value: 'heart' },
+    { name: 'Presente', value: 'gift' },
+];
+
 export const buttonColorOptions = [
     { name: 'Azul', value: '#3B82F6' }, { name: 'Roxo', value: '#8B5CF6' },
     { name: 'Verde', value: '#22C55E' }, { name: 'Vermelho', value: '#EF4444' },
@@ -104,4 +115,5 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 

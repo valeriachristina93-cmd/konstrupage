@@ -29,7 +29,7 @@ export type PageConfig = {
       active: boolean;
       text: string;
       description: string;
-      icon: boolean;
+      icon: string;
     };
     exit: {
       active: boolean;
@@ -115,4 +115,5 @@ export type PageConfig = {
     };
   };
 };
+
 
