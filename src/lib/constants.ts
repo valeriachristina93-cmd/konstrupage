@@ -48,7 +48,7 @@ export const initialPageConfig: PageConfig = {
         typography: {
             titleColor: '#FFFFFF',
             textColor: '#E5E7EB',
-            titleSize: 28,
+            titleSize: 19,
             textSize: 16,
         },
         popup: {
@@ -125,6 +125,7 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 
 
