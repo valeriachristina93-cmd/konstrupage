@@ -172,17 +172,32 @@ export const generatePresellHtml = (config: PageConfig) => {
         </div>
     ` : '';
 
+    const captchaCheckbox = `
+        <div class="captcha-box">
+            <input type="checkbox" id="captcha-checkbox" onclick="handleCaptchaCheckbox()">
+            <label for="captcha-checkbox">Não sou um robô</label>
+            <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
+        </div>
+    `;
+
+    const captchaSlide = `
+        <div class="captcha-slide-container">
+            <div class="captcha-slide-track">
+                <div class="captcha-slide-thumb">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                </div>
+                <span class="captcha-slide-text">Deslize para continuar</span>
+            </div>
+        </div>
+    `;
+
     const captchaPopup = popups.captcha.active ? `
         <div id="captcha-popup" class="popup popup-center ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('captcha-popup')}
             <div class="popup-content">
                 <h2>${popups.captcha.title}</h2>
                 <p>${popups.captcha.description}</p>
-                <div class="captcha-box">
-                    <input type="checkbox" id="captcha-checkbox" onclick="acceptAction()">
-                    <label for="captcha-checkbox">Não sou um robô</label>
-                    <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
-                </div>
+                ${popups.captcha.captchaType === 'slide' ? captchaSlide : captchaCheckbox}
             </div>
         </div>
     ` : '';
@@ -308,6 +323,67 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-box input[type="checkbox"] { width: 28px; height: 28px; margin-right: 12px; cursor: pointer; accent-color: ${customization.button.color}; }
             .captcha-box img { width: 48px; height: 48px; }
 
+            .captcha-slide-container {
+                margin-top: 20px;
+                width: 100%;
+                max-width: 300px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .captcha-slide-track {
+                width: 100%;
+                height: 50px;
+                background-color: #f0f0f0;
+                border-radius: 25px;
+                position: relative;
+                overflow: hidden;
+                border: 1px solid #e0e0e0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                user-select: none;
+            }
+            .captcha-slide-thumb {
+                width: 46px;
+                height: 46px;
+                background-color: white;
+                border: 1px solid #ccc;
+                border-radius: 50%;
+                position: absolute;
+                left: 2px;
+                top: 2px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 2;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+            .captcha-slide-thumb svg { color: #666; }
+            .captcha-slide-text {
+                color: #aaa;
+                font-size: 14px;
+                z-index: 1;
+                pointer-events: none;
+            }
+            .captcha-slide-track.verified { background-color: #D4EDDA; border-color: #C3E6CB; }
+            .captcha-slide-track.verified .captcha-slide-text { display: none; }
+            .captcha-slide-track.verified .captcha-slide-thumb {
+                background-color: #28A745;
+                border-color: #28A745;
+                cursor: default;
+            }
+             .captcha-slide-track.verified .captcha-slide-thumb svg {
+                stroke: white;
+                animation: checkmark 0.3s ease-in-out;
+            }
+            @keyframes checkmark {
+                0% { transform: scale(0); }
+                70% { transform: scale(1.2); }
+                100% { transform: scale(1); }
+            }
+
+
             .popup.popup-animation-fadeIn { animation-name: fadeIn; }
             .popup.popup-animation-slideInDown { animation-name: slideInDown; }
             .popup.popup-animation-slideInUp { animation-name: slideInUp; }
@@ -392,6 +468,67 @@ export const generatePresellHtml = (config: PageConfig) => {
             function acceptAction() {
                 redirect(AFFILIATE_LINK);
             }
+
+            function handleCaptchaCheckbox() {
+                const checkbox = document.getElementById('captcha-checkbox');
+                if (checkbox.checked) {
+                    setTimeout(() => {
+                        acceptAction();
+                    }, 300);
+                }
+            }
+
+            ${popups.captcha.active && popups.captcha.captchaType === 'slide' ? `
+                const thumb = document.querySelector('.captcha-slide-thumb');
+                const track = document.querySelector('.captcha-slide-track');
+                const container = document.querySelector('.captcha-slide-container');
+                let isDragging = false;
+                let startX = 0;
+                let offsetX = 0;
+
+                if (thumb && track && container) {
+                    const maxSlide = track.offsetWidth - thumb.offsetWidth - 4;
+
+                    const onDragStart = (e) => {
+                        if (track.classList.contains('verified')) return;
+                        isDragging = true;
+                        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                        thumb.style.transition = 'none';
+                        track.style.transition = 'none';
+                    };
+
+                    const onDragMove = (e) => {
+                        if (!isDragging) return;
+                        const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+                        offsetX = Math.max(0, Math.min(currentX - startX, maxSlide));
+                        thumb.style.transform = \`translateX(\${offsetX}px)\`;
+                    };
+
+                    const onDragEnd = () => {
+                        if (!isDragging) return;
+                        isDragging = false;
+                        if (offsetX >= maxSlide - 2) {
+                            thumb.style.transform = \`translateX(\${maxSlide}px)\`;
+                            track.classList.add('verified');
+                            thumb.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                            setTimeout(() => {
+                                acceptAction();
+                            }, 500);
+                        } else {
+                            thumb.style.transition = 'transform 0.3s ease';
+                            thumb.style.transform = 'translateX(0)';
+                        }
+                    };
+                    
+                    thumb.addEventListener('mousedown', onDragStart);
+                    document.addEventListener('mousemove', onDragMove);
+                    document.addEventListener('mouseup', onDragEnd);
+                    
+                    thumb.addEventListener('touchstart', onDragStart);
+                    document.addEventListener('touchmove', onDragMove);
+                    document.addEventListener('touchend', onDragEnd);
+                }
+            ` : ''}
             
             ${autoRedirect.active ? `setTimeout(() => { if (AFFILIATE_LINK) redirect(AFFILIATE_LINK); }, ${autoRedirect.time * 1000});` : ''}
 

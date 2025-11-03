@@ -289,6 +289,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         <>
                                             <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.captcha.title} onChange={e => onConfigChange(['popups', 'captcha', 'title'], e.target.value)} />
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.captcha.description} onChange={e => onConfigChange(['popups', 'captcha', 'description'], e.target.value)} className="text-sm h-24" />
+                                            <div className="space-y-2">
+                                                <Label>Tipo de Captcha</Label>
+                                                <Select value={pageConfig.popups.captcha.captchaType} onValueChange={value => onConfigChange(['popups', 'captcha', 'captchaType'], value)}>
+                                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="checkbox">Checkbox</SelectItem>
+                                                        <SelectItem value="slide">Deslizar até o fim</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
                                         </>
                                     )}
                                 </div>

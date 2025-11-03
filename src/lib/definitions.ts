@@ -55,6 +55,7 @@ export type PageConfig = {
       active: boolean;
       title: string;
       description: string;
+      captchaType: 'checkbox' | 'slide';
     };
   };
   footer: {
@@ -114,3 +115,4 @@ export type PageConfig = {
     };
   };
 };
+
