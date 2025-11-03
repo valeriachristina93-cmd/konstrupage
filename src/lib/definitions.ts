@@ -40,6 +40,7 @@ export type PageConfig = {
       active: boolean;
       title: string;
       description: string;
+      useCustomImages: boolean;
       image1Url: string;
       image2Url: string;
     };
@@ -100,4 +101,5 @@ export type PageConfig = {
     };
   };
 };
+
 

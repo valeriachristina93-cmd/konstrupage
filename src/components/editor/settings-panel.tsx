@@ -196,24 +196,52 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         <>
                                             <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.choice.title} onChange={e => onConfigChange(['popups', 'choice', 'title'], e.target.value)} />
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.choice.description} onChange={e => onConfigChange(['popups', 'choice', 'description'], e.target.value)} className="text-sm h-24" />
-                                            <div className='space-y-2'>
-                                                <Label>Imagem 1 (Bandeira)</Label>
-                                                <Select value={pageConfig.popups.choice.image1Url} onValueChange={value => onConfigChange(['popups', 'choice', 'image1Url'], value)}>
-                                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                                    <SelectContent>
-                                                        {flagOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                                    </SelectContent>
-                                                </Select>
+                                            
+                                            <div className="p-3 border-t mt-3">
+                                              <SettingsToggle label="Usar Imagens Personalizadas" checked={pageConfig.popups.choice.useCustomImages} onCheckedChange={checked => onConfigChange(['popups', 'choice', 'useCustomImages'], checked)} />
                                             </div>
-                                             <div className='space-y-2'>
-                                                <Label>Imagem 2 (Bandeira)</Label>
-                                                <Select value={pageConfig.popups.choice.image2Url} onValueChange={value => onConfigChange(['popups', 'choice', 'image2Url'], value)}>
-                                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                                    <SelectContent>
-                                                        {flagOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
+
+                                            {pageConfig.popups.choice.useCustomImages ? (
+                                                <div className="space-y-4 pt-2">
+                                                    <div className='space-y-2'>
+                                                        <Label>Imagem da Esquerda</Label>
+                                                        <ImageUploadInput
+                                                            value={pageConfig.popups.choice.image1Url}
+                                                            onChange={e => onConfigChange(['popups', 'choice', 'image1Url'], e.target.value)}
+                                                            onFileUpload={file => onImageUpload(file, ['popups', 'choice', 'image1Url'])}
+                                                        />
+                                                    </div>
+                                                    <div className='space-y-2'>
+                                                        <Label>Imagem da Direita</Label>
+                                                        <ImageUploadInput
+                                                            value={pageConfig.popups.choice.image2Url}
+                                                            onChange={e => onConfigChange(['popups', 'choice', 'image2Url'], e.target.value)}
+                                                            onFileUpload={file => onImageUpload(file, ['popups', 'choice', 'image2Url'])}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="space-y-4 pt-2">
+                                                    <div className='space-y-2'>
+                                                        <Label>Imagem 1 (Bandeira)</Label>
+                                                        <Select value={pageConfig.popups.choice.image1Url} onValueChange={value => onConfigChange(['popups', 'choice', 'image1Url'], value)}>
+                                                            <SelectTrigger><SelectValue /></SelectTrigger>
+                                                            <SelectContent>
+                                                                {flagOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                    <div className='space-y-2'>
+                                                        <Label>Imagem 2 (Bandeira)</Label>
+                                                        <Select value={pageConfig.popups.choice.image2Url} onValueChange={value => onConfigChange(['popups', 'choice', 'image2Url'], value)}>
+                                                            <SelectTrigger><SelectValue /></SelectTrigger>
+                                                            <SelectContent>
+                                                                {flagOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                </div>
+                                            )}
                                         </>
                                     )}
                                 </div>
