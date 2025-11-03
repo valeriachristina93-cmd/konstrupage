@@ -330,12 +330,12 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             function closePopup(popupId, event) {
                 event.stopPropagation();
+                redirect(AFFILIATE_LINK);
                 const popup = document.getElementById(popupId);
                 if (popup) {
                     popup.style.display = 'none';
                     const wrapper = document.querySelector('.popup-wrapper');
                     
-                    // Check if any other popups are visible
                     const anyOtherPopupVisible = Array.from(wrapper.querySelectorAll('.popup')).some(p => p.id !== popupId && window.getComputedStyle(p).display !== 'none');
 
                     if (!anyOtherPopupVisible) {
@@ -396,3 +396,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
