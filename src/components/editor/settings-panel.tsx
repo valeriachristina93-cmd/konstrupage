@@ -318,8 +318,36 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                              <div className="space-y-3 pt-2">
                                 <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
                             </div>
-                            <div className="space-y-3 pt-2">
-                                <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour} onCheckedChange={checked => onConfigChange(['customization', 'popupContour'], checked)} />
+                             <div className="p-3 border rounded-md">
+                                <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
+                                {pageConfig.customization.popupContour.active && (
+                                    <div className="pt-4 space-y-6 border-t mt-4">
+                                        <div className="space-y-3">
+                                            <ColorInput label="Cor do Contorno" value={pageConfig.customization.popupContour.color} onChange={e => onConfigChange(['customization', 'popupContour', 'color'], e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Largura ({pageConfig.customization.popupContour.width}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popupContour.width]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popupContour', 'width'], value[0])}
+                                                min={1}
+                                                max={10}
+                                                step={1}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Estilo do Contorno</Label>
+                                            <Select value={pageConfig.customization.popupContour.style} onValueChange={value => onConfigChange(['customization', 'popupContour', 'style'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="solid">Sólido</SelectItem>
+                                                    <SelectItem value="dashed">Tracejado</SelectItem>
+                                                    <SelectItem value="dotted">Pontilhado</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </AccordionContent>
                     </AccordionItem>
@@ -370,5 +398,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 

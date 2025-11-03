@@ -1,4 +1,5 @@
 
+
 import type { PageConfig } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
 
@@ -35,7 +36,12 @@ export const initialPageConfig: PageConfig = {
         popupPosition: 'center',
         customHtml: '',
         showCloseButton: false,
-        popupContour: false,
+        popupContour: {
+            active: false,
+            width: 2,
+            style: 'solid',
+            color: '#3B82F6',
+        },
     }
 };
 
@@ -75,6 +81,7 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 
 

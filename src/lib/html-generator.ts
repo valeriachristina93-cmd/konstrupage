@@ -56,8 +56,9 @@ export const generatePresellHtml = (config: PageConfig) => {
     };
 
     const getPopupContourStyle = () => {
-        if (customization.popupContour) {
-            return `filter: drop-shadow(0 0 15px ${customization.buttonColor});`;
+        if (customization.popupContour.active) {
+            const { width, style, color } = customization.popupContour;
+            return `border: ${width}px ${style} ${color};`;
         }
         return '';
     }
@@ -358,5 +359,6 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
