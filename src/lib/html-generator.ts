@@ -1,5 +1,4 @@
 
-
 import type { PageConfig } from './definitions';
 
 export const generatePresellHtml = (config: PageConfig) => {
@@ -140,7 +139,7 @@ export const generatePresellHtml = (config: PageConfig) => {
              ${closeButtonHtml('age-popup')}
              <div class="popup-content">
                 <p>${popups.ageVerification.message}</p>
-                <div style="display: flex; gap: 10px; justify-content: center;">
+                <div style="display: flex; gap: 10px; justify-content: center; width: 100%;">
                     <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
                     <button style="background-color: ${popups.ageVerification.noButtonColor}; color: ${isColorLight(popups.ageVerification.noButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="window.history.back()">${popups.ageVerification.noButtonText}</button>
                 </div>
@@ -231,7 +230,7 @@ export const generatePresellHtml = (config: PageConfig) => {
              ${closeButtonHtml('exit-popup')}
              <div class="popup-content" style="padding:0; max-width: 600px;">
                 <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
-                <div style="padding: 24px;">
+                <div style="padding: 24px; display: flex; flex-direction: column; gap: ${customization.popup.gap}px; align-items: center; text-align: center;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
                      <div class="button-container" style="${buttonContainerStyle}">
@@ -322,6 +321,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 align-items: center;
                 gap: ${customization.popup.gap}px;
             }
+            .popup-content > * {
+                margin: 0;
+            }
             .popup .close-button {
                 position: absolute;
                 top: 8px;
@@ -340,8 +342,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup .close-button:hover {
                 opacity: 1;
             }
-            .popup h3, .popup h2, .popup p { margin: 0; }
-            .popup-content svg { margin-bottom: 0; }
             ${typographyStyles}
             .popup button { 
                 border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
@@ -446,7 +446,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
-                .popup-content { padding: 16px; }
+                .popup-content { padding: 16px; padding-top: 40px; }
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
                 .popup button { padding: 10px 20px; font-size: 14px; }
@@ -617,3 +617,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
+    
