@@ -219,16 +219,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                             onFileUpload={file => onImageUpload(file, ['popups', 'choice', 'image2Url'])}
                                                         />
                                                     </div>
-                                                     <div className="space-y-2">
-                                                        <Label>Largura da Imagem ({pageConfig.popups.choice.customImageWidth}px)</Label>
-                                                        <SliderWithControls
-                                                            value={[pageConfig.popups.choice.customImageWidth]}
-                                                            onValueChange={(value) => onConfigChange(['popups', 'choice', 'customImageWidth'], value[0])}
-                                                            min={50}
-                                                            max={250}
-                                                            step={10}
-                                                        />
-                                                    </div>
                                                 </div>
                                             ) : (
                                                 <div className="space-y-4 pt-2">
@@ -252,6 +242,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                 </div>
                                             )}
+                                            <div className="space-y-2">
+                                                <Label>Largura da Imagem ({pageConfig.popups.choice.customImageWidth}px)</Label>
+                                                <SliderWithControls
+                                                    value={[pageConfig.popups.choice.customImageWidth]}
+                                                    onValueChange={(value) => onConfigChange(['popups', 'choice', 'customImageWidth'], value[0])}
+                                                    min={50}
+                                                    max={250}
+                                                    step={10}
+                                                />
+                                            </div>
                                         </>
                                     )}
                                 </div>
