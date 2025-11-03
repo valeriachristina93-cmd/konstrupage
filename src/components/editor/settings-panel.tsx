@@ -308,15 +308,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
-                            <div className="p-3 border rounded-md">
-                                <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
-                                {pageConfig.autoRedirect.active && (
-                                    <div className="pt-4 space-y-2 border-t mt-4">
-                                        <Label>Tempo ({pageConfig.autoRedirect.time}s)</Label>
-                                        <input type="range" min="5" max="15" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
-                                    </div>
-                                )}
-                            </div>
                             <div className="space-y-2">
                                 <Label>Idioma da Página</Label>
                                 <Select value={pageConfig.customization.language} onValueChange={value => onConfigChange(['customization', 'language'], value)}>
@@ -356,7 +347,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
-                            {/* O conteúdo para a nova seção "Configuração" irá aqui */}
+                             <div className="p-3 border rounded-md">
+                                <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
+                                {pageConfig.autoRedirect.active && (
+                                    <div className="pt-4 space-y-2 border-t mt-4">
+                                        <Label>Tempo ({pageConfig.autoRedirect.time}s)</Label>
+                                        <input type="range" min="5" max="15" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
+                                    </div>
+                                )}
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -364,6 +363,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
+    
 
     
 
