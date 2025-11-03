@@ -168,7 +168,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                     <AccordionItem value="popups">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
-                                <MessageSquare className="w-5 h-5 text-blue-500" />
+                                <MessageSquare className="w-5 h-5 text-primary" />
                                 <span className="font-semibold">Pop-ups</span>
                             </div>
                         </AccordionTrigger>
@@ -250,7 +250,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                      <AccordionItem value="content">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
-                                <FileText className="w-5 h-5 text-green-500" />
+                                <FileText className="w-5 h-5 text-primary" />
                                 <span className="font-semibold">Conteúdo</span>
                             </div>
                         </AccordionTrigger>
@@ -286,7 +286,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                     <AccordionItem value="advanced">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
-                                <Settings2 className="w-5 h-5 text-red-500" />
+                                <Settings2 className="w-5 h-5 text-primary" />
                                 <span className="font-semibold">Configurações Avançadas</span>
                             </div>
                         </AccordionTrigger>
@@ -351,3 +351,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
+    
