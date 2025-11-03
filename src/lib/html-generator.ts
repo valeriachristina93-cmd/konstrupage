@@ -37,8 +37,8 @@ export const generatePresellHtml = (config: PageConfig) => {
     };
 
     const typographyStyles = `
-        .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; }
-        .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; }
+        .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; margin: 0; }
+        .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; }
     `;
 
     const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px;`;
@@ -319,6 +319,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 text-align: center;
                 display: flex;
                 flex-direction: column;
+                align-items: center;
                 gap: ${customization.popup.gap}px;
             }
             .popup .close-button {
@@ -617,4 +618,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
