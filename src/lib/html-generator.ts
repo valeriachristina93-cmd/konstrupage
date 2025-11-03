@@ -174,7 +174,13 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const captchaCheckbox = `
         <div class="captcha-box">
-            <input type="checkbox" id="captcha-checkbox" onclick="handleCaptchaCheckbox()">
+            <div class="captcha-checkbox-container">
+                <input type="checkbox" id="captcha-checkbox" onclick="handleCaptchaCheckbox()">
+                <div class="captcha-checkbox-custom">
+                    <div class="captcha-spinner"></div>
+                    <svg class="captcha-checkmark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+            </div>
             <label for="captcha-checkbox">Não sou um robô</label>
             <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
         </div>
@@ -319,10 +325,17 @@ export const generatePresellHtml = (config: PageConfig) => {
             .choice-images img { height: auto; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
             .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.button.color}; }
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; margin-top: 20px; }
-            .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; }
-            .captcha-box input[type="checkbox"] { width: 28px; height: 28px; margin-right: 12px; cursor: pointer; accent-color: ${customization.button.color}; }
+            .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
             .captcha-box img { width: 48px; height: 48px; }
-
+            .captcha-checkbox-container { position: relative; width: 28px; height: 28px; margin-right: 12px; }
+            .captcha-checkbox-custom { width: 28px; height: 28px; border: 2px solid #c1c1c1; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #f9f9f9; transition: background-color 0.2s; }
+            #captcha-checkbox { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; }
+            .captcha-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(0, 0, 0, 0.1); border-top-color: ${customization.button.color || '#3B82F6'}; border-radius: 50%; animation: spin 1s linear infinite; }
+            .captcha-checkmark { display: none; color: ${customization.button.color || '#3B82F6'}; }
+            #captcha-checkbox:checked + .captcha-checkbox-custom .captcha-spinner { display: none; }
+            #captcha-checkbox:checked + .captcha-checkbox-custom .captcha-checkmark { display: block; animation: checkmark 0.3s ease-in-out; }
+            #captcha-checkbox:checked + .captcha-checkbox-custom { background-color: #f4fce8; border-color: #adec63; }
+            
             .captcha-slide-container {
                 margin-top: 20px;
                 width: 100%;
@@ -377,12 +390,13 @@ export const generatePresellHtml = (config: PageConfig) => {
                 stroke: white;
                 animation: checkmark 0.3s ease-in-out;
             }
+            
+            @keyframes spin { to { transform: rotate(360deg); } }
             @keyframes checkmark {
                 0% { transform: scale(0); }
                 70% { transform: scale(1.2); }
                 100% { transform: scale(1); }
             }
-
 
             .popup.popup-animation-fadeIn { animation-name: fadeIn; }
             .popup.popup-animation-slideInDown { animation-name: slideInDown; }
@@ -469,12 +483,21 @@ export const generatePresellHtml = (config: PageConfig) => {
                 redirect(AFFILIATE_LINK);
             }
 
-            function handleCaptchaCheckbox() {
+             function handleCaptchaCheckbox() {
                 const checkbox = document.getElementById('captcha-checkbox');
+                const customBox = checkbox.nextElementSibling;
+                const spinner = customBox.querySelector('.captcha-spinner');
+                
                 if (checkbox.checked) {
+                    spinner.style.display = 'block';
+                    checkbox.disabled = true;
                     setTimeout(() => {
-                        acceptAction();
-                    }, 300);
+                        spinner.style.display = 'none';
+                        customBox.querySelector('.captcha-checkmark').style.display = 'block';
+                        setTimeout(() => {
+                           acceptAction();
+                        }, 400);
+                    }, 1000);
                 }
             }
 
@@ -499,6 +522,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
                     const onDragMove = (e) => {
                         if (!isDragging) return;
+                        e.preventDefault();
                         const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
                         offsetX = Math.max(0, Math.min(currentX - startX, maxSlide));
                         thumb.style.transform = \`translateX(\${offsetX}px)\`;
@@ -524,8 +548,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                     document.addEventListener('mousemove', onDragMove);
                     document.addEventListener('mouseup', onDragEnd);
                     
-                    thumb.addEventListener('touchstart', onDragStart);
-                    document.addEventListener('touchmove', onDragMove);
+                    thumb.addEventListener('touchstart', onDragStart, { passive: false });
+                    document.addEventListener('touchmove', onDragMove, { passive: false });
                     document.addEventListener('touchend', onDragEnd);
                 }
             ` : ''}
