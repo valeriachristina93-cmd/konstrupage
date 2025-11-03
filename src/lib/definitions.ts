@@ -58,6 +58,8 @@ export type PageConfig = {
   disclaimer: {
     active: boolean;
     text: string;
+    backgroundColor: string;
+    textColor: string;
   };
   overlay: {
     active: boolean;

@@ -268,9 +268,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </>
                                 )}
                             </div>
-                            <div className="p-3 border rounded-md space-y-3">
+                             <div className="p-3 border rounded-md space-y-3">
                                 <SettingsToggle label="Seção Disclaimer" checked={pageConfig.disclaimer.active} onCheckedChange={checked => onConfigChange(['disclaimer', 'active'], checked)} />
-                                {pageConfig.disclaimer.active && <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />}
+                                {pageConfig.disclaimer.active && (
+                                    <>
+                                        <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
+                                        <div className="space-y-3 pt-2">
+                                            <ColorInput label="Cor do Fundo" value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto" value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </AccordionContent>
                     </AccordionItem>

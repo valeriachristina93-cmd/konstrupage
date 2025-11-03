@@ -143,7 +143,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const disclaimerSection = disclaimer.active ? `
-        <div class="disclaimer">
+        <div class="disclaimer" style="background-color: ${disclaimer.backgroundColor}; color: ${disclaimer.textColor};">
             <p>${disclaimer.text}</p>
         </div>
     ` : '';
@@ -179,7 +179,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .bg-mobile { ${getMobileBgStyle()} display: none; }
 
             .overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0,0,0,0.5); }
-            .disclaimer { background: #f3f4f6; padding: 8px; text-align: center; font-size: 12px; color: #4b5563; position: fixed; bottom: ${footer.active ? '49px' : '0'}; width: 100%; z-index: 10;}
+            .disclaimer { padding: 8px; text-align: center; font-size: 12px; position: fixed; bottom: ${footer.active ? '49px' : '0'}; width: 100%; z-index: 10;}
             footer { padding: 16px; text-align: center; font-size: 14px; position: fixed; bottom: 0; width: 100%; z-index: 10;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; }
             .popup-wrapper {
