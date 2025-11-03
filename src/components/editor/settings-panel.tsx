@@ -333,10 +333,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <div className="space-y-3">
-                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '&lt;!-- Seu código aqui --&gt;' : '')} />
-                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
-                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
@@ -356,6 +352,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </div>
                                 )}
                             </div>
+                            <div className="space-y-3 p-3 border rounded-md">
+                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '&lt;!-- Seu código aqui --&gt;' : '')} />
+                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -363,9 +363,3 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
-
-    
-
-    
-
-    
