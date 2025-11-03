@@ -61,17 +61,14 @@ const PageConfigSchema = z.object({
 }).describe("A JSON object representing the full configuration for a presell page.");
 
 
-export const generatePageFlow = ai.defineFlow(
-  {
-    name: 'generatePageFlow',
-    inputSchema: z.string(),
-    outputSchema: PageConfigSchema,
-  },
-  async (description) => {
+const generatePagePrompt = ai.definePrompt(
+    {
+      name: 'generatePagePrompt',
+      input: { schema: z.string() },
+      output: { schema: PageConfigSchema, format: 'json' },
+      prompt: `You are an expert in creating high-converting presell pages. Based on the user's description, generate a complete page configuration in JSON format.
 
-    const prompt = `You are an expert in creating high-converting presell pages. Based on the user's description, generate a complete page configuration in JSON format.
-
-    User Description: "${description}"
+    User Description: "{{prompt}}"
 
     Your task is to populate all the fields in the provided JSON schema to create a cohesive and effective presell page. Make logical choices for colors, text, and images.
     
@@ -80,17 +77,19 @@ export const generatePageFlow = ai.defineFlow(
     - Colors: Choose a color scheme that matches the product or theme. Use hex color codes.
     - Text: Write compelling and relevant text for titles, descriptions, and buttons.
     
-    Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`;
+    Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
+    },
+  );
+  
 
-    const { output } = await ai.generate({
-      prompt: prompt,
-      output: {
-        format: 'json',
-        schema: PageConfigSchema,
-      },
-      model: 'googleai/gemini-2.5-flash',
-    });
-    
+export const generatePageFlow = ai.defineFlow(
+  {
+    name: 'generatePageFlow',
+    inputSchema: z.string(),
+    outputSchema: PageConfigSchema,
+  },
+  async (description) => {
+    const { output } = await generatePagePrompt(description);
     return output!;
   }
 );
