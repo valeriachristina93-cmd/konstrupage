@@ -308,15 +308,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
-                            <div className="space-y-2">
-                                <Label>Idioma da Página</Label>
-                                <Select value={pageConfig.customization.language} onValueChange={value => onConfigChange(['customization', 'language'], value)}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        {languageOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
-                            </div>
                             <div className="space-y-3 pt-2">
                                 <ColorInput label="Cor dos Botões" value={pageConfig.customization.buttonColor} onChange={e => onConfigChange(['customization', 'buttonColor'], e.target.value)} />
                             </div>
@@ -353,8 +344,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 )}
                             </div>
                             <div className="space-y-3 p-3 border rounded-md">
-                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '&lt;!-- Seu código aqui --&gt;' : '')} />
-                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
+                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '<!-- Seu código aqui -->' : '')} />
+                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
+                            </div>
+                             <div className="space-y-2">
+                                <Label>Idioma da Página</Label>
+                                <Select value={pageConfig.customization.language} onValueChange={value => onConfigChange(['customization', 'language'], value)}>
+                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                    <SelectContent>
+                                        {languageOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
                             </div>
                         </AccordionContent>
                     </AccordionItem>
