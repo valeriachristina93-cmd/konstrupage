@@ -35,6 +35,7 @@ export const initialPageConfig: PageConfig = {
             color: '#3B82F6',
             width: 100,
             borderRadius: 6,
+            alignment: 'center',
             shadow: {
                 active: false,
                 intensity: 4,

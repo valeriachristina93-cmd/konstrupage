@@ -89,14 +89,26 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const buttonStyle = `background-color: ${customization.button.color}; color: ${isColorLight(customization.button.color) ? '#000' : '#fff'}; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
     const ageVerificationButtonStyle = `background-color: #6B7280; color: #fff; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
-
+    
+    const getButtonAlignment = () => {
+        switch(customization.button.alignment) {
+            case 'left': return 'flex-start';
+            case 'right': return 'flex-end';
+            case 'center':
+            default: return 'center';
+        }
+    }
+    const buttonContainerStyle = `display: flex; justify-content: ${getButtonAlignment()}; width: 100%;`;
+    
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-content">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
-                <button style="${buttonStyle}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                <div class="button-container" style="${buttonContainerStyle}">
+                    <button style="${buttonStyle}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                </div>
             </div>
         </div>
     ` : '';
@@ -121,7 +133,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.button.color};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
-                <button style="${buttonStyle}" onclick="acceptAction()">Aproveitar Agora</button>
+                <div class="button-container" style="${buttonContainerStyle}">
+                    <button style="${buttonStyle}" onclick="acceptAction()">Aproveitar Agora</button>
+                </div>
             </div>
         </div>
     ` : '';
@@ -132,7 +146,9 @@ export const generatePresellHtml = (config: PageConfig) => {
             <div class="popup-content">
                 <h2>${popups.custom.title}</h2>
                 <p>${popups.custom.description}</p>
-                <button style="${buttonStyle}" onclick="acceptAction()">${popups.custom.buttonText}</button>
+                <div class="button-container" style="${buttonContainerStyle}">
+                    <button style="${buttonStyle}" onclick="acceptAction()">${popups.custom.buttonText}</button>
+                </div>
             </div>
         </div>
     ` : '';
@@ -175,7 +191,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <div style="padding: 24px;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
-                    <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                     <div class="button-container" style="${buttonContainerStyle}">
+                        <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                    </div>
                 </div>
             </div>
         </div>

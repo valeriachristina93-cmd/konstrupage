@@ -76,6 +76,7 @@ export type PageConfig = {
       color: string;
       width: number;
       borderRadius: number;
+      alignment: 'left' | 'center' | 'right';
       shadow: {
         active: boolean;
         intensity: number;
@@ -99,3 +100,4 @@ export type PageConfig = {
     };
   };
 };
+

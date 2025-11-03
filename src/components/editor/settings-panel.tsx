@@ -332,6 +332,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 step={1}
                                             />
                                         </div>
+                                         <div className="space-y-2">
+                                            <Label>Alinhamento do Botão</Label>
+                                            <Select value={pageConfig.customization.button.alignment} onValueChange={value => onConfigChange(['customization', 'button', 'alignment'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="left">Esquerda</SelectItem>
+                                                    <SelectItem value="center">Centro</SelectItem>
+                                                    <SelectItem value="right">Direita</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
                                         <div className="space-y-2">
                                             <Label>Raio da Borda ({pageConfig.customization.button.borderRadius}px)</Label>
                                             <SliderWithControls
