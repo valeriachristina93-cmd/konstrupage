@@ -41,7 +41,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; }
     `;
 
-    const popupStyles = `background-color: ${customization.popupColor};`;
+    const popupStyles = `background-color: ${customization.popupColor}; border-radius: ${customization.button.borderRadius}px;`;
     
     function isColorLight(hexColor: string) {
         if (!hexColor) return true;
@@ -230,7 +230,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('exit-popup')}
              <div class="popup-content" style="padding:0; max-width: 600px;">
-                <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-radius: 8px 8px 0 0;" />
+                <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.button.borderRadius}px; border-top-right-radius: ${customization.button.borderRadius}px;" />
                 <div style="padding: 24px;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
@@ -307,7 +307,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 position: fixed; 
                 z-index: 100; 
                 ${getPopupShadowStyle()}
-                border-radius: 8px; 
                 box-sizing: border-box; 
                 animation-duration: ${customization.popupAnimationDuration}s; 
                 animation-timing-function: ease-out; 
@@ -329,6 +328,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 color: inherit;
                 opacity: 0.7;
                 padding: 4px;
+                z-index: 101;
             }
             .popup .close-button:hover {
                 opacity: 1;

@@ -50,7 +50,7 @@ export const initialPageConfig: PageConfig = {
         popupColor: '#1F2937',
         popupPosition: 'center',
         customHtml: '',
-        showCloseButton: false,
+        showCloseButton: true,
         popupContour: {
             active: false,
             width: 2,
@@ -115,5 +115,6 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 

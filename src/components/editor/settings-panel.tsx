@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -492,61 +492,68 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
+                                 <AccordionItem value="popup-style-config">
+                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                        <div className="flex items-center gap-3">
+                                            <Palette className="w-4 h-4 text-primary/80" />
+                                            <span>Estilo do Pop-up</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                        <div className="space-y-3 pt-2">
+                                             <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
+                                        </div>
+                                         <div className="p-3 border rounded-md">
+                                            <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
+                                            {pageConfig.customization.popupContour.active && (
+                                                <div className="pt-4 space-y-6 border-t mt-4">
+                                                    <div className="space-y-3">
+                                                        <ColorInput label="Cor do Contorno" value={pageConfig.customization.popupContour.color} onChange={e => onConfigChange(['customization', 'popupContour', 'color'], e.target.value)} />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label>Largura ({pageConfig.customization.popupContour.width}px)</Label>
+                                                        <SliderWithControls
+                                                            value={[pageConfig.customization.popupContour.width]}
+                                                            onValueChange={(value) => onConfigChange(['customization', 'popupContour', 'width'], value[0])}
+                                                            min={1}
+                                                            max={10}
+                                                            step={1}
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label>Estilo do Contorno</Label>
+                                                        <Select value={pageConfig.customization.popupContour.style} onValueChange={value => onConfigChange(['customization', 'popupContour', 'style'], value)}>
+                                                            <SelectTrigger><SelectValue /></SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="solid">Sólido</SelectItem>
+                                                                <SelectItem value="dashed">Tracejado</SelectItem>
+                                                                <SelectItem value="dotted">Pontilhado</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="p-3 border rounded-md">
+                                            <SettingsToggle label="Sombra do Pop-up" checked={pageConfig.customization.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'shadow', 'active'], checked)} />
+                                            {pageConfig.customization.shadow.active && (
+                                                <div className="pt-4 space-y-4 border-t mt-4">
+                                                    <div className="space-y-2">
+                                                        <Label>Intensidade ({pageConfig.customization.shadow.intensity}px)</Label>
+                                                        <SliderWithControls
+                                                            value={[pageConfig.customization.shadow.intensity]}
+                                                            onValueChange={(value) => onConfigChange(['customization', 'shadow', 'intensity'], value[0])}
+                                                            min={1}
+                                                            max={50}
+                                                            step={1}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
                             </Accordion>
-                            <div className="space-y-3 pt-2">
-                                <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
-                            </div>
-                             <div className="space-y-3 pt-2">
-                                <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
-                            </div>
-                             <div className="p-3 border rounded-md">
-                                <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
-                                {pageConfig.customization.popupContour.active && (
-                                    <div className="pt-4 space-y-6 border-t mt-4">
-                                        <div className="space-y-3">
-                                            <ColorInput label="Cor do Contorno" value={pageConfig.customization.popupContour.color} onChange={e => onConfigChange(['customization', 'popupContour', 'color'], e.target.value)} />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label>Largura ({pageConfig.customization.popupContour.width}px)</Label>
-                                            <SliderWithControls
-                                                value={[pageConfig.customization.popupContour.width]}
-                                                onValueChange={(value) => onConfigChange(['customization', 'popupContour', 'width'], value[0])}
-                                                min={1}
-                                                max={10}
-                                                step={1}
-                                            />
-                                        </div>
-                                        <div className="space-y-2">
-                                            <Label>Estilo do Contorno</Label>
-                                            <Select value={pageConfig.customization.popupContour.style} onValueChange={value => onConfigChange(['customization', 'popupContour', 'style'], value)}>
-                                                <SelectTrigger><SelectValue /></SelectTrigger>
-                                                <SelectContent>
-                                                    <SelectItem value="solid">Sólido</SelectItem>
-                                                    <SelectItem value="dashed">Tracejado</SelectItem>
-                                                    <SelectItem value="dotted">Pontilhado</SelectItem>
-                                                </SelectContent>
-                                            </Select>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                            <div className="p-3 border rounded-md">
-                                <SettingsToggle label="Sombra do Pop-up" checked={pageConfig.customization.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'shadow', 'active'], checked)} />
-                                {pageConfig.customization.shadow.active && (
-                                    <div className="pt-4 space-y-4 border-t mt-4">
-                                        <div className="space-y-2">
-                                            <Label>Intensidade ({pageConfig.customization.shadow.intensity}px)</Label>
-                                            <SliderWithControls
-                                                value={[pageConfig.customization.shadow.intensity]}
-                                                onValueChange={(value) => onConfigChange(['customization', 'shadow', 'intensity'], value[0])}
-                                                min={1}
-                                                max={50}
-                                                step={1}
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
@@ -598,6 +605,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     max={2}
                                     step={0.1}
                                 />
+                            </div>
+                             <div className="space-y-3 pt-2">
+                                <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
                             </div>
                         </AccordionContent>
                     </AccordionItem>
