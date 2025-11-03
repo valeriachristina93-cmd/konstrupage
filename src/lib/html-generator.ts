@@ -41,7 +41,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; }
     `;
 
-    const popupStyles = `background-color: ${customization.popupColor}; border-radius: ${customization.button.borderRadius}px;`;
+    const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px;`;
     
     function isColorLight(hexColor: string) {
         if (!hexColor) return true;
@@ -230,7 +230,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('exit-popup')}
              <div class="popup-content" style="padding:0; max-width: 600px;">
-                <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.button.borderRadius}px; border-top-right-radius: ${customization.button.borderRadius}px;" />
+                <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
                 <div style="padding: 24px;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
@@ -312,9 +312,15 @@ export const generatePresellHtml = (config: PageConfig) => {
                 animation-timing-function: ease-out; 
                 animation-fill-mode: both; 
             }
-            .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; }
-            .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 800px; }
-            .popup-content { padding: 24px; text-align: center; }
+            .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; }
+            .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
+            .popup-content { 
+                padding: ${customization.popup.padding}px; 
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                gap: ${customization.popup.gap}px;
+            }
             .popup .close-button {
                 position: absolute;
                 top: 8px;
@@ -333,10 +339,9 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup .close-button:hover {
                 opacity: 1;
             }
-            .popup h3 { margin-top: 0; font-weight: bold; }
-            .popup h2 { margin-top: 0; font-weight: bold; }
-            .popup p { margin-bottom: 20px; line-height: 1.5; }
-            .popup-content svg { margin-bottom: 12px; }
+            .popup h3, .popup h2 { margin-top: 0; font-weight: bold; margin-bottom: 0; }
+            .popup p { margin-bottom: 0; line-height: 1.5; }
+            .popup-content svg { margin-bottom: 0; }
             ${typographyStyles}
             .popup button { 
                 border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
@@ -347,7 +352,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .choice-images { display: flex; justify-content: center; gap: 20px; }
             .choice-images img { height: auto; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
             .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.button.color}; }
-            .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; margin-top: 20px; }
+            .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
             .captcha-box img { width: 48px; height: 48px; }
             .captcha-checkbox-container { position: relative; width: 28px; height: 28px; margin-right: 12px; }
@@ -360,7 +365,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             #captcha-checkbox:checked + .captcha-checkbox-custom { background-color: #f4fce8; border-color: #adec63; }
             
             .captcha-slide-container {
-                margin-top: 20px;
                 width: 100%;
                 max-width: 300px;
                 margin-left: auto;

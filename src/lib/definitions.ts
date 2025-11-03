@@ -1,4 +1,5 @@
 
+
 export type PageConfig = {
   desktopImage: string;
   mobileImage: string;
@@ -97,7 +98,13 @@ export type PageConfig = {
       titleSize: number;
       textSize: number;
     };
-    popupColor: string;
+    popup: {
+        maxWidth: number;
+        borderRadius: number;
+        padding: number;
+        gap: number;
+        backgroundColor: string;
+    },
     popupPosition: 'center' | 'bottom';
     customHtml: string;
     showCloseButton: boolean;
@@ -115,6 +122,7 @@ export type PageConfig = {
     };
   };
 };
+
 
 
 

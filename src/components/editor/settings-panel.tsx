@@ -492,16 +492,57 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
-                                 <AccordionItem value="popup-style-config">
+                                <AccordionItem value="popup-style-config">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
                                             <Palette className="w-4 h-4 text-primary/80" />
                                             <span>Estilo do Pop-up</span>
                                         </div>
                                     </AccordionTrigger>
-                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                    <AccordionContent className="pt-4 space-y-6 px-3">
+                                        <div className="space-y-2">
+                                            <Label>Largura do Pop-up ({pageConfig.customization.popup.maxWidth}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.maxWidth]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'maxWidth'], value[0])}
+                                                min={200}
+                                                max={1000}
+                                                step={10}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Espaçamento Interno ({pageConfig.customization.popup.padding}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.padding]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'padding'], value[0])}
+                                                min={0}
+                                                max={64}
+                                                step={2}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Espaçamento entre Elementos ({pageConfig.customization.popup.gap}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.gap]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'gap'], value[0])}
+                                                min={0}
+                                                max={48}
+                                                step={2}
+                                            />
+                                        </div>
+                                         <div className="space-y-2">
+                                            <Label>Arredondamento da Borda ({pageConfig.customization.popup.borderRadius}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.borderRadius]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'borderRadius'], value[0])}
+                                                min={0}
+                                                max={40}
+                                                step={2}
+                                            />
+                                        </div>
+
                                         <div className="space-y-3 pt-2">
-                                             <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
+                                             <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popup.backgroundColor} onChange={e => onConfigChange(['customization', 'popup', 'backgroundColor'], e.target.value)} />
                                         </div>
                                          <div className="p-3 border rounded-md">
                                             <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
