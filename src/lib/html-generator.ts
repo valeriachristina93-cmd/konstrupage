@@ -36,13 +36,17 @@ export const generatePresellHtml = (config: PageConfig) => {
     };
 
 
-    const popupStyles = {
-        'dark': 'background-color: #1F2937; color: #F3F4F6;',
-        'white': 'background-color: #FFFFFF; color: #1F2937; border: 1px solid #E5E7EB;',
-        'light-gray': 'background-color: #F3F4F6; color: #1F2937;',
-        'dark-gray': 'background-color: #374151; color: #F3F4F6;',
-    };
+    const popupStyles = `background-color: ${customization.popupColor}; color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};`;
     
+    function isColorLight(hexColor: string) {
+        const hex = hexColor.replace('#', '');
+        const r = parseInt(hex.substring(0, 2), 16);
+        const g = parseInt(hex.substring(2, 4), 16);
+        const b = parseInt(hex.substring(4, 6), 16);
+        const brightness = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+        return brightness > 155;
+    }
+
     const getPopupPositionClass = () => {
         if (customization.popupPosition === 'bottom') {
             return 'popup-bottom';
@@ -51,21 +55,21 @@ export const generatePresellHtml = (config: PageConfig) => {
     };
 
     const cookiePopup = popups.cookies.active ? `
-        <div id="cookie-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles[customization.popupColor]}">
+        <div id="cookie-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles}">
             <div class="popup-content">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">${popups.cookies.buttonText}</button>
             </div>
         </div>
     ` : '';
     
     const agePopup = popups.ageVerification.active ? `
-        <div id="age-popup" class="popup popup-bottom" style="${popupStyles[customization.popupColor]}">
+        <div id="age-popup" class="popup popup-bottom" style="${popupStyles}">
              <div class="popup-content">
                 <p>Você confirma que tem mais de 18 anos?</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">Sim</button>
+                    <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">Sim</button>
                     <button style="background-color: #6B7280; color: #fff;" onclick="window.history.back()">Não</button>
                 </div>
             </div>
@@ -73,28 +77,28 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const discountPopup = popups.discount.active ? `
-         <div id="discount-popup" class="popup popup-center" style="${popupStyles[customization.popupColor]}">
+         <div id="discount-popup" class="popup popup-center" style="${popupStyles}">
              <div class="popup-content">
-                ${popups.discount.icon ? '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>' : ''}
+                ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
                 <h2>${popups.discount.text}</h2>
                 <p>Oferta por tempo limitado!</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">Aproveitar Agora</button>
+                <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">Aproveitar Agora</button>
             </div>
         </div>
     ` : '';
 
     const customPopup = popups.custom.active ? `
-        <div id="custom-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles[customization.popupColor]}">
+        <div id="custom-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles}">
             <div class="popup-content">
                 <h2>${popups.custom.title}</h2>
                 <p>${popups.custom.description}</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="acceptAction()">${popups.custom.buttonText}</button>
+                <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">${popups.custom.buttonText}</button>
             </div>
         </div>
     ` : '';
     
     const choicePopup = popups.choice.active ? `
-        <div id="choice-popup" class="popup popup-center" style="${popupStyles[customization.popupColor]}">
+        <div id="choice-popup" class="popup popup-center" style="${popupStyles}">
             <div class="popup-content">
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
@@ -107,10 +111,10 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const captchaPopup = popups.captcha.active ? `
-        <div id="captcha-popup" class="popup popup-center" style="${popupStyles[customization.popupColor]}">
+        <div id="captcha-popup" class="popup popup-center" style="${popupStyles}">
             <div class="popup-content">
-                <h2>${popups.captcha.title}</h2>
-                <p>${popups.captcha.description}</p>
+                <h2 style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.title}</h2>
+                <p style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.description}</p>
                 <div class="captcha-box">
                     <input type="checkbox" id="captcha-checkbox" onclick="acceptAction()">
                     <label for="captcha-checkbox">Não sou um robô</label>
@@ -122,13 +126,13 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     const exitPopup = popups.exit.active ? `
-        <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles[customization.popupColor]}">
+        <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles}">
              <div class="popup-content" style="padding:0; max-width: 600px;">
                 <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-radius: 8px 8px 0 0;" />
                 <div style="padding: 24px;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
-                    <button style="background-color: ${customization.buttonColor}; color: ${customization.buttonColor === '#FFFFFF' ? '#000' : '#fff'};" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                    <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
                 </div>
             </div>
         </div>

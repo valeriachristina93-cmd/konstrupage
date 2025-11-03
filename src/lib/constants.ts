@@ -31,7 +31,7 @@ export const initialPageConfig: PageConfig = {
     customization: {
         language: 'pt-BR',
         buttonColor: '#3B82F6',
-        popupColor: 'dark',
+        popupColor: '#1F2937',
         popupPosition: 'center',
         customHtml: ''
     }

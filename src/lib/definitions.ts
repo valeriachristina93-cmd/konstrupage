@@ -72,8 +72,9 @@ export type PageConfig = {
   customization: {
     language: string;
     buttonColor: string;
-    popupColor: 'dark' | 'white' | 'light-gray' | 'dark-gray';
+    popupColor: string;
     popupPosition: 'center' | 'bottom';
     customHtml: string;
   };
 };
+

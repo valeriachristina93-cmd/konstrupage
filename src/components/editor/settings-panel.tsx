@@ -3,7 +3,7 @@
 
 import React from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { buttonColorOptions, popupColorOptions, languageOptions } from '@/lib/constants';
+import { languageOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -309,26 +309,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </SelectContent>
                                 </Select>
                             </div>
-                            <div className="space-y-2">
-                                <Label>Cor dos Botões</Label>
-                                <div className="grid grid-cols-4 gap-2">
-                                    {buttonColorOptions.map(color => (
-                                        <button key={color.value} onClick={() => onConfigChange(['customization', 'buttonColor'], color.value)}
-                                            className={`h-8 w-full rounded-md border-2 ${pageConfig.customization.buttonColor === color.value ? 'ring-2 ring-ring ring-offset-2 ring-offset-background' : 'border-muted'}`}
-                                            style={{ backgroundColor: color.value }}
-                                            title={color.name}
-                                        />
-                                    ))}
-                                </div>
+                            <div className="space-y-3 pt-2">
+                                <ColorInput label="Cor dos Botões" value={pageConfig.customization.buttonColor} onChange={e => onConfigChange(['customization', 'buttonColor'], e.target.value)} />
                             </div>
-                            <div className="space-y-2">
-                                <Label>Cor do Pop-up</Label>
-                                <Select value={pageConfig.customization.popupColor} onValueChange={value => onConfigChange(['customization', 'popupColor'], value)}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        {popupColorOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
+                             <div className="space-y-3 pt-2">
+                                <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
                             </div>
                             <div className="space-y-2">
                                 <Label>Posição do Pop-up</Label>
