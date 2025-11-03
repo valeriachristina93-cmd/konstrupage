@@ -44,15 +44,15 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
                 </Button>
             </div>
             
-            <div className="relative w-full h-full flex items-center justify-center p-4 md:p-8">
+            <div className="relative w-full h-full flex items-center justify-center">
                  {isRendering && (
                     <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20 rounded-lg">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 )}
                 <div className={cn(
-                    "transition-all duration-300 ease-in-out bg-background dark:bg-black rounded-xl shadow-2xl overflow-hidden ring-1 ring-inset ring-black/10",
-                    viewMode === 'desktop' ? 'w-full h-full' : 'w-[375px] h-[740px] border-8 border-black dark:border-gray-800'
+                    "transition-all duration-300 ease-in-out bg-background dark:bg-black overflow-hidden",
+                    viewMode === 'desktop' ? 'w-full h-full rounded-lg' : 'w-[375px] h-[740px] rounded-xl shadow-2xl border-8 border-black dark:border-gray-800'
                 )}>
                     <iframe
                         ref={iframeRef}
