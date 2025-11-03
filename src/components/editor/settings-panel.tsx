@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React from 'react';
@@ -317,6 +318,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                              <div className="space-y-3 pt-2">
                                 <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
                             </div>
+                            <div className="space-y-3 pt-2">
+                                <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour} onCheckedChange={checked => onConfigChange(['customization', 'popupContour'], checked)} />
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
@@ -366,4 +370,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 

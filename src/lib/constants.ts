@@ -35,6 +35,7 @@ export const initialPageConfig: PageConfig = {
         popupPosition: 'center',
         customHtml: '',
         showCloseButton: false,
+        popupContour: false,
     }
 };
 
@@ -74,5 +75,6 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 

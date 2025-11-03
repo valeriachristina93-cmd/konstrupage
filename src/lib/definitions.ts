@@ -76,7 +76,9 @@ export type PageConfig = {
     popupPosition: 'center' | 'bottom';
     customHtml: string;
     showCloseButton: boolean;
+    popupContour: boolean;
   };
 };
+
 
 

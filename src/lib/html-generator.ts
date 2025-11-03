@@ -1,4 +1,5 @@
 
+
 import type { PageConfig } from './definitions';
 
 export const generatePresellHtml = (config: PageConfig) => {
@@ -54,12 +55,19 @@ export const generatePresellHtml = (config: PageConfig) => {
         return 'popup-center';
     };
 
+    const getPopupContourStyle = () => {
+        if (customization.popupContour) {
+            return `filter: drop-shadow(0 0 15px ${customization.buttonColor});`;
+        }
+        return '';
+    }
+
     const closeButtonHtml = (popupId: string) => customization.showCloseButton 
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
     const cookiePopup = popups.cookies.active ? `
-        <div id="cookie-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles}">
+        <div id="cookie-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-content">
                 <h3>Políticas de Cookies</h3>
@@ -70,7 +78,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
     
     const agePopup = popups.ageVerification.active ? `
-        <div id="age-popup" class="popup popup-bottom" style="${popupStyles}">
+        <div id="age-popup" class="popup popup-bottom" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('age-popup')}
              <div class="popup-content">
                 <p>Você confirma que tem mais de 18 anos?</p>
@@ -83,7 +91,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const discountPopup = popups.discount.active ? `
-         <div id="discount-popup" class="popup popup-center" style="${popupStyles}">
+         <div id="discount-popup" class="popup popup-center" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('discount-popup')}
              <div class="popup-content">
                 ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
@@ -95,7 +103,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const customPopup = popups.custom.active ? `
-        <div id="custom-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles}">
+        <div id="custom-popup" class="popup ${getPopupPositionClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('custom-popup')}
             <div class="popup-content">
                 <h2>${popups.custom.title}</h2>
@@ -106,7 +114,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
     
     const choicePopup = popups.choice.active ? `
-        <div id="choice-popup" class="popup popup-center" style="${popupStyles}">
+        <div id="choice-popup" class="popup popup-center" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('choice-popup')}
             <div class="popup-content">
                 <h2>${popups.choice.title}</h2>
@@ -120,7 +128,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const captchaPopup = popups.captcha.active ? `
-        <div id="captcha-popup" class="popup popup-center" style="${popupStyles}">
+        <div id="captcha-popup" class="popup popup-center" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('captcha-popup')}
             <div class="popup-content">
                 <h2 style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.title}</h2>
@@ -136,7 +144,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     const exitPopup = popups.exit.active ? `
-        <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles}">
+        <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('exit-popup')}
              <div class="popup-content" style="padding:0; max-width: 600px;">
                 <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-radius: 8px 8px 0 0;" />
@@ -350,4 +358,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
