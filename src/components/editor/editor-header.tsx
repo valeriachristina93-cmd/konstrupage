@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Camera, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles } from 'lucide-react';
+import { Camera, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -52,6 +52,11 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
     return (
         <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
                 <div className="flex items-center gap-3">
+                    <Link href="/dashboard" passHref>
+                      <Button variant="outline" size="icon">
+                        <ArrowLeft className="h-4 w-4" />
+                      </Button>
+                    </Link>
                     <Link href="/editor" className="flex items-center gap-2 text-xl font-bold font-headline">
                         <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={24} height={24} />
                          <span className="hidden sm:inline-block bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">Konstrupages</span>
