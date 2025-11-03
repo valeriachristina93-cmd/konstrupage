@@ -42,6 +42,7 @@ export const initialPageConfig: PageConfig = {
             style: 'solid',
             color: '#3B82F6',
         },
+        popupAnimation: 'fadeIn',
     }
 };
 
@@ -60,6 +61,13 @@ export const popupColorOptions = [
 export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
+];
+
+export const animationOptions = [
+    { name: 'Fade In', value: 'fadeIn' },
+    { name: 'Slide from Top', value: 'slideInDown' },
+    { name: 'Slide from Bottom', value: 'slideInUp' },
+    { name: 'Zoom In', value: 'zoomIn' },
 ];
 
 export const flagOptions = [
@@ -81,6 +89,7 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 
 

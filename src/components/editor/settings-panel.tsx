@@ -4,7 +4,7 @@
 
 import React from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { languageOptions, flagOptions } from '@/lib/constants';
+import { languageOptions, flagOptions, animationOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -391,6 +391,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </SelectContent>
                                 </Select>
                             </div>
+                             <div className="space-y-2">
+                                <Label>Animação do Pop-up</Label>
+                                <Select value={pageConfig.customization.popupAnimation} onValueChange={value => onConfigChange(['customization', 'popupAnimation'], value)}>
+                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                    <SelectContent>
+                                        {animationOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -398,6 +407,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 
 

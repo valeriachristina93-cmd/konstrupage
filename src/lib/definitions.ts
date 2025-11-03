@@ -82,8 +82,10 @@ export type PageConfig = {
       style: 'solid' | 'dashed' | 'dotted';
       color: string;
     };
+    popupAnimation: 'fadeIn' | 'slideInDown' | 'slideInUp' | 'zoomIn';
   };
 };
+
 
 
 
