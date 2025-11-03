@@ -90,6 +90,12 @@ export type PageConfig = {
         intensity: number;
       };
     };
+    typography: {
+      titleColor: string;
+      textColor: string;
+      titleSize: number;
+      textSize: number;
+    };
     popupColor: string;
     popupPosition: 'center' | 'bottom';
     customHtml: string;

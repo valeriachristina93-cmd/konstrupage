@@ -10,7 +10,7 @@ const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
 export const initialPageConfig: PageConfig = {
     desktopImage: desktopHero?.imageUrl ?? 'https://picsum.photos/seed/desktop/2070/900',
-    mobileImage: desktopHero?.imageUrl ?? 'https://picsum.photos/seed/desktop/2070/900',
+    mobileImage: mobileHero?.imageUrl ?? 'https://picsum.photos/seed/mobile/900/2070',
     imageHeightDesktop: 100,
     imageHeightMobile: 100,
     affiliateLink: '',
@@ -40,6 +40,12 @@ export const initialPageConfig: PageConfig = {
                 active: false,
                 intensity: 4,
             },
+        },
+        typography: {
+            titleColor: '#FFFFFF',
+            textColor: '#E5E7EB',
+            titleSize: 28,
+            textSize: 16,
         },
         popupColor: '#1F2937',
         popupPosition: 'center',

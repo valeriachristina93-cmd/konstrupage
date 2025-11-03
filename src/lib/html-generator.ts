@@ -36,11 +36,17 @@ export const generatePresellHtml = (config: PageConfig) => {
         return style;
     };
 
+    const typographyStyles = `
+        .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; }
+        .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; }
+    `;
 
-    const popupStyles = `background-color: ${customization.popupColor}; color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};`;
+    const popupStyles = `background-color: ${customization.popupColor};`;
     
     function isColorLight(hexColor: string) {
+        if (!hexColor) return true;
         const hex = hexColor.replace('#', '');
+        if (hex.length !== 6) return true;
         const r = parseInt(hex.substring(0, 2), 16);
         const g = parseInt(hex.substring(2, 4), 16);
         const b = parseInt(hex.substring(4, 6), 16);
@@ -170,8 +176,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div id="captcha-popup" class="popup popup-center ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('captcha-popup')}
             <div class="popup-content">
-                <h2 style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.title}</h2>
-                <p style="color: ${isColorLight(customization.popupColor) ? '#000' : '#fff'};">${popups.captcha.description}</p>
+                <h2>${popups.captcha.title}</h2>
+                <p>${popups.captcha.description}</p>
                 <div class="captcha-box">
                     <input type="checkbox" id="captcha-checkbox" onclick="acceptAction()">
                     <label for="captcha-checkbox">Não sou um robô</label>
@@ -284,9 +290,10 @@ export const generatePresellHtml = (config: PageConfig) => {
                 color: inherit;
                 padding: 5px;
             }
-            .popup h3 { margin-top: 0; font-size: 20px; }
-            .popup h2 { margin-top: 0; font-size: 28px; font-weight: bold; }
-            .popup p { margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
+            .popup h3 { margin-top: 0; font-weight: bold; }
+            .popup h2 { margin-top: 0; font-weight: bold; }
+            .popup p { margin-bottom: 20px; line-height: 1.5; }
+            ${typographyStyles}
             .popup button { 
                 border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
                 transition: transform 0.2s, box-shadow 0.2s;
@@ -323,8 +330,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
                 .popup-content { padding: 16px; }
-                .popup h2 { font-size: 22px; }
-                .popup p { font-size: 14px; }
+                .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
+                .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
                 .popup button { padding: 10px 20px; font-size: 14px; }
                 .choice-images { flex-direction: column; align-items: center; }
             }

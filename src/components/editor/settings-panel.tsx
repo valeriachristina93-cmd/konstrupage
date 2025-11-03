@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -436,6 +436,41 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                 </div>
                                             )}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+
+                                <AccordionItem value="typography-config">
+                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                        <div className="flex items-center gap-3">
+                                            <Type className="w-4 h-4 text-primary/80" />
+                                            <span>Tipografia do Pop-up</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                        <div className="space-y-3 pt-2">
+                                            <ColorInput label="Cor do Título" value={pageConfig.customization.typography.titleColor} onChange={e => onConfigChange(['customization', 'typography', 'titleColor'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto" value={pageConfig.customization.typography.textColor} onChange={e => onConfigChange(['customization', 'typography', 'textColor'], e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Tamanho do Título ({pageConfig.customization.typography.titleSize}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.typography.titleSize]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'typography', 'titleSize'], value[0])}
+                                                min={16}
+                                                max={48}
+                                                step={1}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Tamanho do Texto ({pageConfig.customization.typography.textSize}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.typography.textSize]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'typography', 'textSize'], value[0])}
+                                                min={12}
+                                                max={24}
+                                                step={1}
+                                            />
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
