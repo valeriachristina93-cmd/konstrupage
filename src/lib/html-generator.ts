@@ -71,13 +71,15 @@ export const generatePresellHtml = (config: PageConfig) => {
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
+    const buttonStyle = `background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'}; width: ${customization.buttonWidth}%;`;
+
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-content">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                <button style="${buttonStyle}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
             </div>
         </div>
     ` : '';
@@ -88,8 +90,8 @@ export const generatePresellHtml = (config: PageConfig) => {
              <div class="popup-content">
                 <p>Você confirma que tem mais de 18 anos?</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
-                    <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">Sim</button>
-                    <button style="background-color: #6B7280; color: #fff;" onclick="window.history.back()">Não</button>
+                    <button style="${buttonStyle}" onclick="acceptAction()">Sim</button>
+                    <button style="background-color: #6B7280; color: #fff; width: ${customization.buttonWidth}%;" onclick="window.history.back()">Não</button>
                 </div>
             </div>
         </div>
@@ -102,7 +104,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
                 <h2>${popups.discount.text}</h2>
                 <p>Oferta por tempo limitado!</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">Aproveitar Agora</button>
+                <button style="${buttonStyle}" onclick="acceptAction()">Aproveitar Agora</button>
             </div>
         </div>
     ` : '';
@@ -113,7 +115,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             <div class="popup-content">
                 <h2>${popups.custom.title}</h2>
                 <p>${popups.custom.description}</p>
-                <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="acceptAction()">${popups.custom.buttonText}</button>
+                <button style="${buttonStyle}" onclick="acceptAction()">${popups.custom.buttonText}</button>
             </div>
         </div>
     ` : '';
@@ -156,7 +158,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <div style="padding: 24px;">
                     <h3>Espere, não vá embora!</h3>
                     <p>Temos uma oferta especial para você.</p>
-                    <button style="background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'};" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                    <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
                 </div>
             </div>
         </div>
@@ -254,6 +256,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup button { 
                 border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;
                 transition: transform 0.2s, box-shadow 0.2s;
+                max-width: 100%;
             }
             .popup button:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
             .choice-images { display: flex; justify-content: center; gap: 20px; }
@@ -385,6 +388,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 

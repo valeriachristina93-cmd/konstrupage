@@ -312,6 +312,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             <div className="space-y-3 pt-2">
                                 <ColorInput label="Cor dos Botões" value={pageConfig.customization.buttonColor} onChange={e => onConfigChange(['customization', 'buttonColor'], e.target.value)} />
                             </div>
+                            <div className="space-y-2">
+                                <Label>Largura do Botão ({pageConfig.customization.buttonWidth}%)</Label>
+                                <SliderWithControls
+                                    value={[pageConfig.customization.buttonWidth]}
+                                    onValueChange={(value) => onConfigChange(['customization', 'buttonWidth'], value[0])}
+                                    min={10}
+                                    max={100}
+                                    step={1}
+                                />
+                            </div>
                              <div className="space-y-3 pt-2">
                                 <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
                             </div>
@@ -417,6 +427,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
 
 
 

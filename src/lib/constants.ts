@@ -44,6 +44,7 @@ export const initialPageConfig: PageConfig = {
         },
         popupAnimation: 'fadeIn',
         popupAnimationDuration: 0.4,
+        buttonWidth: 100,
     }
 };
 
@@ -90,6 +91,7 @@ export const flagOptions = [
     { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
     { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
+
 
 
 

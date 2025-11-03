@@ -84,8 +84,10 @@ export type PageConfig = {
     };
     popupAnimation: 'fadeIn' | 'slideInDown' | 'slideInUp' | 'zoomIn';
     popupAnimationDuration: number;
+    buttonWidth: number;
   };
 };
+
 
 
 
