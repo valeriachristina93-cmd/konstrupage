@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Camera, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft } from 'lucide-react';
+import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -107,7 +107,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         <Sheet>
                             <SheetTrigger asChild>
                                 <Button variant="ghost" size="icon">
-                                    <Camera className="h-5 w-5" />
+                                    <LinkIcon className="h-5 w-5" />
                                 </Button>
                             </SheetTrigger>
                             <SheetContent>
