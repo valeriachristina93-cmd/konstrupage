@@ -43,6 +43,7 @@ export type PageConfig = {
       useCustomImages: boolean;
       image1Url: string;
       image2Url: string;
+      customImageWidth: number;
     };
     captcha: {
       active: boolean;
@@ -101,5 +102,6 @@ export type PageConfig = {
     };
   };
 };
+
 
 
