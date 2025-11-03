@@ -72,7 +72,15 @@ export type PageConfig = {
   };
   customization: {
     language: string;
-    buttonColor: string;
+    button: {
+      color: string;
+      width: number;
+      borderRadius: number;
+      shadow: {
+        active: boolean;
+        intensity: number;
+      };
+    };
     popupColor: string;
     popupPosition: 'center' | 'bottom';
     customHtml: string;
@@ -85,11 +93,9 @@ export type PageConfig = {
     };
     popupAnimation: 'fadeIn' | 'slideInDown' | 'slideInUp' | 'zoomIn';
     popupAnimationDuration: number;
-    buttonWidth: number;
     shadow: {
       active: boolean;
       intensity: number;
     };
   };
 };
-

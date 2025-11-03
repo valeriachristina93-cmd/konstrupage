@@ -71,6 +71,14 @@ export const generatePresellHtml = (config: PageConfig) => {
         return 'box-shadow: 0 10px 25px rgba(0,0,0,0.2);';
     }
 
+    const getButtonShadowStyle = () => {
+        if (customization.button.shadow.active) {
+            const intensity = customization.button.shadow.intensity;
+            return `box-shadow: 0 ${intensity / 2}px ${intensity}px rgba(0,0,0,0.2);`;
+        }
+        return 'box-shadow: 0 4px 10px rgba(0,0,0,0.1);';
+    }
+
     const getPopupAnimationClass = () => {
         return `popup-animation-${customization.popupAnimation}`;
     };
@@ -79,7 +87,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
-    const buttonStyle = `background-color: ${customization.buttonColor}; color: ${isColorLight(customization.buttonColor) ? '#000' : '#fff'}; width: ${customization.buttonWidth}%;`;
+    const buttonStyle = `background-color: ${customization.button.color}; color: ${isColorLight(customization.button.color) ? '#000' : '#fff'}; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
+    const ageVerificationButtonStyle = `background-color: #6B7280; color: #fff; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
 
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
@@ -99,7 +108,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <p>Você confirma que tem mais de 18 anos?</p>
                 <div style="display: flex; gap: 10px; justify-content: center;">
                     <button style="${buttonStyle}" onclick="acceptAction()">Sim</button>
-                    <button style="background-color: #6B7280; color: #fff; width: ${customization.buttonWidth}%;" onclick="window.history.back()">Não</button>
+                    <button style="${ageVerificationButtonStyle}" onclick="window.history.back()">Não</button>
                 </div>
             </div>
         </div>
@@ -109,7 +118,7 @@ export const generatePresellHtml = (config: PageConfig) => {
          <div id="discount-popup" class="popup popup-center ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('discount-popup')}
              <div class="popup-content">
-                ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.buttonColor};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
+                ${popups.discount.icon ? `<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:${customization.button.color};"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><circle cx="12" cy="12" r="4"></circle></svg>` : ''}
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
                 <button style="${buttonStyle}" onclick="acceptAction()">Aproveitar Agora</button>
@@ -262,17 +271,17 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup h2 { margin-top: 0; font-size: 28px; font-weight: bold; }
             .popup p { margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
             .popup button { 
-                border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 6px; cursor: pointer;
+                border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
                 transition: transform 0.2s, box-shadow 0.2s;
                 max-width: 100%;
             }
-            .popup button:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+            .popup button:hover { transform: translateY(-2px); ${getButtonShadowStyle()} }
             .choice-images { display: flex; justify-content: center; gap: 20px; }
             .choice-images img { width: 120px; height: auto; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
-            .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.buttonColor}; }
+            .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.button.color}; }
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; margin-top: 20px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; }
-            .captcha-box input[type="checkbox"] { width: 28px; height: 28px; margin-right: 12px; cursor: pointer; accent-color: ${customization.buttonColor}; }
+            .captcha-box input[type="checkbox"] { width: 28px; height: 28px; margin-right: 12px; cursor: pointer; accent-color: ${customization.button.color}; }
             .captcha-box img { width: 48px; height: 48px; }
 
             .popup.popup-animation-fadeIn { animation-name: fadeIn; }
@@ -396,5 +405,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
-

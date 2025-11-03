@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -310,20 +310,59 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
+                            <Accordion type="multiple" className="w-full space-y-2">
+                                <AccordionItem value="button-config">
+                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                        <div className="flex items-center gap-3">
+                                            <Brush className="w-4 h-4 text-primary/80" />
+                                            <span>Configuração do Botão</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                        <div className="space-y-3 pt-2">
+                                            <ColorInput label="Cor do Botão" value={pageConfig.customization.button.color} onChange={e => onConfigChange(['customization', 'button', 'color'], e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Largura do Botão ({pageConfig.customization.button.width}%)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.button.width]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'button', 'width'], value[0])}
+                                                min={10}
+                                                max={100}
+                                                step={1}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Raio da Borda ({pageConfig.customization.button.borderRadius}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.button.borderRadius]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'button', 'borderRadius'], value[0])}
+                                                min={0}
+                                                max={30}
+                                                step={1}
+                                            />
+                                        </div>
+                                        <div className="p-3 border rounded-md">
+                                            <SettingsToggle label="Sombra do Botão" checked={pageConfig.customization.button.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'button', 'shadow', 'active'], checked)} />
+                                            {pageConfig.customization.button.shadow.active && (
+                                                <div className="pt-4 space-y-4 border-t mt-4">
+                                                    <div className="space-y-2">
+                                                        <Label>Intensidade ({pageConfig.customization.button.shadow.intensity}px)</Label>
+                                                        <SliderWithControls
+                                                            value={[pageConfig.customization.button.shadow.intensity]}
+                                                            onValueChange={(value) => onConfigChange(['customization', 'button', 'shadow', 'intensity'], value[0])}
+                                                            min={1}
+                                                            max={20}
+                                                            step={1}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
                             <div className="space-y-3 pt-2">
-                                <ColorInput label="Cor dos Botões" value={pageConfig.customization.buttonColor} onChange={e => onConfigChange(['customization', 'buttonColor'], e.target.value)} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Largura do Botão ({pageConfig.customization.buttonWidth}%)</Label>
-                                <SliderWithControls
-                                    value={[pageConfig.customization.buttonWidth]}
-                                    onValueChange={(value) => onConfigChange(['customization', 'buttonWidth'], value[0])}
-                                    min={10}
-                                    max={100}
-                                    step={1}
-                                />
-                            </div>
-                             <div className="space-y-3 pt-2">
                                 <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popupColor} onChange={e => onConfigChange(['customization', 'popupColor'], e.target.value)} />
                             </div>
                              <div className="space-y-3 pt-2">
