@@ -19,7 +19,7 @@ export const initialPageConfig: PageConfig = {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
         ageVerification: { active: false },
         discount: { active: false, text: '25% de Desconto', icon: true },
-        exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://picsum.photos/seed/exit/800/450', redirectLink: '' },
+        exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://images.unsplash.com/photo-1527264935190-1401c51b5bbc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzcGVjaWFsJTIwb2ZmZXJ8ZW58MHx8fHwxNzYyMDgzMTI4fDA&ixlib=rb-4.1.0&q=80&w=1080', redirectLink: '' },
         custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', image1Url: 'https://flagcdn.com/w320/br.png', image2Url: 'https://flagcdn.com/w320/us.png' },
         captcha: { active: false, title: 'Verificação Rápida', description: 'Clique abaixo para provar que você não é um robô e continuar.' }
