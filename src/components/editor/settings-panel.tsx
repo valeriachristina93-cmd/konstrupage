@@ -595,6 +595,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
+                             <div className="space-y-3 pt-2">
+                                <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
@@ -647,9 +650,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     step={0.1}
                                 />
                             </div>
-                             <div className="space-y-3 pt-2">
-                                <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
-                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -657,3 +657,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
+    
