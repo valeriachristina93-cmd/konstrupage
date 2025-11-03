@@ -19,7 +19,7 @@ export const initialPageConfig: PageConfig = {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
         ageVerification: { active: false },
         discount: { active: false, text: '25% de Desconto', icon: true },
-        exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://images.unsplash.com/photo-1527264935190-1401c51b5bbc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxzcGVjaWFsJTIwb2ZmZXJ8ZW58MHx8fHwxNzYyMDgzMTI4fDA&ixlib=rb-4.1.0&q=80&w=1080', redirectLink: '' },
+        exit: { active: false, imageUrl: 'https://images.unsplash.com/photo-1579548122391-5299b88a1e35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxzcGVjaWFsJTIwb2ZmZXJ8ZW58MHx8fHwxNzYyMDgzMTI4fDA&ixlib=rb-4.1.0&q=80&w=1080', redirectLink: '' },
         custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', image1Url: 'https://flagcdn.com/w320/br.png', image2Url: 'https://flagcdn.com/w320/us.png' },
         captcha: { active: false, title: 'Verificação Rápida', description: 'Clique abaixo para provar que você não é um robô e continuar.' }
@@ -52,4 +52,24 @@ export const popupColorOptions = [
 export const languageOptions = [
     { name: 'Português (BR)', value: 'pt-BR' }, { name: 'Inglês (US)', value: 'en-US' },
     { name: 'Espanhol', value: 'es' }, { name: 'Alemão', value: 'de' }, { name: 'Francês', value: 'fr' }
+];
+
+export const flagOptions = [
+    { name: 'Brasil', value: 'https://flagcdn.com/w320/br.png' },
+    { name: 'Estados Unidos', value: 'https://flagcdn.com/w320/us.png' },
+    { name: 'Portugal', value: 'https://flagcdn.com/w320/pt.png' },
+    { name: 'Espanha', value: 'https://flagcdn.com/w320/es.png' },
+    { name: 'Argentina', value: 'https://flagcdn.com/w320/ar.png' },
+    { name: 'México', value: 'https://flagcdn.com/w320/mx.png' },
+    { name: 'Colômbia', value: 'https://flagcdn.com/w320/co.png' },
+    { name: 'Reino Unido', value: 'https://flagcdn.com/w320/gb.png' },
+    { name: 'Canadá', value: 'https://flagcdn.com/w320/ca.png' },
+    { name: 'Austrália', value: 'https://flagcdn.com/w320/au.png' },
+    { name: 'Alemanha', value: 'https://flagcdn com/w320/de.png' },
+    { name: 'França', value: 'https://flagcdn.com/w320/fr.png' },
+    { name: 'Itália', value: 'https://flagcdn.com/w320/it.png' },
+    { name: 'Japão', value: 'https://flagcdn.com/w320/jp.png' },
+    { name: 'China', value: 'https://flagcdn.com/w320/cn.png' },
+    { name: 'Índia', value: 'https://flagcdn.com/w320/in.png' },
+    { name: 'União Europeia', value: 'https://flagcdn.com/w320/eu.png' },
 ];
