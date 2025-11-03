@@ -80,7 +80,7 @@ export const animationOptions = [
     { name: 'Fade In', value: 'fadeIn' },
     { name: 'Slide from Top', value: 'slideInDown' },
     { name: 'Slide from Bottom', value: 'slideInUp' },
-    { name 'Zoom In', value: 'zoomIn' },
+    { name: 'Zoom In', value: 'zoomIn' },
 ];
 
 export const flagOptions = [
