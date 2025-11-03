@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Card, CardDescription, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Plus, Sparkles } from 'lucide-react';
+import { ArrowRight, Plus, Sparkles, Bot } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 
 export default function DashboardPage() {
@@ -39,15 +39,25 @@ export default function DashboardPage() {
             </CardFooter>
           </Card>
 
-          <Card className="flex flex-col justify-center items-center border-dashed border-border/80 bg-card/50 text-center p-8">
-            <CardHeader>
-              <CardTitle className="text-muted-foreground text-2xl">Páginas de Reviews</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground">Em breve: Templates otimizados para reviews de produtos, aumentando a confiança e as conversões.</p>
-            </CardContent>
+          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+            <div>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-3 text-primary text-2xl">
+                  <Bot className="h-7 w-7" />
+                  <span>Gerador de Páginas</span>
+                </CardTitle>
+                <CardDescription className="pt-2 text-base">
+                  Descreva a página que você quer e deixe a IA criar uma versão otimizada para conversão para você.
+                </CardDescription>
+              </CardHeader>
+            </div>
             <CardFooter>
-               <Badge variant="outline">EM BREVE</Badge>
+              <Link href="/generator" className="w-full">
+                <Button className="w-full font-bold text-lg py-6 group bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all">
+                  Usar Gerador IA
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
             </CardFooter>
           </Card>
         </div>
