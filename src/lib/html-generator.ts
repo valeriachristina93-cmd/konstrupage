@@ -339,8 +339,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup .close-button:hover {
                 opacity: 1;
             }
-            .popup h3, .popup h2 { margin-top: 0; font-weight: bold; margin-bottom: 0; }
-            .popup p { margin-bottom: 0; line-height: 1.5; }
+            .popup h3, .popup h2 { font-weight: bold; margin: 0; }
+            .popup p { line-height: 1.5; margin: 0; }
             .popup-content svg { margin-bottom: 0; }
             ${typographyStyles}
             .popup button { 
@@ -617,3 +617,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
