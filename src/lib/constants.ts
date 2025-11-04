@@ -4,13 +4,12 @@ import type { PageConfig } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
 
 const desktopHero = PlaceHolderImages.find((p) => p.id === 'desktop-hero');
-const mobileHero = PlaceHolderImages.find((p) => p.id === 'mobile-hero');
 const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
 
 export const initialPageConfig: PageConfig = {
     desktopImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb3VudGFpbnxlbnwwfHx8fDE3MjE2NzU5MDh8MA&ixlib=rb-4.0.3&q=80&w=1080',
-    mobileImage: mobileHero?.imageUrl ?? 'https://picsum.photos/seed/mobile/900/2070',
+    mobileImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxtb3VudGFpbnxlbnwwfHx8fDE3MjE2NzU5MDh8MA&ixlib=rb-4.0.3&q=80&w=1080',
     imageHeightDesktop: 100,
     imageHeightMobile: 100,
     affiliateLink: '',
@@ -139,6 +138,7 @@ export const fontOptions = [
   { name: 'Open Sans', value: 'Open Sans', import: 'Open+Sans:wght@400;600;700' },
   { name: 'Source Sans Pro', value: 'Source Sans Pro', import: 'Source+Sans+Pro:wght@400;600;700' }
 ];
+
 
 
 
