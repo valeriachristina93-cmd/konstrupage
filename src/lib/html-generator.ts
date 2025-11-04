@@ -439,7 +439,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
-                 gap: ${customization.popup.gap}px;
+                 gap: 16px;
             }
 
             .popup-inner-content::-webkit-scrollbar,
@@ -537,7 +537,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .countdown-style1 { font-weight: bold; color: var(--countdown-color); }
             .countdown-style2, .countdown-style3 { display: flex; gap: 8px; justify-content: center; color: var(--countdown-color); }
             .time-box { background-color: var(--countdown-box-color); padding: 0.5em; border-radius: 5px; }
-            .countdown-style3 .time-box { border-radius: 50%; width: calc(var(--countdown-font-size) * 2.2); height: calc(var(--countdown-font-size) * 2.2); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; }
+            .countdown-style3 .time-box { border-radius: 50%; width: calc(var(--countdown-font-size) * 2.8); height: calc(var(--countdown-font-size) * 2.8); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; line-height: 1; }
             .time-unit { font-size: 1.2em; font-weight: bold; }
             .time-label { font-size: 0.6em; text-transform: uppercase; opacity: 0.8; }
             
@@ -629,12 +629,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
 
                 .popup {
-                    max-width: 90vw;
+                    max-width: calc(100vw - 2rem);
                     margin-left: auto;
                     margin-right: auto;
-                }
-                .popup-inner-content {
-                    gap: 12px;
                 }
                 
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
@@ -807,7 +804,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                         if (offsetX >= maxSlide - 2) {
                             thumb.style.transform = \\\`translateX(\\\${maxSlide}px)\\\`;
                             track.classList.add('verified');
-                            thumb.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                            thumb.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                             setTimeout(() => {
                                 acceptAction();
                             }, 500);
