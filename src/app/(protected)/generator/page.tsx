@@ -107,26 +107,11 @@ export default function GeneratorPage() {
 
     return (
         <div className="flex flex-col h-screen bg-muted/30 text-foreground">
-            {pageConfig && (
-              <EditorHeader 
-                onGenerate={handleFinalGenerate}
-                isGenerating={isGenerating}
-                affiliateLink={pageConfig.affiliateLink}
-              />
-            )}
-            {!pageConfig && (
-                 <header className="flex h-16 items-center border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
-                    <Link href="/dashboard" passHref>
-                    <Button variant="outline" size="icon">
-                        <ArrowLeft className="h-4 w-4" />
-                    </Button>
-                    </Link>
-                    <h1 className="text-xl font-semibold flex items-center gap-2">
-                    <Bot className="h-6 w-6 text-primary" />
-                    Gerador de Páginas com IA
-                    </h1>
-                </header>
-            )}
+            <EditorHeader 
+              onGenerate={handleFinalGenerate}
+              isGenerating={isGenerating}
+              affiliateLink={pageConfig?.affiliateLink || ''}
+            />
             <main className="flex-1 flex flex-col md:flex-row gap-8 justify-center overflow-y-auto p-4 md:p-8">
                  <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col bg-card shadow-sm border rounded-lg">
                     {pageConfig ? (
@@ -201,4 +186,5 @@ export default function GeneratorPage() {
             />
         </div>
     );
-}
+
+    
