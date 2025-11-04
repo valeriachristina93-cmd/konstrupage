@@ -176,57 +176,61 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const customPopup = (() => {
         if (!popups.custom.active) return '';
-
+    
         const { title, description, buttonText, imageUrl, imageLayout, imageSide, secondButton, buttonsAlignment } = popups.custom;
-
-        const imageHtml = imageUrl && imageLayout !== 'none' ? `<img src="${imageUrl}" class="custom-popup-image image-layout-${imageLayout}" alt="Pop-up Image">` : '';
-
+    
+        const imageHtml = imageUrl && imageLayout !== 'none' 
+            ? `<img src="${imageUrl}" class="custom-popup-image" alt="Pop-up Image">` 
+            : '';
+    
         const mainButtonHtml = `<button style="${buttonStyle}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
         const secondButtonHtml = secondButton.active ? `<button style="${buttonStyle}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
         
         const buttonsContainerClass = buttonsAlignment === 'horizontal' ? 'buttons-horizontal' : 'buttons-vertical';
         const buttonsHtml = `<div class="custom-popup-buttons ${buttonsContainerClass}">${mainButtonHtml}${secondButtonHtml}</div>`;
-        
+    
         const textContentHtml = `
-            <div class="custom-popup-text-content">
-                ${imageLayout === 'inner' && imageSide === 'left' ? imageHtml : ''}
-                <div class="text-wrapper">
-                    ${title ? `<h2>${title}</h2>` : ''}
-                    ${imageLayout === 'inner' && imageSide === 'right' ? imageHtml : ''}
-                    ${description ? `<p>${description}</p>` : ''}
-                </div>
+            <div class="text-wrapper">
+                ${title ? `<h2>${title}</h2>` : ''}
+                ${description ? `<p>${description}</p>` : ''}
             </div>
         `;
-
+    
+        const mainContentWithPadding = `
+            <div class="custom-popup-main-content" style="${popupContentStyles}">
+                ${imageLayout === 'inner' ? imageHtml : ''}
+                ${textContentHtml}
+                ${buttonsHtml}
+            </div>
+        `;
+    
         let mainContentHtml = '';
         if (imageLayout === 'side') {
             mainContentHtml = `
                 <div class="custom-popup-body body-layout-side side-${imageSide}">
                     <div class="custom-popup-image-container">${imageHtml}</div>
-                    <div class="custom-popup-main-content">
-                        ${textContentHtml}
-                        ${buttonsHtml}
-                    </div>
+                    ${mainContentWithPadding}
+                </div>
+            `;
+        } else if (imageLayout === 'top') {
+             mainContentHtml = `
+                <div class="custom-popup-body body-layout-default">
+                    ${imageHtml}
+                    ${mainContentWithPadding}
                 </div>
             `;
         } else {
              mainContentHtml = `
                 <div class="custom-popup-body body-layout-default">
-                    ${imageLayout === 'top' ? imageHtml : ''}
-                    <div class="custom-popup-main-content">
-                        ${textContentHtml}
-                        ${buttonsHtml}
-                    </div>
+                     ${mainContentWithPadding}
                 </div>
             `;
         }
-
+    
         return `
             <div id="custom-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
                 ${closeButtonHtml('custom-popup')}
-                <div class="popup-inner-content" style="${popupContentStyles}">
-                    ${mainContentHtml}
-                </div>
+                ${mainContentHtml}
             </div>
         `;
     })();
@@ -411,18 +415,20 @@ export const generatePresellHtml = (config: PageConfig) => {
                 display: flex;
                 flex-direction: column;
                 max-height: 95vh;
+                overflow: hidden;
             }
-            .popup-center { top: 0; left: 0; transform: none; }
-            .popup-bottom { align-self: flex-end; }
-            .popup-top { align-self: flex-start; }
+            .popup-center { margin: auto; }
+            .popup-bottom { margin-top: auto; }
+            .popup-top { margin-bottom: auto; }
             
-            .popup-inner-content {
+            .popup-inner-content, .custom-popup-body {
                 text-align: center;
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
             }
-            .popup-inner-content::-webkit-scrollbar {
+            .popup-inner-content::-webkit-scrollbar,
+            .custom-popup-body::-webkit-scrollbar {
                 display: none;
             }
 
@@ -474,19 +480,18 @@ export const generatePresellHtml = (config: PageConfig) => {
                 object-fit: cover;
             }
 
-            .custom-popup-body { display: flex; flex-direction: column; width: 100%; }
-            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; gap: ${customization.popup.gap}px; }
-            .custom-popup-image { width: 100%; height: auto; object-fit: cover; }
-            .custom-popup-image.image-layout-top { margin-bottom: ${customization.popup.gap}px; border-top-left-radius: ${customization.popup.borderRadius-2}px; border-top-right-radius: ${customization.popup.borderRadius-2}px; }
-            .custom-popup-image.image-layout-inner { max-width: 80%; margin: ${customization.popup.gap}px auto; border-radius: 8px; }
+            .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; }
+            .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
             
             .body-layout-side { flex-direction: row; }
             .body-layout-side.side-right { flex-direction: row-reverse; }
             .custom-popup-image-container { flex-basis: 40%; flex-shrink: 0; }
-            .body-layout-side .custom-popup-image { height: 100%; object-fit: cover; }
-            .body-layout-side .custom-popup-main-content { flex-basis: 60%; padding: 20px; gap: ${customization.popup.gap}px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+            .body-layout-side .custom-popup-image { height: 100%; }
+            .body-layout-side .custom-popup-main-content { flex: 1; justify-content: center; }
 
             .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; }
+            .text-wrapper img.custom-popup-image { max-width: 80%; margin: ${customization.popup.gap}px auto; border-radius: 8px; }
 
             .custom-popup-buttons { display: flex; width: 100%; gap: 10px; }
             .buttons-vertical { flex-direction: column; align-items: ${getButtonAlignment()}; }
@@ -579,12 +584,21 @@ export const generatePresellHtml = (config: PageConfig) => {
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
-                .popup-center, .popup-bottom, .popup-top { width: 100%; max-width: 100%; }
+                .popup-wrapper { padding: 0; }
+                .popup {
+                     max-height: 100vh;
+                     height: 100%;
+                     border-radius: 0;
+                }
+                .popup-center, .popup-bottom, .popup-top { width: 100%; max-width: 100%; margin: 0; }
+
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
                 .popup button { padding: 10px 20px; font-size: 14px; }
                 .choice-images { flex-direction: row; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
+                .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
+                .body-layout-side .custom-popup-main-content { flex: 1; }
             }
         </style>
     </head>
