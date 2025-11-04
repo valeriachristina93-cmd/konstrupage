@@ -36,10 +36,10 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
     return (
         <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/40 h-full rounded-lg border">
             <div className="absolute top-4 right-6 flex items-center space-x-1 bg-card/80 backdrop-blur-sm p-1 rounded-lg shadow-md z-10">
-                <Button onClick={() => setViewMode('desktop')} variant={viewMode === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="rounded-md">
+                <Button onClick={() => setViewMode('desktop')} variant={viewMode === 'desktop' ? 'default' : 'ghost'} size="icon" className="rounded-md">
                     <Laptop className="w-5 h-5" />
                 </Button>
-                <Button onClick={() => setViewMode('mobile')} variant={viewMode === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="rounded-md">
+                <Button onClick={() => setViewMode('mobile')} variant={viewMode === 'mobile' ? 'default' : 'ghost'} size="icon" className="rounded-md">
                     <Smartphone className="w-5 h-5" />
                 </Button>
             </div>
