@@ -374,7 +374,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 background: transparent;
                 border: none;
                 font-size: 28px;
-                font-weight: bold;
+                font-weight: normal;
                 line-height: 1;
                 cursor: pointer;
                 color: ${customization.closeButtonColor};
@@ -662,5 +662,6 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+
 
 
