@@ -45,6 +45,7 @@ const tools = [
     { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg' },
     { name: 'Screenshot Tool', url: 'https://chromewebstore.google.com/detail/screenshot-tool-screen-ca/edlifbnjlicfpckhgjhflgkeeibhhcii' },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt' },
+    { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/' },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
