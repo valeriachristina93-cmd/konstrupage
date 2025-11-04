@@ -106,9 +106,9 @@ export type PageConfig = {
     };
     popup: {
         maxWidth: number;
-        minHeight: number;
         borderRadius: number;
-        padding: number;
+        paddingX: number;
+        paddingY: number;
         gap: number;
         backgroundColor: string;
     },
@@ -130,3 +130,6 @@ export type PageConfig = {
     };
   };
 };
+
+
+    

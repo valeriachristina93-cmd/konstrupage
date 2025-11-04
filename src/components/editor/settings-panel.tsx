@@ -519,20 +519,20 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Altura Mínima do Pop-up ({pageConfig.customization.popup.minHeight}px)</Label>
+                                            <Label>Espaçamento Vertical ({pageConfig.customization.popup.paddingY}px)</Label>
                                             <SliderWithControls
-                                                value={[pageConfig.customization.popup.minHeight]}
-                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'minHeight'], value[0])}
+                                                value={[pageConfig.customization.popup.paddingY]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'paddingY'], value[0])}
                                                 min={0}
-                                                max={800}
-                                                step={10}
+                                                max={128}
+                                                step={4}
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento Interno ({pageConfig.customization.popup.padding}px)</Label>
+                                            <Label>Espaçamento Horizontal ({pageConfig.customization.popup.paddingX}px)</Label>
                                             <SliderWithControls
-                                                value={[pageConfig.customization.popup.padding]}
-                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'padding'], value[0])}
+                                                value={[pageConfig.customization.popup.paddingX]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'paddingX'], value[0])}
                                                 min={0}
                                                 max={64}
                                                 step={2}
@@ -724,4 +724,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     );
 }
 
+    
     

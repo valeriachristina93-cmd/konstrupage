@@ -47,7 +47,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; }
     `;
 
-    const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px; min-height: ${customization.popup.minHeight > 0 ? `${customization.popup.minHeight}px` : 'auto'};`;
+    const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px;`;
+    const popupContentStyles = `padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px;`;
     
     function isColorLight(hexColor: string) {
         if (!hexColor) return true;
@@ -134,7 +135,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('cookie-popup')}
-            <div class="popup-content">
+            <div class="popup-content" style="${popupContentStyles}">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
@@ -147,7 +148,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const agePopup = popups.ageVerification.active ? `
         <div id="age-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('age-popup')}
-             <div class="popup-content">
+             <div class="popup-content" style="${popupContentStyles}">
                 <p>${popups.ageVerification.message}</p>
                 <div style="display: flex; gap: 10px; justify-content: center; width: 100%;">
                     <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
@@ -160,7 +161,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const discountPopup = popups.discount.active ? `
          <div id="discount-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('discount-popup')}
-             <div class="popup-content">
+             <div class="popup-content" style="${popupContentStyles}">
                 ${getDiscountIcon()}
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
@@ -174,7 +175,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const customPopup = popups.custom.active ? `
         <div id="custom-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('custom-popup')}
-            <div class="popup-content">
+            <div class="popup-content" style="${popupContentStyles}">
                 <h2>${popups.custom.title}</h2>
                 <p>${popups.custom.description}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
@@ -187,7 +188,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const choicePopup = popups.choice.active ? `
         <div id="choice-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('choice-popup')}
-            <div class="popup-content">
+            <div class="popup-content" style="${popupContentStyles}">
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
                 <div class="choice-images">
@@ -230,7 +231,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const captchaPopup = popups.captcha.active ? `
         <div id="captcha-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('captcha-popup')}
-            <div class="popup-content">
+            <div class="popup-content" style="${popupContentStyles}">
                 <h2>${popups.captcha.title}</h2>
                 <p>${popups.captcha.description}</p>
                 ${popups.captcha.captchaType === 'slide' ? captchaSlide : captchaCheckbox}
@@ -365,7 +366,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
             .popup-top { top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
             .popup-content { 
-                padding: ${customization.popup.padding}px; 
                 text-align: center;
                 display: flex;
                 flex-direction: column;
@@ -522,7 +522,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
                 .popup-top { width: 90%; top: 10px; }
-                .popup-content { padding: 16px; padding-top: 40px; }
+                .popup-content { padding-top: 40px; padding-left: 16px; padding-right: 16px; padding-bottom: 16px;}
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
                 .popup button { padding: 10px 20px; font-size: 14px; }
@@ -698,3 +698,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
+    

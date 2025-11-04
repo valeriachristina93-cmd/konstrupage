@@ -54,9 +54,9 @@ export const initialPageConfig: PageConfig = {
         },
         popup: {
             maxWidth: 500,
-            minHeight: 0,
             borderRadius: 12,
-            padding: 24,
+            paddingX: 24,
+            paddingY: 24,
             gap: 16,
             backgroundColor: '#1F2937',
         },
@@ -139,3 +139,6 @@ export const fontOptions = [
   { name: 'Open Sans', value: 'Open Sans', import: 'Open+Sans:wght@400;600;700' },
   { name: 'Source Sans Pro', value: 'Source Sans Pro', import: 'Source+Sans+Pro:wght@400;600;700' }
 ];
+
+
+    
