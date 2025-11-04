@@ -47,6 +47,7 @@ const tools = [
     { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl' },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt' },
     { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/' },
+    { name: 'Upload Imgur', url: 'https://uploadimgur.com/' },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
