@@ -197,7 +197,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         `;
     
         const mainContentWithPadding = `
-            <div class="custom-popup-main-content" style="${popupContentStyles}">
+            <div class="custom-popup-main-content">
                 ${imageLayout === 'inner' ? imageHtml : ''}
                 ${textContentHtml}
                 ${buttonsHtml}
@@ -430,12 +430,17 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
             
-            .popup-inner-content, .custom-popup-body {
+            .popup-inner-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
                 text-align: center;
+                gap: ${customization.popup.gap}px;
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
             }
+
             .popup-inner-content::-webkit-scrollbar,
             .custom-popup-body::-webkit-scrollbar {
                 display: none;
@@ -489,15 +494,18 @@ export const generatePresellHtml = (config: PageConfig) => {
                 object-fit: cover;
             }
 
-            .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; }
-            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; }
+            .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
+            
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
             
             .body-layout-side { flex-direction: row; }
             .body-layout-side.side-right { flex-direction: row-reverse; }
-            .custom-popup-image-container { flex-basis: 40%; flex-shrink: 0; }
+            .custom-popup-image-container { flex-basis: 40%; flex-shrink: 0; background-color: #eee; }
             .body-layout-side .custom-popup-image { height: 100%; }
             .body-layout-side .custom-popup-main-content { flex: 1; justify-content: center; }
+            .body-layout-side.side-left .custom-popup-image { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
+            .body-layout-side.side-right .custom-popup-image { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; }
 
             .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; }
             .text-wrapper img.custom-popup-image { max-width: 80%; margin: ${customization.popup.gap}px auto; border-radius: 8px; }
@@ -593,13 +601,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
-                #exit-popup-overlay, .popup-wrapper { padding: 0; }
-                .popup {
-                     max-height: 100vh;
-                     height: 100%;
-                     border-radius: 0;
-                }
-                .popup-center, .popup-bottom, .popup-top { width: 100%; max-width: 100%; margin: 0; }
 
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
