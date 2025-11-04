@@ -306,7 +306,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Desconto" checked={pageConfig.popups.discount.active} onCheckedChange={checked => onConfigChange(['popups', 'discount', 'active'], checked)} />
                                     {pageConfig.popups.discount.active && (
-                                        <>
+                                        <div className="space-y-4 border-t pt-4 mt-4">
                                             <Input type="text" placeholder="Texto do desconto" value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
                                             <Textarea placeholder="Descrição da oferta" value={pageConfig.popups.discount.description} onChange={e => onConfigChange(['popups', 'discount', 'description'], e.target.value)} className="text-sm h-24" />
                                             <div className="space-y-2">
@@ -318,7 +318,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </SelectContent>
                                                 </Select>
                                             </div>
-                                        </>
+                                             <div className="space-y-2">
+                                                <Label>Tamanho do Ícone ({pageConfig.popups.discount.iconSize}px)</Label>
+                                                <SliderWithControls
+                                                    value={[pageConfig.popups.discount.iconSize]}
+                                                    onValueChange={(value) => onConfigChange(['popups', 'discount', 'iconSize'], value[0])}
+                                                    min={24}
+                                                    max={96}
+                                                    step={4}
+                                                />
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
                                 <div className="p-3 border rounded-md space-y-3">

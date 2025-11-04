@@ -32,6 +32,7 @@ export type PageConfig = {
       text: string;
       description: string;
       icon: string;
+      iconSize: number;
     };
     exit: {
       active: boolean;
