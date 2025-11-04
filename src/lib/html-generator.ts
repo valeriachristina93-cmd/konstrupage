@@ -393,7 +393,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
             .popup button:hover { transform: translateY(-2px); ${getButtonShadowStyle()} }
             .choice-images { display: flex; justify-content: center; gap: 20px; }
-            .choice-images img { height: auto; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
+            .choice-images img { height: 100%; cursor: pointer; border-radius: 8px; transition: transform 0.2s, box-shadow 0.2s; border: 2px solid transparent; }
             .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.button.color}; }
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
