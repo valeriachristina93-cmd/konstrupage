@@ -111,7 +111,7 @@ export type PageConfig = {
         gap: number;
         backgroundColor: string;
     },
-    popupPosition: 'center' | 'bottom';
+    popupPosition: 'center' | 'bottom' | 'top';
     customHtml: string;
     showCloseButton: boolean;
     closeButtonColor: string;

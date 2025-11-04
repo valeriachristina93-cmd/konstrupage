@@ -64,6 +64,9 @@ export const generatePresellHtml = (config: PageConfig) => {
         if (customization.popupPosition === 'bottom') {
             return 'popup-bottom';
         }
+        if (customization.popupPosition === 'top') {
+            return 'popup-top';
+        }
         return 'popup-center';
     };
 
@@ -142,7 +145,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
     
     const agePopup = popups.ageVerification.active ? `
-        <div id="age-popup" class="popup popup-bottom ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+        <div id="age-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('age-popup')}
              <div class="popup-content">
                 <p>${popups.ageVerification.message}</p>
@@ -155,7 +158,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const discountPopup = popups.discount.active ? `
-         <div id="discount-popup" class="popup popup-center ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+         <div id="discount-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('discount-popup')}
              <div class="popup-content">
                 ${getDiscountIcon()}
@@ -182,7 +185,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
     
     const choicePopup = popups.choice.active ? `
-        <div id="choice-popup" class="popup popup-center ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+        <div id="choice-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('choice-popup')}
             <div class="popup-content">
                 <h2>${popups.choice.title}</h2>
@@ -221,7 +224,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     `;
 
     const captchaPopup = popups.captcha.active ? `
-        <div id="captcha-popup" class="popup popup-center ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+        <div id="captcha-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('captcha-popup')}
             <div class="popup-content">
                 <h2>${popups.captcha.title}</h2>
@@ -356,6 +359,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
             .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; }
             .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
+            .popup-top { top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
             .popup-content { 
                 padding: ${customization.popup.padding}px; 
                 text-align: center;
@@ -395,7 +399,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .choice-images { display: flex; justify-content: center; gap: 20px; }
             .choice-images img {
                 width: ${popups.choice.customImageWidth}px;
-                height: calc(${popups.choice.customImageWidth}px * 0.66);
+                height: ${popups.choice.customImageWidth}px;
                 object-fit: cover;
                 cursor: pointer;
                 border-radius: 8px;
@@ -483,20 +487,26 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
             @keyframes slideInDown { from { transform: translate(-50%, -60%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }
-            .popup-bottom.popup-animation-slideInDown { animation-name: slideInDownBottom; }
-            @keyframes slideInDownBottom { from { transform: translate(-50%, -100vh); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+            
+            .popup-bottom.popup-animation-slideInDown, .popup-top.popup-animation-slideInDown { animation-name: slideInDownVertical; }
+            @keyframes slideInDownVertical { from { transform: translate(-50%, -100vh); } to { transform: translate(-50%, 0); } }
+
             @keyframes slideInUp { from { transform: translate(-50%, -40%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }
-            .popup-bottom.popup-animation-slideInUp { animation-name: slideInUpBottom; }
-            @keyframes slideInUpBottom { from { transform: translate(-50%, 100vh); opacity: 0; } to { transform: translate(-50%, 0); opacity: 1; } }
+
+            .popup-bottom.popup-animation-slideInUp, .popup-top.popup-animation-slideInUp { animation-name: slideInUpVertical; }
+            @keyframes slideInUpVertical { from { transform: translate(-50%, 100vh); } to { transform: translate(-50%, 0); } }
+            
             @keyframes zoomIn { from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-            .popup-bottom.popup-animation-zoomIn { animation-name: zoomInBottom; }
-            @keyframes zoomInBottom { from { transform: translateX(-50%) scale(0.8); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
+
+            .popup-bottom.popup-animation-zoomIn, .popup-top.popup-animation-zoomIn { animation-name: zoomInVertical; }
+            @keyframes zoomInVertical { from { transform: translateX(-50%) scale(0.8); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
             
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
                 .popup-center { width: 90%; max-width: 90%; }
                 .popup-bottom { width: 90%; bottom: 10px; }
+                .popup-top { width: 90%; top: 10px; }
                 .popup-content { padding: 16px; padding-top: 40px; }
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
@@ -673,5 +683,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
-    

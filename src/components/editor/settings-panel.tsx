@@ -617,6 +617,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <Select value={pageConfig.customization.popupPosition} onValueChange={value => onConfigChange(['customization', 'popupPosition'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
+                                                    <SelectItem value="top">Topo</SelectItem>
                                                     <SelectItem value="center">Centro da Tela</SelectItem>
                                                     <SelectItem value="bottom">Inferior</SelectItem>
                                                 </SelectContent>
