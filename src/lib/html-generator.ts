@@ -291,15 +291,17 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     const exitPopup = popups.exit.active ? `
-        <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles} ${getPopupContourStyle()}">
-             ${closeButtonHtml('exit-popup')}
-             <div class="popup-inner-content" style="padding:0; max-width: 600px;">
-                <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
-                <div style="padding: 24px; display: flex; flex-direction: column; gap: ${customization.popup.gap}px; align-items: center; text-align: center;">
-                    <h3>Espere, não vá embora!</h3>
-                    <p>Temos uma oferta especial para você.</p>
-                     <div class="button-container" style="${buttonContainerStyle}">
-                        <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+        <div id="exit-popup-overlay" style="display:none;">
+            <div id="exit-popup" class="popup popup-center" style="${popupStyles} ${getPopupContourStyle()}">
+                ${closeButtonHtml('exit-popup')}
+                <div style="padding:0; display: flex; flex-direction: column;">
+                    <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
+                    <div style="padding: 24px; display: flex; flex-direction: column; gap: ${customization.popup.gap}px; align-items: center; text-align: center;">
+                        <h3>Espere, não vá embora!</h3>
+                        <p>Temos uma oferta especial para você.</p>
+                        <div class="button-container" style="${buttonContainerStyle}">
+                            <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -390,19 +392,26 @@ export const generatePresellHtml = (config: PageConfig) => {
             .disclaimer { padding: 8px; text-align: center; font-size: 12px; position: fixed; bottom: ${footer.active ? '49px' : '0'}; width: 100%; z-index: 10;}
             footer { padding: 16px; text-align: center; font-size: 14px; position: fixed; bottom: 0; width: 100%; z-index: 10;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; }
-            .popup-wrapper {
+            
+            #exit-popup-overlay, .popup-wrapper {
                 position: fixed;
                 inset: 0;
-                background-color: ${anyPopupActive && overlay.active ? `rgba(0,0,0,${overlay.opacity})` : 'transparent'};
-                backdrop-filter: ${anyPopupActive && blur.active ? `blur(${blur.intensity}px)` : 'none'};
-                -webkit-backdrop-filter: ${anyPopupActive && blur.active ? `blur(${blur.intensity}px)` : 'none'};
+                background-color: ${overlay.active ? `rgba(0,0,0,${overlay.opacity})` : 'transparent'};
+                backdrop-filter: ${blur.active ? `blur(${blur.intensity}px)` : 'none'};
+                -webkit-backdrop-filter: ${blur.active ? `blur(${blur.intensity}px)` : 'none'};
                 z-index: 99;
-                display: ${anyPopupActive ? 'flex' : 'none'};
+                display: flex;
                 align-items: center;
                 justify-content: center;
                 padding: 1rem;
-                pointer-events: ${anyPopupActive ? 'auto' : 'none'};
+                pointer-events: auto;
             }
+            
+            .popup-wrapper {
+                 display: ${anyPopupActive ? 'flex' : 'none'};
+                 pointer-events: ${anyPopupActive ? 'auto' : 'none'};
+            }
+
             .popup { 
                 position: relative;
                 z-index: 100;
@@ -584,7 +593,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
-                .popup-wrapper { padding: 0; }
+                #exit-popup-overlay, .popup-wrapper { padding: 0; }
                 .popup {
                      max-height: 100vh;
                      height: 100%;
@@ -629,18 +638,24 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             function closePopup(popupId, event) {
                 if (event) event.stopPropagation();
-                redirect(AFFILIATE_LINK);
-                const popup = document.getElementById(popupId);
-                if (popup) {
-                    popup.style.display = 'none';
-                    const wrapper = document.querySelector('.popup-wrapper');
-                    
-                    const anyOtherPopupVisible = Array.from(wrapper.querySelectorAll('.popup')).some(p => p.id !== popupId && window.getComputedStyle(p).display !== 'none');
+                
+                if (popupId === 'exit-popup') {
+                    const overlay = document.getElementById('exit-popup-overlay');
+                    if(overlay) overlay.style.display = 'none';
+                } else {
+                    const popup = document.getElementById(popupId);
+                    if (popup) {
+                        popup.style.display = 'none';
+                        const wrapper = document.querySelector('.popup-wrapper');
+                        
+                        const anyOtherPopupVisible = Array.from(wrapper.querySelectorAll('.popup')).some(p => p.id !== popupId && window.getComputedStyle(p).display !== 'none');
 
-                    if (!anyOtherPopupVisible) {
-                        wrapper.style.display = 'none';
+                        if (!anyOtherPopupVisible) {
+                            wrapper.style.display = 'none';
+                        }
                     }
                 }
+                redirect(AFFILIATE_LINK);
             }
 
             function redirect(url, forceNewTab = false) {
@@ -740,28 +755,18 @@ export const generatePresellHtml = (config: PageConfig) => {
                 let exitIntentFired = false;
                 document.addEventListener('mouseleave', function(e) {
                     if (e.clientY < 0 && !exitIntentFired) {
-                        const exitPopup = document.getElementById('exit-popup');
-                        if (exitPopup) {
-                             const wrapper = document.querySelector('.main-wrapper');
-                             if (wrapper) {
-                                wrapper.style.transition = 'filter 0.3s ease-in-out';
-                                wrapper.style.filter = 'blur(${blur.intensity}px)';
-                             }
-                             exitPopup.style.display = 'block';
+                        const exitOverlay = document.getElementById('exit-popup-overlay');
+                        if (exitOverlay) {
+                             exitOverlay.style.display = 'flex';
                         }
                         exitIntentFired = true;
                     }
                 });
-                const exitPopup = document.getElementById('exit-popup');
-                if(exitPopup) {
-                    exitPopup.addEventListener('click', function(e) {
-                        const isButton = e.target.tagName === 'BUTTON' || e.target.classList.contains('close-button');
-                         if (e.target === this && !isButton) {
+                const exitOverlay = document.getElementById('exit-popup-overlay');
+                if(exitOverlay) {
+                    exitOverlay.addEventListener('click', function(e) {
+                         if (e.target === this) {
                             this.style.display = 'none';
-                             const wrapper = document.querySelector('.main-wrapper');
-                             if (wrapper) {
-                                wrapper.style.filter = 'none';
-                             }
                         }
                     });
                 }
