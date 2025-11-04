@@ -662,6 +662,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
+                            <div className="p-3 border rounded-md space-y-3">
+                                <SettingsToggle label="Clique Total na Página" checked={pageConfig.fullPageClick} onCheckedChange={checked => onConfigChange(['fullPageClick'], checked)} />
+                            </div>
                             <div className="p-3 border rounded-md space-y-4">
                                 <div className='flex items-center gap-2'>
                                     <Target className="w-4 h-4" />
@@ -710,9 +713,3 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
-
-    
-
-    
-
-

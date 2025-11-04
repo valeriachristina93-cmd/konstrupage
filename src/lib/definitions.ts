@@ -7,6 +7,7 @@ export type PageConfig = {
   imageHeightMobile: number;
   affiliateLink: string;
   newTab: boolean;
+  fullPageClick: boolean;
   autoRedirect: {
     active: boolean;
     time: number;
@@ -128,10 +129,3 @@ export type PageConfig = {
     };
   };
 };
-
-
-
-
-
-
-

@@ -5,7 +5,7 @@ import { fontOptions } from './constants';
 
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
-        desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab,
+        desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab, fullPageClick,
         popups, footer, disclaimer, overlay, blur, tracking, customization
     } = config;
 
@@ -519,6 +519,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         <script>
             const AFFILIATE_LINK = '${affiliateLink}';
             const NEW_TAB = ${newTab};
+            const FULL_PAGE_CLICK = ${fullPageClick};
             const popupsActive = ${anyPopupActive};
 
             function closePopup(popupId, event) {
@@ -544,6 +545,10 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
 
             function mainAction() {
+                if (FULL_PAGE_CLICK) {
+                    redirect(AFFILIATE_LINK);
+                    return;
+                }
                 if (!popupsActive) {
                     redirect(AFFILIATE_LINK);
                 }
@@ -660,11 +665,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
-    
-
-
-
-
-
-    

@@ -8,12 +8,13 @@ const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
 
 export const initialPageConfig: PageConfig = {
-    desktopImage: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    mobileImage: 'https://images.unsplash.com/photo-1454496522488-7a8e488e8606?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    desktopImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    mobileImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     imageHeightDesktop: 100,
     imageHeightMobile: 100,
     affiliateLink: '',
     newTab: false,
+    fullPageClick: false,
     autoRedirect: { active: false, time: 5 },
     popups: {
         cookies: { active: false, message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
@@ -138,13 +139,3 @@ export const fontOptions = [
   { name: 'Open Sans', value: 'Open Sans', import: 'Open+Sans:wght@400;600;700' },
   { name: 'Source Sans Pro', value: 'Source Sans Pro', import: 'Source+Sans+Pro:wght@400;600;700' }
 ];
-
-
-
-
-
-
-
-
-
-
