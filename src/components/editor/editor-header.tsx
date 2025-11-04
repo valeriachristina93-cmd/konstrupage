@@ -42,7 +42,7 @@ const announcements = [
 
 const tools = [
     { name: 'Lightshot', url: 'https://app.prntscr.com/pt-br/index.html' },
-    { name: 'ShareX', url: 'https://getsharex.com/' },
+    { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg' },
     { name: 'Screenshot Tool', url: 'https://chromewebstore.google.com/detail/screenshot-tool-screen-ca/edlifbnjlicfpckhgjhflgkeeibhhcii' },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt' },
 ];
