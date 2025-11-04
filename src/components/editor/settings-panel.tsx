@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React from 'react';
@@ -393,6 +394,18 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                                 <SelectItem value="right">Direita</SelectItem>
                                                                             </SelectContent>
                                                                         </Select>
+                                                                    </div>
+                                                                )}
+                                                                {customPopupConfig.imageLayout === 'inner' && (
+                                                                    <div className="space-y-2">
+                                                                        <Label>Largura da Imagem ({customPopupConfig.imageInternalWidth}%)</Label>
+                                                                        <SliderWithControls
+                                                                            value={[customPopupConfig.imageInternalWidth]}
+                                                                            onValueChange={(value) => onConfigChange(['popups', 'custom', 'imageInternalWidth'], value[0])}
+                                                                            min={10}
+                                                                            max={100}
+                                                                            step={5}
+                                                                        />
                                                                     </div>
                                                                 )}
                                                             </>
