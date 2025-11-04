@@ -45,10 +45,10 @@ export const generatePresellHtml = (config: PageConfig) => {
         .popup { font-family: '${customization.typography.fontFamily}', sans-serif; }
         .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; margin: 0; }
         .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; }
+        .popup p a, .popup h2 a, .popup h3 a { color: inherit; }
     `;
 
     const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px;`;
-    const popupContentStyles = `padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px;`;
     
     function isColorLight(hexColor: string) {
         if (!hexColor) return true;
@@ -131,11 +131,13 @@ export const generatePresellHtml = (config: PageConfig) => {
         };
         return iconSvgs[iconName] || '';
     };
+
+    const popupContentStyles = `padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px;`;
     
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('cookie-popup')}
-            <div class="popup-content" style="${popupContentStyles}">
+            <div class="popup-inner-content" style="${popupContentStyles}">
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
@@ -148,7 +150,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const agePopup = popups.ageVerification.active ? `
         <div id="age-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('age-popup')}
-             <div class="popup-content" style="${popupContentStyles}">
+             <div class="popup-inner-content" style="${popupContentStyles}">
                 <p>${popups.ageVerification.message}</p>
                 <div style="display: flex; gap: 10px; justify-content: center; width: 100%;">
                     <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
@@ -161,7 +163,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const discountPopup = popups.discount.active ? `
          <div id="discount-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('discount-popup')}
-             <div class="popup-content" style="${popupContentStyles}">
+             <div class="popup-inner-content" style="${popupContentStyles}">
                 ${getDiscountIcon()}
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
@@ -172,23 +174,67 @@ export const generatePresellHtml = (config: PageConfig) => {
         </div>
     ` : '';
 
-    const customPopup = popups.custom.active ? `
-        <div id="custom-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
-            ${closeButtonHtml('custom-popup')}
-            <div class="popup-content" style="${popupContentStyles}">
-                <h2>${popups.custom.title}</h2>
-                <p>${popups.custom.description}</p>
-                <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${buttonStyle}" onclick="acceptAction()">${popups.custom.buttonText}</button>
+    const customPopup = (() => {
+        if (!popups.custom.active) return '';
+
+        const { title, description, buttonText, imageUrl, imageLayout, imageSide, secondButton, buttonsAlignment } = popups.custom;
+
+        const imageHtml = imageUrl && imageLayout !== 'none' ? `<img src="${imageUrl}" class="custom-popup-image image-layout-${imageLayout}" alt="Pop-up Image">` : '';
+
+        const mainButtonHtml = `<button style="${buttonStyle}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
+        const secondButtonHtml = secondButton.active ? `<button style="${buttonStyle}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
+        
+        const buttonsContainerClass = buttonsAlignment === 'horizontal' ? 'buttons-horizontal' : 'buttons-vertical';
+        const buttonsHtml = `<div class="custom-popup-buttons ${buttonsContainerClass}">${mainButtonHtml}${secondButtonHtml}</div>`;
+        
+        const textContentHtml = `
+            <div class="custom-popup-text-content">
+                ${imageLayout === 'inner' && imageSide === 'left' ? imageHtml : ''}
+                <div class="text-wrapper">
+                    ${title ? `<h2>${title}</h2>` : ''}
+                    ${imageLayout === 'inner' && imageSide === 'right' ? imageHtml : ''}
+                    ${description ? `<p>${description}</p>` : ''}
                 </div>
             </div>
-        </div>
-    ` : '';
+        `;
+
+        let mainContentHtml = '';
+        if (imageLayout === 'side') {
+            mainContentHtml = `
+                <div class="custom-popup-body body-layout-side side-${imageSide}">
+                    <div class="custom-popup-image-container">${imageHtml}</div>
+                    <div class="custom-popup-main-content">
+                        ${textContentHtml}
+                        ${buttonsHtml}
+                    </div>
+                </div>
+            `;
+        } else {
+             mainContentHtml = `
+                <div class="custom-popup-body body-layout-default">
+                    ${imageLayout === 'top' ? imageHtml : ''}
+                    <div class="custom-popup-main-content">
+                        ${textContentHtml}
+                        ${buttonsHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        return `
+            <div id="custom-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+                ${closeButtonHtml('custom-popup')}
+                <div class="popup-inner-content" style="${popupContentStyles}">
+                    ${mainContentHtml}
+                </div>
+            </div>
+        `;
+    })();
     
     const choicePopup = popups.choice.active ? `
         <div id="choice-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('choice-popup')}
-            <div class="popup-content" style="${popupContentStyles}">
+            <div class="popup-inner-content" style="${popupContentStyles}">
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
                 <div class="choice-images">
@@ -231,7 +277,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const captchaPopup = popups.captcha.active ? `
         <div id="captcha-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('captcha-popup')}
-            <div class="popup-content" style="${popupContentStyles}">
+            <div class="popup-inner-content" style="${popupContentStyles}">
                 <h2>${popups.captcha.title}</h2>
                 <p>${popups.captcha.description}</p>
                 ${popups.captcha.captchaType === 'slide' ? captchaSlide : captchaCheckbox}
@@ -243,7 +289,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const exitPopup = popups.exit.active ? `
         <div id="exit-popup" class="popup popup-center" style="display:none; ${popupStyles} ${getPopupContourStyle()}">
              ${closeButtonHtml('exit-popup')}
-             <div class="popup-content" style="padding:0; max-width: 600px;">
+             <div class="popup-inner-content" style="padding:0; max-width: 600px;">
                 <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
                 <div style="padding: 24px; display: flex; flex-direction: column; gap: ${customization.popup.gap}px; align-items: center; text-align: center;">
                     <h3>Espere, não vá embora!</h3>
@@ -342,39 +388,44 @@ export const generatePresellHtml = (config: PageConfig) => {
             footer a { color: inherit; text-decoration: none; margin: 0 8px; }
             .popup-wrapper {
                 position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
+                inset: 0;
                 background-color: ${anyPopupActive && overlay.active ? `rgba(0,0,0,${overlay.opacity})` : 'transparent'};
                 backdrop-filter: ${anyPopupActive && blur.active ? `blur(${blur.intensity}px)` : 'none'};
                 -webkit-backdrop-filter: ${anyPopupActive && blur.active ? `blur(${blur.intensity}px)` : 'none'};
                 z-index: 99;
-                display: ${anyPopupActive ? 'block' : 'none'};
+                display: ${anyPopupActive ? 'flex' : 'none'};
+                align-items: center;
+                justify-content: center;
+                padding: 1rem;
                 pointer-events: ${anyPopupActive ? 'auto' : 'none'};
             }
             .popup { 
-                position: fixed; 
-                z-index: 100; 
+                position: relative;
+                z-index: 100;
                 ${getPopupShadowStyle()}
                 box-sizing: border-box; 
                 animation-duration: ${customization.popupAnimationDuration}s; 
                 animation-timing-function: ease-out; 
-                animation-fill-mode: both; 
-            }
-            .popup-center { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; }
-            .popup-bottom { bottom: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
-            .popup-top { top: 20px; left: 50%; transform: translateX(-50%); width: 90%; max-width: ${customization.popup.maxWidth}px; }
-            .popup-content { 
-                text-align: center;
+                animation-fill-mode: both;
+                width: 100%;
                 display: flex;
                 flex-direction: column;
-                align-items: center;
-                gap: ${customization.popup.gap}px;
+                max-height: 95vh;
             }
-            .popup-content > * {
-                margin: 0;
+            .popup-center { top: 0; left: 0; transform: none; }
+            .popup-bottom { align-self: flex-end; }
+            .popup-top { align-self: flex-start; }
+            
+            .popup-inner-content {
+                text-align: center;
+                overflow-y: auto;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
             }
+            .popup-inner-content::-webkit-scrollbar {
+                display: none;
+            }
+
             .popup .close-button {
                 position: absolute;
                 top: 8px;
@@ -398,6 +449,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
                 transition: transform 0.2s, box-shadow 0.2s;
                 max-width: 100%;
+                flex-shrink: 0;
             }
             .popup button:hover { transform: translateY(-2px); ${getButtonShadowStyle()} }
             
@@ -421,6 +473,25 @@ export const generatePresellHtml = (config: PageConfig) => {
                 height: 100%;
                 object-fit: cover;
             }
+
+            .custom-popup-body { display: flex; flex-direction: column; width: 100%; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; gap: ${customization.popup.gap}px; }
+            .custom-popup-image { width: 100%; height: auto; object-fit: cover; }
+            .custom-popup-image.image-layout-top { margin-bottom: ${customization.popup.gap}px; border-top-left-radius: ${customization.popup.borderRadius-2}px; border-top-right-radius: ${customization.popup.borderRadius-2}px; }
+            .custom-popup-image.image-layout-inner { max-width: 80%; margin: ${customization.popup.gap}px auto; border-radius: 8px; }
+            
+            .body-layout-side { flex-direction: row; }
+            .body-layout-side.side-right { flex-direction: row-reverse; }
+            .custom-popup-image-container { flex-basis: 40%; flex-shrink: 0; }
+            .body-layout-side .custom-popup-image { height: 100%; object-fit: cover; }
+            .body-layout-side .custom-popup-main-content { flex-basis: 60%; padding: 20px; gap: ${customization.popup.gap}px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+            .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; }
+
+            .custom-popup-buttons { display: flex; width: 100%; gap: 10px; }
+            .buttons-vertical { flex-direction: column; align-items: ${getButtonAlignment()}; }
+            .buttons-horizontal { flex-direction: row; justify-content: center; }
+            .buttons-horizontal button { flex: 1; }
 
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
@@ -501,32 +572,19 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup.popup-animation-zoomIn { animation-name: zoomIn; }
 
             @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-            @keyframes slideInDown { from { transform: translate(-50%, -60%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }
-            
-            .popup-bottom.popup-animation-slideInDown, .popup-top.popup-animation-slideInDown { animation-name: slideInDownVertical; }
-            @keyframes slideInDownVertical { from { transform: translate(-50%, -100vh); } to { transform: translate(-50%, 0); } }
+            @keyframes slideInDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+            @keyframes slideInUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+            @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
-            @keyframes slideInUp { from { transform: translate(-50%, -40%); opacity: 0; } to { transform: translate(-50%, -50%); opacity: 1; } }
-
-            .popup-bottom.popup-animation-slideInUp, .popup-top.popup-animation-slideInUp { animation-name: slideInUpVertical; }
-            @keyframes slideInUpVertical { from { transform: translate(-50%, 100vh); } to { transform: translate(-50%, 0); } }
-            
-            @keyframes zoomIn { from { transform: translate(-50%, -50%) scale(0.8); opacity: 0; } to { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
-
-            .popup-bottom.popup-animation-zoomIn, .popup-top.popup-animation-zoomIn { animation-name: zoomInVertical; }
-            @keyframes zoomInVertical { from { transform: translateX(-50%) scale(0.8); opacity: 0; } to { transform: translateX(-50%) scale(1); opacity: 1; } }
-            
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
-                .popup-center { width: 90%; max-width: 90%; }
-                .popup-bottom { width: 90%; bottom: 10px; }
-                .popup-top { width: 90%; top: 10px; }
-                .popup-content { padding-top: 40px; padding-left: 16px; padding-right: 16px; padding-bottom: 16px;}
+                .popup-center, .popup-bottom, .popup-top { width: 100%; max-width: 100%; }
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
                 .popup button { padding: 10px 20px; font-size: 14px; }
                 .choice-images { flex-direction: row; }
+                .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
             }
         </style>
     </head>
@@ -556,7 +614,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             const popupsActive = ${anyPopupActive};
 
             function closePopup(popupId, event) {
-                event.stopPropagation();
+                if (event) event.stopPropagation();
                 redirect(AFFILIATE_LINK);
                 const popup = document.getElementById(popupId);
                 if (popup) {
@@ -572,7 +630,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
 
             function redirect(url, forceNewTab = false) {
-                if (!url) return;
+                if (!url || url === '#') return;
                 const target = (NEW_TAB || forceNewTab) ? '_blank' : '_self';
                 window.open(url, target);
             }
@@ -633,14 +691,14 @@ export const generatePresellHtml = (config: PageConfig) => {
                         e.preventDefault();
                         const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
                         offsetX = Math.max(0, Math.min(currentX - startX, maxSlide));
-                        thumb.style.transform = \`translateX(\${offsetX}px)\`;
+                        thumb.style.transform = \\\`translateX(\\\${offsetX}px)\\\`;
                     };
 
                     const onDragEnd = () => {
                         if (!isDragging) return;
                         isDragging = false;
                         if (offsetX >= maxSlide - 2) {
-                            thumb.style.transform = \`translateX(\${maxSlide}px)\`;
+                            thumb.style.transform = \\\`translateX(\\\${maxSlide}px)\\\`;
                             track.classList.add('verified');
                             thumb.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
                             setTimeout(() => {

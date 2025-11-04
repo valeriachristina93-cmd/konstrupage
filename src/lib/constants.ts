@@ -21,7 +21,21 @@ export const initialPageConfig: PageConfig = {
         ageVerification: { active: false, message: 'Você confirma que tem mais de 18 anos?', yesButtonText: 'Sim', noButtonText: 'Não', yesButtonColor: '#3B82F6', noButtonColor: '#6B7280', buttonWidth: 48 },
         discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: 'percent' },
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', redirectLink: '' },
-        custom: { active: false, title: 'Título do Pop-up', description: 'Esta é a descrição do seu pop-up personalizado. Você pode editar este texto.', buttonText: 'Clique Aqui' },
+        custom: { 
+            active: false, 
+            title: 'Título do Pop-up', 
+            description: 'Esta é a descrição do seu pop-up personalizado. Você pode <b>editar</b> este texto e adicionar <a href="#" target="_blank">links</a>.', 
+            buttonText: 'Clique Aqui',
+            imageUrl: 'https://picsum.photos/seed/1/600/400',
+            imageLayout: 'none',
+            imageSide: 'left',
+            secondButton: {
+                active: false,
+                text: 'Botão Secundário',
+                link: '#'
+            },
+            buttonsAlignment: 'vertical',
+        },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
         captcha: { active: false, title: 'Verificação Rápida', description: 'Clique abaixo para provar que você não é um robô e continuar.', captchaType: 'checkbox' }
     },

@@ -43,6 +43,15 @@ export type PageConfig = {
       title: string;
       description: string;
       buttonText: string;
+      imageUrl: string;
+      imageLayout: 'none' | 'top' | 'side' | 'inner';
+      imageSide: 'left' | 'right';
+      secondButton: {
+        active: boolean;
+        text: string;
+        link: string;
+      };
+      buttonsAlignment: 'vertical' | 'horizontal';
     };
     choice: {
       active: boolean;

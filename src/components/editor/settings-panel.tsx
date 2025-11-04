@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -49,6 +49,8 @@ const ColorInput = ({ label, value, onChange }: { label: string; value: string; 
 
 
 export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
+    const customPopupConfig = pageConfig.popups.custom;
+
     return (
         <>
             <div className="p-4 border-b">
@@ -335,14 +337,121 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </>
                                     )}
                                 </div>
-                                <div className="p-3 border rounded-md space-y-3">
-                                    <SettingsToggle label="Pop-up Personalizado" checked={pageConfig.popups.custom.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'active'], checked)} />
-                                    {pageConfig.popups.custom.active && (
-                                        <>
-                                            <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.custom.title} onChange={e => onConfigChange(['popups', 'custom', 'title'], e.target.value)} />
-                                            <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.custom.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
-                                            <Input type="text" placeholder="Texto do Botão" value={pageConfig.popups.custom.buttonText} onChange={e => onConfigChange(['popups', 'custom', 'buttonText'], e.target.value)} />
-                                        </>
+                                <div className="p-3 border rounded-md space-y-4">
+                                <SettingsToggle label="Pop-up Personalizado" checked={customPopupConfig.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'active'], checked)} />
+                                    {customPopupConfig.active && (
+                                        <div className="border-t pt-4 space-y-6">
+                                            <Accordion type="multiple" className="w-full space-y-2">
+                                                {/* Image Layout */}
+                                                <AccordionItem value="image-layout">
+                                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                                        <div className="flex items-center gap-3">
+                                                          <ImageIcon className="w-4 h-4 text-primary/80" />
+                                                          <span>Layout da Imagem</span>
+                                                        </div>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                                        <div className="space-y-2">
+                                                            <Label>Estilo do Layout</Label>
+                                                            <Select value={customPopupConfig.imageLayout} onValueChange={value => onConfigChange(['popups', 'custom', 'imageLayout'], value)}>
+                                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="none">Nenhum</SelectItem>
+                                                                    <SelectItem value="top">Imagem no Topo</SelectItem>
+                                                                    <SelectItem value="side">Imagem Lateral</SelectItem>
+                                                                    <SelectItem value="inner">Imagem Interna</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                        {customPopupConfig.imageLayout !== 'none' && (
+                                                            <>
+                                                                <div className='space-y-2'>
+                                                                    <Label>URL da Imagem</Label>
+                                                                    <ImageUploadInput
+                                                                        value={customPopupConfig.imageUrl}
+                                                                        onChange={e => onConfigChange(['popups', 'custom', 'imageUrl'], e.target.value)}
+                                                                        onFileUpload={file => onImageUpload(file, ['popups', 'custom', 'imageUrl'])}
+                                                                    />
+                                                                </div>
+                                                                {customPopupConfig.imageLayout === 'side' && (
+                                                                    <div className="space-y-2">
+                                                                        <Label>Posição da Imagem</Label>
+                                                                        <Select value={customPopupConfig.imageSide} onValueChange={value => onConfigChange(['popups', 'custom', 'imageSide'], value)}>
+                                                                            <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                            <SelectContent>
+                                                                                <SelectItem value="left">Esquerda</SelectItem>
+                                                                                <SelectItem value="right">Direita</SelectItem>
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                    </div>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                                
+                                                {/* Content */}
+                                                <AccordionItem value="content">
+                                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                                        <div className="flex items-center gap-3">
+                                                            <FileText className="w-4 h-4 text-primary/80" />
+                                                            <span>Conteúdo do Texto</span>
+                                                        </div>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                                        <div className="space-y-2">
+                                                            <Label>Título</Label>
+                                                            <Input type="text" placeholder="Título do Pop-up" value={customPopupConfig.title} onChange={e => onConfigChange(['popups', 'custom', 'title'], e.target.value)} />
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label>Descrição</Label>
+                                                            <Textarea placeholder="Descrição do pop-up. Você pode usar <b> e <a> tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
+                                                        </div>
+                                                    </AccordionContent>
+                                                </AccordionItem>
+
+                                                {/* Buttons */}
+                                                <AccordionItem value="buttons">
+                                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                                        <div className="flex items-center gap-3">
+                                                          <Settings className="w-4 h-4 text-primary/80" />
+                                                          <span>Botões</span>
+                                                        </div>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                                        <div className="space-y-2">
+                                                            <Label>Texto do Botão Principal</Label>
+                                                            <Input type="text" placeholder="Texto do Botão Principal" value={customPopupConfig.buttonText} onChange={e => onConfigChange(['popups', 'custom', 'buttonText'], e.target.value)} />
+                                                        </div>
+                                                         <div className="p-3 border rounded-md space-y-3">
+                                                            <SettingsToggle label="Ativar Botão Secundário" checked={customPopupConfig.secondButton.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'secondButton', 'active'], checked)} />
+                                                            {customPopupConfig.secondButton.active && (
+                                                                <div className="pt-3 border-t space-y-3">
+                                                                    <div className="space-y-2">
+                                                                        <Label>Texto do Botão Secundário</Label>
+                                                                        <Input type="text" placeholder="Texto do Botão Secundário" value={customPopupConfig.secondButton.text} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'text'], e.target.value)} />
+                                                                    </div>
+                                                                     <div className="space-y-2">
+                                                                        <Label>Link do Botão Secundário</Label>
+                                                                        <Input type="text" placeholder="https://link-secundario.com" value={customPopupConfig.secondButton.link} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'link'], e.target.value)} />
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                        <div className="space-y-2">
+                                                            <Label>Alinhamento dos Botões</Label>
+                                                            <Select value={customPopupConfig.buttonsAlignment} onValueChange={value => onConfigChange(['popups', 'custom', 'buttonsAlignment'], value)}>
+                                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                <SelectContent>
+                                                                    <SelectItem value="vertical">Vertical</SelectItem>
+                                                                    <SelectItem value="horizontal">Horizontal</SelectItem>
+                                                                </SelectContent>
+                                                            </Select>
+                                                        </div>
+                                                    </AccordionContent>
+                                                </AccordionItem>
+                                            </Accordion>
+                                        </div>
                                     )}
                                 </div>
                             </Accordion>
