@@ -4,7 +4,7 @@
 
 import React from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { flagOptions, animationOptions, discountIconOptions } from '@/lib/constants';
+import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -466,6 +466,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-4 px-3">
+                                        <div className="space-y-2">
+                                            <Label>Fonte</Label>
+                                            <Select value={pageConfig.customization.typography.fontFamily} onValueChange={value => onConfigChange(['customization', 'typography', 'fontFamily'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    {fontOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
                                         <div className="space-y-3 pt-2">
                                             <ColorInput label="Cor do Título" value={pageConfig.customization.typography.titleColor} onChange={e => onConfigChange(['customization', 'typography', 'titleColor'], e.target.value)} />
                                             <ColorInput label="Cor do Texto" value={pageConfig.customization.typography.textColor} onChange={e => onConfigChange(['customization', 'typography', 'textColor'], e.target.value)} />
@@ -705,4 +714,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
     
+
 

@@ -50,6 +50,7 @@ export const initialPageConfig: PageConfig = {
             textColor: '#E5E7EB',
             titleSize: 19,
             textSize: 16,
+            fontFamily: 'Inter',
         },
         popup: {
             maxWidth: 500,
@@ -128,6 +129,16 @@ export const flagOptions = [
 ];
 
 
+export const fontOptions = [
+  { name: 'Inter', value: 'Inter', import: 'Inter:wght@400;500;700' },
+  { name: 'Space Grotesk', value: 'Space Grotesk', import: 'Space+Grotesk:wght@400;500;700' },
+  { name: 'Roboto', value: 'Roboto', import: 'Roboto:wght@400;500;700' },
+  { name: 'Montserrat', value: 'Montserrat', import: 'Montserrat:wght@400;500;700' },
+  { name: 'Poppins', value: 'Poppins', import: 'Poppins:wght@400;500;700' },
+  { name: 'Lato', value: 'Lato', import: 'Lato:wght@400;700' },
+  { name: 'Open Sans', value: 'Open Sans', import: 'Open+Sans:wght@400;600;700' },
+  { name: 'Source Sans Pro', value: 'Source Sans Pro', import: 'Source+Sans+Pro:wght@400;600;700' }
+];
 
 
 

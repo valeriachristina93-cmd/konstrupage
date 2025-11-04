@@ -101,6 +101,7 @@ export type PageConfig = {
       textColor: string;
       titleSize: number;
       textSize: number;
+      fontFamily: string;
     };
     popup: {
         maxWidth: number;
@@ -127,6 +128,7 @@ export type PageConfig = {
     };
   };
 };
+
 
 
 

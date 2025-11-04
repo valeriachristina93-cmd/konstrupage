@@ -1,6 +1,7 @@
 
 
 import type { PageConfig } from './definitions';
+import { fontOptions } from './constants';
 
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
@@ -35,8 +36,13 @@ export const generatePresellHtml = (config: PageConfig) => {
         }
         return style;
     };
+    
+    const selectedFont = fontOptions.find(f => f.value === customization.typography.fontFamily);
+    const fontImportUrl = selectedFont ? `https://fonts.googleapis.com/css2?family=${selectedFont.import}&display=swap` : '';
+
 
     const typographyStyles = `
+        .popup { font-family: '${customization.typography.fontFamily}', sans-serif; }
         .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; margin: 0; }
         .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; }
     `;
@@ -294,6 +300,9 @@ export const generatePresellHtml = (config: PageConfig) => {
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Presell Page</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        ${fontImportUrl ? `<link href="${fontImportUrl}" rel="stylesheet">` : ''}
         ${facebookPixelScript}
         ${googleAdsScript}
         <style>
@@ -653,4 +662,5 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+
 
