@@ -9,7 +9,7 @@ const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
 
 export const initialPageConfig: PageConfig = {
-    desktopImage: desktopHero?.imageUrl ?? 'https://picsum.photos/seed/desktop/2070/900',
+    desktopImage: desktopHero?.imageUrl ?? 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtb3VudGFpbiUyMGxhbmRzY2FwZXxlbnwwfHx8fDE3NjIxMjI0MjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
     mobileImage: mobileHero?.imageUrl ?? 'https://picsum.photos/seed/mobile/900/2070',
     imageHeightDesktop: 100,
     imageHeightMobile: 100,
@@ -139,6 +139,7 @@ export const fontOptions = [
   { name: 'Open Sans', value: 'Open Sans', import: 'Open+Sans:wght@400;600;700' },
   { name: 'Source Sans Pro', value: 'Source Sans Pro', import: 'Source+Sans+Pro:wght@400;600;700' }
 ];
+
 
 
 
