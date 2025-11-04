@@ -489,8 +489,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow: hidden;
                 transition: transform 0.2s, box-shadow 0.2s;
                 border: 2px solid transparent;
-                position: relative;
-                padding-top: 56.25%; /* 16:9 Aspect Ratio */
+                aspect-ratio: 16 / 9;
             }
             .choice-image-wrapper:hover { 
                 transform: scale(1.05); 
@@ -498,12 +497,10 @@ export const generatePresellHtml = (config: PageConfig) => {
                 border-color: ${customization.button.color}; 
             }
             .choice-image-wrapper img {
-                position: absolute;
-                top: 0;
-                left: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+                display: block;
             }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
@@ -628,18 +625,12 @@ export const generatePresellHtml = (config: PageConfig) => {
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
-
-                .popup-wrapper {
-                    align-items: center;
-                }
-                .popup-wrapper .popup {
-                    max-width: calc(100vw - 2rem);
-                }
-                
+                .popup-wrapper { align-items: center; }
+                .popup { max-width: calc(100vw - 2rem); }
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
-                .choice-images { flex-direction: row; gap: 15px;}
+                .choice-images { gap: 15px; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
