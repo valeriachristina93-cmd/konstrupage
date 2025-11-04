@@ -594,46 +594,62 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
+
+                                <AccordionItem value="behavior-config">
+                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                        <div className="flex items-center gap-3">
+                                            <Settings className="w-4 h-4 text-primary/80" />
+                                            <span>Comportamento e Animação</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pt-4 space-y-6 px-3">
+                                        <div className="space-y-2">
+                                            <Label>Posição do Pop-up</Label>
+                                            <Select value={pageConfig.customization.popupPosition} onValueChange={value => onConfigChange(['customization', 'popupPosition'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="center">Centro da Tela</SelectItem>
+                                                    <SelectItem value="bottom">Inferior</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Animação do Pop-up</Label>
+                                            <Select value={pageConfig.customization.popupAnimation} onValueChange={value => onConfigChange(['customization', 'popupAnimation'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    {animationOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Duração da Animação ({pageConfig.customization.popupAnimationDuration}s)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popupAnimationDuration]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popupAnimationDuration'], value[0])}
+                                                min={0.1}
+                                                max={2}
+                                                step={0.1}
+                                            />
+                                        </div>
+                                        <div className="p-3 border rounded-md space-y-3">
+                                            <SettingsToggle label="Mostrar botão de fechar" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
+                                            {pageConfig.customization.showCloseButton && (
+                                                <div className="pt-4 space-y-3 border-t mt-4">
+                                                    <ColorInput label="Cor do Botão de Fechar" value={pageConfig.customization.closeButtonColor} onChange={e => onConfigChange(['customization', 'closeButtonColor'], e.target.value)} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
                             </Accordion>
-                             <div className="space-y-3 pt-2">
-                                <SettingsToggle label="Mostrar botão de fechar nos pop-ups" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Posição do Pop-up</Label>
-                                <Select value={pageConfig.customization.popupPosition} onValueChange={value => onConfigChange(['customization', 'popupPosition'], value)}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="center">Centro da Tela</SelectItem>
-                                        <SelectItem value="bottom">Inferior</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                             <div className="space-y-2">
-                                <Label>Animação do Pop-up</Label>
-                                <Select value={pageConfig.customization.popupAnimation} onValueChange={value => onConfigChange(['customization', 'popupAnimation'], value)}>
-                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                    <SelectContent>
-                                        {animationOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                            <div className="space-y-2">
-                                <Label>Duração da Animação ({pageConfig.customization.popupAnimationDuration}s)</Label>
-                                <SliderWithControls
-                                    value={[pageConfig.customization.popupAnimationDuration]}
-                                    onValueChange={(value) => onConfigChange(['customization', 'popupAnimationDuration'], value[0])}
-                                    min={0.1}
-                                    max={2}
-                                    step={0.1}
-                                />
-                            </div>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="configuracao">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <Settings className="w-5 h-5 text-primary" />
-                                <span className="font-semibold">Configuração</span>
+                                <span className="font-semibold">Configuração Avançada</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
@@ -689,3 +705,4 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
     
+

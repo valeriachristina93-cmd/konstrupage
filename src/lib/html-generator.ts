@@ -1,4 +1,5 @@
 
+
 import type { PageConfig } from './definitions';
 
 export const generatePresellHtml = (config: PageConfig) => {
@@ -367,7 +368,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 font-weight: bold;
                 line-height: 1;
                 cursor: pointer;
-                color: inherit;
+                color: ${customization.closeButtonColor};
                 opacity: 0.7;
                 padding: 4px;
                 z-index: 101;
@@ -652,3 +653,4 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+

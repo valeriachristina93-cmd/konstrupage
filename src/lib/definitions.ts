@@ -112,6 +112,7 @@ export type PageConfig = {
     popupPosition: 'center' | 'bottom';
     customHtml: string;
     showCloseButton: boolean;
+    closeButtonColor: string;
     popupContour: {
       active: boolean;
       width: number;
@@ -126,6 +127,7 @@ export type PageConfig = {
     };
   };
 };
+
 
 
 
