@@ -44,6 +44,7 @@ const tools = [
     { name: 'Lightshot', url: 'https://app.prntscr.com/pt-br/index.html' },
     { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg' },
     { name: 'Screenshot Tool', url: 'https://chromewebstore.google.com/detail/screenshot-tool-screen-ca/edlifbnjlicfpckhgjhflgkeeibhhcii' },
+    { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl' },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt' },
     { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/' },
 ];
