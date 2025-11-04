@@ -44,6 +44,7 @@ const tools = [
     { name: 'Lightshot', url: 'https://app.prntscr.com/pt-br/index.html' },
     { name: 'ShareX', url: 'https://getsharex.com/' },
     { name: 'Gyazo', url: 'https://gyazo.com/pt' },
+    { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt' },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
@@ -112,7 +113,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                             </SheetTrigger>
                             <SheetContent>
                                 <SheetHeader>
-                                    <SheetTitle>Ferramentas de Captura</SheetTitle>
+                                    <SheetTitle>Ferramentas Úteis</SheetTitle>
                                 </SheetHeader>
                                  <div className="mt-4 space-y-2">
                                     {tools.map((tool) => (
