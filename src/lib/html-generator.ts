@@ -191,8 +191,12 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
                 <div class="choice-images">
-                    <img src="${popups.choice.image1Url}" onclick="acceptAction()" />
-                    <img src="${popups.choice.image2Url}" onclick="acceptAction()" />
+                    <div class="choice-image-wrapper" onclick="acceptAction()">
+                        <img src="${popups.choice.image1Url}" />
+                    </div>
+                    <div class="choice-image-wrapper" onclick="acceptAction()">
+                        <img src="${popups.choice.image2Url}" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -396,17 +400,32 @@ export const generatePresellHtml = (config: PageConfig) => {
                 max-width: 100%;
             }
             .popup button:hover { transform: translateY(-2px); ${getButtonShadowStyle()} }
-            .choice-images { display: flex; justify-content: center; gap: 20px; }
-            .choice-images img {
+            
+            .choice-images { display: flex; justify-content: center; gap: 20px; width: 100%; }
+            .choice-image-wrapper { 
                 width: ${popups.choice.customImageWidth}px;
-                height: ${popups.choice.customImageWidth}px;
-                object-fit: cover;
+                position: relative;
+                padding-bottom: calc(${popups.choice.customImageWidth}px * 9 / 16); /* 16:9 Aspect Ratio */
                 cursor: pointer;
                 border-radius: 8px;
+                overflow: hidden;
                 transition: transform 0.2s, box-shadow 0.2s;
                 border: 2px solid transparent;
             }
-            .choice-images img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); border-color: ${customization.button.color}; }
+            .choice-image-wrapper:hover { 
+                transform: scale(1.05); 
+                box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
+                border-color: ${customization.button.color}; 
+            }
+            .choice-image-wrapper img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
             .captcha-box img { width: 48px; height: 48px; }
@@ -511,7 +530,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.8); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.9); }
                 .popup button { padding: 10px 20px; font-size: 14px; }
-                .choice-images { flex-direction: column; align-items: center; }
+                .choice-images { flex-direction: row; }
             }
         </style>
     </head>
