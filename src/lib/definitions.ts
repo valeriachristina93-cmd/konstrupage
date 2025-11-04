@@ -54,6 +54,13 @@ export type PageConfig = {
         link: string;
       };
       buttonsAlignment: 'vertical' | 'horizontal';
+      countdown: {
+        active: boolean;
+        time: string; // HH:MM:SS
+        position: 'aboveTitle' | 'belowText';
+        style: 'style1' | 'style2';
+        color: string;
+      };
     };
     choice: {
       active: boolean;

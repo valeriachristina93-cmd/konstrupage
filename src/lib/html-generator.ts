@@ -179,8 +179,13 @@ export const generatePresellHtml = (config: PageConfig) => {
     const customPopup = (() => {
         if (!popups.custom.active) return '';
     
-        const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageInternalWidth, secondButton, buttonsAlignment } = popups.custom;
+        const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageInternalWidth, secondButton, buttonsAlignment, countdown } = popups.custom;
     
+        const countdownHtml = countdown.active ? `
+            <div id="custom-countdown" class="countdown-container ${'countdown-' + countdown.style}" style="--countdown-color: ${countdown.color};">
+            </div>
+        ` : '';
+
         const imageHtml = imageUrl && imageLayout !== 'none' 
             ? `<img src="${imageUrl}" class="custom-popup-image" alt="Pop-up Image" style="${imageLayout === 'inner' ? `width: ${imageInternalWidth}%;` : ''}">` 
             : '';
@@ -193,9 +198,11 @@ export const generatePresellHtml = (config: PageConfig) => {
     
         const textWrapperHtml = `
             <div class="text-wrapper">
+                ${countdown.active && countdown.position === 'aboveTitle' ? countdownHtml : ''}
                 ${title ? `<h2>${title}</h2>` : ''}
                 ${imageLayout === 'inner' ? imageHtml : ''}
                 ${description ? `<p>${description}</p>` : ''}
+                ${countdown.active && countdown.position === 'belowText' ? countdownHtml : ''}
             </div>
         `;
     
@@ -217,7 +224,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         } else {
              finalPopupHtml = `
                 <div class="custom-popup-body body-layout-default">
-                    ${imageLayout === 'top' ? imageHtml : ''}
+                    ${imageLayout === 'top' ? `<div class="custom-popup-image-container">${imageHtml}</div>` : ''}
                     ${mainContentHtml}
                 </div>
             `;
@@ -433,6 +440,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
+                 gap: ${customization.popup.gap / 2}px;
             }
 
             .popup-inner-content::-webkit-scrollbar,
@@ -501,7 +509,9 @@ export const generatePresellHtml = (config: PageConfig) => {
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
             .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; width: 100%; box-sizing: border-box; }
             
+            .custom-popup-image-container { overflow: hidden; flex-shrink: 0; }
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
+
             .text-wrapper .custom-popup-image {
                 margin: ${Math.floor(customization.popup.gap / 2)}px auto;
                 border-radius: 8px;
@@ -509,13 +519,13 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             .body-layout-side { flex-direction: row; align-items: stretch; }
             .body-layout-side.side-right { flex-direction: row-reverse; }
-            .custom-popup-image-container { flex-basis: 40%; flex-shrink: 0; background-color: #eee; }
+            .body-layout-side .custom-popup-image-container { flex-basis: 40%; }
             .body-layout-side .custom-popup-image { height: 100%; }
             .body-layout-side .custom-popup-main-content { flex: 1; justify-content: center; }
-            .body-layout-side.side-left .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; overflow: hidden; }
-            .body-layout-side.side-right .custom-popup-image-container { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; overflow: hidden; }
+            .body-layout-side.side-left .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
+            .body-layout-side.side-right .custom-popup-image-container { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; }
             
-            .body-layout-default .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px; overflow: hidden; }
+            .body-layout-default .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px; }
 
             .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; width:100%; align-items: center; }
 
@@ -524,6 +534,13 @@ export const generatePresellHtml = (config: PageConfig) => {
             .buttons-horizontal { flex-direction: row; justify-content: center; }
             .buttons-horizontal button { flex: 1; }
 
+            .countdown-container { text-align: center; }
+            .countdown-style1 { font-size: 1.1em; font-weight: bold; color: var(--countdown-color); }
+            .countdown-style2 { display: flex; gap: 8px; justify-content: center; color: var(--countdown-color); }
+            .countdown-style2 .time-box { background-color: rgba(0,0,0,0.2); padding: 8px; border-radius: 5px; }
+            .countdown-style2 .time-unit { font-size: 1.5em; font-weight: bold; }
+            .countdown-style2 .time-label { font-size: 0.7em; text-transform: uppercase; opacity: 0.8; }
+            
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
             .captcha-box img { width: 48px; height: 48px; }
@@ -605,16 +622,17 @@ export const generatePresellHtml = (config: PageConfig) => {
             @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
             @keyframes slideInDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
             @keyframes slideInUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-            @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+            @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); } }
 
             @media (max-width: 768px) {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
 
-                 .popup {
-                    max-width: 90vw;
+                .popup {
+                     max-width: 90vw;
+                     margin-left: auto;
+                     margin-right: auto;
                 }
-
                 .popup-inner-content {
                     gap: 12px;
                 }
@@ -695,6 +713,48 @@ export const generatePresellHtml = (config: PageConfig) => {
             function acceptAction() {
                 redirect(AFFILIATE_LINK);
             }
+
+            ${popups.custom.countdown.active ? `
+                (function() {
+                    const countdownEl = document.getElementById('custom-countdown');
+                    if (!countdownEl) return;
+
+                    const timeString = "${popups.custom.countdown.time}";
+                    const parts = timeString.split(':').map(Number);
+                    if (parts.length !== 3) return;
+
+                    let totalSeconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
+
+                    function updateCountdown() {
+                        if (totalSeconds < 0) {
+                            clearInterval(interval);
+                            countdownEl.innerHTML = "Oferta expirada!";
+                            return;
+                        }
+
+                        const hours = Math.floor(totalSeconds / 3600);
+                        const minutes = Math.floor((totalSeconds % 3600) / 60);
+                        const seconds = totalSeconds % 60;
+
+                        const format = (n) => n.toString().padStart(2, '0');
+
+                        if ("${popups.custom.countdown.style}" === "style1") {
+                            countdownEl.innerHTML = \`\${format(hours)}:\${format(minutes)}:\${format(seconds)}\`;
+                        } else {
+                            countdownEl.innerHTML = \`
+                                <div class="time-box"><div class="time-unit">\${format(hours)}</div><div class="time-label">Horas</div></div>
+                                <div class="time-box"><div class="time-unit">\${format(minutes)}</div><div class="time-label">Minutos</div></div>
+                                <div class="time-box"><div class="time-unit">\${format(seconds)}</div><div class="time-label">Segundos</div></div>
+                            \`;
+                        }
+                        
+                        totalSeconds--;
+                    }
+
+                    updateCountdown();
+                    const interval = setInterval(updateCountdown, 1000);
+                })();
+            ` : ''}
 
              function handleCaptchaCheckbox() {
                 const checkbox = document.getElementById('captcha-checkbox');

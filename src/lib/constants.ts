@@ -36,6 +36,13 @@ export const initialPageConfig: PageConfig = {
                 link: '#'
             },
             buttonsAlignment: 'vertical',
+            countdown: {
+                active: false,
+                time: '00:15:00',
+                position: 'belowText',
+                style: 'style1',
+                color: '#FFFFFF'
+            },
         },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
         captcha: { active: false, title: 'Verificação Rápida', description: 'Clique abaixo para provar que você não é um robô e continuar.', captchaType: 'checkbox' }

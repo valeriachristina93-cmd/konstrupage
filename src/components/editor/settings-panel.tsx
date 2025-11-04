@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -430,6 +430,48 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                             <Label>Descrição</Label>
                                                             <Textarea placeholder="Descrição do pop-up. Você pode usar <b> e <a> tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                         </div>
+                                                    </AccordionContent>
+                                                </AccordionItem>
+
+                                                 {/* Countdown Timer */}
+                                                <AccordionItem value="countdown">
+                                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                                        <div className="flex items-center gap-3">
+                                                          <Timer className="w-4 h-4 text-primary/80" />
+                                                          <span>Contador Regressivo</span>
+                                                        </div>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                                        <SettingsToggle label="Ativar Contador" checked={customPopupConfig.countdown.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'countdown', 'active'], checked)} />
+                                                        {customPopupConfig.countdown.active && (
+                                                            <div className="space-y-4">
+                                                                <div className="space-y-2">
+                                                                    <Label>Tempo (HH:MM:SS)</Label>
+                                                                    <Input type="text" placeholder="00:15:00" value={customPopupConfig.countdown.time} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'time'], e.target.value)} />
+                                                                </div>
+                                                                <div className="space-y-2">
+                                                                    <Label>Posição</Label>
+                                                                    <Select value={customPopupConfig.countdown.position} onValueChange={value => onConfigChange(['popups', 'custom', 'countdown', 'position'], value)}>
+                                                                        <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="aboveTitle">Acima do Título</SelectItem>
+                                                                            <SelectItem value="belowText">Abaixo do Texto</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                                 <div className="space-y-2">
+                                                                    <Label>Estilo</Label>
+                                                                    <Select value={customPopupConfig.countdown.style} onValueChange={value => onConfigChange(['popups', 'custom', 'countdown', 'style'], value)}>
+                                                                        <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                        <SelectContent>
+                                                                            <SelectItem value="style1">Simples</SelectItem>
+                                                                            <SelectItem value="style2">Em caixas</SelectItem>
+                                                                        </SelectContent>
+                                                                    </Select>
+                                                                </div>
+                                                                <ColorInput label="Cor do Contador" value={customPopupConfig.countdown.color} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'color'], e.target.value)} />
+                                                            </div>
+                                                        )}
                                                     </AccordionContent>
                                                 </AccordionItem>
 
