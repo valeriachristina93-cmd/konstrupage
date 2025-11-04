@@ -466,10 +466,24 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                         <SelectContent>
                                                                             <SelectItem value="style1">Simples</SelectItem>
                                                                             <SelectItem value="style2">Em caixas</SelectItem>
+                                                                            <SelectItem value="style3">Círculos</SelectItem>
                                                                         </SelectContent>
                                                                     </Select>
                                                                 </div>
+                                                                <div className="space-y-2">
+                                                                    <Label>Tamanho da Fonte ({customPopupConfig.countdown.fontSize}px)</Label>
+                                                                    <SliderWithControls
+                                                                        value={[customPopupConfig.countdown.fontSize]}
+                                                                        onValueChange={(value) => onConfigChange(['popups', 'custom', 'countdown', 'fontSize'], value[0])}
+                                                                        min={12}
+                                                                        max={48}
+                                                                        step={1}
+                                                                    />
+                                                                </div>
                                                                 <ColorInput label="Cor do Contador" value={customPopupConfig.countdown.color} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'color'], e.target.value)} />
+                                                                {(customPopupConfig.countdown.style === 'style2' || customPopupConfig.countdown.style === 'style3') && (
+                                                                    <ColorInput label="Cor da Caixa" value={customPopupConfig.countdown.boxColor} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'boxColor'], e.target.value)} />
+                                                                )}
                                                             </div>
                                                         )}
                                                     </AccordionContent>

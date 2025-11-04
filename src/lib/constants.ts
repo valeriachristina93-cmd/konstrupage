@@ -41,7 +41,9 @@ export const initialPageConfig: PageConfig = {
                 time: '00:15:00',
                 position: 'belowText',
                 style: 'style1',
-                color: '#FFFFFF'
+                color: '#FFFFFF',
+                fontSize: 24,
+                boxColor: '#000000',
             },
         },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },

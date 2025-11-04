@@ -58,8 +58,10 @@ export type PageConfig = {
         active: boolean;
         time: string; // HH:MM:SS
         position: 'aboveTitle' | 'belowText';
-        style: 'style1' | 'style2';
+        style: 'style1' | 'style2' | 'style3';
         color: string;
+        fontSize: number;
+        boxColor: string;
       };
     };
     choice: {

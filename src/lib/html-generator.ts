@@ -182,7 +182,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageInternalWidth, secondButton, buttonsAlignment, countdown } = popups.custom;
     
         const countdownHtml = countdown.active ? `
-            <div id="custom-countdown" class="countdown-container ${'countdown-' + countdown.style}" style="--countdown-color: ${countdown.color};">
+            <div id="custom-countdown" class="countdown-container ${'countdown-' + countdown.style}" style="--countdown-color: ${countdown.color}; --countdown-font-size: ${countdown.fontSize}px; --countdown-box-color: ${countdown.boxColor};">
             </div>
         ` : '';
 
@@ -206,26 +206,25 @@ export const generatePresellHtml = (config: PageConfig) => {
             </div>
         `;
     
-        const mainContentHtml = `
-            <div class="custom-popup-main-content">
-                ${textWrapperHtml}
-                ${buttonsHtml}
-            </div>
-        `;
-    
         let finalPopupHtml = '';
         if (imageLayout === 'side') {
             finalPopupHtml = `
                 <div class="custom-popup-body body-layout-side side-${imageSide}">
                     <div class="custom-popup-image-container">${imageHtml}</div>
-                    ${mainContentHtml}
+                    <div class="custom-popup-main-content">
+                        ${textWrapperHtml}
+                        ${buttonsHtml}
+                    </div>
                 </div>
             `;
         } else {
              finalPopupHtml = `
                 <div class="custom-popup-body body-layout-default">
                     ${imageLayout === 'top' ? `<div class="custom-popup-image-container">${imageHtml}</div>` : ''}
-                    ${mainContentHtml}
+                    <div class="custom-popup-main-content">
+                        ${textWrapperHtml}
+                        ${buttonsHtml}
+                    </div>
                 </div>
             `;
         }
@@ -440,7 +439,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
-                 gap: ${customization.popup.gap / 2}px;
+                 gap: ${customization.popup.gap}px;
             }
 
             .popup-inner-content::-webkit-scrollbar,
@@ -507,7 +506,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
-            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; width: 100%; box-sizing: border-box; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; width: 100%; box-sizing: border-box; flex-grow: 1; }
             
             .custom-popup-image-container { overflow: hidden; flex-shrink: 0; }
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
@@ -534,12 +533,13 @@ export const generatePresellHtml = (config: PageConfig) => {
             .buttons-horizontal { flex-direction: row; justify-content: center; }
             .buttons-horizontal button { flex: 1; }
 
-            .countdown-container { text-align: center; }
-            .countdown-style1 { font-size: 1.1em; font-weight: bold; color: var(--countdown-color); }
-            .countdown-style2 { display: flex; gap: 8px; justify-content: center; color: var(--countdown-color); }
-            .countdown-style2 .time-box { background-color: rgba(0,0,0,0.2); padding: 8px; border-radius: 5px; }
-            .countdown-style2 .time-unit { font-size: 1.5em; font-weight: bold; }
-            .countdown-style2 .time-label { font-size: 0.7em; text-transform: uppercase; opacity: 0.8; }
+            .countdown-container { text-align: center; font-size: var(--countdown-font-size); line-height: 1.2; }
+            .countdown-style1 { font-weight: bold; color: var(--countdown-color); }
+            .countdown-style2, .countdown-style3 { display: flex; gap: 8px; justify-content: center; color: var(--countdown-color); }
+            .time-box { background-color: var(--countdown-box-color); padding: 0.5em; border-radius: 5px; }
+            .countdown-style3 .time-box { border-radius: 50%; width: calc(var(--countdown-font-size) * 2.2); height: calc(var(--countdown-font-size) * 2.2); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; }
+            .time-unit { font-size: 1.2em; font-weight: bold; }
+            .time-label { font-size: 0.6em; text-transform: uppercase; opacity: 0.8; }
             
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
@@ -629,9 +629,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
 
                 .popup {
-                     max-width: 90vw;
-                     margin-left: auto;
-                     margin-right: auto;
+                    max-width: 90vw;
+                    margin-left: auto;
+                    margin-right: auto;
                 }
                 .popup-inner-content {
                     gap: 12px;
@@ -643,7 +643,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .choice-images { flex-direction: row; gap: 15px;}
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
-                .body-layout-side .custom-popup-main-content { flex: 1; }
+                .body-layout-side .custom-popup-main-content { flex: 1; padding-top: ${customization.popup.paddingX}px; padding-bottom: ${customization.popup.paddingY}px; }
             }
         </style>
     </head>
