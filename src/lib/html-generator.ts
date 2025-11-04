@@ -482,7 +482,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             .choice-images { display: flex; justify-content: center; gap: 20px; width: 100%; }
             .choice-image-wrapper { 
-                width: ${popups.choice.customImageWidth}px;
+                flex: 1;
+                max-width: ${popups.choice.customImageWidth}px;
                 cursor: pointer;
                 border-radius: 8px;
                 overflow: hidden;
@@ -859,3 +860,4 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+
