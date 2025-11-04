@@ -273,7 +273,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div class="captcha-slide-container">
             <div class="captcha-slide-track">
                 <div class="captcha-slide-thumb">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                 </div>
                 <span class="captcha-slide-text">Deslize para continuar</span>
             </div>
@@ -439,6 +439,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
+                gap: 16px;
             }
 
             .popup-inner-content::-webkit-scrollbar,
@@ -505,7 +506,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
-            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; width: 100%; box-sizing: border-box; flex-grow: 1; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
             
             .custom-popup-image-container { overflow: hidden; flex-shrink: 0; }
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
@@ -523,7 +524,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .body-layout-side.side-left .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
             .body-layout-side.side-right .custom-popup-image-container { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; }
             
-            .body-layout-default .custom-popup-main-content { padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
             .body-layout-default .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px; }
 
             .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; width:100%; align-items: center; }
@@ -539,7 +539,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .time-box { background-color: var(--countdown-box-color); padding: 0.5em; border-radius: 5px; }
             .countdown-style3 .time-box { border-radius: 50%; width: calc(var(--countdown-font-size) * 2.8); height: calc(var(--countdown-font-size) * 2.8); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0; line-height: 1; }
             .time-unit { font-size: 1.2em; font-weight: bold; }
-            .time-label { font-size: 0.6em; text-transform: uppercase; opacity: 0.8; }
+            .time-label { font-size: 0.4em; text-transform: uppercase; opacity: 0.8; }
             
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
@@ -631,11 +631,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup-wrapper {
                     align-items: center;
                 }
-
-                .popup {
+                .popup-wrapper .popup {
                     max-width: calc(100vw - 2rem);
-                    margin-left: auto;
-                    margin-right: auto;
                 }
                 
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
