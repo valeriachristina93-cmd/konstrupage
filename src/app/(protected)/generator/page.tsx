@@ -24,6 +24,7 @@ export default function GeneratorPage() {
     const [generatedHtml, setGeneratedHtml] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [isGeneratingWithAI, setIsGeneratingWithAI] = useState(false);
     const [description, setDescription] = useState('');
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
@@ -64,7 +65,7 @@ export default function GeneratorPage() {
           return;
         }
     
-        setIsGenerating(true);
+        setIsGeneratingWithAI(true);
         try {
           const result = await generatePage(description);
           setPageConfig(result);
@@ -80,7 +81,7 @@ export default function GeneratorPage() {
             description: "Houve um problema com a IA. Tente novamente mais tarde.",
           });
         } finally {
-          setIsGenerating(false);
+          setIsGeneratingWithAI(false);
         }
       };
 
@@ -106,30 +107,26 @@ export default function GeneratorPage() {
 
     return (
         <div className="flex flex-col h-screen bg-muted/30 text-foreground">
-             <header className="flex h-16 items-center border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
-                <Link href="/dashboard" passHref>
-                <Button variant="outline" size="icon">
-                    <ArrowLeft className="h-4 w-4" />
-                </Button>
-                </Link>
-                <h1 className="text-xl font-semibold flex items-center gap-2">
-                <Bot className="h-6 w-6 text-primary" />
-                Gerador de Páginas com IA
-                </h1>
-                <div className="ml-auto">
-                {pageConfig && (
-                     <Button
-                        onClick={handleFinalGenerate}
-                        disabled={isGenerating || !pageConfig.affiliateLink}
-                        size="lg"
-                        className="font-bold text-base py-5 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
-                    >
-                        {isGenerating && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                        Gerar Página
+            {pageConfig && (
+              <EditorHeader 
+                onGenerate={handleFinalGenerate}
+                isGenerating={isGenerating}
+                affiliateLink={pageConfig.affiliateLink}
+              />
+            )}
+            {!pageConfig && (
+                 <header className="flex h-16 items-center border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
+                    <Link href="/dashboard" passHref>
+                    <Button variant="outline" size="icon">
+                        <ArrowLeft className="h-4 w-4" />
                     </Button>
-                )}
-                </div>
-            </header>
+                    </Link>
+                    <h1 className="text-xl font-semibold flex items-center gap-2">
+                    <Bot className="h-6 w-6 text-primary" />
+                    Gerador de Páginas com IA
+                    </h1>
+                </header>
+            )}
             <main className="flex-1 flex flex-col md:flex-row gap-8 justify-center overflow-y-auto p-4 md:p-8">
                  <div className="w-full md:min-w-[400px] lg:min-w-[448px] md:max-w-[448px] flex flex-col bg-card shadow-sm border rounded-lg">
                     {pageConfig ? (
@@ -161,11 +158,11 @@ export default function GeneratorPage() {
                                     </div>
                                     <Button
                                         onClick={handleGenerateWithAI}
-                                        disabled={isGenerating}
+                                        disabled={isGeneratingWithAI}
                                         size="lg"
                                         className="w-full mt-6 font-bold text-lg py-6 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700"
                                     >
-                                        {isGenerating ? (
+                                        {isGeneratingWithAI ? (
                                         <>
                                             <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                                             Gerando...
