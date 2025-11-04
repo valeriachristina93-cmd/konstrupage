@@ -134,7 +134,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     };
 
     const popupContentStyles = `padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px;`;
-    const popupStandardGap = `gap: ${customization.popup.gap}px;`;
+    const popupStandardGap = `gap: 16px;`;
     
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
@@ -439,7 +439,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
-                 gap: 16px;
             }
 
             .popup-inner-content::-webkit-scrollbar,
@@ -506,7 +505,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
-            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; width: 100%; box-sizing: border-box; flex-grow: 1; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; width: 100%; box-sizing: border-box; flex-grow: 1; }
             
             .custom-popup-image-container { overflow: hidden; flex-shrink: 0; }
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
@@ -524,6 +523,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .body-layout-side.side-left .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
             .body-layout-side.side-right .custom-popup-image-container { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; }
             
+            .body-layout-default .custom-popup-main-content { padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
             .body-layout-default .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px; }
 
             .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; width:100%; align-items: center; }
@@ -628,6 +628,10 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
 
+                .popup-wrapper {
+                    align-items: center;
+                }
+
                 .popup {
                     max-width: calc(100vw - 2rem);
                     margin-left: auto;
@@ -640,7 +644,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .choice-images { flex-direction: row; gap: 15px;}
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
-                .body-layout-side .custom-popup-main-content { flex: 1; padding-top: ${customization.popup.paddingX}px; padding-bottom: ${customization.popup.paddingY}px; }
+                .body-layout-side .custom-popup-main-content { flex: 1; }
             }
         </style>
     </head>
@@ -734,14 +738,20 @@ export const generatePresellHtml = (config: PageConfig) => {
                         const seconds = totalSeconds % 60;
 
                         const format = (n) => n.toString().padStart(2, '0');
+                        const style = "${popups.custom.countdown.style}";
 
-                        if ("${popups.custom.countdown.style}" === "style1") {
+                        const hoursLabel = style === 'style3' ? 'Hrs' : 'Horas';
+                        const minutesLabel = style === 'style3' ? 'Min' : 'Minutos';
+                        const secondsLabel = style === 'style3' ? 'Seg' : 'Segundos';
+
+
+                        if (style === "style1") {
                             countdownEl.innerHTML = \`\${format(hours)}:\${format(minutes)}:\${format(seconds)}\`;
                         } else {
                             countdownEl.innerHTML = \`
-                                <div class="time-box"><div class="time-unit">\${format(hours)}</div><div class="time-label">Horas</div></div>
-                                <div class="time-box"><div class="time-unit">\${format(minutes)}</div><div class="time-label">Minutos</div></div>
-                                <div class="time-box"><div class="time-unit">\${format(seconds)}</div><div class="time-label">Segundos</div></div>
+                                <div class="time-box"><div class="time-unit">\${format(hours)}</div><div class="time-label">\${hoursLabel}</div></div>
+                                <div class="time-box"><div class="time-unit">\${format(minutes)}</div><div class="time-label">\${minutesLabel}</div></div>
+                                <div class="time-box"><div class="time-unit">\${format(seconds)}</div><div class="time-label">\${secondsLabel}</div></div>
                             \`;
                         }
                         
