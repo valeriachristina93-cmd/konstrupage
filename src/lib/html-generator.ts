@@ -47,7 +47,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; }
     `;
 
-    const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px;`;
+    const popupStyles = `background-color: ${customization.popup.backgroundColor}; border-radius: ${customization.popup.borderRadius}px; max-width: ${customization.popup.maxWidth}px; min-height: ${customization.popup.minHeight > 0 ? `${customization.popup.minHeight}px` : 'auto'};`;
     
     function isColorLight(hexColor: string) {
         if (!hexColor) return true;
@@ -404,8 +404,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .choice-images { display: flex; justify-content: center; gap: 20px; width: 100%; }
             .choice-image-wrapper { 
                 width: ${popups.choice.customImageWidth}px;
-                position: relative;
-                padding-bottom: calc(${popups.choice.customImageWidth}px * 9 / 16); /* 16:9 Aspect Ratio */
+                aspect-ratio: 16 / 9;
                 cursor: pointer;
                 border-radius: 8px;
                 overflow: hidden;
@@ -418,9 +417,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 border-color: ${customization.button.color}; 
             }
             .choice-image-wrapper img {
-                position: absolute;
-                top: 0;
-                left: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: cover;

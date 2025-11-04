@@ -106,6 +106,7 @@ export type PageConfig = {
     };
     popup: {
         maxWidth: number;
+        minHeight: number;
         borderRadius: number;
         padding: number;
         gap: number;

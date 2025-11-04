@@ -519,6 +519,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
+                                            <Label>Altura Mínima do Pop-up ({pageConfig.customization.popup.minHeight}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.minHeight]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'minHeight'], value[0])}
+                                                min={0}
+                                                max={800}
+                                                step={10}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
                                             <Label>Espaçamento Interno ({pageConfig.customization.popup.padding}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.padding]}

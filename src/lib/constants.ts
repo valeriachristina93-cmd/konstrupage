@@ -54,6 +54,7 @@ export const initialPageConfig: PageConfig = {
         },
         popup: {
             maxWidth: 500,
+            minHeight: 0,
             borderRadius: 12,
             padding: 24,
             gap: 16,
