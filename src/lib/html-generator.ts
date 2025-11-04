@@ -194,13 +194,13 @@ export const generatePresellHtml = (config: PageConfig) => {
         const textContentHtml = `
             <div class="text-wrapper">
                 ${title ? `<h2>${title}</h2>` : ''}
+                ${imageLayout === 'inner' ? imageHtml : ''}
                 ${description ? `<p>${description}</p>` : ''}
             </div>
         `;
     
         const mainContentWithPadding = `
             <div class="custom-popup-main-content">
-                ${imageLayout === 'inner' ? imageHtml : ''}
                 ${textContentHtml}
                 ${buttonsHtml}
             </div>
@@ -210,21 +210,15 @@ export const generatePresellHtml = (config: PageConfig) => {
         if (imageLayout === 'side') {
             mainContentHtml = `
                 <div class="custom-popup-body body-layout-side side-${imageSide}">
-                    <div class="custom-popup-image-container">${imageHtml}</div>
-                    ${mainContentWithPadding}
-                </div>
-            `;
-        } else if (imageLayout === 'top') {
-             mainContentHtml = `
-                <div class="custom-popup-body body-layout-default">
-                    ${imageHtml}
+                    <div class="custom-popup-image-container">${imageLayout === 'side' ? imageHtml : ''}</div>
                     ${mainContentWithPadding}
                 </div>
             `;
         } else {
              mainContentHtml = `
                 <div class="custom-popup-body body-layout-default">
-                     ${mainContentWithPadding}
+                    ${imageLayout === 'top' ? imageHtml : ''}
+                    ${mainContentWithPadding}
                 </div>
             `;
         }
@@ -298,7 +292,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${closeButtonHtml('exit-popup')}
                 <div style="padding:0; display: flex; flex-direction: column;">
                     <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
-                    <div style="padding: 24px; display: flex; flex-direction: column; gap: ${customization.popup.gap}px; align-items: center; text-align: center;">
+                    <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
                         <h3>Espere, não vá embora!</h3>
                         <p>Temos uma oferta especial para você.</p>
                         <div class="button-container" style="${buttonContainerStyle}">
@@ -508,17 +502,23 @@ export const generatePresellHtml = (config: PageConfig) => {
             .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
             
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
+            .text-wrapper .custom-popup-image {
+                margin-top: ${Math.floor(customization.popup.gap / 2)}px;
+                margin-bottom: ${Math.floor(customization.popup.gap / 2)}px;
+                border-radius: 8px;
+            }
             
             .body-layout-side { flex-direction: row; }
             .body-layout-side.side-right { flex-direction: row-reverse; }
             .custom-popup-image-container { flex-basis: 40%; flex-shrink: 0; background-color: #eee; }
             .body-layout-side .custom-popup-image { height: 100%; }
             .body-layout-side .custom-popup-main-content { flex: 1; justify-content: center; }
-            .body-layout-side.side-left .custom-popup-image { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
-            .body-layout-side.side-right .custom-popup-image { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; }
+            .body-layout-side.side-left .custom-popup-image { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: 0; border-bottom-right-radius: 0;}
+            .body-layout-side.side-right .custom-popup-image { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; border-top-left-radius: 0; border-bottom-left-radius: 0;}
+            
+            .body-layout-default .custom-popup-image { border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px; }
 
-            .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; }
-            .text-wrapper img.custom-popup-image { max-width: 80%; margin: ${customization.popup.gap}px auto; border-radius: 8px; }
+            .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; width:100%; }
 
             .custom-popup-buttons { display: flex; width: 100%; gap: 10px; }
             .buttons-vertical { flex-direction: column; align-items: ${getButtonAlignment()}; }
@@ -612,9 +612,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .bg-desktop { display: none; }
                 .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
 
-                .popup {
+                 .popup {
                     max-width: 90vw;
-                    max-height: 85vh;
                 }
 
                 .popup-inner-content {
@@ -797,3 +796,4 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+
