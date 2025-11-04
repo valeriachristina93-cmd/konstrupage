@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React from 'react';
@@ -663,8 +662,21 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
-                            <div className="p-3 border rounded-md space-y-3">
+                             <div className="p-3 border rounded-md space-y-3">
                                 <SettingsToggle label="Clique Total na Página" checked={pageConfig.fullPageClick} onCheckedChange={checked => onConfigChange(['fullPageClick'], checked)} />
+                            </div>
+                            <div className="p-3 border rounded-md">
+                                <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
+                                {pageConfig.autoRedirect.active && (
+                                    <div className="pt-4 space-y-2 border-t mt-4">
+                                        <Label>Tempo ({pageConfig.autoRedirect.time}s)</Label>
+                                        <input type="range" min="5" max="15" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
+                                    </div>
+                                )}
+                            </div>
+                            <div className="space-y-3 p-3 border rounded-md">
+                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '<!-- Seu código aqui -->' : '')} />
+                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
                             </div>
                             <div className="p-3 border rounded-md space-y-4">
                                 <div className='flex items-center gap-2'>
@@ -694,19 +706,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
                                 </div>
                             </div>
-                             <div className="p-3 border rounded-md">
-                                <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
-                                {pageConfig.autoRedirect.active && (
-                                    <div className="pt-4 space-y-2 border-t mt-4">
-                                        <Label>Tempo ({pageConfig.autoRedirect.time}s)</Label>
-                                        <input type="range" min="5" max="15" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
-                                    </div>
-                                )}
-                            </div>
-                            <div className="space-y-3 p-3 border rounded-md">
-                                <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '<!-- Seu código aqui -->' : '')} />
-                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono" />}
-                            </div>
                         </AccordionContent>
                     </AccordionItem>
                 </Accordion>
@@ -714,3 +713,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </>
     );
 }
+
+    
