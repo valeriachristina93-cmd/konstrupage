@@ -58,7 +58,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                 <h2 className="text-lg font-semibold">Configurações da Página</h2>
             </div>
             <ScrollArea className="flex-grow">
-                <Accordion type="multiple" className="w-full">
+                <Accordion type="single" collapsible className="w-full">
                     
                     <AccordionItem value="layout">
                         <AccordionTrigger className="hover:no-underline px-4">
