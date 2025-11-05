@@ -43,8 +43,8 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const typographyStyles = `
         .popup { font-family: '${customization.typography.fontFamily}', sans-serif; }
-        .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; margin: 0; }
-        .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; }
+        .popup h3, .popup h2 { color: ${customization.typography.titleColor}; font-size: ${customization.typography.titleSize}px; margin: 0; margin-bottom: ${customization.popup.titleBottomMargin}px; }
+        .popup p { color: ${customization.typography.textColor}; font-size: ${customization.typography.textSize}px; margin: 0; margin-bottom: ${customization.popup.descriptionBottomMargin}px; }
         .popup p a, .popup h2 a, .popup h3 a { color: inherit; }
     `;
 
@@ -126,7 +126,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             'shopping-bag': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
             'ticket-percent': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"></path><path d="M9 9h.01"></path><path d="m15 9-6 6"></path><path d="M9 15h.01"></path><path d="M22 9h-4.01"></path><path d="M3 9h4"></path><path d="M22 15h-4.01"></path><path d="M3 15h4"></path></svg>`,
             'clock': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
-            'shopping-cart': `<svg xmlns="http://www.w3org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`,
+            'shopping-cart': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`,
             'heart': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
             'gift': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`,
         };
@@ -134,7 +134,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     };
 
     const popupContentStyles = `padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px;`;
-    const popupStandardGap = `gap: 16px;`;
+    const popupStandardGap = `gap: ${customization.popup.gap}px;`;
     
     const cookiePopup = popups.cookies.active ? `
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
@@ -191,7 +191,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             : '';
 
         const imageInnerHtml = imageInner.active && imageInner.imageUrl
-            ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%;">`
+            ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%; margin-bottom: ${customization.popup.gap}px;">`
             : '';
     
         const mainButtonHtml = `<button style="${buttonStyle}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
@@ -203,9 +203,9 @@ export const generatePresellHtml = (config: PageConfig) => {
         const textWrapperHtml = `
             <div class="text-wrapper">
                 ${countdown.active && countdown.position === 'aboveTitle' ? countdownHtml : ''}
-                ${title ? `<h2>${title}</h2>` : ''}
+                ${title ? `<h2 style="margin-bottom: ${customization.popup.titleBottomMargin}px">${title}</h2>` : ''}
                 ${imageInnerHtml}
-                ${description ? `<p>${description}</p>` : ''}
+                ${description ? `<p style="margin-bottom: ${customization.popup.descriptionBottomMargin}px">${description}</p>` : ''}
                 ${countdown.active && countdown.position === 'belowText' ? countdownHtml : ''}
             </div>
         `;
@@ -449,7 +449,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow-y: auto;
                 -ms-overflow-style: none;
                 scrollbar-width: none;
-                gap: 16px;
+                gap: ${customization.popup.gap}px;
             }
 
             .popup-inner-content::-webkit-scrollbar,
@@ -514,7 +514,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
-            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; gap: ${customization.popup.gap}px; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
+            .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
             
             .custom-popup-image-container { overflow: hidden; flex-shrink: 0; }
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
@@ -530,7 +530,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             .body-layout-default .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px; }
 
-            .text-wrapper { display: flex; flex-direction: column; gap: ${Math.floor(customization.popup.gap / 2)}px; width:100%; align-items: center; }
+            .text-wrapper { display: flex; flex-direction: column; width:100%; align-items: center; }
 
             .custom-popup-buttons { display: flex; width: 100%; gap: 10px; }
             .buttons-vertical { flex-direction: column; align-items: ${getButtonAlignment()}; }

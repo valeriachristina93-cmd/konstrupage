@@ -776,10 +776,30 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento entre Elementos ({pageConfig.customization.popup.gap}px)</Label>
+                                            <Label>Espaçamento Geral ({pageConfig.customization.popup.gap}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.gap]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'gap'], value[0])}
+                                                min={0}
+                                                max={48}
+                                                step={2}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Espaçamento do Título ({pageConfig.customization.popup.titleBottomMargin}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.titleBottomMargin]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'titleBottomMargin'], value[0])}
+                                                min={0}
+                                                max={48}
+                                                step={2}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Espaçamento da Descrição ({pageConfig.customization.popup.descriptionBottomMargin}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.customization.popup.descriptionBottomMargin]}
+                                                onValueChange={(value) => onConfigChange(['customization', 'popup', 'descriptionBottomMargin'], value[0])}
                                                 min={0}
                                                 max={48}
                                                 step={2}

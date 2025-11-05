@@ -137,6 +137,8 @@ export type PageConfig = {
         paddingY: number;
         gap: number;
         backgroundColor: string;
+        titleBottomMargin: number;
+        descriptionBottomMargin: number;
     },
     popupPosition: 'center' | 'bottom' | 'top';
     customHtml: string;

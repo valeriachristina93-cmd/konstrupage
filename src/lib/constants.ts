@@ -88,6 +88,8 @@ export const initialPageConfig: PageConfig = {
             paddingY: 24,
             gap: 16,
             backgroundColor: '#1F2937',
+            titleBottomMargin: 12,
+            descriptionBottomMargin: 16,
         },
         popupPosition: 'center',
         customHtml: '',
