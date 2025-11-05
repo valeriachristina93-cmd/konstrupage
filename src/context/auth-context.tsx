@@ -18,6 +18,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    // This effect runs only once on the client to check the initial auth state.
     const storedAuth = localStorage.getItem('isLoggedIn');
     if (storedAuth === 'true') {
       setIsLoggedIn(true);
@@ -26,26 +27,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
   
   useEffect(() => {
-    if(!loading) {
-      if (isLoggedIn && pathname === '/login') {
-        router.push('/dashboard');
-      }
-      if (!isLoggedIn && pathname !== '/login') {
-        router.push('/login');
-      }
+    // This effect runs whenever the login state, path, or loading state changes.
+    if (loading) {
+      return; // Don't do anything while loading
+    }
+    if (isLoggedIn && pathname === '/login') {
+      router.replace('/dashboard');
+    }
+    if (!isLoggedIn && pathname !== '/login') {
+      router.replace('/login');
     }
   }, [isLoggedIn, pathname, router, loading]);
 
   const login = () => {
-    setIsLoggedIn(true);
     localStorage.setItem('isLoggedIn', 'true');
-    router.push('/dashboard');
+    setIsLoggedIn(true);
+    // The useEffect above will handle the redirect
   };
 
   const logout = () => {
-    setIsLoggedIn(false);
     localStorage.removeItem('isLoggedIn');
-    router.push('/login');
+    setIsLoggedIn(false);
+    // The useEffect above will handle the redirect
   };
 
   if(loading) {
