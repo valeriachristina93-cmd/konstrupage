@@ -126,7 +126,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             'shopping-bag': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
             'ticket-percent': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2Z"></path><path d="M9 9h.01"></path><path d="m15 9-6 6"></path><path d="M9 15h.01"></path><path d="M22 9h-4.01"></path><path d="M3 9h4"></path><path d="M22 15h-4.01"></path><path d="M3 15h4"></path></svg>`,
             'clock': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>`,
-            'shopping-cart': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`,
+            'shopping-cart': `<svg xmlns="http://www.w3org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>`,
             'heart': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>`,
             'gift': `<svg xmlns="http://www.w3.org/2000/svg" width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg>`,
         };
@@ -179,7 +179,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const customPopup = (() => {
         if (!popups.custom.active) return '';
     
-        const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageSideWidth, imageInternalWidth, secondButton, buttonsAlignment, countdown } = popups.custom;
+        const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageSideWidth, imageInner, secondButton, buttonsAlignment, countdown } = popups.custom;
     
         const countdownHtml = countdown.active ? `
             <div id="custom-countdown" class="countdown-container ${'countdown-' + countdown.style}" style="--countdown-color: ${countdown.color}; --countdown-font-size: ${countdown.fontSize}px; --countdown-box-color: ${countdown.boxColor};">
@@ -187,7 +187,11 @@ export const generatePresellHtml = (config: PageConfig) => {
         ` : '';
 
         const imageHtml = imageUrl && imageLayout !== 'none' 
-            ? `<img src="${imageUrl}" class="custom-popup-image" alt="Pop-up Image" style="${imageLayout === 'inner' ? `width: ${imageInternalWidth}%;` : ''}">` 
+            ? `<img src="${imageUrl}" class="custom-popup-image" alt="Pop-up Image">` 
+            : '';
+
+        const imageInnerHtml = imageInner.active && imageInner.imageUrl
+            ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%;">`
             : '';
     
         const mainButtonHtml = `<button style="${buttonStyle}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
@@ -200,7 +204,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             <div class="text-wrapper">
                 ${countdown.active && countdown.position === 'aboveTitle' ? countdownHtml : ''}
                 ${title ? `<h2>${title}</h2>` : ''}
-                ${imageLayout === 'inner' ? imageHtml : ''}
+                ${imageInnerHtml}
                 ${description ? `<p>${description}</p>` : ''}
                 ${countdown.active && countdown.position === 'belowText' ? countdownHtml : ''}
             </div>
@@ -491,11 +495,11 @@ export const generatePresellHtml = (config: PageConfig) => {
                 flex: 1;
                 max-width: ${popups.choice.customImageWidth}px;
                 cursor: pointer;
-                border-radius: 8px;
                 overflow: hidden;
                 transition: transform 0.2s, box-shadow 0.2s;
                 border: 2px solid transparent;
                 aspect-ratio: 16 / 9;
+                border-radius: 8px;
             }
             .choice-image-wrapper:hover { 
                 transform: scale(1.05); 
@@ -514,11 +518,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             .custom-popup-image-container { overflow: hidden; flex-shrink: 0; }
             .custom-popup-image { width: 100%; height: auto; object-fit: cover; display: block; }
-
-            .text-wrapper .custom-popup-image {
-                margin: ${Math.floor(customization.popup.gap / 2)}px auto;
-                border-radius: 8px;
-            }
+            .custom-popup-image-inner { margin: ${Math.floor(customization.popup.gap / 2)}px auto; border-radius: 8px; }
             
             .body-layout-side { flex-direction: row; align-items: stretch; }
             .body-layout-side.side-right { flex-direction: row-reverse; }

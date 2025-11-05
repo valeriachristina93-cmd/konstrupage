@@ -46,10 +46,14 @@ export type PageConfig = {
       description: string;
       buttonText: string;
       imageUrl: string;
-      imageLayout: 'none' | 'top' | 'side' | 'inner';
+      imageLayout: 'none' | 'top' | 'side';
       imageSide: 'left' | 'right';
       imageSideWidth: number;
-      imageInternalWidth: number;
+      imageInner: {
+        active: boolean;
+        imageUrl: string;
+        width: number;
+      };
       secondButton: {
         active: boolean;
         text: string;

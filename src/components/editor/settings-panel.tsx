@@ -373,7 +373,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                         <div className="flex items-center gap-3">
                                                           <ImageIcon className="w-4 h-4 text-primary/80" />
-                                                          <span>Layout da Imagem</span>
+                                                          <span>Layout da Imagem Principal</span>
                                                         </div>
                                                     </AccordionTrigger>
                                                     <AccordionContent className="pt-4 space-y-4 px-3">
@@ -385,7 +385,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                     <SelectItem value="none">Nenhum</SelectItem>
                                                                     <SelectItem value="top">Imagem no Topo</SelectItem>
                                                                     <SelectItem value="side">Imagem Lateral</SelectItem>
-                                                                    <SelectItem value="inner">Imagem Interna</SelectItem>
                                                                 </SelectContent>
                                                             </Select>
                                                         </div>
@@ -423,23 +422,46 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                         </div>
                                                                     </>
                                                                 )}
-                                                                {customPopupConfig.imageLayout === 'inner' && (
-                                                                    <div className="space-y-2">
-                                                                        <Label>Largura da Imagem ({customPopupConfig.imageInternalWidth}%)</Label>
-                                                                        <SliderWithControls
-                                                                            value={[customPopupConfig.imageInternalWidth]}
-                                                                            onValueChange={(value) => onConfigChange(['popups', 'custom', 'imageInternalWidth'], value[0])}
-                                                                            min={10}
-                                                                            max={100}
-                                                                            step={5}
-                                                                        />
-                                                                    </div>
-                                                                )}
                                                             </>
                                                         )}
                                                     </AccordionContent>
                                                 </AccordionItem>
                                                 
+                                                {/* Inner Image */}
+                                                <AccordionItem value="inner-image-layout">
+                                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                                        <div className="flex items-center gap-3">
+                                                            <ImageIcon className="w-4 h-4 text-primary/80" />
+                                                            <span>Imagem Interna</span>
+                                                        </div>
+                                                    </AccordionTrigger>
+                                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                                        <SettingsToggle label="Ativar Imagem Interna" checked={customPopupConfig.imageInner.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'imageInner', 'active'], checked)} />
+                                                        {customPopupConfig.imageInner.active && (
+                                                            <>
+                                                                <div className='space-y-2'>
+                                                                    <Label>URL da Imagem Interna</Label>
+                                                                    <ImageUploadInput
+                                                                        value={customPopupConfig.imageInner.imageUrl}
+                                                                        onChange={e => onConfigChange(['popups', 'custom', 'imageInner', 'imageUrl'], e.target.value)}
+                                                                        onFileUpload={file => onImageUpload(file, ['popups', 'custom', 'imageInner', 'imageUrl'])}
+                                                                    />
+                                                                </div>
+                                                                <div className="space-y-2">
+                                                                    <Label>Largura da Imagem Interna ({customPopupConfig.imageInner.width}%)</Label>
+                                                                    <SliderWithControls
+                                                                        value={[customPopupConfig.imageInner.width]}
+                                                                        onValueChange={(value) => onConfigChange(['popups', 'custom', 'imageInner', 'width'], value[0])}
+                                                                        min={10}
+                                                                        max={100}
+                                                                        step={5}
+                                                                    />
+                                                                </div>
+                                                            </>
+                                                        )}
+                                                    </AccordionContent>
+                                                </AccordionItem>
+
                                                 {/* Content */}
                                                 <AccordionItem value="content">
                                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">

@@ -30,7 +30,11 @@ export const initialPageConfig: PageConfig = {
             imageLayout: 'none',
             imageSide: 'left',
             imageSideWidth: 40,
-            imageInternalWidth: 100,
+            imageInner: {
+                active: false,
+                imageUrl: 'https://picsum.photos/seed/2/400/200',
+                width: 100
+            },
             secondButton: {
                 active: false,
                 text: 'Botão Secundário',
