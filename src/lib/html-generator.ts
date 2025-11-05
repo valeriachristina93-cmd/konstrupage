@@ -174,8 +174,8 @@ export const generatePresellHtml = (config: PageConfig) => {
              <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
                 <p>${popups.ageVerification.message}</p>
                 <div style="display: flex; gap: 10px; justify-content: center; width: 100%;">
-                    <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
-                    <button style="background-color: ${popups.ageVerification.noButtonColor}; color: ${isColorLight(popups.ageVerification.noButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px;" onclick="window.history.back()">${popups.ageVerification.noButtonText}</button>
+                    <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px; border: none;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
+                    <button style="background-color: ${popups.ageVerification.noButtonColor}; color: ${isColorLight(popups.ageVerification.noButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px; border: none;" onclick="window.history.back()">${popups.ageVerification.noButtonText}</button>
                 </div>
             </div>
         </div>
@@ -890,3 +890,4 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+
