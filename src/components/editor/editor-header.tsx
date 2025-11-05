@@ -132,7 +132,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>
                                 <Button variant="ghost" size="icon" className="rounded-full">
-                                    <User className="h-5 w-5" />
+                                    <User className="h-6 w-6" />
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
