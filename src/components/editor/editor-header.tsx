@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft } from 'lucide-react';
+import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -41,14 +41,13 @@ const announcements = [
 ];
 
 const tools = [
-    { name: 'Lightshot', url: 'https://app.prntscr.com/pt-br/index.html' },
-    { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg' },
-    { name: 'Screenshot Tool', url: 'https://chromewebstore.google.com/detail/screenshot-tool-screen-ca/edlifbnjlicfpckhgjhflgkeeibhhcii' },
-    { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl' },
-    { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt' },
-    { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/' },
-    { name: 'ChatGPT', url: 'https://chatgpt.com/' },
-    { name: 'Upload Imgur', url: 'https://uploadimgur.com/' },
+    { name: 'Lightshot', url: 'https://app.prntscr.com/pt-br/index.html', icon: <Scissors /> },
+    { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Camera /> },
+    { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl', icon: <Camera /> },
+    { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt', icon: <ImageIcon /> },
+    { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/', icon: <Bot /> },
+    { name: 'ChatGPT', url: 'https://chatgpt.com/', icon: <Bot /> },
+    { name: 'Upload Imgur', url: 'https://uploadimgur.com/', icon: <ImageUp /> },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
@@ -121,9 +120,10 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                 </SheetHeader>
                                  <div className="mt-4 space-y-2">
                                     {tools.map((tool) => (
-                                        <a key={tool.name} href={tool.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-3 rounded-lg border bg-card hover:bg-muted transition-colors">
-                                            <span className="font-semibold">{tool.name}</span>
-                                            <Check className="h-4 w-4 text-green-500"/>
+                                        <a key={tool.name} href={tool.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-lg border bg-card hover:bg-muted transition-colors">
+                                            <span className="text-primary">{tool.icon}</span>
+                                            <span className="font-semibold flex-1">{tool.name}</span>
+                                            <LinkIcon className="h-4 w-4 text-muted-foreground"/>
                                         </a>
                                     ))}
                                 </div>
