@@ -29,6 +29,7 @@ export const initialPageConfig: PageConfig = {
             imageUrl: 'https://picsum.photos/seed/1/600/400',
             imageLayout: 'none',
             imageSide: 'left',
+            imageSideWidth: 40,
             imageInternalWidth: 100,
             secondButton: {
                 active: false,

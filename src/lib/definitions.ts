@@ -48,6 +48,7 @@ export type PageConfig = {
       imageUrl: string;
       imageLayout: 'none' | 'top' | 'side' | 'inner';
       imageSide: 'left' | 'right';
+      imageSideWidth: number;
       imageInternalWidth: number;
       secondButton: {
         active: boolean;

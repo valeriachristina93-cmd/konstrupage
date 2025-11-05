@@ -179,7 +179,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const customPopup = (() => {
         if (!popups.custom.active) return '';
     
-        const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageInternalWidth, secondButton, buttonsAlignment, countdown } = popups.custom;
+        const { title, description, buttonText, imageUrl, imageLayout, imageSide, imageSideWidth, imageInternalWidth, secondButton, buttonsAlignment, countdown } = popups.custom;
     
         const countdownHtml = countdown.active ? `
             <div id="custom-countdown" class="countdown-container ${'countdown-' + countdown.style}" style="--countdown-color: ${countdown.color}; --countdown-font-size: ${countdown.fontSize}px; --countdown-box-color: ${countdown.boxColor};">
@@ -210,7 +210,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         if (imageLayout === 'side') {
             finalPopupHtml = `
                 <div class="custom-popup-body body-layout-side side-${imageSide}">
-                    <div class="custom-popup-image-container">${imageHtml}</div>
+                    <div class="custom-popup-image-container" style="flex-basis: ${imageSideWidth}%;">${imageHtml}</div>
                     <div class="custom-popup-main-content">
                         ${textWrapperHtml}
                         ${buttonsHtml}
@@ -522,7 +522,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             .body-layout-side { flex-direction: row; align-items: stretch; }
             .body-layout-side.side-right { flex-direction: row-reverse; }
-            .body-layout-side .custom-popup-image-container { flex-basis: 40%; }
+            .body-layout-side .custom-popup-image-container { flex-shrink: 0; }
             .body-layout-side .custom-popup-image { height: 100%; }
             .body-layout-side .custom-popup-main-content { flex: 1; justify-content: center; }
             .body-layout-side.side-left .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
@@ -870,4 +870,3 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
-

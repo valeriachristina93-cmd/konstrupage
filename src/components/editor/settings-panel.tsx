@@ -388,16 +388,28 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                     />
                                                                 </div>
                                                                 {customPopupConfig.imageLayout === 'side' && (
-                                                                    <div className="space-y-2">
-                                                                        <Label>Posição da Imagem</Label>
-                                                                        <Select value={customPopupConfig.imageSide} onValueChange={value => onConfigChange(['popups', 'custom', 'imageSide'], value)}>
-                                                                            <SelectTrigger><SelectValue /></SelectTrigger>
-                                                                            <SelectContent>
-                                                                                <SelectItem value="left">Esquerda</SelectItem>
-                                                                                <SelectItem value="right">Direita</SelectItem>
-                                                                            </SelectContent>
-                                                                        </Select>
-                                                                    </div>
+                                                                    <>
+                                                                        <div className="space-y-2">
+                                                                            <Label>Posição da Imagem</Label>
+                                                                            <Select value={customPopupConfig.imageSide} onValueChange={value => onConfigChange(['popups', 'custom', 'imageSide'], value)}>
+                                                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                                <SelectContent>
+                                                                                    <SelectItem value="left">Esquerda</SelectItem>
+                                                                                    <SelectItem value="right">Direita</SelectItem>
+                                                                                </SelectContent>
+                                                                            </Select>
+                                                                        </div>
+                                                                         <div className="space-y-2">
+                                                                            <Label>Largura da Imagem ({customPopupConfig.imageSideWidth}%)</Label>
+                                                                            <SliderWithControls
+                                                                                value={[customPopupConfig.imageSideWidth]}
+                                                                                onValueChange={(value) => onConfigChange(['popups', 'custom', 'imageSideWidth'], value[0])}
+                                                                                min={10}
+                                                                                max={90}
+                                                                                step={5}
+                                                                            />
+                                                                        </div>
+                                                                    </>
                                                                 )}
                                                                 {customPopupConfig.imageLayout === 'inner' && (
                                                                     <div className="space-y-2">
