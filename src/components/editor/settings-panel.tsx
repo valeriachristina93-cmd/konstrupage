@@ -2,7 +2,7 @@
 
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { PageConfig } from '@/lib/definitions';
 import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -11,11 +11,12 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
 import { SliderWithControls } from './slider-with-controls';
+import { Button } from '../ui/button';
 
 
 interface SettingsPanelProps {
@@ -51,14 +52,25 @@ const ColorInput = ({ label, value, onChange }: { label: string; value: string; 
 
 export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
     const customPopupConfig = pageConfig.popups.custom;
+    const [openAccordion, setOpenAccordion] = useState<string | undefined>(undefined);
 
     return (
         <>
-            <div className="p-4 border-b">
+            <div className="p-4 border-b flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Configurações da Página</h2>
+                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setOpenAccordion(undefined)}>
+                    <X className="h-4 w-4" />
+                    <span className="sr-only">Fechar tudo</span>
+                </Button>
             </div>
             <ScrollArea className="flex-grow">
-                <Accordion type="single" collapsible className="w-full">
+                <Accordion 
+                    type="single" 
+                    collapsible 
+                    className="w-full"
+                    value={openAccordion}
+                    onValueChange={setOpenAccordion}
+                >
                     
                     <AccordionItem value="layout">
                         <AccordionTrigger className="hover:no-underline px-4">
