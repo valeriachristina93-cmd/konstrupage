@@ -52,13 +52,13 @@ const ColorInput = ({ label, value, onChange }: { label: string; value: string; 
 
 export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
     const customPopupConfig = pageConfig.popups.custom;
-    const [openAccordion, setOpenAccordion] = useState<string | undefined>(undefined);
+    const [openAccordion, setOpenAccordion] = useState<string>('');
 
     return (
         <>
             <div className="p-4 border-b flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Configurações da Página</h2>
-                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setOpenAccordion(undefined)}>
+                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setOpenAccordion('')}>
                     <X className="h-4 w-4" />
                     <span className="sr-only">Fechar tudo</span>
                 </Button>
