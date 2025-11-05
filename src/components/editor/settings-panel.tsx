@@ -176,7 +176,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-2 px-4">
-                            <Accordion type="multiple" className="w-full space-y-2">
+                            <Accordion type="single" collapsible className="w-full space-y-2">
                                 <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Cookies" checked={pageConfig.popups.cookies.active} onCheckedChange={checked => onConfigChange(['popups', 'cookies', 'active'], checked)} />
                                     {pageConfig.popups.cookies.active && (
@@ -335,7 +335,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="p-3 border rounded-md space-y-3">
                                     <SettingsToggle label="Pop-up de Saída" checked={pageConfig.popups.exit.active} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'active'], checked)} />
                                     {pageConfig.popups.exit.active && (
-                                        <>
+                                        <div className="pt-4 space-y-4 border-t mt-4">
                                             <div className='space-y-2'>
                                                 <Label>Imagem (16:9)</Label>
                                                 <ImageUploadInput
@@ -345,14 +345,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 />
                                             </div>
                                             <Input type="text" placeholder="Link de Redirecionamento (Opcional)" value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
-                                        </>
+                                            <div className="p-3 border rounded-md">
+                                                <SettingsToggle label="Somente Imagem" checked={pageConfig.popups.exit.imageOnly} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'imageOnly'], checked)} />
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
                                 <div className="p-3 border rounded-md space-y-4">
                                 <SettingsToggle label="Pop-up Personalizado" checked={customPopupConfig.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'active'], checked)} />
                                     {customPopupConfig.active && (
                                         <div className="border-t pt-4 space-y-6">
-                                            <Accordion type="multiple" className="w-full space-y-2">
+                                            <Accordion type="single" collapsible className="w-full space-y-2">
                                                 {/* Image Layout */}
                                                 <AccordionItem value="image-layout">
                                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
@@ -581,7 +584,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
-                            <Accordion type="multiple" className="w-full space-y-2">
+                            <Accordion type="single" collapsible className="w-full space-y-2">
                                 <AccordionItem value="button-config">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">

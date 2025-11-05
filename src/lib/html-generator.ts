@@ -294,18 +294,24 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const exitPopup = popups.exit.active ? `
         <div id="exit-popup-overlay" style="display:none;">
-            <div id="exit-popup" class="popup popup-center" style="${popupStyles} ${getPopupContourStyle()}">
+            <div id="exit-popup" class="popup popup-center ${popups.exit.imageOnly ? 'image-only-popup' : ''}" style="${popupStyles} ${getPopupContourStyle()}">
                 ${closeButtonHtml('exit-popup')}
-                <div style="padding:0; display: flex; flex-direction: column;">
-                    <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
-                    <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                        <h3>Espere, não vá embora!</h3>
-                        <p>Temos uma oferta especial para você.</p>
-                        <div class="button-container" style="${buttonContainerStyle}">
-                            <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                ${popups.exit.imageOnly ? `
+                    <a href="${popups.exit.redirectLink || affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="exit-image-link">
+                        <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:100%; object-fit: cover; display:block;" />
+                    </a>
+                ` : `
+                    <div style="padding:0; display: flex; flex-direction: column;">
+                        <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
+                        <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
+                            <h3>Espere, não vá embora!</h3>
+                            <p>Temos uma oferta especial para você.</p>
+                            <div class="button-container" style="${buttonContainerStyle}">
+                                <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                `}
             </div>
         </div>
     ` : '';
@@ -603,6 +609,19 @@ export const generatePresellHtml = (config: PageConfig) => {
              .captcha-slide-track.verified .captcha-slide-thumb svg {
                 stroke: white;
                 animation: checkmark 0.3s ease-in-out;
+            }
+            .image-only-popup {
+                padding: 0 !important;
+                background-color: transparent !important;
+                border: none !important;
+            }
+            .image-only-popup .exit-image-link {
+                display: block;
+                width: 100%;
+                height: 100%;
+            }
+            .image-only-popup img {
+                border-radius: inherit;
             }
             
             @keyframes spin { to { transform: rotate(360deg); } }

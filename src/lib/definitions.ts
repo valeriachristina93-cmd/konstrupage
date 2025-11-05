@@ -38,6 +38,7 @@ export type PageConfig = {
       active: boolean;
       imageUrl: string;
       redirectLink: string;
+      imageOnly: boolean;
     };
     custom: {
       active: boolean;
