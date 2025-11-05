@@ -139,10 +139,12 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                             <DropdownMenuContent align="end">
                                 <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
-                                <DropdownMenuItem>
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>Perfil</span>
-                                </DropdownMenuItem>
+                                <Link href="/profile" passHref>
+                                    <DropdownMenuItem>
+                                        <User className="mr-2 h-4 w-4" />
+                                        <span>Perfil</span>
+                                    </DropdownMenuItem>
+                                </Link>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={logout}>
                                     <LogOut className="mr-2 h-4 w-4" />
