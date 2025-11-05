@@ -122,6 +122,8 @@ export type PageConfig = {
         active: boolean;
         intensity: number;
       };
+      style: 'filled' | 'outline';
+      outlineWidth: number;
     };
     typography: {
       titleColor: string;

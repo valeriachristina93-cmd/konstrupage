@@ -639,9 +639,31 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-4 px-3">
+                                        <div className="space-y-2">
+                                            <Label>Tipo de Botão</Label>
+                                            <Select value={pageConfig.customization.button.style} onValueChange={value => onConfigChange(['customization', 'button', 'style'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="filled">Normal</SelectItem>
+                                                    <SelectItem value="outline">Contorno</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        {pageConfig.customization.button.style === 'outline' && (
+                                            <div className="space-y-2">
+                                                <Label>Largura do Contorno ({pageConfig.customization.button.outlineWidth}px)</Label>
+                                                <SliderWithControls
+                                                    value={[pageConfig.customization.button.outlineWidth]}
+                                                    onValueChange={(value) => onConfigChange(['customization', 'button', 'outlineWidth'], value[0])}
+                                                    min={1}
+                                                    max={8}
+                                                    step={1}
+                                                />
+                                            </div>
+                                        )}
                                         <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor do Botão" value={pageConfig.customization.button.color} onChange={e => onConfigChange(['customization', 'button', 'color'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto do Botão" value={pageConfig.customization.button.textColor} onChange={e => onConfigChange(['customization', 'button', 'textColor'], e.target.value)} />
+                                            <ColorInput label="Cor Principal" value={pageConfig.customization.button.color} onChange={e => onConfigChange(['customization', 'button', 'color'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto" value={pageConfig.customization.button.textColor} onChange={e => onConfigChange(['customization', 'button', 'textColor'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
                                             <Label>Largura do Botão ({pageConfig.customization.button.width}%)</Label>

@@ -103,7 +103,26 @@ export const generatePresellHtml = (config: PageConfig) => {
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
-    const buttonStyle = `background-color: ${customization.button.color}; color: ${customization.button.textColor}; width: ${customization.button.width}%; border-radius: ${customization.button.borderRadius}px;`;
+    const getButtonStyle = () => {
+        const { style, color, textColor, width, borderRadius, outlineWidth } = customization.button;
+        if (style === 'outline') {
+            return `
+                background-color: transparent;
+                color: ${textColor};
+                width: ${width}%;
+                border-radius: ${borderRadius}px;
+                border: ${outlineWidth}px solid ${color};
+            `;
+        }
+        // Default to filled
+        return `
+            background-color: ${color};
+            color: ${textColor};
+            width: ${width}%;
+            border-radius: ${borderRadius}px;
+            border: none;
+        `;
+    };
     
     const getButtonAlignment = () => {
         switch(customization.button.alignment) {
@@ -143,7 +162,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${buttonStyle}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                    <button style="${getButtonStyle()}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
                 </div>
             </div>
         </div>
@@ -170,7 +189,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${buttonStyle}" onclick="acceptAction()">Aproveitar Agora</button>
+                    <button style="${getButtonStyle()}" onclick="acceptAction()">Aproveitar Agora</button>
                 </div>
             </div>
         </div>
@@ -194,8 +213,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%; margin-bottom: ${customization.popup.gap}px;">`
             : '';
     
-        const mainButtonHtml = `<button style="${buttonStyle}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
-        const secondButtonHtml = secondButton.active ? `<button style="${buttonStyle}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
+        const mainButtonHtml = `<button style="${getButtonStyle()}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
+        const secondButtonHtml = secondButton.active ? `<button style="${getButtonStyle()}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
         
         const buttonsContainerClass = buttonsAlignment === 'horizontal' ? 'buttons-horizontal' : 'buttons-vertical';
         const buttonsHtml = `<div class="custom-popup-buttons ${buttonsContainerClass}">${mainButtonHtml}${secondButtonHtml}</div>`;
@@ -311,7 +330,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                             <h3>Espere, não vá embora!</h3>
                             <p>Temos uma oferta especial para você.</p>
                             <div class="button-container" style="${buttonContainerStyle}">
-                                <button style="${buttonStyle}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                                <button style="${getButtonStyle()}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
                             </div>
                         </div>
                     </div>
@@ -483,10 +502,11 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
             ${typographyStyles}
             .popup button { 
-                border: none; padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
+                padding: 12px 24px; font-size: 16px; font-weight: bold; cursor: pointer;
                 transition: transform 0.2s, box-shadow 0.2s;
                 max-width: 100%;
                 flex-shrink: 0;
+                box-sizing: border-box;
             }
             .popup button:hover { transform: translateY(-2px); ${getButtonShadowStyle()} }
             

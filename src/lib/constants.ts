@@ -73,6 +73,8 @@ export const initialPageConfig: PageConfig = {
                 active: false,
                 intensity: 4,
             },
+            style: 'filled',
+            outlineWidth: 2,
         },
         typography: {
             titleColor: '#FFFFFF',
