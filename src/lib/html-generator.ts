@@ -281,8 +281,8 @@ export const generatePresellHtml = (config: PageConfig) => {
     const captchaCheckbox = `
         <div class="captcha-box">
             <div class="captcha-checkbox-container">
-                <input type="checkbox" id="captcha-checkbox" disabled>
-                <div class="captcha-checkbox-custom" onclick="handleCaptchaCheckbox()">
+                <input type="checkbox" id="captcha-checkbox" style="display:none;">
+                <div class="captcha-checkbox-custom">
                     <div class="captcha-spinner"></div>
                     <svg class="captcha-checkmark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
@@ -572,13 +572,13 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-box img { width: 48px; height: 48px; }
             .captcha-checkbox-container { position: relative; width: 28px; height: 28px; margin-right: 12px; }
             .captcha-checkbox-custom { width: 28px; height: 28px; border: 2px solid #c1c1c1; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #fcfcfc; transition: background-color 0.2s; }
-            #captcha-checkbox { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; }
             .captcha-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(0, 0, 0, 0.1); border-top-color: ${customization.button.color || '#3B82F6'}; border-radius: 50%; animation: spin 1s linear infinite; }
             .captcha-checkmark { display: none; color: ${customization.button.color || '#3B82F6'}; }
-            #captcha-checkbox.verifying + .captcha-checkbox-custom .captcha-spinner { display: block; }
-            #captcha-checkbox:checked + .captcha-checkbox-custom .captcha-spinner { display: none; }
-            #captcha-checkbox:checked + .captcha-checkbox-custom .captcha-checkmark { display: block; animation: checkmark 0.3s ease-in-out; }
-            #captcha-checkbox:checked + .captcha-checkbox-custom { background-color: #f4fce8; border-color: #adec63; }
+            
+            .captcha-checkbox-custom.verifying .captcha-spinner { display: block; }
+            .captcha-checkbox-custom.verified .captcha-spinner { display: none; }
+            .captcha-checkbox-custom.verified .captcha-checkmark { display: block; animation: checkmark 0.3s ease-in-out; }
+            .captcha-checkbox-custom.verified { background-color: #f4fce8; border-color: #adec63; }
             
             .captcha-slide-container {
                 width: 100%;
@@ -813,27 +813,32 @@ export const generatePresellHtml = (config: PageConfig) => {
                 })();
             ` : ''}
 
-             function handleCaptchaCheckbox() {
-                const checkbox = document.getElementById('captcha-checkbox');
-                if (checkbox.checked || checkbox.disabled) return;
-                
-                checkbox.disabled = true;
-                checkbox.classList.add('verifying');
-                
-                setTimeout(() => {
-                    checkbox.classList.remove('verifying');
-                    checkbox.checked = true;
-                    setTimeout(() => {
-                       acceptAction();
-                    }, 400);
-                }, 1200);
-            }
+             ${popups.captcha.active && popups.captcha.captchaType === 'checkbox' ? `
+                (function() {
+                    const customCheckbox = document.querySelector('.captcha-checkbox-custom');
+                    if (!customCheckbox) return;
 
-            ${popups.captcha.active && popups.captcha.captchaType === 'checkbox' ? `
-                const customCheckbox = document.querySelector('.captcha-checkbox-custom');
-                if (customCheckbox) {
+                    let isVerifying = false;
+
+                    function handleCaptchaCheckbox() {
+                        if (isVerifying || customCheckbox.classList.contains('verified')) return;
+
+                        isVerifying = true;
+                        customCheckbox.classList.add('verifying');
+
+                        setTimeout(() => {
+                            customCheckbox.classList.remove('verifying');
+                            customCheckbox.classList.add('verified');
+                            isVerifying = false;
+                            
+                            setTimeout(() => {
+                               acceptAction();
+                            }, 400);
+                        }, 1200);
+                    }
+
                     customCheckbox.addEventListener('click', handleCaptchaCheckbox);
-                }
+                })();
             ` : ''}
 
 
