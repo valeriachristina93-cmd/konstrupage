@@ -1,5 +1,6 @@
-import { redirect } from 'next/navigation';
 
 export default function HomePage() {
-  redirect('/login');
+  // Retornar null permite que o AuthProvider e o ProtectedLayout gerenciem o redirecionamento,
+  // evitando o aviso "params are being enumerated" do Next.js.
+  return null;
 }
