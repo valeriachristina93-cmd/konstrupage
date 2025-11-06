@@ -5,24 +5,24 @@
 
 @layer base {
   :root {
-    --background: 240 10% 99%; /* Light Gray */
+    --background: 240 10% 98%; /* Slightly darker light gray */
     --foreground: 240 10% 3.9%; /* Dark Gray */
-    --card: 240 10% 100%; /* White */
+    --card: 240 10% 99%; /* Slightly off-white */
     --card-foreground: 240 10% 3.9%;
-    --popover: 240 10% 100%;
+    --popover: 240 10% 99%;
     --popover-foreground: 240 10% 3.9%;
     --primary: 255 90% 65%; /* Lighter, bluer purple */
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
+    --secondary: 240 4.8% 95%;
     --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
+    --muted: 240 4.8% 95%;
     --muted-foreground: 240 3.8% 46.1%;
     --accent: 255 90% 65%; /* Using primary for accent */
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: 240 5.9% 85%; /* Darker border */
+    --input: 240 5.9% 85%; /* Darker input border */
     --ring: 255 90% 65%; /* Lighter, bluer purple */
     --radius: 0.5rem;
     --chart-1: 12 76% 61%;
