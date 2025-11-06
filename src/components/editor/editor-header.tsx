@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors } from 'lucide-react';
+import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors, BookOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -50,6 +50,7 @@ const tools = [
     { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/', icon: <Bot /> },
     { name: 'ChatGPT', url: 'https://chatgpt.com/', icon: <Bot /> },
     { name: 'Upload Imgur', url: 'https://uploadimgur.com/', icon: <ImageUp /> },
+    { name: 'Glasp Reader', url: 'https://glasp.co/reader', icon: <BookOpen /> },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
