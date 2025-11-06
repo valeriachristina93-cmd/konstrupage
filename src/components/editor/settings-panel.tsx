@@ -34,7 +34,9 @@ const SettingsToggle = ({ label, checked, onCheckedChange, accordionId, setOpenA
             {children}
         </div>
         <Switch checked={checked} onCheckedChange={(val) => {
-            onCheckedChange(val);
+            if (onCheckedChange) {
+                onCheckedChange(val);
+            }
             if (!val && accordionId && setOpenAccordion) {
                 setOpenAccordion('');
             }
@@ -1096,11 +1098,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                              <div className="p-3 border rounded-md space-y-3">
                                 <SettingsToggle label="Clique Total na Página" checked={pageConfig.fullPageClick} onCheckedChange={checked => onConfigChange(['fullPageClick'], checked)} />
                             </div>
-                            <div className="p-3 border rounded-md">
+                            <div className="p-3 border rounded-md space-y-3 bg-destructive/5 border-destructive/30 text-destructive">
                                 <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
                                 {pageConfig.autoRedirect.active && (
-                                    <div className="pt-4 space-y-2 border-t mt-4">
-                                        <Label>Tempo ({pageConfig.autoRedirect.time}s)</Label>
+                                    <div className="pt-4 space-y-2 border-t mt-4 border-destructive/30">
+                                        <Label className="text-foreground">Tempo ({pageConfig.autoRedirect.time}s)</Label>
                                         <input type="range" min="5" max="15" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
                                     </div>
                                 )}
