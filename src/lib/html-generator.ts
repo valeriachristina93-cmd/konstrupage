@@ -295,8 +295,10 @@ export const generatePresellHtml = (config: PageConfig) => {
     const captchaSlide = `
         <div class="captcha-slide-container">
             <div class="captcha-slide-track">
+                <div class="captcha-slide-progress"></div>
                 <div class="captcha-slide-thumb">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg class="arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    <svg class="check" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
                 <span class="captcha-slide-text">Deslize para continuar</span>
             </div>
@@ -569,10 +571,11 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
             .captcha-box img { width: 48px; height: 48px; }
             .captcha-checkbox-container { position: relative; width: 28px; height: 28px; margin-right: 12px; }
-            .captcha-checkbox-custom { width: 28px; height: 28px; border: 2px solid #c1c1c1; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #f9f9f9; transition: background-color 0.2s; }
+            .captcha-checkbox-custom { width: 28px; height: 28px; border: 2px solid #c1c1c1; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #fcfcfc; transition: background-color 0.2s; }
             #captcha-checkbox { opacity: 0; position: absolute; width: 100%; height: 100%; cursor: pointer; }
             .captcha-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(0, 0, 0, 0.1); border-top-color: ${customization.button.color || '#3B82F6'}; border-radius: 50%; animation: spin 1s linear infinite; }
             .captcha-checkmark { display: none; color: ${customization.button.color || '#3B82F6'}; }
+            #captcha-checkbox.verifying + .captcha-checkbox-custom .captcha-spinner { display: block; }
             #captcha-checkbox:checked + .captcha-checkbox-custom .captcha-spinner { display: none; }
             #captcha-checkbox:checked + .captcha-checkbox-custom .captcha-checkmark { display: block; animation: checkmark 0.3s ease-in-out; }
             #captcha-checkbox:checked + .captcha-checkbox-custom { background-color: #f4fce8; border-color: #adec63; }
@@ -595,6 +598,16 @@ export const generatePresellHtml = (config: PageConfig) => {
                 align-items: center;
                 justify-content: center;
                 user-select: none;
+                transition: background-color 0.3s ease, border-color 0.3s ease;
+            }
+            .captcha-slide-progress {
+                position: absolute;
+                left: 0;
+                top: 0;
+                height: 100%;
+                width: 0;
+                background-color: ${customization.button.color ? `${customization.button.color}33` : '#3B82F633'};
+                border-radius: 25px;
             }
             .captcha-slide-thumb {
                 width: 46px;
@@ -605,31 +618,40 @@ export const generatePresellHtml = (config: PageConfig) => {
                 position: absolute;
                 left: 2px;
                 top: 2px;
-                cursor: pointer;
+                cursor: grab;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 z-index: 2;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                transition: background-color 0.3s ease, border-color 0.3s ease;
             }
-            .captcha-slide-thumb svg { color: #666; }
+             .captcha-slide-thumb:active { cursor: grabbing; }
+            .captcha-slide-thumb .arrow { display: block; color: #666; }
+            .captcha-slide-thumb .check { display: none; color: white; }
+
             .captcha-slide-text {
                 color: #aaa;
                 font-size: 14px;
                 z-index: 1;
                 pointer-events: none;
+                transition: opacity 0.3s ease;
             }
-            .captcha-slide-track.verified { background-color: #D4EDDA; border-color: #C3E6CB; }
-            .captcha-slide-track.verified .captcha-slide-text { display: none; }
+            .captcha-slide-track.verified {
+                background-color: #D4EDDA;
+                border-color: #C3E6CB;
+            }
+            .captcha-slide-track.verified .captcha-slide-text {
+                opacity: 0;
+            }
             .captcha-slide-track.verified .captcha-slide-thumb {
                 background-color: #28A745;
                 border-color: #28A745;
                 cursor: default;
             }
-             .captcha-slide-track.verified .captcha-slide-thumb svg {
-                stroke: white;
-                animation: checkmark 0.3s ease-in-out;
-            }
+            .captcha-slide-track.verified .captcha-slide-thumb .arrow { display: none; }
+            .captcha-slide-track.verified .captcha-slide-thumb .check { display: block; animation: checkmark 0.3s ease-in-out; }
+
             .image-only-popup {
                 padding: 0 !important;
                 background-color: transparent !important;
@@ -793,62 +815,78 @@ export const generatePresellHtml = (config: PageConfig) => {
 
              function handleCaptchaCheckbox() {
                 const checkbox = document.getElementById('captcha-checkbox');
-                const customBox = checkbox.nextElementSibling;
-                const spinner = customBox.querySelector('.captcha-spinner');
+                if (checkbox.checked || checkbox.disabled) return;
+
+                checkbox.disabled = true;
+                checkbox.classList.add('verifying');
                 
-                if (checkbox.checked) {
-                    spinner.style.display = 'block';
-                    checkbox.disabled = true;
+                setTimeout(() => {
+                    checkbox.classList.remove('verifying');
+                    checkbox.checked = true;
                     setTimeout(() => {
-                        spinner.style.display = 'none';
-                        customBox.querySelector('.captcha-checkmark').style.display = 'block';
-                        setTimeout(() => {
-                           acceptAction();
-                        }, 400);
-                    }, 1000);
-                }
+                       acceptAction();
+                    }, 400);
+                }, 1200);
             }
 
             ${popups.captcha.active && popups.captcha.captchaType === 'slide' ? `
                 const thumb = document.querySelector('.captcha-slide-thumb');
                 const track = document.querySelector('.captcha-slide-track');
-                const container = document.querySelector('.captcha-slide-container');
+                const progress = document.querySelector('.captcha-slide-progress');
                 let isDragging = false;
                 let startX = 0;
-                let offsetX = 0;
 
-                if (thumb && track && container) {
+                if (thumb && track && progress) {
                     const maxSlide = track.offsetWidth - thumb.offsetWidth - 4;
 
                     const onDragStart = (e) => {
                         if (track.classList.contains('verified')) return;
                         isDragging = true;
-                        startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                        thumb.style.transition = 'none';
+                        thumb.style.cursor = 'grabbing';
                         track.style.transition = 'none';
+                        thumb.style.transition = 'none';
+                        progress.style.transition = 'none';
+                        startX = (e.type.includes('mouse') ? e.clientX : e.touches[0].clientX) - thumb.getBoundingClientRect().left;
                     };
 
                     const onDragMove = (e) => {
                         if (!isDragging) return;
                         e.preventDefault();
                         const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                        offsetX = Math.max(0, Math.min(currentX - startX, maxSlide));
-                        thumb.style.transform = \\\`translateX(\\\${offsetX}px)\\\`;
+                        const trackRect = track.getBoundingClientRect();
+                        let newLeft = currentX - trackRect.left - startX;
+                        
+                        newLeft = Math.max(0, Math.min(newLeft, maxSlide));
+                        
+                        thumb.style.transform = \`translateX(\${newLeft}px)\`;
+                        progress.style.width = \`\${newLeft + thumb.offsetWidth / 2}px\`;
                     };
 
-                    const onDragEnd = () => {
+                    const onDragEnd = (e) => {
                         if (!isDragging) return;
                         isDragging = false;
-                        if (offsetX >= maxSlide - 2) {
-                            thumb.style.transform = \\\`translateX(\\\${maxSlide}px)\\\`;
+                        thumb.style.cursor = 'grab';
+
+                        const finalLeft = parseFloat(thumb.style.transform.replace('translateX(', ''));
+
+                        if (finalLeft >= maxSlide - 5) {
+                            thumb.style.transition = 'transform 0.2s ease';
+                            thumb.style.transform = \`translateX(\${maxSlide}px)\`;
+                            progress.style.transition = 'width 0.2s ease';
+                            progress.style.width = '100%';
                             track.classList.add('verified');
-                            thumb.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                            
+                            thumb.removeEventListener('mousedown', onDragStart);
+                            thumb.removeEventListener('touchstart', onDragStart);
+
                             setTimeout(() => {
                                 acceptAction();
                             }, 500);
                         } else {
                             thumb.style.transition = 'transform 0.3s ease';
                             thumb.style.transform = 'translateX(0)';
+                            progress.style.transition = 'width 0.3s ease';
+                            progress.style.width = '0';
                         }
                     };
                     
@@ -856,7 +894,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     document.addEventListener('mousemove', onDragMove);
                     document.addEventListener('mouseup', onDragEnd);
                     
-                    thumb.addEventListener('touchstart', onDragStart, { passive: false });
+                    thumb.addEventListener('touchstart', onDragStart, { passive: true });
                     document.addEventListener('touchmove', onDragMove, { passive: false });
                     document.addEventListener('touchend', onDragEnd);
                 }
