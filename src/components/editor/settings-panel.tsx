@@ -11,12 +11,13 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
 import { SliderWithControls } from './slider-with-controls';
 import { Button } from '../ui/button';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 
 
 interface SettingsPanelProps {
@@ -26,9 +27,12 @@ interface SettingsPanelProps {
     setViewMode: (mode: ViewMode) => void;
 }
 
-const SettingsToggle = ({ label, checked, onCheckedChange, accordionId, setOpenAccordion }: { label: string; checked: boolean; onCheckedChange: (checked: boolean) => void, accordionId?: string, setOpenAccordion?: (id: string) => void }) => (
+const SettingsToggle = ({ label, checked, onCheckedChange, accordionId, setOpenAccordion, children }: { label: string; checked: boolean; onCheckedChange: (checked: boolean) => void, accordionId?: string, setOpenAccordion?: (id: string) => void, children?: React.ReactNode }) => (
     <div className="flex items-center justify-between rounded-lg py-2">
-        <Label className="font-normal">{label}</Label>
+        <div className="flex items-center gap-2">
+            <Label className="font-normal">{label}</Label>
+            {children}
+        </div>
         <Switch checked={checked} onCheckedChange={(val) => {
             onCheckedChange(val);
             if (!val && accordionId && setOpenAccordion) {
@@ -62,7 +66,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
 
     return (
-        <>
+        <TooltipProvider>
             <div className="p-4 border-b flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Configurações da Página</h2>
                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setOpenAccordion('')}>
@@ -733,38 +737,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                         </AccordionContent>
                     </AccordionItem>
 
-                    <AccordionItem value="seo">
-                        <AccordionTrigger className="hover:no-underline px-4">
-                            <div className="flex items-center gap-3">
-                                <Globe className="w-5 h-5 text-primary" />
-                                <span className="font-semibold">SEO e Metadados</span>
-                            </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-4 space-y-4 px-4">
-                            {pageConfig.seo && (
-                                <>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="pageTitle">Título da Página</Label>
-                                        <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
-                                        <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="faviconUrl">URL do Favicon</Label>
-                                        <ImageUploadInput
-                                            id="faviconUrl"
-                                            value={pageConfig.seo.favicon}
-                                            onChange={e => onConfigChange(['seo', 'favicon'], e.target.value)}
-                                            onFileUpload={file => onImageUpload(file, ['seo', 'favicon'])}
-                                        />
-                                    </div>
-                                </>
-                            )}
-                        </AccordionContent>
-                    </AccordionItem>
-
                     <AccordionItem value="advanced">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
@@ -1110,10 +1082,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="flex items-start gap-2">
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
                                      <div className="flex-1">
-                                        <SettingsToggle label="HTML Personalizado" checked={!!pageConfig.customization.customHtml} onCheckedChange={checked => onConfigChange(['customization', 'customHtml'], checked ? '<!-- Seu código aqui -->' : '')} />
-                                        <p className="text-xs text-destructive/80 mt-1">
-                                            Atenção: Código personalizado pode quebrar a página ou introduzir falhas de segurança. Use com cuidado.
-                                        </p>
+                                        <SettingsToggle label="HTML Personalizado">
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs text-center" side="top">
+                                                    <p>Ao utilizar este recurso, dependendo do uso, você pode sofrer bloqueios em suas contas de anúncios (Facebook Ads, Google Ads) ou danificar a página gerada. Use com conhecimento.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </SettingsToggle>
                                      </div>
                                 </div>
                                 {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />}
@@ -1148,11 +1126,44 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionContent>
                     </AccordionItem>
+                    <AccordionItem value="seo">
+                        <AccordionTrigger className="hover:no-underline px-4">
+                            <div className="flex items-center gap-3">
+                                <Globe className="w-5 h-5 text-primary" />
+                                <span className="font-semibold">SEO e Metadados</span>
+                            </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 space-y-4 px-4">
+                            {pageConfig.seo && (
+                                <>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="pageTitle">Título da Página</Label>
+                                        <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
+                                        <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <Label htmlFor="faviconUrl">URL do Favicon</Label>
+                                        <ImageUploadInput
+                                            id="faviconUrl"
+                                            value={pageConfig.seo.favicon}
+                                            onChange={e => onConfigChange(['seo', 'favicon'], e.target.value)}
+                                            onFileUpload={file => onImageUpload(file, ['seo', 'favicon'])}
+                                        />
+                                    </div>
+                                </>
+                            )}
+                        </AccordionContent>
+                    </AccordionItem>
                 </Accordion>
             </ScrollArea>
-        </>
+        </TooltipProvider>
     );
 }
 
     
+    
+
     
