@@ -116,6 +116,11 @@ export type PageConfig = {
     facebookPixelId: string;
     googleAdsId: string;
   };
+  seo: {
+    title: string;
+    description: string;
+    favicon: string;
+  };
   customization: {
     button: {
       color: string;

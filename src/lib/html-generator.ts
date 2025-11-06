@@ -6,7 +6,7 @@ import { fontOptions } from './constants';
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
         desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab, fullPageClick,
-        popups, footer, disclaimer, overlay, blur, tracking, customization
+        popups, footer, disclaimer, overlay, blur, tracking, customization, seo
     } = config;
 
     const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active || popups.choice.active || popups.captcha.active;
@@ -167,7 +167,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${getButtonStyle(customization.button, true)}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                    <button style="${getButtonStyle(customization.button, true)}" onclick="proceed('cookie-popup')">${popups.cookies.buttonText}</button>
                 </div>
             </div>
         </div>
@@ -179,7 +179,7 @@ export const generatePresellHtml = (config: PageConfig) => {
              <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
                 <p>${popups.ageVerification.message}</p>
                 <div style="display: flex; gap: 10px; justify-content: center; width: 100%;">
-                    <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px; border: none;" onclick="acceptAction()">${popups.ageVerification.yesButtonText}</button>
+                    <button style="background-color: ${popups.ageVerification.yesButtonColor}; color: ${isColorLight(popups.ageVerification.yesButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px; border: none;" onclick="proceed('age-popup')">${popups.ageVerification.yesButtonText}</button>
                     <button style="background-color: ${popups.ageVerification.noButtonColor}; color: ${isColorLight(popups.ageVerification.noButtonColor) ? '#000' : '#fff'}; width: ${popups.ageVerification.buttonWidth}%; border-radius: ${customization.button.borderRadius}px; border: none;" onclick="window.history.back()">${popups.ageVerification.noButtonText}</button>
                 </div>
             </div>
@@ -194,7 +194,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${getButtonStyle(customization.button, true)}" onclick="acceptAction()">Aproveitar Agora</button>
+                    <button style="${getButtonStyle(customization.button, true)}" onclick="proceed('discount-popup')">Aproveitar Agora</button>
                 </div>
             </div>
         </div>
@@ -218,7 +218,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%; margin-bottom: ${customization.popup.gap}px;">`
             : '';
     
-        const mainButtonHtml = `<button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
+        const mainButtonHtml = `<button style="${getButtonStyle(customization.button, true)}" onclick="proceed('custom-popup')">${buttonText}</button>`;
         const secondButtonHtml = secondButton.active ? `<button style="${getButtonStyle(secondButton, false)}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
         
         const buttonsContainerClass = buttonsAlignment === 'horizontal' ? 'buttons-horizontal' : 'buttons-vertical';
@@ -272,10 +272,10 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.choice.title}</h2>
                 <p>${popups.choice.description}</p>
                 <div class="choice-images">
-                    <div class="choice-image-wrapper" onclick="acceptAction()">
+                    <div class="choice-image-wrapper" onclick="proceed('choice-popup')">
                         <img src="${popups.choice.image1Url}" />
                     </div>
-                    <div class="choice-image-wrapper" onclick="acceptAction()">
+                    <div class="choice-image-wrapper" onclick="proceed('choice-popup')">
                         <img src="${popups.choice.image2Url}" />
                     </div>
                 </div>
@@ -391,13 +391,20 @@ export const generatePresellHtml = (config: PageConfig) => {
         </script>
     ` : '';
 
+    const pageTitle = seo?.title || 'Presell Page';
+    const pageDescription = seo?.description || 'Presell page description.';
+    const favicon = seo?.favicon || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⬜️</text></svg>';
+
+
     return `
     <!DOCTYPE html>
     <html lang="pt-BR">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Presell Page</title>
+        <title>${pageTitle}</title>
+        <meta name="description" content="${pageDescription}">
+        <link rel="icon" href="${favicon}">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         ${fontImportUrl ? `<link href="${fontImportUrl}" rel="stylesheet">` : ''}
@@ -445,8 +452,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
             
             .popup-wrapper {
-                 display: ${anyPopupActive ? 'flex' : 'none'};
-                 pointer-events: ${anyPopupActive ? 'auto' : 'none'};
+                 display: none;
+                 pointer-events: none;
             }
 
             .popup { 
@@ -462,6 +469,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 flex-direction: column;
                 max-height: 95vh;
                 overflow: hidden;
+                display: none; /* Popups are hidden by default */
             }
             .popup-center { margin: auto; }
             .popup-bottom { margin-top: auto; }
@@ -709,12 +717,12 @@ export const generatePresellHtml = (config: PageConfig) => {
              <div class="main-section bg-mobile" onclick="mainAction()"></div>
             
             <div class="popup-wrapper">
-                ${cookiePopup}
                 ${agePopup}
-                ${discountPopup}
+                ${captchaPopup}
                 ${customPopup}
                 ${choicePopup}
-                ${captchaPopup}
+                ${discountPopup}
+                ${cookiePopup}
             </div>
         </div>
 
@@ -726,7 +734,34 @@ export const generatePresellHtml = (config: PageConfig) => {
             const AFFILIATE_LINK = '${affiliateLink}';
             const NEW_TAB = ${newTab};
             const FULL_PAGE_CLICK = ${fullPageClick};
-            const popupsActive = ${anyPopupActive};
+            
+            const popupWrapper = document.querySelector('.popup-wrapper');
+            const popups = Array.from(popupWrapper.querySelectorAll('.popup'));
+            let currentPopupIndex = -1;
+
+            function showNextPopup() {
+                currentPopupIndex++;
+                if (currentPopupIndex < popups.length) {
+                    const popup = popups[currentPopupIndex];
+                    popupWrapper.style.display = 'flex';
+                    popupWrapper.style.pointerEvents = 'auto';
+                    popup.style.display = 'flex';
+                } else {
+                    popupWrapper.style.display = 'none';
+                    popupWrapper.style.pointerEvents = 'none';
+                    if (AFFILIATE_LINK) {
+                        redirect(AFFILIATE_LINK);
+                    }
+                }
+            }
+
+            function proceed(popupId) {
+                const popup = document.getElementById(popupId);
+                if (popup) {
+                    popup.style.display = 'none';
+                }
+                showNextPopup();
+            }
 
             function closePopup(popupId, event) {
                 if (event) event.stopPropagation();
@@ -735,19 +770,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                     const overlay = document.getElementById('exit-popup-overlay');
                     if(overlay) overlay.style.display = 'none';
                 } else {
-                    const popup = document.getElementById(popupId);
-                    if (popup) {
-                        popup.style.display = 'none';
-                        const wrapper = document.querySelector('.popup-wrapper');
-                        
-                        const anyOtherPopupVisible = Array.from(wrapper.querySelectorAll('.popup')).some(p => p.id !== popupId && window.getComputedStyle(p).display !== 'none');
-
-                        if (!anyOtherPopupVisible) {
-                            wrapper.style.display = 'none';
-                        }
-                    }
+                    proceed(popupId);
                 }
-                redirect(AFFILIATE_LINK);
             }
 
             function redirect(url, forceNewTab = false) {
@@ -761,14 +785,17 @@ export const generatePresellHtml = (config: PageConfig) => {
                     redirect(AFFILIATE_LINK);
                     return;
                 }
-                if (!popupsActive) {
+                 if (popups.length === 0) {
                     redirect(AFFILIATE_LINK);
                 }
             }
+            
+            window.addEventListener('load', () => {
+                if (popups.length > 0) {
+                    showNextPopup();
+                }
+            });
 
-            function acceptAction() {
-                redirect(AFFILIATE_LINK);
-            }
 
             ${popups.custom.countdown.active ? `
                 (function() {
@@ -839,7 +866,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                             customCheckbox.classList.add('verified');
                             
                             setTimeout(() => {
-                               acceptAction();
+                               proceed('captcha-popup');
                             }, 400);
                         }, 1200);
                     };
@@ -900,7 +927,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                             thumb.removeEventListener('touchstart', onDragStart);
 
                             setTimeout(() => {
-                                acceptAction();
+                                proceed('captcha-popup');
                             }, 500);
                         } else {
                             thumb.style.transition = 'transform 0.3s ease';

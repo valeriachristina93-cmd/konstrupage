@@ -34,6 +34,11 @@ const PageConfigSchema = z.object({
   disclaimer: z.object({ active: z.boolean(), text: z.string(), backgroundColor: z.string().describe("Hex color code"), textColor: z.string().describe("Hex color code") }),
   overlay: z.object({ active: z.boolean(), opacity: z.number().min(0.1).max(1) }),
   blur: z.object({ active: z.boolean(), intensity: z.number().min(1).max(50) }),
+  seo: z.object({
+    title: z.string().describe("The title of the page for SEO."),
+    description: z.string().describe("The meta description of the page for SEO."),
+    favicon: z.string().describe("The URL for the page's favicon."),
+  }),
   customization: z.object({
     button: z.object({
       color: z.string().describe("Hex color code for the button."),

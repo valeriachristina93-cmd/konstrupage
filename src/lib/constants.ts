@@ -67,6 +67,11 @@ export const initialPageConfig: PageConfig = {
         facebookPixelId: '',
         googleAdsId: '',
     },
+    seo: {
+        title: 'Site Page',
+        description: '',
+        favicon: '',
+    },
     customization: {
         button: {
             color: '#3B82F6',
