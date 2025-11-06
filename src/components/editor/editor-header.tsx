@@ -45,6 +45,7 @@ const tools = [
     { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Camera /> },
     { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl', icon: <Camera /> },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt', icon: <ImageIcon /> },
+    { name: 'Image Compressor', url: 'https://imagecompressor.com/pt/', icon: <Scissors /> },
     { name: 'Gemini', url: 'https://gemini.google.com/app', icon: <Sparkles /> },
     { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/', icon: <Bot /> },
     { name: 'ChatGPT', url: 'https://chatgpt.com/', icon: <Bot /> },
