@@ -58,6 +58,10 @@ export type PageConfig = {
         active: boolean;
         text: string;
         link: string;
+        style: 'filled' | 'outline';
+        color: string;
+        textColor: string;
+        outlineWidth: number;
       };
       buttonsAlignment: 'vertical' | 'horizontal';
       countdown: {

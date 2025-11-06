@@ -38,7 +38,11 @@ export const initialPageConfig: PageConfig = {
             secondButton: {
                 active: false,
                 text: 'Botão Secundário',
-                link: '#'
+                link: '#',
+                style: 'filled',
+                color: '#6B7280',
+                textColor: '#FFFFFF',
+                outlineWidth: 2,
             },
             buttonsAlignment: 'vertical',
             countdown: {

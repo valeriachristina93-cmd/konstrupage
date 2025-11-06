@@ -554,7 +554,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                          <div className="p-3 border rounded-md space-y-3">
                                                             <SettingsToggle label="Ativar Botão Secundário" checked={customPopupConfig.secondButton.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'secondButton', 'active'], checked)} />
                                                             {customPopupConfig.secondButton.active && (
-                                                                <div className="pt-3 border-t space-y-3">
+                                                                <div className="pt-3 border-t space-y-4">
                                                                     <div className="space-y-2">
                                                                         <Label>Texto do Botão Secundário</Label>
                                                                         <Input type="text" placeholder="Texto do Botão Secundário" value={customPopupConfig.secondButton.text} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'text'], e.target.value)} />
@@ -562,6 +562,32 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                      <div className="space-y-2">
                                                                         <Label>Link do Botão Secundário</Label>
                                                                         <Input type="text" placeholder="https://link-secundario.com" value={customPopupConfig.secondButton.link} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'link'], e.target.value)} />
+                                                                    </div>
+                                                                    <div className="space-y-2">
+                                                                        <Label>Tipo de Botão</Label>
+                                                                        <Select value={customPopupConfig.secondButton.style} onValueChange={value => onConfigChange(['popups', 'custom', 'secondButton', 'style'], value)}>
+                                                                            <SelectTrigger><SelectValue /></SelectTrigger>
+                                                                            <SelectContent>
+                                                                                <SelectItem value="filled">Normal</SelectItem>
+                                                                                <SelectItem value="outline">Contorno</SelectItem>
+                                                                            </SelectContent>
+                                                                        </Select>
+                                                                    </div>
+                                                                    {customPopupConfig.secondButton.style === 'outline' && (
+                                                                        <div className="space-y-2">
+                                                                            <Label>Largura do Contorno ({customPopupConfig.secondButton.outlineWidth}px)</Label>
+                                                                            <SliderWithControls
+                                                                                value={[customPopupConfig.secondButton.outlineWidth]}
+                                                                                onValueChange={(value) => onConfigChange(['popups', 'custom', 'secondButton', 'outlineWidth'], value[0])}
+                                                                                min={1}
+                                                                                max={8}
+                                                                                step={1}
+                                                                            />
+                                                                        </div>
+                                                                    )}
+                                                                    <div className="space-y-3 pt-2">
+                                                                        <ColorInput label="Cor Principal" value={customPopupConfig.secondButton.color} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'color'], e.target.value)} />
+                                                                        <ColorInput label="Cor do Texto" value={customPopupConfig.secondButton.textColor} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'textColor'], e.target.value)} />
                                                                     </div>
                                                                 </div>
                                                             )}

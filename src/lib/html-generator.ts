@@ -103,25 +103,31 @@ export const generatePresellHtml = (config: PageConfig) => {
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
-    const getButtonStyle = () => {
-        const { style, color, textColor, width, borderRadius, outlineWidth } = customization.button;
+    const getButtonStyle = (isPrimary = true) => {
+        const buttonConfig = isPrimary ? customization.button : popups.custom.secondButton;
+        const { style, color, textColor, outlineWidth } = buttonConfig;
+        
+        let finalStyle = `
+            color: ${textColor};
+            border-radius: ${customization.button.borderRadius}px;
+        `;
+
+        if(isPrimary){
+            finalStyle += `width: ${customization.button.width}%;`
+        }
+
         if (style === 'outline') {
-            return `
+            finalStyle += `
                 background-color: transparent;
-                color: ${textColor};
-                width: ${width}%;
-                border-radius: ${borderRadius}px;
                 border: ${outlineWidth}px solid ${color};
             `;
+        } else { // filled
+            finalStyle += `
+                background-color: ${color};
+                border: none;
+            `;
         }
-        // Default to filled
-        return `
-            background-color: ${color};
-            color: ${textColor};
-            width: ${width}%;
-            border-radius: ${borderRadius}px;
-            border: none;
-        `;
+        return finalStyle;
     };
     
     const getButtonAlignment = () => {
@@ -213,8 +219,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%; margin-bottom: ${customization.popup.gap}px;">`
             : '';
     
-        const mainButtonHtml = `<button style="${getButtonStyle()}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
-        const secondButtonHtml = secondButton.active ? `<button style="${getButtonStyle()}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
+        const mainButtonHtml = `<button style="${getButtonStyle(true)}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
+        const secondButtonHtml = secondButton.active ? `<button style="${getButtonStyle(false)}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
         
         const buttonsContainerClass = buttonsAlignment === 'horizontal' ? 'buttons-horizontal' : 'buttons-vertical';
         const buttonsHtml = `<div class="custom-popup-buttons ${buttonsContainerClass}">${mainButtonHtml}${secondButtonHtml}</div>`;
@@ -820,11 +826,12 @@ export const generatePresellHtml = (config: PageConfig) => {
 
                     let isVerifying = false;
 
-                    function handleCaptchaCheckbox() {
+                    const handleCaptchaClick = () => {
                         if (isVerifying || customCheckbox.classList.contains('verified')) return;
 
                         isVerifying = true;
                         customCheckbox.classList.add('verifying');
+                        customCheckbox.style.pointerEvents = 'none';
 
                         setTimeout(() => {
                             customCheckbox.classList.remove('verifying');
@@ -835,9 +842,14 @@ export const generatePresellHtml = (config: PageConfig) => {
                                acceptAction();
                             }, 400);
                         }, 1200);
-                    }
+                    };
 
-                    customCheckbox.addEventListener('click', handleCaptchaCheckbox);
+                    customCheckbox.addEventListener('click', handleCaptchaClick);
+                    const label = document.querySelector('label[for="captcha-checkbox"]');
+                    if(label) label.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        handleCaptchaClick();
+                    });
                 })();
             ` : ''}
 
