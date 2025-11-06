@@ -705,7 +705,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <FileText className="w-5 h-5 text-primary" />
-                                <span className="font-semibold">Conteúdo</span>
+                                <span className="font-semibold">Conteúdo e SEO</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-2 space-y-4 px-4">
@@ -1109,7 +1109,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="flex items-start gap-2">
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
                                      <div className="flex-1">
-                                        <SettingsToggle label="HTML Personalizado">
+                                        <SettingsToggle 
+                                            label="HTML Personalizado" 
+                                            checked={!!pageConfig.customization.customHtml}
+                                            onCheckedChange={(checked) => onConfigChange(['customization', 'customHtml'], checked ? ' ' : '')}
+                                        >
                                             <Tooltip>
                                                 <TooltipTrigger asChild>
                                                     <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
@@ -1121,7 +1125,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </SettingsToggle>
                                      </div>
                                 </div>
-                                <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
+                                {!!pageConfig.customization.customHtml && (
+                                    <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
+                                )}
                             </div>
                             <div className="p-3 border rounded-md space-y-4">
                                 <div className='flex items-center gap-2'>
