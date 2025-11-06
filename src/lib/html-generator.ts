@@ -281,10 +281,10 @@ export const generatePresellHtml = (config: PageConfig) => {
     const captchaCheckbox = `
         <div class="captcha-box">
             <div class="captcha-checkbox-container">
-                <input type="checkbox" id="captcha-checkbox" onclick="handleCaptchaCheckbox()">
-                <div class="captcha-checkbox-custom">
+                <input type="checkbox" id="captcha-checkbox" disabled>
+                <div class="captcha-checkbox-custom" onclick="handleCaptchaCheckbox()">
                     <div class="captcha-spinner"></div>
-                    <svg class="captcha-checkmark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <svg class="captcha-checkmark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
             </div>
             <label for="captcha-checkbox">Não sou um robô</label>
@@ -816,7 +816,7 @@ export const generatePresellHtml = (config: PageConfig) => {
              function handleCaptchaCheckbox() {
                 const checkbox = document.getElementById('captcha-checkbox');
                 if (checkbox.checked || checkbox.disabled) return;
-
+                
                 checkbox.disabled = true;
                 checkbox.classList.add('verifying');
                 
@@ -828,6 +828,14 @@ export const generatePresellHtml = (config: PageConfig) => {
                     }, 400);
                 }, 1200);
             }
+
+            ${popups.captcha.active && popups.captcha.captchaType === 'checkbox' ? `
+                const customCheckbox = document.querySelector('.captcha-checkbox-custom');
+                if (customCheckbox) {
+                    customCheckbox.addEventListener('click', handleCaptchaCheckbox);
+                }
+            ` : ''}
+
 
             ${popups.captcha.active && popups.captcha.captchaType === 'slide' ? `
                 const thumb = document.querySelector('.captcha-slide-thumb');
@@ -926,5 +934,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
+    
 
     
