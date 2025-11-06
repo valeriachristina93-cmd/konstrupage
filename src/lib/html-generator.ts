@@ -234,7 +234,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             finalPopupHtml = `
                 <div class="custom-popup-body body-layout-side side-${imageSide}">
                     <div class="custom-popup-image-container" style="flex-basis: ${imageSideWidth}%;">${imageHtml}</div>
-                    <div class="custom-popup-main-content">
+                    <div class="custom-popup-main-content" style="${popupStandardGap}">
                         ${textWrapperHtml}
                         ${buttonsHtml}
                     </div>
@@ -244,7 +244,7 @@ export const generatePresellHtml = (config: PageConfig) => {
              finalPopupHtml = `
                 <div class="custom-popup-body body-layout-default">
                     ${imageLayout === 'top' ? `<div class="custom-popup-image-container">${imageHtml}</div>` : ''}
-                    <div class="custom-popup-main-content">
+                    <div class="custom-popup-main-content" style="${popupStandardGap}">
                         ${textWrapperHtml}
                         ${buttonsHtml}
                     </div>
@@ -890,4 +890,3 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
-
