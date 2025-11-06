@@ -734,6 +734,33 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </>
                                 )}
                             </div>
+                            <div className="p-3 border rounded-md space-y-4">
+                                <div className='flex items-center gap-2'>
+                                    <Globe className="w-4 h-4" />
+                                    <h3 className='font-semibold text-sm'>SEO e Metadados</h3>
+                                </div>
+                                {pageConfig.seo && (
+                                    <>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="pageTitle">Título da Página</Label>
+                                            <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
+                                            <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="faviconUrl">URL do Favicon</Label>
+                                            <ImageUploadInput
+                                                id="faviconUrl"
+                                                value={pageConfig.seo.favicon}
+                                                onChange={e => onConfigChange(['seo', 'favicon'], e.target.value)}
+                                                onFileUpload={file => onImageUpload(file, ['seo', 'favicon'])}
+                                            />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </AccordionContent>
                     </AccordionItem>
 
@@ -1094,7 +1121,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </SettingsToggle>
                                      </div>
                                 </div>
-                                {pageConfig.customization.customHtml !== '' && <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />}
+                                <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
                             </div>
                             <div className="p-3 border rounded-md space-y-4">
                                 <div className='flex items-center gap-2'>
@@ -1126,44 +1153,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="seo">
-                        <AccordionTrigger className="hover:no-underline px-4">
-                            <div className="flex items-center gap-3">
-                                <Globe className="w-5 h-5 text-primary" />
-                                <span className="font-semibold">SEO e Metadados</span>
-                            </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-4 space-y-4 px-4">
-                            {pageConfig.seo && (
-                                <>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="pageTitle">Título da Página</Label>
-                                        <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
-                                        <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="faviconUrl">URL do Favicon</Label>
-                                        <ImageUploadInput
-                                            id="faviconUrl"
-                                            value={pageConfig.seo.favicon}
-                                            onChange={e => onConfigChange(['seo', 'favicon'], e.target.value)}
-                                            onFileUpload={file => onImageUpload(file, ['seo', 'favicon'])}
-                                        />
-                                    </div>
-                                </>
-                            )}
-                        </AccordionContent>
-                    </AccordionItem>
                 </Accordion>
             </ScrollArea>
         </TooltipProvider>
     );
 }
-
-    
-    
-
-    
