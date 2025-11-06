@@ -181,7 +181,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 value={[pageConfig.blur.intensity]}
                                                 onValueChange={(value) => onConfigChange(['blur', 'intensity'], value[0])}
                                                 min={1}
-                                                max={50}
+                                                max={3}
                                                 step={1}
                                             />
                                         </div>
