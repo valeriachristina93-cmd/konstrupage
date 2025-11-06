@@ -585,6 +585,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                             />
                                                                         </div>
                                                                     )}
+                                                                    <div className="space-y-2">
+                                                                        <Label>Largura do Botão Secundário ({customPopupConfig.secondButton.width}%)</Label>
+                                                                        <SliderWithControls
+                                                                            value={[customPopupConfig.secondButton.width]}
+                                                                            onValueChange={(value) => onConfigChange(['popups', 'custom', 'secondButton', 'width'], value[0])}
+                                                                            min={10}
+                                                                            max={100}
+                                                                            step={1}
+                                                                        />
+                                                                    </div>
                                                                     <div className="space-y-3 pt-2">
                                                                         <ColorInput label="Cor Principal" value={customPopupConfig.secondButton.color} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'color'], e.target.value)} />
                                                                         <ColorInput label="Cor do Texto" value={customPopupConfig.secondButton.textColor} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'textColor'], e.target.value)} />

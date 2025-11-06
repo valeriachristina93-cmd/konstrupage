@@ -62,6 +62,7 @@ export type PageConfig = {
         color: string;
         textColor: string;
         outlineWidth: number;
+        width: number;
       };
       buttonsAlignment: 'vertical' | 'horizontal';
       countdown: {

@@ -43,6 +43,7 @@ export const initialPageConfig: PageConfig = {
                 color: '#6B7280',
                 textColor: '#FFFFFF',
                 outlineWidth: 2,
+                width: 100,
             },
             buttonsAlignment: 'vertical',
             countdown: {

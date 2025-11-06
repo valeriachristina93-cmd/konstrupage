@@ -103,17 +103,16 @@ export const generatePresellHtml = (config: PageConfig) => {
         ? `<button class="close-button" onclick="closePopup('${popupId}', event)">&times;</button>`
         : '';
 
-    const getButtonStyle = (isPrimary = true) => {
-        const buttonConfig = isPrimary ? customization.button : popups.custom.secondButton;
+    const getButtonStyle = (buttonConfig: typeof customization.button | typeof popups.custom.secondButton, isPrimary: boolean) => {
         const { style, color, textColor, outlineWidth } = buttonConfig;
         
         let finalStyle = `
             color: ${textColor};
             border-radius: ${customization.button.borderRadius}px;
         `;
-
-        if(isPrimary){
-            finalStyle += `width: ${customization.button.width}%;`
+    
+        if ('width' in buttonConfig) {
+             finalStyle += `width: ${buttonConfig.width}%;`
         }
 
         if (style === 'outline') {
@@ -168,7 +167,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h3>Políticas de Cookies</h3>
                 <p>${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${getButtonStyle()}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
+                    <button style="${getButtonStyle(customization.button, true)}" onclick="acceptAction()">${popups.cookies.buttonText}</button>
                 </div>
             </div>
         </div>
@@ -195,7 +194,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <h2>${popups.discount.text}</h2>
                 <p>${popups.discount.description}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
-                    <button style="${getButtonStyle()}" onclick="acceptAction()">Aproveitar Agora</button>
+                    <button style="${getButtonStyle(customization.button, true)}" onclick="acceptAction()">Aproveitar Agora</button>
                 </div>
             </div>
         </div>
@@ -219,8 +218,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             ? `<img src="${imageInner.imageUrl}" class="custom-popup-image-inner" alt="Inner Pop-up Image" style="width: ${imageInner.width}%; margin-bottom: ${customization.popup.gap}px;">`
             : '';
     
-        const mainButtonHtml = `<button style="${getButtonStyle(true)}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
-        const secondButtonHtml = secondButton.active ? `<button style="${getButtonStyle(false)}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
+        const mainButtonHtml = `<button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${affiliateLink}')">${buttonText}</button>`;
+        const secondButtonHtml = secondButton.active ? `<button style="${getButtonStyle(secondButton, false)}" onclick="redirect('${secondButton.link}')">${secondButton.text}</button>` : '';
         
         const buttonsContainerClass = buttonsAlignment === 'horizontal' ? 'buttons-horizontal' : 'buttons-vertical';
         const buttonsHtml = `<div class="custom-popup-buttons ${buttonsContainerClass}">${mainButtonHtml}${secondButtonHtml}</div>`;
@@ -338,7 +337,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                             <h3>Espere, não vá embora!</h3>
                             <p>Temos uma oferta especial para você.</p>
                             <div class="button-container" style="${buttonContainerStyle}">
-                                <button style="${getButtonStyle()}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                                <button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
                             </div>
                         </div>
                     </div>
@@ -821,22 +820,23 @@ export const generatePresellHtml = (config: PageConfig) => {
 
              ${popups.captcha.active && popups.captcha.captchaType === 'checkbox' ? `
                 (function() {
-                    const customCheckbox = document.querySelector('.captcha-checkbox-custom');
-                    if (!customCheckbox) return;
+                    const captchaBox = document.querySelector('.captcha-box');
+                    if (!captchaBox) return;
 
                     let isVerifying = false;
 
                     const handleCaptchaClick = () => {
-                        if (isVerifying || customCheckbox.classList.contains('verified')) return;
+                        if (isVerifying) return;
+                        
+                        const customCheckbox = captchaBox.querySelector('.captcha-checkbox-custom');
+                        if (customCheckbox.classList.contains('verified')) return;
 
                         isVerifying = true;
                         customCheckbox.classList.add('verifying');
-                        customCheckbox.style.pointerEvents = 'none';
-
+                        
                         setTimeout(() => {
                             customCheckbox.classList.remove('verifying');
                             customCheckbox.classList.add('verified');
-                            isVerifying = false;
                             
                             setTimeout(() => {
                                acceptAction();
@@ -844,12 +844,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                         }, 1200);
                     };
 
-                    customCheckbox.addEventListener('click', handleCaptchaClick);
-                    const label = document.querySelector('label[for="captcha-checkbox"]');
-                    if(label) label.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        handleCaptchaClick();
-                    });
+                    captchaBox.addEventListener('click', handleCaptchaClick);
                 })();
             ` : ''}
 
