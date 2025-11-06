@@ -62,7 +62,7 @@ export const initialPageConfig: PageConfig = {
     footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB' },
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.', backgroundColor: '#F3F4F6', textColor: '#4B5563' },
     overlay: { active: false, opacity: 0.5 },
-    blur: { active: false, intensity: 5 },
+    blur: { active: false, intensity: 3 },
     tracking: {
         facebookPixelId: '',
         googleAdsId: '',
@@ -70,7 +70,7 @@ export const initialPageConfig: PageConfig = {
     seo: {
         title: 'Site Page',
         description: '',
-        favicon: '',
+        favicon: 'https://i.imgur.com/ihAZlua.png',
     },
     customization: {
         button: {

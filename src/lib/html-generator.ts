@@ -391,9 +391,9 @@ export const generatePresellHtml = (config: PageConfig) => {
         </script>
     ` : '';
 
-    const pageTitle = seo?.title || 'Presell Page';
+    const pageTitle = seo?.title || 'Site Page';
     const pageDescription = seo?.description || 'Presell page description.';
-    const favicon = seo?.favicon || 'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⬜️</text></svg>';
+    const favicon = seo?.favicon || 'https://i.imgur.com/ihAZlua.png';
 
 
     return `
@@ -754,14 +754,24 @@ export const generatePresellHtml = (config: PageConfig) => {
                     }
                 }
             }
-
+            
             function proceed(popupId) {
                 const popup = document.getElementById(popupId);
                 if (popup) {
                     popup.style.display = 'none';
                 }
-                showNextPopup();
+
+                if (currentPopupIndex >= popups.length - 1) {
+                    popupWrapper.style.display = 'none';
+                    popupWrapper.style.pointerEvents = 'none';
+                    if (AFFILIATE_LINK) {
+                        redirect(AFFILIATE_LINK);
+                    }
+                } else {
+                    showNextPopup();
+                }
             }
+
 
             function closePopup(popupId, event) {
                 if (event) event.stopPropagation();
@@ -770,7 +780,12 @@ export const generatePresellHtml = (config: PageConfig) => {
                     const overlay = document.getElementById('exit-popup-overlay');
                     if(overlay) overlay.style.display = 'none';
                 } else {
-                    proceed(popupId);
+                     const popup = document.getElementById(popupId);
+                     if (popup) {
+                        popup.style.display = 'none';
+                    }
+                    popupWrapper.style.display = 'none';
+                    popupWrapper.style.pointerEvents = 'none';
                 }
             }
 
