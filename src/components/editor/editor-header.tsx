@@ -41,7 +41,7 @@ const announcements = [
 ];
 
 const tools = [
-    { name: 'Lightshot', url: 'https://app.prntscr.com/pt-br/index.html', icon: <Scissors /> },
+    { name: 'Lightshot', url: 'https://chromewebstore.google.com/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Scissors /> },
     { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Camera /> },
     { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl', icon: <Camera /> },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt', icon: <ImageIcon /> },
