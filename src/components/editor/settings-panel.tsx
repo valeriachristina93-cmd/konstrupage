@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState } from 'react';
@@ -88,7 +87,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                     onValueChange={setOpenAccordion}
                 >
                     
-                    <AccordionItem value="layout" className="border-b-0 accordion-item-styling">
+                    <AccordionItem value="layout" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <LayoutPanelLeft className="w-5 h-5 text-primary" />
@@ -196,7 +195,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                         </AccordionContent>
                     </AccordionItem>
 
-                    <AccordionItem value="popups" className="border-b-0 accordion-item-styling">
+                    <AccordionItem value="popups" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <MessageSquare className="w-5 h-5 text-primary" />
@@ -663,7 +662,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                         </AccordionContent>
                     </AccordionItem>
                     
-                     <AccordionItem value="content" className="border-b-0 accordion-item-styling">
+                     <AccordionItem value="content" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <FileText className="w-5 h-5 text-primary" />
@@ -732,7 +731,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                         </AccordionContent>
                     </AccordionItem>
 
-                    <AccordionItem value="configuracao" className="border-b-0 accordion-item-styling">
+                    <AccordionItem value="configuracao" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <Settings className="w-5 h-5 text-primary" />
@@ -850,7 +849,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="advanced" className="border-b-0 accordion-item-styling">
+                    <AccordionItem value="advanced" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <Settings2 className="w-5 h-5 text-primary" />
@@ -1176,3 +1175,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
+
+    
