@@ -88,7 +88,7 @@ export type PageConfig = {
       active: boolean;
       title: string;
       description: string;
-      captchaType: 'checkbox' | 'slide';
+      captchaType: 'checkbox' | 'checkbox-v2' | 'slide' | 'slide-v2' | 'slide-v3';
     };
   };
   footer: {
