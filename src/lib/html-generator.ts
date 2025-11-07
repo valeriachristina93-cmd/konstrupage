@@ -780,9 +780,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (popupId === 'exit-popup') {
                     popupWrapper.style.display = 'none';
                     popupWrapper.style.pointerEvents = 'none';
+                    isPopupActive = false;
                 } else {
-                    // For regular popups, we still want to mark as inactive and move to the next
-                    // This handles closing via 'X' button
                     isPopupActive = false;
                     showNextPopup();
                 }
@@ -965,11 +964,11 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             ${popups.exit.active ? `
                 document.addEventListener('mouseleave', function(e) {
-                    if (e.clientY < 0 && !exitIntentFired && !isPopupActive) {
+                    if (e.clientY < 0 && !isPopupActive && !exitIntentFired) {
                         const exitPopup = document.getElementById('exit-popup');
                         if (exitPopup) {
-                            isPopupActive = true;
                             exitIntentFired = true;
+                            isPopupActive = true;
                             popupWrapper.style.display = 'flex';
                             popupWrapper.style.pointerEvents = 'auto';
                             exitPopup.style.display = 'flex';
