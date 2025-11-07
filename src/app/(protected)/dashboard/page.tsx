@@ -18,10 +18,10 @@ export default function DashboardPage() {
           <p className="text-xl text-muted-foreground">Sua ferramenta para criar páginas de presell de alta conversão.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300 min-h-[320px]">
             <div>
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-primary text-2xl">
+                <CardTitle className="flex items-center gap-3 text-primary text-xl">
                   <Sparkles className="h-7 w-7" />
                   <span>Páginas Presell Personalizadas</span>
                 </CardTitle>
@@ -40,10 +40,10 @@ export default function DashboardPage() {
             </CardFooter>
           </Card>
 
-          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
+          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300 min-h-[320px]">
             <div>
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-primary text-2xl">
+                <CardTitle className="flex items-center gap-3 text-primary text-xl">
                   <Bot className="h-7 w-7" />
                   <span>Gerador de Páginas</span>
                 </CardTitle>
