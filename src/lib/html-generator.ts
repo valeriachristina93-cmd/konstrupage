@@ -734,17 +734,20 @@ export const generatePresellHtml = (config: PageConfig) => {
             const FULL_PAGE_CLICK = ${fullPageClick};
             
             const popupWrapper = document.querySelector('.popup-wrapper');
-            const popups = Array.from(popupWrapper.querySelectorAll('.popup:not(#exit-popup)'));
+            const regularPopups = Array.from(popupWrapper.querySelectorAll('.popup:not(#exit-popup)'));
             let currentPopupIndex = -1;
+            let isPopupActive = false;
 
             function showNextPopup() {
+                if (isPopupActive) return;
                 currentPopupIndex++;
-                if (currentPopupIndex < popups.length) {
-                    const popup = popups[currentPopupIndex];
+                if (currentPopupIndex < regularPopups.length) {
+                    isPopupActive = true;
                     popupWrapper.style.display = 'flex';
                     popupWrapper.style.pointerEvents = 'auto';
-                    popup.style.display = 'flex';
+                    regularPopups[currentPopupIndex].style.display = 'flex';
                 } else {
+                    isPopupActive = false;
                     popupWrapper.style.display = 'none';
                     popupWrapper.style.pointerEvents = 'none';
                     if (AFFILIATE_LINK) {
@@ -758,16 +761,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (popup) {
                     popup.style.display = 'none';
                 }
-
-                if (currentPopupIndex >= popups.length - 1) {
-                    popupWrapper.style.display = 'none';
-                    popupWrapper.style.pointerEvents = 'none';
-                    if (AFFILIATE_LINK) {
-                        redirect(AFFILIATE_LINK);
-                    }
-                } else {
-                    showNextPopup();
-                }
+                isPopupActive = false;
+                showNextPopup();
             }
 
 
@@ -779,9 +774,15 @@ export const generatePresellHtml = (config: PageConfig) => {
                     popup.style.display = 'none';
                 }
                 
-                if(popupWrapper.querySelectorAll('.popup[style*="display: flex"]').length === 0) {
-                     popupWrapper.style.display = 'none';
-                     popupWrapper.style.pointerEvents = 'none';
+                // If it was an exit popup, just hide the wrapper
+                if (popupId === 'exit-popup') {
+                    popupWrapper.style.display = 'none';
+                    popupWrapper.style.pointerEvents = 'none';
+                    isPopupActive = false;
+                } else {
+                    // For other popups, just proceed to the next one or finish
+                    isPopupActive = false;
+                    showNextPopup();
                 }
             }
 
@@ -796,13 +797,13 @@ export const generatePresellHtml = (config: PageConfig) => {
                     redirect(AFFILIATE_LINK);
                     return;
                 }
-                 if (popups.length === 0 && !${popups.exit.active}) {
+                 if (regularPopups.length === 0 && !${popups.exit.active}) {
                     redirect(AFFILIATE_LINK);
                 }
             }
             
             window.addEventListener('load', () => {
-                if (popups.length > 0) {
+                if (regularPopups.length > 0) {
                     showNextPopup();
                 }
             });
@@ -963,24 +964,17 @@ export const generatePresellHtml = (config: PageConfig) => {
             ${popups.exit.active ? `
                 let exitIntentFired = false;
                 document.addEventListener('mouseleave', function(e) {
-                    if (e.clientY < 0 && !exitIntentFired) {
+                    if (e.clientY < 0 && !exitIntentFired && !isPopupActive) {
                         const exitPopup = document.getElementById('exit-popup');
                         if (exitPopup) {
-                             popupWrapper.style.display = 'flex';
-                             popupWrapper.style.pointerEvents = 'auto';
-                             exitPopup.style.display = 'flex';
-                        }
-                        exitIntentFired = true;
-                    }
-                });
-                popupWrapper.addEventListener('click', function(e) {
-                     if (e.target === this) {
-                        const exitPopup = document.getElementById('exit-popup');
-                        if (exitPopup && exitPopup.style.display === 'flex') {
-                            this.style.display = 'none';
+                            isPopupActive = true;
+                            exitIntentFired = true;
+                            popupWrapper.style.display = 'flex';
+                            popupWrapper.style.pointerEvents = 'auto';
+                            exitPopup.style.display = 'flex';
                         }
                     }
-                });
+                }, { once: true });
             ` : ''}
         </script>
     </body>
@@ -990,4 +984,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     
 
     
+
 
