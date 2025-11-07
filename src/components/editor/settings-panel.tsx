@@ -795,8 +795,26 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      </div>
                                 </div>
                             </div>
-                            <div className="p-3 border rounded-md space-y-3 bg-destructive/5 border-destructive/30 text-destructive">
-                                <SettingsToggle label="Redirecionamento Automático" checked={pageConfig.autoRedirect.active} onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)} />
+                           <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
+                                <div className="flex items-start gap-2">
+                                    <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1">
+                                        <SettingsToggle 
+                                            label="Redirecionamento Automático" 
+                                            checked={pageConfig.autoRedirect.active} 
+                                            onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)}
+                                        >
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs text-center" side="top">
+                                                    <p>O redirecionamento automático pode afetar a experiência do usuário e as taxas de rejeição. Use com moderação.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </SettingsToggle>
+                                    </div>
+                                </div>
                                 {pageConfig.autoRedirect.active && (
                                     <div className="pt-4 space-y-2 border-t mt-4 border-destructive/30">
                                         <Label className="text-foreground">Tempo ({pageConfig.autoRedirect.time}s)</Label>
