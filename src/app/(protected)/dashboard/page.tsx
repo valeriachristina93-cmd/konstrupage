@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -22,7 +23,7 @@ export default function DashboardPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-primary text-2xl">
                   <Sparkles className="h-7 w-7" />
-                  <span>Páginas Personalizadas</span>
+                  <span>Páginas Presell Personalizadas</span>
                 </CardTitle>
                 <CardDescription className="pt-2 text-base">
                   Crie páginas do zero com controle total sobre imagens, pop-ups, redirecionamentos e muito mais.
