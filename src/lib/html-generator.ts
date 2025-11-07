@@ -9,8 +9,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, tracking, customization, seo
     } = config;
 
-    const allPopups = [popups.ageVerification, popups.captcha, popups.custom, popups.choice, popups.discount, popups.cookies];
-    const anyPopupActive = allPopups.some(p => p.active);
+    const anyPopupActive = popups.ageVerification.active || popups.captcha.active || popups.custom.active || popups.choice.active || popups.discount.active || popups.cookies.active;
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -986,6 +985,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     
+
 
 
 
