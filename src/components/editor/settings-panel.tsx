@@ -369,6 +369,33 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 </SelectContent>
                                             </Select>
                                         </div>
+                                        {(pageConfig.popups.captcha.captchaType === 'slide-v2' || pageConfig.popups.captcha.captchaType === 'slide-v3') && (
+                                            <div className="pt-4 mt-4 border-t space-y-4">
+                                                <h4 className="font-semibold text-sm">Personalização do Slider</h4>
+                                                <div className="space-y-2">
+                                                    <Label>Texto da Barra</Label>
+                                                    <Input type="text" value={pageConfig.popups.captcha.sliderText} onChange={e => onConfigChange(['popups', 'captcha', 'sliderText'], e.target.value)} />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>Texto de Sucesso</Label>
+                                                    <Input type="text" value={pageConfig.popups.captcha.sliderSuccessText} onChange={e => onConfigChange(['popups', 'captcha', 'sliderSuccessText'], e.target.value)} />
+                                                </div>
+                                                 <div className="space-y-2">
+                                                    <Label>Formato da Barra</Label>
+                                                    <Select value={pageConfig.popups.captcha.sliderShape} onValueChange={value => onConfigChange(['popups', 'captcha', 'sliderShape'], value)}>
+                                                        <SelectTrigger><SelectValue /></SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectItem value="round">Redonda</SelectItem>
+                                                            <SelectItem value="square">Quadrada</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <ColorInput label="Cor do Botão" value={pageConfig.popups.captcha.sliderButtonColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderButtonColor'], e.target.value)} />
+                                                <ColorInput label="Cor da Barra" value={pageConfig.popups.captcha.sliderTrackColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderTrackColor'], e.target.value)} />
+                                                <ColorInput label="Cor do Texto" value={pageConfig.popups.captcha.sliderTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderTextColor'], e.target.value)} />
+                                                <ColorInput label="Cor do Texto de Sucesso" value={pageConfig.popups.captcha.sliderSuccessTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderSuccessTextColor'], e.target.value)} />
+                                            </div>
+                                        )}
                                     </AccordionContent>
                                 </AccordionItem>
 

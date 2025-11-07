@@ -322,21 +322,21 @@ export const generatePresellHtml = (config: PageConfig) => {
     `;
 
      const captchaSlideV2 = `
-        <div class="captcha-slide-v2-container">
+        <div class="captcha-slide-v2-container" data-shape="${popups.captcha.sliderShape}">
             <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input" id="captcha-slider-v2">
             <label for="captcha-slider-v2" class="captcha-slide-v2-label">
-                <span>Deslize para verificar</span>
-                <span>Verificado!</span>
+                <span>${popups.captcha.sliderText}</span>
+                <span>${popups.captcha.sliderSuccessText}</span>
             </label>
         </div>
     `;
     
     const captchaSlideV3 = `
-        <div class="captcha-slide-v2-container captcha-slide-v3-container">
+        <div class="captcha-slide-v2-container captcha-slide-v3-container" data-shape="${popups.captcha.sliderShape}">
             <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input captcha-slide-v3-input" id="captcha-slider-v3">
             <label for="captcha-slider-v3" class="captcha-slide-v2-label captcha-slide-v3-label">
-                <span>Deslize para confirmar</span>
-                <span>Confirmado!</span>
+                <span>${popups.captcha.sliderText}</span>
+                <span>${popups.captcha.sliderSuccessText}</span>
             </label>
         </div>
     `;
@@ -452,6 +452,15 @@ export const generatePresellHtml = (config: PageConfig) => {
         ${facebookPixelScript}
         ${googleAdsScript}
         <style>
+            :root {
+                --captcha-slider-button: ${popups.captcha.sliderButtonColor};
+                --captcha-slider-track: ${popups.captcha.sliderTrackColor};
+                --captcha-slider-text-color: ${popups.captcha.sliderTextColor};
+                --captcha-slider-success-text-color: ${popups.captcha.sliderSuccessTextColor};
+                --captcha-slider-success-bg: #28a745;
+                --captcha-slider-radius: ${popups.captcha.sliderShape === 'round' ? '25px' : '4px'};
+                --captcha-slider-thumb-radius: ${popups.captcha.sliderShape === 'round' ? '50%' : '4px'};
+            }
             body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden;}
             .main-wrapper {
                 position: relative;
@@ -657,19 +666,19 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-slide-track.verified .captcha-slide-thumb .check { display: block; animation: checkmark 0.3s ease-in-out; }
 
             .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; }
-            .captcha-slide-v2-input { -webkit-appearance: none; appearance: none; width: 100%; height: 100%; background: #e9ecef; border-radius: 25px; outline: none; margin: 0; padding: 0; cursor: pointer; }
-            .captcha-slide-v2-input::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 50px; height: 50px; background: white; border: 2px solid #ccc; border-radius: 50%; cursor: pointer; transition: background-color 0.2s; }
-            .captcha-slide-v2-input:disabled { background: #28a745; }
-            .captcha-slide-v2-input:disabled::-webkit-slider-thumb { background: #28a745; border-color: #28a745; }
-            .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: #6c757d; }
+            .captcha-slide-v2-input { -webkit-appearance: none; appearance: none; width: 100%; height: 100%; background: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); outline: none; margin: 0; padding: 0; cursor: pointer; }
+            .captcha-slide-v2-input::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 50px; height: 50px; background: white; border: 2px solid #ccc; border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; transition: background-color 0.2s; }
+            .captcha-slide-v2-input:disabled { background: var(--captcha-slider-success-bg); }
+            .captcha-slide-v2-input:disabled::-webkit-slider-thumb { background: var(--captcha-slider-success-bg); border-color: var(--captcha-slider-success-bg); }
+            .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); }
             .captcha-slide-v2-label span:last-child { display: none; }
             .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:first-child { display: none; }
-            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:last-child { display: block; color: white; font-weight: bold; }
+            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:last-child { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
             
-            .captcha-slide-v3-input::-webkit-slider-thumb { background: ${customization.button.color || '#3B82F6'}; border: none; }
-            .captcha-slide-v3-input:disabled { background: #28a745; }
-            .captcha-slide-v3-input:disabled::-webkit-slider-thumb { background: #28a745; }
-            .captcha-slide-v3-input:disabled + .captcha-slide-v3-label span:last-child { color: ${customization.button.textColor || '#FFFFFF'}; }
+            .captcha-slide-v3-input::-webkit-slider-thumb { background: var(--captcha-slider-button); border: none; }
+            .captcha-slide-v3-input:disabled { background: var(--captcha-slider-success-bg); }
+            .captcha-slide-v3-input:disabled::-webkit-slider-thumb { background: var(--captcha-slider-success-bg); }
+            .captcha-slide-v3-input:disabled + .captcha-slide-v3-label span:last-child { color: var(--captcha-slider-success-text-color); }
 
 
             .image-only-popup { padding: 0 !important; background-color: transparent !important; border: none !important; }
@@ -966,25 +975,21 @@ export const generatePresellHtml = (config: PageConfig) => {
                          const sliderId = captchaType === 'slide-v2' ? 'captcha-slider-v2' : 'captcha-slider-v3';
                          const slider = document.getElementById(sliderId);
                          if (!slider) return;
-                         const label = slider.nextElementSibling;
+                         
                          slider.addEventListener('input', () => {
                             if (slider.value > 95) {
                                 slider.value = 100;
                                 slider.disabled = true;
-                                if (label) label.querySelector('span:last-child').style.display = 'block';
                                 setTimeout(() => proceed('captcha-popup'), 400);
                             }
                          });
-                         slider.addEventListener('mouseup', () => {
+                         const releaseHandler = () => {
                             if (!slider.disabled && slider.value < 100) {
                                 slider.value = 0;
                             }
-                         });
-                         slider.addEventListener('touchend', () => {
-                            if (!slider.disabled && slider.value < 100) {
-                                slider.value = 0;
-                            }
-                         });
+                         };
+                         slider.addEventListener('mouseup', releaseHandler);
+                         slider.addEventListener('touchend', releaseHandler);
                     }
                 }
             }

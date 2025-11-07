@@ -57,7 +57,19 @@ export const initialPageConfig: PageConfig = {
             },
         },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
-        captcha: { active: false, title: 'Verificação Rápida', description: 'Clique abaixo para provar que você não é um robô e continuar.', captchaType: 'checkbox' }
+        captcha: { 
+            active: false, 
+            title: 'Verificação Rápida', 
+            description: 'Clique abaixo para provar que você não é um robô e continuar.', 
+            captchaType: 'checkbox',
+            sliderButtonColor: '#3B82F6',
+            sliderTrackColor: '#e9ecef',
+            sliderTextColor: '#6c757d',
+            sliderSuccessTextColor: '#FFFFFF',
+            sliderText: 'Deslize para verificar',
+            sliderSuccessText: 'Verificado!',
+            sliderShape: 'round'
+        }
     },
     footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB' },
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.', backgroundColor: '#F3F4F6', textColor: '#4B5563' },
