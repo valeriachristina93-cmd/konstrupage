@@ -1,6 +1,21 @@
 
+"use client";
+
+import { useAuth } from '@/context/auth-context';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
 export default function HomePage() {
-  // Retornar null permite que o AuthProvider e o ProtectedLayout gerenciem o redirecionamento,
-  // evitando avisos do Next.js sobre enumeração de parâmetros.
+  const { isLoggedIn } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.replace('/dashboard');
+    } else {
+      router.replace('/login');
+    }
+  }, [isLoggedIn, router]);
+
   return null;
 }
