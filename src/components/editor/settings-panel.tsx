@@ -225,7 +225,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 value={openSubAccordion}
                                 onValueChange={setOpenSubAccordion}
                             >
-                                <AccordionItem value="cookies" className="border-b-0">
+                                <AccordionItem value="cookies" className="border-b">
                                   <AccordionSubTrigger 
                                     title="Pop-up de Cookies"
                                     checked={pageConfig.popups.cookies.active}
@@ -241,7 +241,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </AccordionItem>
 
 
-                                <AccordionItem value="ageVerification" className="border-b-0">
+                                <AccordionItem value="ageVerification" className="border-b">
                                     <AccordionSubTrigger 
                                         title="Pop-up Verificação de Idade"
                                         checked={pageConfig.popups.ageVerification.active}
@@ -275,7 +275,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="choice" className="border-b-0">
+                                <AccordionItem value="choice" className="border-b">
                                     <AccordionSubTrigger 
                                       title="Pop-up de Escolha"
                                       checked={pageConfig.popups.choice.active}
@@ -343,7 +343,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
                                 
-                                <AccordionItem value="captcha" className="border-b-0">
+                                <AccordionItem value="captcha" className="border-b">
                                     <AccordionSubTrigger 
                                         title="Pop-up Captcha"
                                         checked={pageConfig.popups.captcha.active}
@@ -365,7 +365,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="discount" className="border-b-0">
+                                <AccordionItem value="discount" className="border-b">
                                     <AccordionSubTrigger 
                                         title="Pop-up de Desconto"
                                         checked={pageConfig.popups.discount.active}
@@ -396,7 +396,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
                                 
-                                <AccordionItem value="exit" className="border-b-0">
+                                <AccordionItem value="exit" className="border-b">
                                     <AccordionSubTrigger 
                                         title="Pop-up de Saída"
                                         checked={pageConfig.popups.exit.active}
@@ -800,7 +800,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 {pageConfig.autoRedirect.active && (
                                     <div className="pt-4 space-y-2 border-t mt-4 border-destructive/30">
                                         <Label className="text-foreground">Tempo ({pageConfig.autoRedirect.time}s)</Label>
-                                        <input type="range" min="5" max="15" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
+                                        <input type="range" min="3" max="8" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
                                     </div>
                                 )}
                             </div>
@@ -1192,6 +1192,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
+
+    
 
     
 
