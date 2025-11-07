@@ -323,6 +323,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input captcha-slide-v3-input" id="captcha-slider-v3">
             <div class="captcha-slide-v2-label captcha-slide-v3-label">
                 <span>${popups.captcha.sliderText}</span>
+            </div>
+             <div class="captcha-slide-v3-success-overlay">
                 <span class="success-text">${popups.captcha.sliderSuccessText}</span>
             </div>
         </div>
@@ -644,8 +646,11 @@ export const generatePresellHtml = (config: PageConfig) => {
                 appearance: none; 
                 width: 50px; 
                 height: 50px; 
-                background: white; 
-                border: 2px solid #ccc; 
+                background-color: var(--captcha-slider-button);
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: center;
+                border: none;
                 border-radius: var(--captcha-slider-thumb-radius); 
                 cursor: pointer; 
                 transition: background-color 0.2s;
@@ -654,8 +659,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             }
             .captcha-slide-v2-input:disabled { background: var(--captcha-slider-success-bg); }
             .captcha-slide-v2-input:disabled::-webkit-slider-thumb { 
-                background: var(--captcha-slider-success-bg); 
-                border-color: var(--captcha-slider-success-bg); 
+                background-color: var(--captcha-slider-success-bg);
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
             }
             .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); z-index: 1;}
             .captcha-slide-v2-label .success-text { display: none; }
@@ -664,16 +669,32 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             .captcha-slide-v3-input::-webkit-slider-thumb {
                 background-color: var(--captcha-slider-button);
-                border: none;
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: center;
             }
              .captcha-slide-v3-input:disabled::-webkit-slider-thumb {
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+                background-color: var(--captcha-slider-success-bg);
             }
-            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label {
-                z-index: 3; /* Ensure success text is on top */
+            .captcha-slide-v3-success-overlay {
+                position: absolute;
+                top: 0; left: 0; right: 0; bottom: 0;
+                background-color: var(--captcha-slider-success-bg);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.3s;
+                border-radius: var(--captcha-slider-radius);
+                z-index: 3;
+            }
+            .captcha-slide-v3-success-overlay .success-text {
+                color: var(--captcha-slider-success-text-color);
+                font-weight: bold;
+            }
+            .captcha-slide-v3-input:disabled ~ .captcha-slide-v3-success-overlay {
+                opacity: 1;
+            }
+            .captcha-slide-v3-input:disabled + .captcha-slide-v3-label {
+                opacity: 0;
             }
 
 
@@ -946,4 +967,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
