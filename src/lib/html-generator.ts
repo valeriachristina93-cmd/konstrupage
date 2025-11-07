@@ -9,7 +9,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, tracking, customization, seo
     } = config;
 
-    const anyPopupActive = popups.cookies.active || popups.ageVerification.active || popups.discount.active || popups.custom.active || popups.choice.active || popups.captcha.active;
+    const standardPopups = [popups.ageVerification, popups.captcha, popups.custom, popups.choice, popups.discount, popups.cookies];
+    const anyPopupActive = standardPopups.some(p => p.active);
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -323,26 +324,24 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     const exitPopup = popups.exit.active ? `
-        <div id="exit-popup-overlay" style="display:none;">
-            <div id="exit-popup" class="popup popup-center ${popups.exit.imageOnly ? 'image-only-popup' : ''}" style="${popupStyles} ${getPopupContourStyle()}">
-                ${closeButtonHtml('exit-popup')}
-                ${popups.exit.imageOnly ? `
-                    <a href="${popups.exit.redirectLink || affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="exit-image-link">
-                        <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:100%; object-fit: cover; display:block;" />
-                    </a>
-                ` : `
-                    <div style="padding:0; display: flex; flex-direction: column;">
-                        <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
-                        <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                            <h3>Espere, não vá embora!</h3>
-                            <p>Temos uma oferta especial para você.</p>
-                            <div class="button-container" style="${buttonContainerStyle}">
-                                <button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
-                            </div>
+        <div id="exit-popup" class="popup popup-center ${getPopupAnimationClass()} ${popups.exit.imageOnly ? 'image-only-popup' : ''}" style="${popupStyles} ${getPopupContourStyle()}">
+            ${closeButtonHtml('exit-popup')}
+            ${popups.exit.imageOnly ? `
+                <a href="${popups.exit.redirectLink || affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="exit-image-link">
+                    <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:100%; object-fit: cover; display:block;" />
+                </a>
+            ` : `
+                <div style="padding:0; display: flex; flex-direction: column;">
+                    <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
+                    <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
+                        <h3>Espere, não vá embora!</h3>
+                        <p>Temos uma oferta especial para você.</p>
+                        <div class="button-container" style="${buttonContainerStyle}">
+                            <button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
                         </div>
                     </div>
-                `}
-            </div>
+                </div>
+            `}
         </div>
     ` : '';
 
@@ -437,7 +436,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             footer { padding: 16px; text-align: center; font-size: 14px; position: fixed; bottom: 0; width: 100%; z-index: 10;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; }
             
-            #exit-popup-overlay, .popup-wrapper {
+            .popup-wrapper {
                 position: fixed;
                 inset: 0;
                 background-color: ${overlay.active ? `rgba(0,0,0,${overlay.opacity})` : 'transparent'};
@@ -723,10 +722,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${choicePopup}
                 ${discountPopup}
                 ${cookiePopup}
+                ${exitPopup}
             </div>
         </div>
-
-        ${exitPopup}
         ${disclaimerSection}
         ${footerSection}
         ${customization.customHtml || ''}
@@ -736,7 +734,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             const FULL_PAGE_CLICK = ${fullPageClick};
             
             const popupWrapper = document.querySelector('.popup-wrapper');
-            const popups = Array.from(popupWrapper.querySelectorAll('.popup'));
+            const popups = Array.from(popupWrapper.querySelectorAll('.popup:not(#exit-popup)'));
             let currentPopupIndex = -1;
 
             function showNextPopup() {
@@ -776,16 +774,14 @@ export const generatePresellHtml = (config: PageConfig) => {
             function closePopup(popupId, event) {
                 if (event) event.stopPropagation();
                 
-                if (popupId === 'exit-popup') {
-                    const overlay = document.getElementById('exit-popup-overlay');
-                    if(overlay) overlay.style.display = 'none';
-                } else {
-                     const popup = document.getElementById(popupId);
-                     if (popup) {
-                        popup.style.display = 'none';
-                    }
-                    popupWrapper.style.display = 'none';
-                    popupWrapper.style.pointerEvents = 'none';
+                const popup = document.getElementById(popupId);
+                if (popup) {
+                    popup.style.display = 'none';
+                }
+                
+                if(popupWrapper.querySelectorAll('.popup[style*="display: flex"]').length === 0) {
+                     popupWrapper.style.display = 'none';
+                     popupWrapper.style.pointerEvents = 'none';
                 }
             }
 
@@ -800,7 +796,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     redirect(AFFILIATE_LINK);
                     return;
                 }
-                 if (popups.length === 0) {
+                 if (popups.length === 0 && !${popups.exit.active}) {
                     redirect(AFFILIATE_LINK);
                 }
             }
@@ -968,21 +964,23 @@ export const generatePresellHtml = (config: PageConfig) => {
                 let exitIntentFired = false;
                 document.addEventListener('mouseleave', function(e) {
                     if (e.clientY < 0 && !exitIntentFired) {
-                        const exitOverlay = document.getElementById('exit-popup-overlay');
-                        if (exitOverlay) {
-                             exitOverlay.style.display = 'flex';
+                        const exitPopup = document.getElementById('exit-popup');
+                        if (exitPopup) {
+                             popupWrapper.style.display = 'flex';
+                             popupWrapper.style.pointerEvents = 'auto';
+                             exitPopup.style.display = 'flex';
                         }
                         exitIntentFired = true;
                     }
                 });
-                const exitOverlay = document.getElementById('exit-popup-overlay');
-                if(exitOverlay) {
-                    exitOverlay.addEventListener('click', function(e) {
-                         if (e.target === this) {
+                popupWrapper.addEventListener('click', function(e) {
+                     if (e.target === this) {
+                        const exitPopup = document.getElementById('exit-popup');
+                        if (exitPopup && exitPopup.style.display === 'flex') {
                             this.style.display = 'none';
                         }
-                    });
-                }
+                    }
+                });
             ` : ''}
         </script>
     </body>
@@ -992,3 +990,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     
 
     
+
