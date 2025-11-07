@@ -49,6 +49,7 @@ const tools = [
     { name: 'Gemini', url: 'https://gemini.google.com/app', icon: <Sparkles /> },
     { name: 'DeepSeek Chat', url: 'https://chat.deepseek.com/', icon: <Bot /> },
     { name: 'ChatGPT', url: 'https://chatgpt.com/', icon: <Bot /> },
+    { name: 'Grok', url: 'https://grok.com/', icon: <Bot /> },
     { name: 'Upload Imgur', url: 'https://uploadimgur.com/', icon: <ImageUp /> },
     { name: 'Glasp Reader', url: 'https://glasp.co/reader', icon: <BookOpen /> },
 ];
