@@ -21,7 +21,7 @@ export default function DashboardPage() {
           <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
             <div>
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-primary text-xl">
+                <CardTitle className="flex items-center gap-3 text-primary text-xl font-bold">
                   <Sparkles className="h-7 w-7" />
                   <span>Páginas Presell Personalizadas</span>
                 </CardTitle>
@@ -43,7 +43,7 @@ export default function DashboardPage() {
           <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
             <div>
               <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-primary text-xl">
+                <CardTitle className="flex items-center gap-3 text-primary text-xl font-bold">
                   <Bot className="h-7 w-7" />
                   <span>Gerador de Páginas Presell</span>
                 </CardTitle>
