@@ -16,24 +16,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   
-  // Hooks de roteamento são declarados aqui, mas só serão usados no useEffect
   const router = useRouter();
   const pathname = usePathname();
 
   useEffect(() => {
-    // Lógica executada apenas no cliente
     const storedAuth = localStorage.getItem('isLoggedIn');
     const userIsLoggedIn = storedAuth === 'true';
 
     setIsLoggedIn(userIsLoggedIn);
-
-    if (userIsLoggedIn && pathname === '/login') {
-      router.replace('/dashboard');
-    } else if (!userIsLoggedIn && pathname !== '/login') {
-      router.replace('/login');
-    }
-
     setLoading(false);
+
+    if (!userIsLoggedIn && pathname !== '/login') {
+      router.replace('/login');
+    } else if (userIsLoggedIn && pathname === '/login') {
+      router.replace('/dashboard');
+    }
   }, [pathname, router]);
 
   const login = () => {
@@ -50,15 +47,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   if (loading) {
     return <div className="flex h-screen w-full items-center justify-center bg-background"><div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>;
-  }
-  
-  // Para evitar renderizar children que podem tentar redirecionar antes do useEffect ser concluído
-  if (!isLoggedIn && pathname !== '/login') {
-     return <div className="flex h-screen w-full items-center justify-center bg-background"><div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>
-  }
-
-  if (isLoggedIn && pathname === '/login') {
-    return <div className="flex h-screen w-full items-center justify-center bg-background"><div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>
   }
 
   return (
