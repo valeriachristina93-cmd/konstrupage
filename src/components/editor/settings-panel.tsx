@@ -874,7 +874,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
-                    <AccordionItem value="advanced" className="accordion-item-styling border-b-0">
+                    <AccordionItem value="advanced" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
