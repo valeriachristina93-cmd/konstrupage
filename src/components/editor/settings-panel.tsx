@@ -67,13 +67,28 @@ const AccordionSubTrigger = ({ title, onCheckedChange, checked }: { title: strin
 export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
     const customPopupConfig = pageConfig.popups.custom;
     const [openAccordion, setOpenAccordion] = useState<string>('');
+    const [openSubAccordion, setOpenSubAccordion] = useState<string>('');
+
+
+    const handleSubAccordionToggle = (accordionValue: string, isChecked: boolean) => {
+        const path = ['popups', accordionValue, 'active'];
+        onConfigChange(path, isChecked);
+
+        if (isChecked) {
+            setOpenSubAccordion(accordionValue);
+        } else {
+            if (openSubAccordion === accordionValue) {
+                setOpenSubAccordion('');
+            }
+        }
+    };
 
 
     return (
         <TooltipProvider>
             <div className="p-4 border-b flex justify-between items-center">
                 <h2 className="text-lg font-semibold">Configurações da Página</h2>
-                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setOpenAccordion('')}>
+                 <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => { setOpenAccordion(''); setOpenSubAccordion(''); }}>
                     <X className="h-4 w-4" />
                     <span className="sr-only">Fechar tudo</span>
                 </Button>
@@ -207,12 +222,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 type="single" 
                                 collapsible 
                                 className="w-full space-y-2"
+                                value={openSubAccordion}
+                                onValueChange={setOpenSubAccordion}
                             >
                                 <AccordionItem value="cookies" className="border-b-0">
                                   <AccordionSubTrigger 
                                     title="Pop-up de Cookies"
                                     checked={pageConfig.popups.cookies.active}
-                                    onCheckedChange={checked => onConfigChange(['popups', 'cookies', 'active'], checked)}
+                                    onCheckedChange={(isChecked) => handleSubAccordionToggle('cookies', isChecked)}
                                   />
                                   <AccordionContent className="pt-4 space-y-4 px-3">
                                       <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24" />
@@ -224,11 +241,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </AccordionItem>
 
 
-                                <AccordionItem value="age" className="border-b-0">
+                                <AccordionItem value="ageVerification" className="border-b-0">
                                     <AccordionSubTrigger 
                                         title="Pop-up Verificação de Idade"
                                         checked={pageConfig.popups.ageVerification.active}
-                                        onCheckedChange={checked => onConfigChange(['popups', 'ageVerification', 'active'], checked)}
+                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('ageVerification', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-2">
@@ -262,7 +279,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                       title="Pop-up de Escolha"
                                       checked={pageConfig.popups.choice.active}
-                                      onCheckedChange={checked => onConfigChange(['popups', 'choice', 'active'], checked)}
+                                      onCheckedChange={(isChecked) => handleSubAccordionToggle('choice', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.choice.title} onChange={e => onConfigChange(['popups', 'choice', 'title'], e.target.value)} />
@@ -330,7 +347,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title="Pop-up Captcha"
                                         checked={pageConfig.popups.captcha.active}
-                                        onCheckedChange={checked => onConfigChange(['popups', 'captcha', 'active'], checked)}
+                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('captcha', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.captcha.title} onChange={e => onConfigChange(['popups', 'captcha', 'title'], e.target.value)} />
@@ -352,7 +369,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title="Pop-up de Desconto"
                                         checked={pageConfig.popups.discount.active}
-                                        onCheckedChange={checked => onConfigChange(['popups', 'discount', 'active'], checked)}
+                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('discount', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <Input type="text" placeholder="Texto do desconto" value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
@@ -383,7 +400,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title="Pop-up de Saída"
                                         checked={pageConfig.popups.exit.active}
-                                        onCheckedChange={checked => onConfigChange(['popups', 'exit', 'active'], checked)}
+                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('exit', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className='space-y-2'>
@@ -405,7 +422,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title="Pop-up Personalizado"
                                         checked={customPopupConfig.active}
-                                        onCheckedChange={checked => onConfigChange(['popups', 'custom', 'active'], checked)}
+                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('custom', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-6 px-3">
                                         <Accordion type="single" collapsible className="w-full space-y-2">
@@ -1175,5 +1192,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
+
+    
 
     
