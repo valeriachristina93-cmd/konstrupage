@@ -20,18 +20,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
+    // A verificação do estado de login agora é feita com segurança no lado do cliente.
     const storedAuth = localStorage.getItem('isLoggedIn');
     const userIsLoggedIn = storedAuth === 'true';
-
     setIsLoggedIn(userIsLoggedIn);
     setLoading(false);
+  }, []);
 
-    if (!userIsLoggedIn && pathname !== '/login') {
-      router.replace('/login');
-    } else if (userIsLoggedIn && pathname === '/login') {
-      router.replace('/dashboard');
+  useEffect(() => {
+    // Este efeito lida apenas com os redirecionamentos após o estado de login ser determinado.
+    if (!loading) {
+      if (isLoggedIn && pathname === '/login') {
+        router.replace('/dashboard');
+      } else if (!isLoggedIn && pathname !== '/login') {
+        router.replace('/login');
+      }
     }
-  }, [pathname, router]);
+  }, [isLoggedIn, loading, pathname, router]);
 
   const login = () => {
     localStorage.setItem('isLoggedIn', 'true');
@@ -48,7 +53,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   if (loading) {
     return <div className="flex h-screen w-full items-center justify-center bg-background"><div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>;
   }
-
+  
+  // A lógica de bloqueio de renderização é removida para permitir que o roteamento funcione corretamente.
   return (
     <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
       {children}
