@@ -80,3 +80,21 @@
     @apply h-5 w-5 cursor-pointer appearance-none rounded-full bg-primary ring-2 ring-primary-foreground transition-all;
   }
 }
+
+@layer components {
+  .accordion-item-styling[data-state='open'] > [data-radix-accordion-trigger] {
+    @apply bg-primary/10 text-primary;
+  }
+
+  .accordion-item-styling[data-state='closed'] > [data-radix-accordion-trigger] {
+    @apply bg-transparent hover:bg-muted/50;
+  }
+  
+  .dark .accordion-item-styling[data-state='open'] > [data-radix-accordion-trigger] {
+    @apply bg-primary/10;
+  }
+
+  .dark .accordion-item-styling[data-state='closed'] > [data-radix-accordion-trigger] {
+    @apply bg-transparent hover:bg-white/5;
+  }
+}
