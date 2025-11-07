@@ -9,8 +9,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, tracking, customization, seo
     } = config;
 
-    const standardPopups = [popups.ageVerification, popups.captcha, popups.custom, popups.choice, popups.discount, popups.cookies];
-    const anyPopupActive = standardPopups.some(p => p.active);
+    const allPopups = [popups.ageVerification, popups.captcha, popups.custom, popups.choice, popups.discount, popups.cookies];
+    const anyPopupActive = allPopups.some(p => p.active);
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -734,10 +734,16 @@ export const generatePresellHtml = (config: PageConfig) => {
             const FULL_PAGE_CLICK = ${fullPageClick};
             
             const popupWrapper = document.querySelector('.popup-wrapper');
-            const regularPopups = Array.from(document.querySelectorAll('.popup:not(#exit-popup)'))
-                .filter(p => p.id && document.getElementById(p.id));
             const exitPopup = document.getElementById('exit-popup');
             
+            const regularPopups = [];
+            ${popups.ageVerification.active ? `regularPopups.push(document.getElementById('age-popup'));` : ''}
+            ${popups.captcha.active ? `regularPopups.push(document.getElementById('captcha-popup'));` : ''}
+            ${popups.custom.active ? `regularPopups.push(document.getElementById('custom-popup'));` : ''}
+            ${popups.choice.active ? `regularPopups.push(document.getElementById('choice-popup'));` : ''}
+            ${popups.discount.active ? `regularPopups.push(document.getElementById('discount-popup'));` : ''}
+            ${popups.cookies.active ? `regularPopups.push(document.getElementById('cookie-popup'));` : ''}
+
             let currentPopupIndex = -1;
             let isPopupActive = false;
             let exitIntentFired = false;
@@ -746,10 +752,15 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (isPopupActive) return;
                 currentPopupIndex++;
                 if (currentPopupIndex < regularPopups.length) {
-                    isPopupActive = true;
-                    popupWrapper.style.display = 'flex';
-                    popupWrapper.style.pointerEvents = 'auto';
-                    regularPopups[currentPopupIndex].style.display = 'flex';
+                    const popup = regularPopups[currentPopupIndex];
+                    if (popup) {
+                        isPopupActive = true;
+                        popupWrapper.style.display = 'flex';
+                        popupWrapper.style.pointerEvents = 'auto';
+                        popup.style.display = 'flex';
+                    } else {
+                        showNextPopup();
+                    }
                 } else {
                     isPopupActive = false;
                     popupWrapper.style.display = 'none';
@@ -975,4 +986,5 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     
+
 
