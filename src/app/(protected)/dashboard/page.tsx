@@ -45,7 +45,7 @@ export default function DashboardPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-primary text-xl">
                   <Bot className="h-7 w-7" />
-                  <span>Gerador de Páginas</span>
+                  <span>Gerador de Páginas Presell</span>
                 </CardTitle>
                 <CardDescription className="pt-2 text-base">
                   Descreva a página que você quer e deixe a IA criar uma versão otimizada para conversão para você.
