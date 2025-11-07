@@ -773,7 +773,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <span className="font-semibold">Configuração Avançada</span>
                             </div>
                         </AccordionTrigger>
-                        <AccordionContent className="pt-4 space-y-4 px-4">
+                        <AccordionContent className="pt-4 space-y-2 px-4">
                              <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
                                 <div className="flex items-start gap-2">
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
@@ -828,34 +828,42 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
                                 )}
                             </div>
-                            <div className="p-3 border rounded-md space-y-4">
-                                <div className='flex items-center gap-2'>
-                                    <Target className="w-4 h-4" />
-                                    <h3 className='font-semibold text-sm'>Rastreamento</h3>
-                                </div>
-                                 <div className="space-y-2">
-                                    <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
-                                    <Input 
-                                        id="facebookPixelId"
-                                        type="text" 
-                                        placeholder="Cole apenas o número de ID do seu Pixel" 
-                                        value={pageConfig.tracking.facebookPixelId} 
-                                        onChange={e => onConfigChange(['tracking', 'facebookPixelId'], e.target.value)}
-                                    />
-                                    <p className='text-xs text-muted-foreground'>Irá disparar um evento de PageView.</p>
-                                </div>
-                                <div className="space-y-2">
-                                    <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
-                                    <Input 
-                                        id="googleAdsId"
-                                        type="text" 
-                                        placeholder="Ex: AW-123456789" 
-                                        value={pageConfig.tracking.googleAdsId} 
-                                        onChange={e => onConfigChange(['tracking', 'googleAdsId'], e.target.value)}
-                                    />
-                                    <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
-                                </div>
-                            </div>
+                            <Accordion type="single" collapsible className="w-full space-y-2">
+                                <AccordionItem value="tracking" className="border-b-0">
+                                    <div className="p-3 border rounded-md">
+                                        <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
+                                            <div className="flex items-center gap-2">
+                                                <Target className="w-4 h-4" />
+                                                <h3 className='font-semibold text-sm'>Rastreamento</h3>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
+                                                <Input 
+                                                    id="facebookPixelId"
+                                                    type="text" 
+                                                    placeholder="Cole apenas o número de ID do seu Pixel" 
+                                                    value={pageConfig.tracking.facebookPixelId} 
+                                                    onChange={e => onConfigChange(['tracking', 'facebookPixelId'], e.target.value)}
+                                                />
+                                                <p className='text-xs text-muted-foreground'>Irá disparar um evento de PageView.</p>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
+                                                <Input 
+                                                    id="googleAdsId"
+                                                    type="text" 
+                                                    placeholder="Ex: AW-123456789" 
+                                                    value={pageConfig.tracking.googleAdsId} 
+                                                    onChange={e => onConfigChange(['tracking', 'googleAdsId'], e.target.value)}
+                                                />
+                                                <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
+                                            </div>
+                                        </AccordionContent>
+                                    </div>
+                                </AccordionItem>
+                            </Accordion>
                         </AccordionContent>
                     </AccordionItem>
                     <AccordionItem value="advanced">
