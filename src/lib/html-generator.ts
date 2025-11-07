@@ -639,36 +639,41 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; }
             .captcha-slide-v2-input { -webkit-appearance: none; appearance: none; width: 100%; height: 100%; background: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); outline: none; margin: 0; padding: 0; cursor: pointer; }
-            .captcha-slide-v2-input::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 50px; height: 50px; background: white; border: 2px solid #ccc; border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; transition: background-color 0.2s; display: flex; align-items: center; justify-content: center; }
+            .captcha-slide-v2-input::-webkit-slider-thumb { 
+                -webkit-appearance: none; 
+                appearance: none; 
+                width: 50px; 
+                height: 50px; 
+                background: white; 
+                border: 2px solid #ccc; 
+                border-radius: var(--captcha-slider-thumb-radius); 
+                cursor: pointer; 
+                transition: background-color 0.2s;
+                position: relative;
+                z-index: 2;
+            }
             .captcha-slide-v2-input:disabled { background: var(--captcha-slider-success-bg); }
-            .captcha-slide-v2-input:disabled::-webkit-slider-thumb { background: var(--captcha-slider-success-bg); border-color: var(--captcha-slider-success-bg); }
-            .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); }
+            .captcha-slide-v2-input:disabled::-webkit-slider-thumb { 
+                background: var(--captcha-slider-success-bg); 
+                border-color: var(--captcha-slider-success-bg); 
+            }
+            .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); z-index: 1;}
             .captcha-slide-v2-label span:last-child { display: none; }
             .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:first-child { display: none; }
             .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:last-child { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
             
-            .captcha-slide-v3-input::-webkit-slider-thumb { background: var(--captcha-slider-button); border: none; }
-            .captcha-slide-v3-input:disabled { background: var(--captcha-slider-success-bg); }
-            .captcha-slide-v3-input:disabled::-webkit-slider-thumb { background: var(--captcha-slider-success-bg); }
-            .captcha-slide-v3-input:disabled + .captcha-slide-v3-label span:last-child { color: var(--captcha-slider-success-text-color); }
-            
-            .captcha-slide-v2-input::-webkit-slider-thumb::after {
-                content: '→';
-                font-size: 24px;
-                color: #888;
-                display: block;
-            }
-            .captcha-slide-v2-input:disabled::-webkit-slider-thumb::after {
-                content: '✓';
-                color: white;
-            }
-            .captcha-slide-v3-input::-webkit-slider-thumb {
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
+            .captcha-slide-v3-input::-webkit-slider-thumb { 
+                background-color: var(--captcha-slider-button); 
+                border: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
                 background-repeat: no-repeat;
                 background-position: center;
             }
              .captcha-slide-v3-input:disabled::-webkit-slider-thumb {
                 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            }
+            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label {
+                z-index: 3; /* Ensure success text is on top */
             }
 
 
@@ -900,6 +905,12 @@ export const generatePresellHtml = (config: PageConfig) => {
                          const slider = document.getElementById(sliderId);
                          if (!slider) return;
                          
+                         const releaseHandler = () => {
+                            if (!slider.disabled && slider.value < 100) {
+                                slider.value = 0;
+                            }
+                         };
+
                          slider.addEventListener('input', () => {
                             if (slider.value > 95) {
                                 slider.value = 100;
@@ -907,11 +918,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                                 setTimeout(() => proceed('captcha-popup'), 400);
                             }
                          });
-                         const releaseHandler = () => {
-                            if (!slider.disabled && slider.value < 100) {
-                                slider.value = 0;
-                            }
-                         };
+                         
                          slider.addEventListener('mouseup', releaseHandler);
                          slider.addEventListener('touchend', releaseHandler);
                     }
