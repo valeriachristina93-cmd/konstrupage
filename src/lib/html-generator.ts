@@ -737,6 +737,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             const regularPopups = Array.from(popupWrapper.querySelectorAll('.popup:not(#exit-popup)'));
             let currentPopupIndex = -1;
             let isPopupActive = false;
+            let exitIntentFired = false;
 
             function showNextPopup() {
                 if (isPopupActive) return;
@@ -767,20 +768,21 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
             function closePopup(popupId, event) {
-                if (event) event.stopPropagation();
+                if (event) {
+                    event.stopPropagation();
+                }
                 
                 const popup = document.getElementById(popupId);
                 if (popup) {
                     popup.style.display = 'none';
                 }
                 
-                // If it was an exit popup, just hide the wrapper
                 if (popupId === 'exit-popup') {
                     popupWrapper.style.display = 'none';
                     popupWrapper.style.pointerEvents = 'none';
-                    isPopupActive = false;
                 } else {
-                    // For other popups, just proceed to the next one or finish
+                    // For regular popups, we still want to mark as inactive and move to the next
+                    // This handles closing via 'X' button
                     isPopupActive = false;
                     showNextPopup();
                 }
@@ -962,7 +964,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             ${autoRedirect.active ? `setTimeout(() => { if (AFFILIATE_LINK) redirect(AFFILIATE_LINK); }, ${autoRedirect.time * 1000});` : ''}
 
             ${popups.exit.active ? `
-                let exitIntentFired = false;
                 document.addEventListener('mouseleave', function(e) {
                     if (e.clientY < 0 && !exitIntentFired && !isPopupActive) {
                         const exitPopup = document.getElementById('exit-popup');
@@ -974,7 +975,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                             exitPopup.style.display = 'flex';
                         }
                     }
-                }, { once: true });
+                });
             ` : ''}
         </script>
     </body>
@@ -986,3 +987,6 @@ export const generatePresellHtml = (config: PageConfig) => {
     
 
 
+
+
+    
