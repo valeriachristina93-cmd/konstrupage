@@ -363,7 +363,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <SelectContent>
                                                     <SelectItem value="checkbox">Checkbox</SelectItem>
                                                     <SelectItem value="checkbox-v2">Checkbox V2</SelectItem>
-                                                    <SelectItem value="slide">Deslizar até o fim</SelectItem>
                                                     <SelectItem value="slide-v2">Deslizar V2</SelectItem>
                                                     <SelectItem value="slide-v3">Deslizar V3</SelectItem>
                                                 </SelectContent>

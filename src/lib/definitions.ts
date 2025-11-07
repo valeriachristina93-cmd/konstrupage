@@ -88,7 +88,7 @@ export type PageConfig = {
       active: boolean;
       title: string;
       description: string;
-      captchaType: 'checkbox' | 'checkbox-v2' | 'slide' | 'slide-v2' | 'slide-v3';
+      captchaType: 'checkbox' | 'checkbox-v2' | 'slide-v2' | 'slide-v3';
       sliderButtonColor: string;
       sliderTrackColor: string;
       sliderTextColor: string;
