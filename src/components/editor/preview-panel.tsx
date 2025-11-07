@@ -19,18 +19,33 @@ interface PreviewPanelProps {
 export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanelProps) {
     const [isRendering, setIsRendering] = useState(true);
     const iframeRef = useRef<HTMLIFrameElement>(null);
-    const debouncedPageConfig = useDebounce(pageConfig, 800);
+    const debouncedPageConfig = useDebounce(pageConfig, 500);
 
     useEffect(() => {
         setIsRendering(true);
-        const html = generatePresellHtml(debouncedPageConfig);
+        
         const iframe = iframeRef.current;
-        if (iframe) {
+        if (!iframe) return;
+
+        // Start fade-out transition
+        iframe.style.opacity = '0';
+
+        const handleLoad = () => {
+            // Start fade-in transition
+            iframe.style.opacity = '1';
+            setIsRendering(false);
+        };
+        
+        const timer = setTimeout(() => {
+            const html = generatePresellHtml(debouncedPageConfig);
             iframe.srcdoc = html;
-            const handleLoad = () => setIsRendering(false);
-            iframe.addEventListener('load', handleLoad);
-            return () => iframe.removeEventListener('load', handleLoad);
-        }
+            iframe.addEventListener('load', handleLoad, { once: true });
+        }, 250); // Wait for fade-out to be noticeable
+
+        return () => {
+            clearTimeout(timer);
+            iframe.removeEventListener('load', handleLoad);
+        };
     }, [debouncedPageConfig]);
 
     return (
@@ -46,7 +61,7 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
             
             <div className="relative w-full h-full flex items-center justify-center">
                  {isRendering && (
-                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20 rounded-lg">
+                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-20 rounded-lg transition-opacity duration-300">
                         <Loader2 className="h-8 w-8 animate-spin text-primary" />
                     </div>
                 )}
@@ -57,8 +72,9 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
                     <iframe
                         ref={iframeRef}
                         title="Presell Preview"
-                        className={cn("w-full h-full border-0 transition-opacity duration-300", isRendering && 'opacity-50 blur-sm')}
+                        className="w-full h-full border-0 transition-opacity duration-300 ease-in-out"
                         sandbox="allow-scripts allow-same-origin"
+                        style={{ opacity: 0 }} // Start with iframe invisible
                     />
                 </div>
             </div>
