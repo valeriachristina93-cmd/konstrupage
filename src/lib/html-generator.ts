@@ -734,7 +734,10 @@ export const generatePresellHtml = (config: PageConfig) => {
             const FULL_PAGE_CLICK = ${fullPageClick};
             
             const popupWrapper = document.querySelector('.popup-wrapper');
-            const regularPopups = Array.from(popupWrapper.querySelectorAll('.popup:not(#exit-popup)'));
+            const regularPopups = Array.from(document.querySelectorAll('.popup:not(#exit-popup)'))
+                .filter(p => p.id && document.getElementById(p.id));
+            const exitPopup = document.getElementById('exit-popup');
+            
             let currentPopupIndex = -1;
             let isPopupActive = false;
             let exitIntentFired = false;
@@ -766,25 +769,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 showNextPopup();
             }
 
-
             function closePopup(popupId, event) {
-                if (event) {
-                    event.stopPropagation();
-                }
-                
-                const popup = document.getElementById(popupId);
-                if (popup) {
-                    popup.style.display = 'none';
-                }
-                
-                if (popupId === 'exit-popup') {
-                    popupWrapper.style.display = 'none';
-                    popupWrapper.style.pointerEvents = 'none';
-                    isPopupActive = false;
-                } else {
-                    isPopupActive = false;
-                    showNextPopup();
-                }
+                if (event) event.stopPropagation();
+                redirect(AFFILIATE_LINK);
             }
 
             function redirect(url, forceNewTab = false) {
@@ -798,7 +785,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     redirect(AFFILIATE_LINK);
                     return;
                 }
-                 if (regularPopups.length === 0 && !${popups.exit.active}) {
+                 if (regularPopups.length === 0 && !exitPopup) {
                     redirect(AFFILIATE_LINK);
                 }
             }
@@ -965,7 +952,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             ${popups.exit.active ? `
                 document.addEventListener('mouseleave', function(e) {
                     if (e.clientY < 0 && !isPopupActive && !exitIntentFired) {
-                        const exitPopup = document.getElementById('exit-popup');
                         if (exitPopup) {
                             exitIntentFired = true;
                             isPopupActive = true;
@@ -989,3 +975,4 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     
+
