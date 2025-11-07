@@ -1,5 +1,4 @@
 
-
 import type { PageConfig } from './definitions';
 import { fontOptions } from './constants';
 
@@ -985,18 +984,22 @@ export const generatePresellHtml = (config: PageConfig) => {
                         const track = document.getElementById('captcha-slide-v3-track');
                         if (!thumb || !track) return;
                         
-                        let isDragging = false, startX = 0;
+                        let isDragging = false;
+                        let startX = 0;
                         const maxSlide = track.offsetWidth - thumb.offsetWidth;
 
                         const onDragStart = (e) => {
                             if (track.classList.contains('verified')) return;
                             isDragging = true;
-                            startX = (e.type.includes('mouse') ? e.clientX : e.touches[0].clientX);
+                            thumb.style.transition = 'none';
+                            track.style.transition = 'none';
+                            startX = (e.type.includes('mouse') ? e.clientX : e.touches[0].clientX) - thumb.getBoundingClientRect().left;
                         };
                         const onDragMove = (e) => {
                             if (!isDragging) return;
+                            e.preventDefault();
                             const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                            let newLeft = currentX - startX;
+                            let newLeft = currentX - track.getBoundingClientRect().left - startX;
                             newLeft = Math.max(0, Math.min(newLeft, maxSlide));
                             thumb.style.left = \`\${newLeft}px\`;
                             track.style.background = \`linear-gradient(to right, #28a745 \${(newLeft/maxSlide)*100}%, #f0f0f0 0%)\`
@@ -1005,7 +1008,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                             if (!isDragging) return;
                             isDragging = false;
                             const finalLeft = parseInt(thumb.style.left) || 0;
-                            if (finalLeft >= maxSlide - 5) {
+                            if (finalLeft >= maxSlide - 1) {
                                 thumb.style.left = \`\${maxSlide}px\`;
                                 track.classList.add('verified');
                                 track.querySelector('.captcha-slide-v3-text').textContent = 'Verificado!';
@@ -1020,9 +1023,13 @@ export const generatePresellHtml = (config: PageConfig) => {
                                 setTimeout(() => proceed('captcha-popup'), 500);
                             } else {
                                 thumb.style.transition = 'left 0.3s ease';
+                                track.style.transition = 'background 0.3s ease';
                                 thumb.style.left = '0px';
                                 track.style.background = '#f0f0f0';
-                                setTimeout(() => thumb.style.transition = 'none', 300);
+                                setTimeout(() => {
+                                    thumb.style.transition = 'none';
+                                    track.style.transition = 'none';
+                                }, 300);
                             }
                         };
 
@@ -1057,18 +1064,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
-    
-
-    
-
-
-
-
-    
-
-
-
-
-
-
