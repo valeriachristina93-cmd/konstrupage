@@ -311,20 +311,20 @@ export const generatePresellHtml = (config: PageConfig) => {
      const captchaSlideV2 = `
         <div class="captcha-slide-v2-container" data-shape="${popups.captcha.sliderShape}">
             <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input" id="captcha-slider-v2">
-            <label for="captcha-slider-v2" class="captcha-slide-v2-label">
+            <div class="captcha-slide-v2-label">
                 <span>${popups.captcha.sliderText}</span>
-                <span>${popups.captcha.sliderSuccessText}</span>
-            </label>
+                <span class="success-text">${popups.captcha.sliderSuccessText}</span>
+            </div>
         </div>
     `;
     
     const captchaSlideV3 = `
         <div class="captcha-slide-v2-container captcha-slide-v3-container" data-shape="${popups.captcha.sliderShape}">
             <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input captcha-slide-v3-input" id="captcha-slider-v3">
-            <label for="captcha-slider-v3" class="captcha-slide-v2-label captcha-slide-v3-label">
+            <div class="captcha-slide-v2-label captcha-slide-v3-label">
                 <span>${popups.captcha.sliderText}</span>
-                <span>${popups.captcha.sliderSuccessText}</span>
-            </label>
+                <span class="success-text">${popups.captcha.sliderSuccessText}</span>
+            </div>
         </div>
     `;
 
@@ -658,12 +658,12 @@ export const generatePresellHtml = (config: PageConfig) => {
                 border-color: var(--captcha-slider-success-bg); 
             }
             .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); z-index: 1;}
-            .captcha-slide-v2-label span:last-child { display: none; }
+            .captcha-slide-v2-label .success-text { display: none; }
             .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:first-child { display: none; }
-            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:last-child { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
+            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label .success-text { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
             
-            .captcha-slide-v3-input::-webkit-slider-thumb { 
-                background-color: var(--captcha-slider-button); 
+            .captcha-slide-v3-input::-webkit-slider-thumb {
+                background-color: var(--captcha-slider-button);
                 border: none;
                 background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
                 background-repeat: no-repeat;
@@ -946,3 +946,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
