@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/badge';
 export default function DashboardPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4 sm:p-8">
-      <div className="w-full max-w-5xl">
+      <div className="w-full max-w-5xl transform -translate-y-[20px]">
         <div className="mb-12 text-center">
           <div className="flex justify-center mb-4">
             <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={80} height={80} />
