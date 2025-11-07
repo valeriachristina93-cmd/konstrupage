@@ -332,11 +332,12 @@ export const generatePresellHtml = (config: PageConfig) => {
     `;
     
     const captchaSlideV3 = `
-        <div class="captcha-slide-v3-container" id="captcha-slide-v3-container">
-            <div class="captcha-slide-v3-track" id="captcha-slide-v3-track">
-                <div class="captcha-slide-v3-thumb" id="captcha-slide-v3-thumb">»</div>
-                <div class="captcha-slide-v3-text">Deslize para confirmar</div>
-            </div>
+        <div class="captcha-slide-v2-container captcha-slide-v3-container">
+            <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input captcha-slide-v3-input" id="captcha-slider-v3">
+            <label for="captcha-slider-v3" class="captcha-slide-v2-label captcha-slide-v3-label">
+                <span>Deslize para confirmar</span>
+                <span>Confirmado!</span>
+            </label>
         </div>
     `;
 
@@ -664,12 +665,11 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-slide-v2-label span:last-child { display: none; }
             .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:first-child { display: none; }
             .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:last-child { display: block; color: white; font-weight: bold; }
-
-            .captcha-slide-v3-container { width: 100%; max-width: 300px; padding: 5px; background: #ddd; border-radius: 50px; }
-            .captcha-slide-v3-track { position: relative; width: 100%; height: 40px; background: #f0f0f0; border-radius: 40px; text-align: center; line-height: 40px; color: #888; overflow: hidden; user-select: none; }
-            .captcha-slide-v3-thumb { position: absolute; left: 0; top: 0; width: 50px; height: 40px; background: ${customization.button.color || '#3B82F6'}; color: white; border-radius: 40px; cursor: pointer; font-size: 24px; line-height: 40px; transition: left 0.3s ease; }
-            .captcha-slide-v3-track.verified .captcha-slide-v3-text { color: white; }
-            .captcha-slide-v3-track.verified { background: #28a745; }
+            
+            .captcha-slide-v3-input::-webkit-slider-thumb { background: ${customization.button.color || '#3B82F6'}; border: none; }
+            .captcha-slide-v3-input:disabled { background: #28a745; }
+            .captcha-slide-v3-input:disabled::-webkit-slider-thumb { background: #28a745; }
+            .captcha-slide-v3-input:disabled + .captcha-slide-v3-label span:last-child { color: ${customization.button.textColor || '#FFFFFF'}; }
 
 
             .image-only-popup { padding: 0 !important; background-color: transparent !important; border: none !important; }
@@ -962,8 +962,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                         document.addEventListener('touchmove', onDragMove);
                         document.addEventListener('touchend', onDragEnd);
 
-                    } else if (captchaType === 'slide-v2') {
-                         const slider = document.getElementById('captcha-slider-v2');
+                    } else if (captchaType === 'slide-v2' || captchaType === 'slide-v3') {
+                         const sliderId = captchaType === 'slide-v2' ? 'captcha-slider-v2' : 'captcha-slider-v3';
+                         const slider = document.getElementById(sliderId);
                          if (!slider) return;
                          const label = slider.nextElementSibling;
                          slider.addEventListener('input', () => {
@@ -979,66 +980,11 @@ export const generatePresellHtml = (config: PageConfig) => {
                                 slider.value = 0;
                             }
                          });
-                    } else if (captchaType === 'slide-v3') {
-                        const thumb = document.getElementById('captcha-slide-v3-thumb');
-                        const track = document.getElementById('captcha-slide-v3-track');
-                        if (!thumb || !track) return;
-                        
-                        let isDragging = false;
-                        let startX = 0;
-                        const maxSlide = track.offsetWidth - thumb.offsetWidth;
-
-                        const onDragStart = (e) => {
-                            if (track.classList.contains('verified')) return;
-                            isDragging = true;
-                            thumb.style.transition = 'none';
-                            track.style.transition = 'none';
-                            startX = (e.type.includes('mouse') ? e.clientX : e.touches[0].clientX) - thumb.getBoundingClientRect().left;
-                        };
-                        const onDragMove = (e) => {
-                            if (!isDragging) return;
-                            e.preventDefault();
-                            const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
-                            let newLeft = currentX - track.getBoundingClientRect().left - startX;
-                            newLeft = Math.max(0, Math.min(newLeft, maxSlide));
-                            thumb.style.left = \`\${newLeft}px\`;
-                            track.style.background = \`linear-gradient(to right, #28a745 \${(newLeft/maxSlide)*100}%, #f0f0f0 0%)\`
-                        };
-                        const onDragEnd = () => {
-                            if (!isDragging) return;
-                            isDragging = false;
-                            const finalLeft = parseInt(thumb.style.left) || 0;
-                            if (finalLeft >= maxSlide - 1) {
-                                thumb.style.left = \`\${maxSlide}px\`;
-                                track.classList.add('verified');
-                                track.querySelector('.captcha-slide-v3-text').textContent = 'Verificado!';
-                                thumb.textContent = '✓';
-                                // Clean up listeners
-                                thumb.removeEventListener('mousedown', onDragStart);
-                                document.removeEventListener('mousemove', onDragMove);
-                                document.removeEventListener('mouseup', onDragEnd);
-                                thumb.removeEventListener('touchstart', onDragStart);
-                                document.removeEventListener('touchmove', onDragMove);
-                                document.removeEventListener('touchend', onDragEnd);
-                                setTimeout(() => proceed('captcha-popup'), 500);
-                            } else {
-                                thumb.style.transition = 'left 0.3s ease';
-                                track.style.transition = 'background 0.3s ease';
-                                thumb.style.left = '0px';
-                                track.style.background = '#f0f0f0';
-                                setTimeout(() => {
-                                    thumb.style.transition = 'none';
-                                    track.style.transition = 'none';
-                                }, 300);
+                         slider.addEventListener('touchend', () => {
+                            if (!slider.disabled && slider.value < 100) {
+                                slider.value = 0;
                             }
-                        };
-
-                        thumb.addEventListener('mousedown', onDragStart);
-                        document.addEventListener('mousemove', onDragMove);
-                        document.addEventListener('mouseup', onDragEnd);
-                        thumb.addEventListener('touchstart', onDragStart, { passive: true });
-                        document.addEventListener('touchmove', onDragMove);
-                        document.addEventListener('touchend', onDragEnd);
+                         });
                     }
                 }
             }
