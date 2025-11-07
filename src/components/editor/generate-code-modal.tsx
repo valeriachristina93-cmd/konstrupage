@@ -55,7 +55,10 @@ export function GenerateCodeModal({ isOpen, onClose, htmlContent }: GenerateCode
                         {hasCopied ? <Check className="w-5 h-5 mr-2" /> : <Copy className="w-5 h-5 mr-2" />}
                         {hasCopied ? 'Copiado!' : 'Copiar Código'}
                     </Button>
-                    <Button onClick={downloadHtml} className="w-full sm:w-auto">
+                    <Button 
+                        onClick={downloadHtml} 
+                        className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
+                    >
                         <Download className="w-5 h-5 mr-2" />
                         Baixar HTML
                     </Button>
