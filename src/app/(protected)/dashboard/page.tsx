@@ -10,7 +10,7 @@ import { Badge } from '@/components/ui/badge';
 export default function DashboardPage() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4 sm:p-8">
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-5xl">
         <div className="mb-12 text-center">
           <h1 className="text-5xl font-bold font-headline mb-2 text-foreground">
             Bem-vindo ao Konstrupages
@@ -18,7 +18,7 @@ export default function DashboardPage() {
           <p className="text-xl text-muted-foreground">Sua ferramenta para criar páginas de presell de alta conversão.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300 min-h-[320px]">
+          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
             <div>
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-primary text-xl">
@@ -40,7 +40,7 @@ export default function DashboardPage() {
             </CardFooter>
           </Card>
 
-          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300 min-h-[320px]">
+          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
             <div>
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-primary text-xl">
