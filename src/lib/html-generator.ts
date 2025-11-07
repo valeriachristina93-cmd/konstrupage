@@ -737,12 +737,12 @@ export const generatePresellHtml = (config: PageConfig) => {
             const exitPopup = document.getElementById('exit-popup');
             
             const regularPopups = [];
-            ${popups.ageVerification.active ? `regularPopups.push(document.getElementById('age-popup'));` : ''}
-            ${popups.captcha.active ? `regularPopups.push(document.getElementById('captcha-popup'));` : ''}
-            ${popups.custom.active ? `regularPopups.push(document.getElementById('custom-popup'));` : ''}
-            ${popups.choice.active ? `regularPopups.push(document.getElementById('choice-popup'));` : ''}
-            ${popups.discount.active ? `regularPopups.push(document.getElementById('discount-popup'));` : ''}
-            ${popups.cookies.active ? `regularPopups.push(document.getElementById('cookie-popup'));` : ''}
+            if (${popups.ageVerification.active}) regularPopups.push(document.getElementById('age-popup'));
+            if (${popups.captcha.active}) regularPopups.push(document.getElementById('captcha-popup'));
+            if (${popups.custom.active}) regularPopups.push(document.getElementById('custom-popup'));
+            if (${popups.choice.active}) regularPopups.push(document.getElementById('choice-popup'));
+            if (${popups.discount.active}) regularPopups.push(document.getElementById('discount-popup'));
+            if (${popups.cookies.active}) regularPopups.push(document.getElementById('cookie-popup'));
 
             let currentPopupIndex = -1;
             let isPopupActive = false;
@@ -986,5 +986,6 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
     
+
 
 
