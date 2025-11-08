@@ -286,21 +286,21 @@ export const generatePresellHtml = (config: PageConfig) => {
     const getGenderIcons = () => {
         const { useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl, includeOther } = popups.gender;
         const hoverColor = customization.button.color;
-    
+
         const icons = {
-             male: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="8" stroke="#3B82F6" fill="#3B82F6" />
-                        <line x1="12" y1="4" x2="12" y2="1" stroke="#3B82F6" stroke-width="2.5" />
-                        <polyline points="9 5 12 1 15 5" stroke="#3B82F6" stroke-width="2.5" fill="none" />
+            male: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#3b82f6" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="50" cy="50" r="35"/>
+                    <line x1="50" y1="15" x2="50" y2="0" />
+                    <polyline points="35 15 50 0 65 15" fill="none" />
+                </svg>`,
+            female: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#ec4899" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="50" cy="35" r="30"/>
+                        <line x1="50" y1="65" x2="50" y2="100" />
+                        <line x1="30" y1="85" x2="70" y2="85" />
                     </svg>`,
-            female: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="10" r="8" stroke="#EC4899" fill="#EC4899" />
-                        <line x1="12" y1="18" x2="12" y2="23" stroke="#EC4899" stroke-width="2.5" />
-                        <line x1="9" y1="21" x2="15" y2="21" stroke="#EC4899" stroke-width="2.5" />
-                    </svg>`,
-            other: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="8" stroke="#8B5CF6" fill="#8B5CF6" />
-                        <line x1="8" y1="12" x2="16" y2="12" stroke="white" stroke-width="2.5" />
+            other: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#8b5cf6" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="50" cy="50" r="35"/>
+                        <line x1="25" y1="50" x2="75" y2="50" stroke="white" />
                     </svg>`,
         };
     
@@ -689,6 +689,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 align-items: center;
                 justify-content: center;
                 overflow: hidden;
+                aspect-ratio: 1 / 1;
             }
             .gender-icon-wrapper svg, .gender-icon-wrapper img {
                 width: 100%;
@@ -814,8 +815,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                     width: 30%; 
                     max-width: 120px; 
                     padding: 10px;
-                    padding-top: 15px;
-                    padding-bottom: 15px;
                 }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
@@ -1116,3 +1115,6 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
 
+
+
+    
