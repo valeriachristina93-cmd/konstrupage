@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { flagOptions, animationOptions, discountIconOptions, fontOptions, genderIconOptions } from '@/lib/constants';
+import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -398,15 +398,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 )}
                                             </div>
                                         ) : (
-                                            <div className="space-y-2">
-                                                <Label>Estilo de Ícone</Label>
-                                                <Select value={pageConfig.popups.gender.iconStyle} onValueChange={value => onConfigChange(['popups', 'gender', 'iconStyle'], value)}>
-                                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                                    <SelectContent>
-                                                        {genderIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
+                                            <></>
                                         )}
 
                                         <div className="space-y-2">
@@ -649,7 +641,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                     <div className="space-y-2">
                                                         <Label>Descrição</Label>
-                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar <b> e <a> tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
+                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar &lt;b&gt; e &lt;a&gt; tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>
@@ -943,7 +935,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      </div>
                                 </div>
                                 {!!pageConfig.customization.customHtml && (
-                                    <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
+                                    <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
                                 )}
                             </div>
                             <Accordion type="single" collapsible className="w-full space-y-2">
@@ -1123,7 +1115,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
-                                <AccordionItem value="popup-style-config">
+                                <AccordionItem value="popup-style-config" className="border-b-0">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
                                             <Palette className="w-4 h-4 text-primary/80" />
@@ -1311,11 +1303,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
-
-    
-
-    
-
-    
 
     
