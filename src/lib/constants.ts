@@ -57,7 +57,7 @@ export const initialPageConfig: PageConfig = {
             },
         },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
-        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconStyle: 'style1', iconSize: 48, useCustomImages: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '' },
+        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconSize: 48, useCustomImages: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '' },
         captcha: { 
             active: false, 
             title: 'Verificação Rápida', 
@@ -145,12 +145,6 @@ export const discountIconOptions = [
     { name: 'Carrinho', value: 'shopping-cart' },
     { name: 'Coração', value: 'heart' },
     { name: 'Presente', value: 'gift' },
-];
-
-export const genderIconOptions = [
-    { name: 'Estilo 1', value: 'style1' },
-    { name: 'Estilo 2', value: 'style2' },
-    { name: 'Estilo 3', value: 'style3' },
 ];
 
 export const buttonColorOptions = [

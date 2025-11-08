@@ -88,7 +88,6 @@ export type PageConfig = {
       active: boolean;
       title: string;
       description: string;
-      iconStyle: string;
       iconSize: number;
       useCustomImages: boolean;
       maleImageUrl: string;

@@ -1,10 +1,9 @@
 
-
 "use client";
 
 import React, { useState } from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { flagOptions, animationOptions, discountIconOptions, fontOptions, genderIconOptions } from '@/lib/constants';
+import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -395,17 +394,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     />
                                                 </div>
                                             </div>
-                                        ) : (
-                                            <div className="space-y-2">
-                                                <Label>Estilo dos Ícones</Label>
-                                                <Select value={pageConfig.popups.gender.iconStyle} onValueChange={value => onConfigChange(['popups', 'gender', 'iconStyle'], value)}>
-                                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                                    <SelectContent>
-                                                        {genderIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                        )}
+                                        ) : null}
 
                                         <div className="space-y-2">
                                             <Label>Tamanho do Ícone/Imagem ({pageConfig.popups.gender.iconSize}px)</Label>

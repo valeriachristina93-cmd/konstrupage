@@ -284,33 +284,31 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const getGenderIcons = () => {
-        const { iconStyle, iconSize, useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl } = popups.gender;
+        const { iconSize, useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl } = popups.gender;
         const hoverColor = customization.button.color;
 
-        const iconStyles = {
-            style1: {
-                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 64 64"><path d="M32,1A15,15,0,1,0,47,16,15,15,0,0,0,32,1Zm0,27A12,12,0,1,1,44,16,12,12,0,0,1,32,28Z" fill="#3b82f6"/><path d="M49,0h-5a1.5,1.5,0,0,0,0,3h2.69L40,9.69A16,16,0,1,0,48.31,24L55,17.31V20a1.5,1.5,0,0,0,3,0V15A1.5,1.5,0,0,0,56.5,13.5H51A1.5,1.5,0,0,0,49,15V12h0V15a1.5,1.5,0,0,0,3,0V12a1.5,1.5,0,0,0-3,0v3a1.5,1.5,0,0,0,3,0v-3a1.5,1.5,0,0,0-3,0v3a1.5,1.5,0,0,0,3,0V15A1.5,1.5,0,0,0,56.5,13.5H51a1.5,1.5,0,0,0-1.5,1.5v5a1.5,1.5,0,0,0,3,0V17.31l6.69,6.69A1.5,1.5,0,0,0,58,24a1.5,1.5,0,0,0,1.06-.44l1-1A1.5,1.5,0,0,0,59.5,21.5V16a1.5,1.5,0,0,0-1.5-1.5H51a1.5,1.5,0,0,0,0,3h2.69L47,14.19V11a1.5,1.5,0,0,0-3,0v3.19L37.31,21H40a1.5,1.5,0,0,0,0-3H37.31l-5-5H35a1.5,1.5,0,0,0,0-3H32.31l-5-5H30a1.5,1.5,0,0,0,0-3H27.31l-5-5H25a1.5,1.5,0,0,0,0-3H22.31l-5-5H20a1.5,1.5,0,0,0,0-3H17.31L16,1.69V5a1.5,1.5,0,0,0,3,0V1.69L25,7.31V10a1.5,1.5,0,0,0,3,0V7.31l6.69-6.69H32a1.5,1.5,0,0,0,0-3h-2.69L22.69.69A16,16,0,0,0,9.69,40L1,48.69V46a1.5,1.5,0,0,0-3,0v5A1.5,1.5,0,0,0-0.5,52.5H5a1.5,1.5,0,0,0,0-3H2.31l8.69-8.69A16,16,0,1,0,40,9.69L46.69,3H49a1.5,1.5,0,0,0,0-3Z" fill="#3b82f6" transform="translate(0 0)"/></svg>`,
-                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 64 64"><path d="M32,36a15,15,0,1,0-15-15A15,15,0,0,0,32,36Zm0-27A12,12,0,1,1,20,21,12,12,0,0,1,32,9Z" fill="#d946ef"/><path d="M40.5,41H23.5a1.5,1.5,0,0,0,0,3h5v9a1.5,1.5,0,0,0,3,0V44h1V53a1.5,1.5,0,0,0,3,0V44h1V53a1.5,1.5,0,0,0,3,0V44h5a1.5,1.5,0,0,0,0-3Z" fill="#d946ef" transform="translate(0 0)"/></svg>`,
-                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 64 64"><path d="M49,0h-5a1.5,1.5,0,0,0,0,3h2.69L25.41,24.28A20,20,0,1,0,42.72,41.59L64,20.31V23a1.5,1.5,0,0,0,3,0V17A1.5,1.5,0,0,0,65.5,15.5H59a1.5,1.5,0,0,0,0,3h2.69L41.41,38.78A20,20,0,0,0,42.72,41.59,17,17,0,1,1,22.41,21.28L43.69,0H49a1.5,1.5,0,0,0,0-3Z" fill="#22c55e" transform="translate(-1.5 -1.5)"/><path d="M22,3A15,15,0,1,0,37,18,15,15,0,0,0,22,3Zm0,27A12,12,0,1,1,34,18,12,12,0,0,1,22,30Z" fill="#d946ef" transform="translate(-1.5 -1.5)"/></svg>`
-            },
-            style2: {
-                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" fill="#eef7fe" /><path d="M20 21a8 8 0 0 0-16 0" fill="#eef7fe"/></svg>`,
-                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" fill="#fceefd"/><path d="M3 20.35c0-2.5 4-5.35 9-5.35s9 2.85 9 5.35" fill="#fceefd"/></svg>`,
-                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="#f0fdf4"/><path d="M18 20a6 6 0 0 0-12 0" fill="#f0fdf4"/></svg>`
-            },
-             style3: {
-                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l-4 4l4 4"/><path d="M5 15h11a4 4 0 0 0 0-8h-1"/></svg>`,
-                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 15V9"/><path d="M12 15a3 3 0 0 0 3-3"/><path d="M12 15a3 3 0 0 1-3-3"/></svg>`,
-                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2a10 10 0 1 1-10 10"/></svg>`
-            }
+        const icons = {
+            male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="9" y1="22" x2="15" y2="22"/></svg>`,
+            female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="9" y1="22" x2="15" y2="22"/></svg>`,
+            other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="m14.5 9.5 5 5"/><path d="m9.5 14.5 5-5"/><path d="M14.5 14.5 18 11"/></svg>`
         };
 
-        const selectedStyle = iconStyles[iconStyle as keyof typeof iconStyles] || iconStyles.style1;
+        const maleIcon = useCustomImages && maleImageUrl 
+            ? `<img src="${maleImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` 
+            : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v6"/><path d="M8 18h8"/></svg>`;
+        
+        const femaleIcon = useCustomImages && femaleImageUrl 
+            ? `<img src="${femaleImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` 
+            : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v6"/><path d="M8 18h8"/><path d="M15 15 9 21"/><path d="M9 15l6 6"/></svg>`;
+        
+        const otherIcon = useCustomImages && otherImageUrl 
+            ? `<img src="${otherImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` 
+            : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>`;
         
         return {
-            male: useCustomImages && maleImageUrl ? `<img src="${maleImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` : selectedStyle.male,
-            female: useCustomImages && femaleImageUrl ? `<img src="${femaleImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` : selectedStyle.female,
-            other: useCustomImages && otherImageUrl ? `<img src="${otherImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` : selectedStyle.other,
+            male: maleIcon,
+            female: femaleIcon,
+            other: otherIcon,
             hoverColor
         };
     };
@@ -698,7 +696,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 border-color: var(--gender-icon-hover-color); 
             }
             .gender-choice:hover span { color: var(--gender-icon-hover-color); }
-            .gender-choice:hover .gender-icon-wrapper svg, .gender-choice:hover .gender-icon-wrapper img { transform: scale(1.1); }
+            .gender-choice:hover .gender-icon-wrapper { transform: scale(1.1); }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
             .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
@@ -1070,6 +1068,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
