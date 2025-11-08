@@ -288,8 +288,8 @@ export const generatePresellHtml = (config: PageConfig) => {
         const hoverColor = customization.button.color;
     
         const icons = {
-            male: `<svg viewBox="0 0 100 100" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="40" r="30"/><path d="M50 70V95M35 80H65"/><path d="M75 5L95 25M95 5L75 25"/></svg>`,
-            female: `<svg viewBox="0 0 100 100" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="40" r="30"/><path d="M50 70V95M35 80H65"/></svg>`,
+            male: `<svg viewBox="0 0 100 100" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="65" r="25"/><path d="M50 40V10M35 25L50 10L65 25"/></svg>`,
+            female: `<svg viewBox="0 0 100 100" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="35" r="25"/><path d="M50 60V85M35 75H65"/></svg>`,
             other: `<svg viewBox="0 0 100 100" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="30"/><path d="M25 50H75"/></svg>`
         };
     
@@ -673,7 +673,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                border-radius: 50%;
                 overflow: hidden;
             }
             .gender-icon-wrapper svg, .gender-icon-wrapper img {
@@ -795,7 +794,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
-                .gender-choices { flex-direction: column; }
+                .gender-choices { flex-direction: column; align-items: center; }
+                .gender-choice { width: 80%; max-width: 250px; aspect-ratio: 16 / 9; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
@@ -1085,6 +1085,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
