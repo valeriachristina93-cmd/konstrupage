@@ -96,6 +96,7 @@ export type PageConfig = {
       sliderText: string;
       sliderSuccessText: string;
       sliderShape: 'round' | 'square';
+      checkboxText: string;
     };
   };
   footer: {

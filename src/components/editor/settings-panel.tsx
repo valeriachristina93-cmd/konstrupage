@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState } from 'react';
@@ -368,6 +369,12 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 </SelectContent>
                                             </Select>
                                         </div>
+                                        {(pageConfig.popups.captcha.captchaType === 'checkbox' || pageConfig.popups.captcha.captchaType === 'checkbox-v2') && (
+                                             <div className="space-y-2">
+                                                <Label>Texto do Checkbox</Label>
+                                                <Input type="text" value={pageConfig.popups.captcha.checkboxText} onChange={e => onConfigChange(['popups', 'captcha', 'checkboxText'], e.target.value)} />
+                                            </div>
+                                        )}
                                         {(pageConfig.popups.captcha.captchaType === 'slide-v2' || pageConfig.popups.captcha.captchaType === 'slide-v3') && (
                                             <div className="pt-4 mt-4 border-t space-y-4">
                                                 <h4 className="font-semibold text-sm">Personalização do Slider</h4>

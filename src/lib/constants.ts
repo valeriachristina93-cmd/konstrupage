@@ -68,7 +68,8 @@ export const initialPageConfig: PageConfig = {
             sliderSuccessTextColor: '#FFFFFF',
             sliderText: 'Deslize para verificar',
             sliderSuccessText: 'Verificado!',
-            sliderShape: 'round'
+            sliderShape: 'round',
+            checkboxText: 'Não sou um robô',
         }
     },
     footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB' },

@@ -1,4 +1,5 @@
 
+
 import type { PageConfig } from './definitions';
 import { fontOptions } from './constants';
 
@@ -286,12 +287,12 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div class="captcha-box">
             <div class="captcha-checkbox-container">
                 <input type="checkbox" id="captcha-checkbox" style="display:none;">
-                <div class="captcha-checkbox-custom">
+                <label for="captcha-checkbox" class="captcha-checkbox-custom">
                     <div class="captcha-spinner"></div>
                     <svg class="captcha-checkmark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                </div>
+                </label>
             </div>
-            <label for="captcha-checkbox">Não sou um robô</label>
+            <label for="captcha-checkbox" class="captcha-text">${popups.captcha.checkboxText}</label>
             <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA logo">
         </div>
     `;
@@ -299,11 +300,12 @@ export const generatePresellHtml = (config: PageConfig) => {
     const captchaCheckboxV2 = `
         <div class="captcha-v2-container">
             <label class="captcha-v2-label">
-                <input type="checkbox" class="captcha-v2-checkbox">
-                <span class="captcha-v2-custom-checkbox">
-                    <svg class="captcha-v2-checkmark" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"></path></svg>
-                </span>
-                <span class="captcha-v2-text">Eu não sou um robô</span>
+                <input type="checkbox" class="captcha-v2-checkbox" style="display:none;">
+                <div class="captcha-v2-custom-checkbox">
+                     <div class="captcha-spinner"></div>
+                     <svg class="captcha-checkmark" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </div>
+                <span class="captcha-v2-text">${popups.captcha.checkboxText}</span>
             </label>
         </div>
     `;
@@ -619,25 +621,24 @@ export const generatePresellHtml = (config: PageConfig) => {
             .time-label { font-size: 0.4em; text-transform: uppercase; opacity: 0.8; }
             
             .captcha-box { display: flex; align-items: center; justify-content: space-between; background-color: #f9f9f9; border: 1px solid #d3d3d3; padding: 15px; border-radius: 3px; }
-            .captcha-box label { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
+            .captcha-text { font-size: 14px; color: #000; cursor: pointer; user-select: none; flex-grow: 1; }
             .captcha-box img { width: 48px; height: 48px; }
             .captcha-checkbox-container { position: relative; width: 28px; height: 28px; margin-right: 12px; }
             .captcha-checkbox-custom { width: 28px; height: 28px; border: 2px solid #c1c1c1; border-radius: 2px; display: flex; align-items: center; justify-content: center; cursor: pointer; background-color: #fcfcfc; transition: background-color 0.2s; }
-            .captcha-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(0, 0, 0, 0.1); border-top-color: ${customization.button.color || '#3B82F6'}; border-radius: 50%; animation: spin 1s linear infinite; }
-            .captcha-checkmark { display: none; color: ${customization.button.color || '#3B82F6'}; }
-            .captcha-checkbox-custom.verifying .captcha-spinner { display: block; }
-            .captcha-checkbox-custom.verified .captcha-spinner { display: none; }
-            .captcha-checkbox-custom.verified .captcha-checkmark { display: block; animation: checkmark 0.3s ease-in-out; }
+            .captcha-checkbox-custom .captcha-spinner, .captcha-v2-custom-checkbox .captcha-spinner { display: none; width: 20px; height: 20px; border: 3px solid rgba(0, 0, 0, 0.1); border-top-color: ${customization.button.color || '#3B82F6'}; border-radius: 50%; animation: spin 1s linear infinite; }
+            .captcha-checkbox-custom .captcha-checkmark, .captcha-v2-custom-checkbox .captcha-checkmark { display: none; color: ${customization.button.color || '#3B82F6'}; }
+            
+            .captcha-checkbox-custom.verifying .captcha-spinner, .captcha-v2-custom-checkbox.verifying .captcha-spinner { display: block; }
+            .captcha-checkbox-custom.verified .captcha-spinner, .captcha-v2-custom-checkbox.verified .captcha-spinner { display: none; }
+            .captcha-checkbox-custom.verified .captcha-checkmark, .captcha-v2-custom-checkbox.verified .captcha-checkmark { display: block; animation: checkmark 0.3s ease-in-out; }
             .captcha-checkbox-custom.verified { background-color: #f4fce8; border-color: #adec63; }
+            .captcha-v2-custom-checkbox.verified { background-color: transparent; border-color: ${customization.button.color || '#3B82F6'}; }
             
             .captcha-v2-container { padding: 10px; border-radius: 4px; background-color: #f0f0f0; display: inline-flex; }
             .captcha-v2-label { display: flex; align-items: center; cursor: pointer; user-select: none; }
-            .captcha-v2-checkbox { display: none; }
-            .captcha-v2-custom-checkbox { width: 28px; height: 28px; border: 2px solid #ccc; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, border-color 0.2s; }
-            .captcha-v2-checkmark { stroke: white; stroke-width: 3; fill: none; width: 20px; height: 20px; transition: transform 0.2s; transform: scale(0); }
+            .captcha-v2-custom-checkbox { width: 28px; height: 28px; border: 2px solid #ccc; border-radius: 4px; margin-right: 12px; display: flex; align-items: center; justify-content: center; transition: background-color 0.2s, border-color 0.2s; position: relative; }
             .captcha-v2-text { font-size: 14px; }
-            .captcha-v2-checkbox:checked + .captcha-v2-custom-checkbox { background-color: ${customization.button.color || '#3B82F6'}; border-color: ${customization.button.color || '#3B82F6'}; }
-            .captcha-v2-checkbox:checked + .captcha-v2-custom-checkbox .captcha-v2-checkmark { transform: scale(1); }
+            .captcha-v2-checkmark { stroke: ${customization.button.color || '#3B82F6'}; stroke-width: 3; fill: none; width: 20px; height: 20px; }
 
             .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; }
             .captcha-slide-v2-input { -webkit-appearance: none; appearance: none; width: 100%; height: 100%; background: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); outline: none; margin: 0; padding: 0; cursor: pointer; }
@@ -881,43 +882,30 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (!${popups.captcha.active}) return;
 
                 if (captchaType.startsWith('checkbox')) {
-                    let captchaBox, isVerifying = false, checkbox, customCheckbox;
-                    
+                    let isVerifying = false;
+                    let customCheckbox;
+
                     if (captchaType === "checkbox") {
-                         captchaBox = document.querySelector('.captcha-box');
-                         if (!captchaBox) return;
-                         customCheckbox = captchaBox.querySelector('.captcha-checkbox-custom');
+                         customCheckbox = document.querySelector('.captcha-checkbox-custom');
                     } else if (captchaType === "checkbox-v2") {
-                         captchaBox = document.querySelector('.captcha-v2-container');
-                         if (!captchaBox) return;
-                         checkbox = captchaBox.querySelector('.captcha-v2-checkbox');
+                         customCheckbox = document.querySelector('.captcha-v2-custom-checkbox');
                     }
 
-                    if (!captchaBox) return;
-                    
+                    if (!customCheckbox) return;
+
                     const handleCaptchaClick = () => {
-                        if (isVerifying) return;
-                        
-                        if (captchaType === "checkbox") {
-                            if (customCheckbox.classList.contains('verified')) return;
-                            isVerifying = true;
-                            customCheckbox.classList.add('verifying');
-                            setTimeout(() => {
-                                customCheckbox.classList.remove('verifying');
-                                customCheckbox.classList.add('verified');
-                                setTimeout(() => proceed('captcha-popup'), 400);
-                            }, 1200);
-                        } else if (captchaType === "checkbox-v2") {
-                            if(checkbox.checked) return;
-                            isVerifying = true;
-                            setTimeout(() => {
-                                checkbox.checked = true;
-                                isVerifying = false;
-                                setTimeout(() => proceed('captcha-popup'), 400);
-                            }, 500);
-                        }
+                        if (isVerifying || customCheckbox.classList.contains('verified')) return;
+
+                        isVerifying = true;
+                        customCheckbox.classList.add('verifying');
+                        setTimeout(() => {
+                            customCheckbox.classList.remove('verifying');
+                            customCheckbox.classList.add('verified');
+                            isVerifying = false;
+                            setTimeout(() => proceed('captcha-popup'), 400);
+                        }, 1200);
                     };
-                    captchaBox.addEventListener('click', handleCaptchaClick);
+                    customCheckbox.addEventListener('click', handleCaptchaClick);
                 }
 
                 if (captchaType.startsWith('slide')) {
@@ -967,5 +955,6 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
