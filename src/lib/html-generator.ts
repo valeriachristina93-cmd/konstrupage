@@ -284,26 +284,26 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const getGenderIcons = () => {
-        const { iconSize, useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl } = popups.gender;
+        const { useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl } = popups.gender;
         const hoverColor = customization.button.color;
-
+    
         const icons = {
-            male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="9" y1="22" x2="15" y2="22"/></svg>`,
-            female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="17" x2="12" y2="22"/><line x1="9" y1="22" x2="15" y2="22"/></svg>`,
-            other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><path d="m14.5 9.5 5 5"/><path d="m9.5 14.5 5-5"/><path d="M14.5 14.5 18 11"/></svg>`
+            male: `<svg viewBox="0 0 100 100" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="40" r="30"/><path d="M50 70V95M35 80H65"/><path d="M75 5L95 25M95 5L75 25"/></svg>`,
+            female: `<svg viewBox="0 0 100 100" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="40" r="30"/><path d="M50 70V95M35 80H65"/></svg>`,
+            other: `<svg viewBox="0 0 100 100" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="30"/><path d="M25 50H75"/></svg>`
         };
-
+    
         const maleIcon = useCustomImages && maleImageUrl 
-            ? `<img src="${maleImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` 
-            : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v6"/><path d="M8 18h8"/></svg>`;
+            ? `<img src="${maleImageUrl}" style="width:100%; height:100%; object-fit:cover;">` 
+            : icons.male;
         
         const femaleIcon = useCustomImages && femaleImageUrl 
-            ? `<img src="${femaleImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` 
-            : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M12 12v6"/><path d="M8 18h8"/><path d="M15 15 9 21"/><path d="M9 15l6 6"/></svg>`;
+            ? `<img src="${femaleImageUrl}" style="width:100%; height:100%; object-fit:cover;">` 
+            : icons.female;
         
         const otherIcon = useCustomImages && otherImageUrl 
-            ? `<img src="${otherImageUrl}" style="width:${iconSize}px; height:${iconSize}px; object-fit:cover;">` 
-            : `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m4.93 19.07 1.41-1.41"/><path d="m17.66 6.34 1.41-1.41"/></svg>`;
+            ? `<img src="${otherImageUrl}" style="width:100%; height:100%; object-fit:cover;">` 
+            : icons.other;
         
         return {
             male: maleIcon,
@@ -368,11 +368,10 @@ export const generatePresellHtml = (config: PageConfig) => {
 
      const captchaSlideV2 = `
         <div class="captcha-slide-v2-container" data-shape="${popups.captcha.sliderShape}">
-            <div class="captcha-slide-v2-track">
-                <div class="captcha-slide-v2-thumb">
-                    <div class="captcha-slide-icon captcha-arrow-icon"></div>
-                    <div class="captcha-slide-icon captcha-check-icon"></div>
-                </div>
+            <div class="captcha-slide-v2-track"></div>
+            <div class="captcha-slide-v2-thumb">
+                <div class="captcha-slide-icon captcha-arrow-icon"></div>
+                <div class="captcha-slide-icon captcha-check-icon"></div>
             </div>
             <div class="captcha-slide-v2-label">
                 <span>${popups.captcha.sliderText}</span>
@@ -383,17 +382,16 @@ export const generatePresellHtml = (config: PageConfig) => {
     
     const captchaSlideV3 = `
        <div class="captcha-slide-v2-container captcha-slide-v3-container" data-shape="${popups.captcha.sliderShape}">
-            <div class="captcha-slide-v2-track">
-                 <div class="captcha-slide-v2-thumb">
-                    <div class="captcha-slide-icon captcha-arrow-icon"></div>
-                    <div class="captcha-slide-icon captcha-check-icon"></div>
-                </div>
+            <div class="captcha-slide-v2-track"></div>
+            <div class="captcha-slide-v3-success-overlay">
+                <span class="success-text">${popups.captcha.sliderSuccessText}</span>
+            </div>
+            <div class="captcha-slide-v2-thumb">
+                <div class="captcha-slide-icon captcha-arrow-icon"></div>
+                <div class="captcha-slide-icon captcha-check-icon"></div>
             </div>
             <div class="captcha-slide-v2-label">
                 <span>${popups.captcha.sliderText}</span>
-            </div>
-             <div class="captcha-slide-v3-success-overlay">
-                <span class="success-text">${popups.captcha.sliderSuccessText}</span>
             </div>
         </div>
     `;
@@ -749,19 +747,22 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-v2-text { font-size: 14px; }
             .captcha-v2-custom-checkbox.verified { background-color: transparent; border-color: ${customization.button.color || '#3B82F6'}; }
 
-            .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; background-color: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); overflow: hidden; }
-            .captcha-slide-v2-track { position: absolute; left: 0; top: 0; height: 100%; width: 0; background-color: var(--captcha-slider-success-bg); border-radius: var(--captcha-slider-radius); }
-            .captcha-slide-v2-thumb { position: absolute; left: 0; top: 0; width: 50px; height: 100%; background-color: var(--captcha-slider-button); border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-            .captcha-slide-icon { width: 24px; height: 24px; background-repeat: no-repeat; background-position: center; transition: opacity 0.2s; }
+            .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; background-color: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); overflow: hidden; user-select: none; }
+            .captcha-slide-v2-track { position: absolute; left: 0; top: 0; height: 100%; width: 0; background-color: var(--captcha-slider-success-bg); border-radius: var(--captcha-slider-radius); transition: width 0.1s linear; }
+            .captcha-slide-v2-thumb { position: absolute; left: 0; top: 0; width: 50px; height: 100%; background-color: var(--captcha-slider-button); border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: left 0.1s linear; }
+            .captcha-slide-icon { width: 24px; height: 24px; background-size: contain; background-repeat: no-repeat; background-position: center; transition: opacity 0.2s; position: absolute; }
             .captcha-arrow-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
             .captcha-check-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); opacity: 0; }
             .captcha-slide-v2-container.verified .captcha-arrow-icon { opacity: 0; }
             .captcha-slide-v2-container.verified .captcha-check-icon { opacity: 1; }
+            .captcha-slide-v2-container.verified .captcha-slide-v2-thumb { cursor: default; }
+
             .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); z-index: 1; }
             .captcha-slide-v2-label .success-text { display: none; }
             .captcha-slide-v2-container.verified .captcha-slide-v2-label span:first-child { display: none; }
             .captcha-slide-v2-container.verified .captcha-slide-v2-label .success-text { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
-            .captcha-slide-v3-container.verified .captcha-slide-v2-track { width: 100% !important; }
+            
+            .captcha-slide-v3-container.verified .captcha-slide-v2-track { width: 100% !important; background-color: var(--captcha-slider-success-bg) !important; }
             .captcha-slide-v3-container.verified .captcha-slide-v2-label { opacity: 0; }
             .captcha-slide-v3-success-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: transparent; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; border-radius: var(--captcha-slider-radius); z-index: 3; }
             .captcha-slide-v3-success-overlay .success-text { color: var(--captcha-slider-success-text-color); font-weight: bold; }
@@ -965,7 +966,8 @@ export const generatePresellHtml = (config: PageConfig) => {
 
                     if (!customCheckbox) return;
 
-                    const handleCaptchaClick = () => {
+                    const handleCaptchaClick = (e) => {
+                        e.preventDefault();
                         if (isVerifying || customCheckbox.classList.contains('verified')) return;
 
                         isVerifying = true;
@@ -979,7 +981,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     };
 
                     const parentLabel = customCheckbox.closest('label');
-                    if (parentLabel && captchaType === 'checkbox-v2') {
+                    if (parentLabel) {
                         parentLabel.addEventListener('click', handleCaptchaClick);
                     } else {
                         customCheckbox.addEventListener('click', handleCaptchaClick);
@@ -993,11 +995,14 @@ export const generatePresellHtml = (config: PageConfig) => {
                     const thumb = sliderContainer.querySelector('.captcha-slide-v2-thumb');
                     const track = sliderContainer.querySelector('.captcha-slide-v2-track');
                     let isDragging = false;
+                    let startX = 0;
+                    let thumbStartX = 0;
 
                     const moveThumb = (x) => {
                         const rect = sliderContainer.getBoundingClientRect();
-                        const newX = Math.max(0, Math.min(x - rect.left - thumb.offsetWidth / 2, rect.width - thumb.offsetWidth));
+                        const newX = Math.max(0, Math.min(x - rect.left, rect.width - thumb.offsetWidth));
                         thumb.style.left = newX + 'px';
+                        
                         if (captchaType === 'slide-v3') {
                             track.style.width = newX + thumb.offsetWidth / 2 + 'px';
                         }
@@ -1005,14 +1010,27 @@ export const generatePresellHtml = (config: PageConfig) => {
 
                     const startDrag = (e) => {
                         if (sliderContainer.classList.contains('verified')) return;
+                        e.preventDefault();
                         isDragging = true;
                         sliderContainer.classList.add('dragging');
+                        startX = e.touches ? e.touches[0].clientX : e.clientX;
+                        thumbStartX = thumb.getBoundingClientRect().left - sliderContainer.getBoundingClientRect().left;
                     };
 
                     const onDrag = (e) => {
                         if (!isDragging) return;
+                        e.preventDefault();
                         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-                        moveThumb(clientX);
+                        const newX = thumbStartX + (clientX - startX);
+                        
+                        const rect = sliderContainer.getBoundingClientRect();
+                        const finalX = Math.max(0, Math.min(newX, rect.width - thumb.offsetWidth));
+                        thumb.style.left = finalX + 'px';
+                        if (captchaType !== 'slide-v3') {
+                           track.style.width = finalX + thumb.offsetWidth / 2 + 'px';
+                        } else {
+                           track.style.width = finalX + thumb.offsetWidth / 2 + 'px';
+                        }
                     };
 
                     const endDrag = (e) => {
@@ -1024,16 +1042,15 @@ export const generatePresellHtml = (config: PageConfig) => {
                         const thumbRect = thumb.getBoundingClientRect();
 
                         if (thumbRect.right >= rect.right - 5) {
+                            thumb.style.left = (rect.width - thumb.offsetWidth) + 'px';
+                            if (captchaType !== 'slide-v3') {
+                               track.style.width = '100%';
+                            }
                             sliderContainer.classList.add('verified');
-                             if (captchaType === 'slide-v3') {
-                                track.style.width = '100%';
-                             }
                             setTimeout(() => proceed('captcha-popup'), 400);
                         } else {
                             thumb.style.left = '0px';
-                            if (captchaType === 'slide-v3') {
-                                track.style.width = '0px';
-                            }
+                            track.style.width = '0px';
                         }
                     };
 
@@ -1041,8 +1058,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                     document.addEventListener('mousemove', onDrag);
                     document.addEventListener('mouseup', endDrag);
 
-                    thumb.addEventListener('touchstart', startDrag);
-                    document.addEventListener('touchmove', onDrag);
+                    thumb.addEventListener('touchstart', startDrag, { passive: false });
+                    document.addEventListener('touchmove', onDrag, { passive: false });
                     document.addEventListener('touchend', endDrag);
                 }
             }
@@ -1068,6 +1085,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
