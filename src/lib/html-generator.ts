@@ -288,9 +288,20 @@ export const generatePresellHtml = (config: PageConfig) => {
         const hoverColor = customization.button.color;
     
         const icons = {
-            male: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v1.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V6a4 4 0 0 0-4-4Z"/><path d="M6.5 8.5c-3 0-3 3-3 3v2c0 3 3 3 3 3h11c3 0 3-3 3-3v-2c0-3-3-3-3-3H6.5Z"/></svg>`,
-            female: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 10.5c3 0 3-3 3-3v-2c0-3-3-3-3-3h-11c-3 0-3 3-3 3v2c0 3 3 3 3 3"/><path d="M12 10.5c-5 0-5 3-5 3v2c0 3 5 3 5 3h.5c5 0 5-3 5-3v-2c0-3-5-3-5-3h-.5Z"/><path d="m12 18.5 2.5-3h-5l2.5 3Z"/></svg>`,
-            other: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m12 16-4-4 4-4"/><path d="m16 12h-8"/></svg>`,
+             male: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8" stroke="#3B82F6" fill="#3B82F6" />
+                        <line x1="12" y1="4" x2="12" y2="1" stroke="#3B82F6" stroke-width="2.5" />
+                        <polyline points="9 5 12 1 15 5" stroke="#3B82F6" stroke-width="2.5" fill="none" />
+                    </svg>`,
+            female: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="10" r="8" stroke="#EC4899" fill="#EC4899" />
+                        <line x1="12" y1="18" x2="12" y2="23" stroke="#EC4899" stroke-width="2.5" />
+                        <line x1="9" y1="21" x2="15" y2="21" stroke="#EC4899" stroke-width="2.5" />
+                    </svg>`,
+            other: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="8" stroke="#8B5CF6" fill="#8B5CF6" />
+                        <line x1="8" y1="12" x2="16" y2="12" stroke="white" stroke-width="2.5" />
+                    </svg>`,
         };
     
         const maleIcon = useCustomImages && maleImageUrl 
@@ -682,7 +693,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .gender-icon-wrapper svg, .gender-icon-wrapper img {
                 width: 100%;
                 height: 100%;
-                object-fit: cover;
+                object-fit: contain;
                 transition: transform 0.2s;
             }
             .gender-choice span {
@@ -799,7 +810,13 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
                 .gender-choices { flex-direction: row; justify-content: center; }
-                .gender-choice { width: 30%; max-width: 120px; padding: 10px; }
+                .gender-choice { 
+                    width: 30%; 
+                    max-width: 120px; 
+                    padding: 10px;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
@@ -1089,6 +1106,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
