@@ -57,7 +57,7 @@ export const initialPageConfig: PageConfig = {
             },
         },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
-        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconSize: 48, useCustomImages: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '' },
+        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconSize: 48, useCustomImages: false, includeOther: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '' },
         captcha: { 
             active: false, 
             title: 'Verificação Rápida', 

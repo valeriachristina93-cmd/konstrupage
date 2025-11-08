@@ -363,7 +363,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
                                         </div>
 
-                                        <div className="p-3 border-t mt-3">
+                                        <div className="p-3 border-t mt-3 space-y-3">
+                                            <SettingsToggle label="Adicionar opção 'Outros'" checked={pageConfig.popups.gender.includeOther} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'includeOther'], checked)} />
                                             <SettingsToggle label="Usar Imagens Personalizadas" checked={pageConfig.popups.gender.useCustomImages} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'useCustomImages'], checked)} />
                                         </div>
 
@@ -385,14 +386,16 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                         onFileUpload={file => onImageUpload(file, ['popups', 'gender', 'femaleImageUrl'])}
                                                     />
                                                 </div>
-                                                <div className='space-y-2'>
-                                                    <Label>Imagem Outro</Label>
-                                                    <ImageUploadInput
-                                                        value={pageConfig.popups.gender.otherImageUrl}
-                                                        onChange={e => onConfigChange(['popups', 'gender', 'otherImageUrl'], e.target.value)}
-                                                        onFileUpload={file => onImageUpload(file, ['popups', 'gender', 'otherImageUrl'])}
-                                                    />
-                                                </div>
+                                                {pageConfig.popups.gender.includeOther && (
+                                                    <div className='space-y-2'>
+                                                        <Label>Imagem Outro</Label>
+                                                        <ImageUploadInput
+                                                            value={pageConfig.popups.gender.otherImageUrl}
+                                                            onChange={e => onConfigChange(['popups', 'gender', 'otherImageUrl'], e.target.value)}
+                                                            onFileUpload={file => onImageUpload(file, ['popups', 'gender', 'otherImageUrl'])}
+                                                        />
+                                                    </div>
+                                                )}
                                             </div>
                                         ) : null}
 

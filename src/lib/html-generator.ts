@@ -284,13 +284,13 @@ export const generatePresellHtml = (config: PageConfig) => {
     ` : '';
 
     const getGenderIcons = () => {
-        const { useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl } = popups.gender;
+        const { useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl, includeOther } = popups.gender;
         const hoverColor = customization.button.color;
     
         const icons = {
-            male: `<svg viewBox="0 0 100 100" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="65" r="25"/><path d="M50 40V10M35 25L50 10L65 25"/></svg>`,
-            female: `<svg viewBox="0 0 100 100" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="35" r="25"/><path d="M50 60V85M35 75H65"/></svg>`,
-            other: `<svg viewBox="0 0 100 100" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"><circle cx="50" cy="50" r="30"/><path d="M25 50H75"/></svg>`
+            male: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a4 4 0 0 0-4 4v1.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5V6a4 4 0 0 0-4-4Z"/><path d="M6.5 8.5c-3 0-3 3-3 3v2c0 3 3 3 3 3h11c3 0 3-3 3-3v-2c0-3-3-3-3-3H6.5Z"/></svg>`,
+            female: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 10.5c3 0 3-3 3-3v-2c0-3-3-3-3-3h-11c-3 0-3 3-3 3v2c0 3 3 3 3 3"/><path d="M12 10.5c-5 0-5 3-5 3v2c0 3 5 3 5 3h.5c5 0 5-3 5-3v-2c0-3-5-3-5-3h-.5Z"/><path d="m12 18.5 2.5-3h-5l2.5 3Z"/></svg>`,
+            other: `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m12 16-4-4 4-4"/><path d="m16 12h-8"/></svg>`,
         };
     
         const maleIcon = useCustomImages && maleImageUrl 
@@ -301,9 +301,11 @@ export const generatePresellHtml = (config: PageConfig) => {
             ? `<img src="${femaleImageUrl}" style="width:100%; height:100%; object-fit:cover;">` 
             : icons.female;
         
-        const otherIcon = useCustomImages && otherImageUrl 
-            ? `<img src="${otherImageUrl}" style="width:100%; height:100%; object-fit:cover;">` 
-            : icons.other;
+        const otherIcon = includeOther 
+            ? (useCustomImages && otherImageUrl 
+                ? `<img src="${otherImageUrl}" style="width:100%; height:100%; object-fit:cover;">` 
+                : icons.other)
+            : '';
         
         return {
             male: maleIcon,
@@ -330,10 +332,12 @@ export const generatePresellHtml = (config: PageConfig) => {
                         <div class="gender-icon-wrapper" style="width:${popups.gender.iconSize}px; height:${popups.gender.iconSize}px;">${genderIcons.female}</div>
                         <span>Feminino</span>
                     </div>
+                    ${popups.gender.includeOther ? `
                     <div class="gender-choice" onclick="proceed('gender-popup')">
                         <div class="gender-icon-wrapper" style="width:${popups.gender.iconSize}px; height:${popups.gender.iconSize}px;">${genderIcons.other}</div>
                         <span>Outro</span>
                     </div>
+                    ` : ''}
                 </div>
             </div>
         </div>
@@ -794,8 +798,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
-                .gender-choices { flex-direction: column; align-items: center; }
-                .gender-choice { width: 80%; max-width: 250px; aspect-ratio: 16 / 9; }
+                .gender-choices { flex-direction: row; justify-content: center; }
+                .gender-choice { width: 30%; max-width: 120px; padding: 10px; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
@@ -1085,6 +1089,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 

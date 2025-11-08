@@ -90,6 +90,7 @@ export type PageConfig = {
       description: string;
       iconSize: number;
       useCustomImages: boolean;
+      includeOther: boolean;
       maleImageUrl: string;
       femaleImageUrl: string;
       otherImageUrl: string;
