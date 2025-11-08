@@ -285,24 +285,23 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const getGenderIcons = () => {
         const { iconStyle, iconSize } = popups.gender;
-        const iconColor = customization.typography.textColor;
         const hoverColor = customization.button.color;
 
         const iconStyles = {
             style1: {
-                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V19M8 15h8"/></svg>`,
-                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 16v6M9 22h6"/></svg>`,
-                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="m14 14 6 6"/><path d="M12 8V2l-4 4"/></svg>`
+                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#eef7fe" stroke="#3b82f6" stroke-width="4"/><path d="M43.4 20.6a14 14 0 1 0-22.8 0" fill="none" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/><path d="M32 35a8 8 0 0 0 8-8" fill="none" stroke="#3b82f6" stroke-width="4" stroke-linecap="round"/></svg>`,
+                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#fceefd" stroke="#d946ef" stroke-width="4"/><path d="M24 25a10 10 0 0 1 16 0" fill="none" stroke="#d946ef" stroke-width="4" stroke-linecap="round"/><path d="M21 43s6-4 11-4 11 4 11 4" fill="none" stroke="#d946ef" stroke-width="4" stroke-linecap="round"/></svg>`,
+                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 64 64"><circle cx="32" cy="32" r="28" fill="#f0fdf4" stroke="#22c55e" stroke-width="4"/><circle cx="26" cy="28" r="3" fill="#22c55e"/><circle cx="38" cy="28" r="3" fill="#22c55e"/><path d="M24 40s4 4 8 4 8-4 8-4" fill="none" stroke="#22c55e" stroke-width="4" stroke-linecap="round"/></svg>`
             },
             style2: {
-                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
-                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v10"/></svg>`,
-                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2a10 10 0 1 1-10 10"/></svg>`
+                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" fill="#eef7fe" /><path d="M20 21a8 8 0 0 0-16 0" fill="#eef7fe"/></svg>`,
+                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5" fill="#fceefd"/><path d="M3 20.35c0-2.5 4-5.35 9-5.35s9 2.85 9 5.35" fill="#fceefd"/></svg>`,
+                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="#f0fdf4"/><path d="M18 20a6 6 0 0 0-12 0" fill="#f0fdf4"/></svg>`
             },
-            style3: {
-                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12.5 15h-1v-4h1v4zm0-6h-1V7h1v2z"/></svg>`,
-                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M11 17h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>`,
-                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M13 13h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>`
+             style3: {
+                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l-4 4l4 4"/><path d="M5 15h11a4 4 0 0 0 0-8h-1"/></svg>`,
+                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#d946ef" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 15V9"/><path d="M12 15a3 3 0 0 0 3-3"/><path d="M12 15a3 3 0 0 1-3-3"/></svg>`,
+                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2a10 10 0 1 1-10 10"/></svg>`
             }
         };
 
@@ -371,7 +370,12 @@ export const generatePresellHtml = (config: PageConfig) => {
 
      const captchaSlideV2 = `
         <div class="captcha-slide-v2-container" data-shape="${popups.captcha.sliderShape}">
-            <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input" id="captcha-slider-v2">
+            <div class="captcha-slide-v2-track">
+                <div class="captcha-slide-v2-thumb">
+                    <div class="captcha-slide-icon captcha-arrow-icon"></div>
+                    <div class="captcha-slide-icon captcha-check-icon"></div>
+                </div>
+            </div>
             <div class="captcha-slide-v2-label">
                 <span>${popups.captcha.sliderText}</span>
                 <span class="success-text">${popups.captcha.sliderSuccessText}</span>
@@ -381,8 +385,13 @@ export const generatePresellHtml = (config: PageConfig) => {
     
     const captchaSlideV3 = `
        <div class="captcha-slide-v2-container captcha-slide-v3-container" data-shape="${popups.captcha.sliderShape}">
-            <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input captcha-slide-v3-input" id="captcha-slider-v3">
-            <div class="captcha-slide-v2-label captcha-slide-v3-label">
+            <div class="captcha-slide-v2-track">
+                 <div class="captcha-slide-v2-thumb">
+                    <div class="captcha-slide-icon captcha-arrow-icon"></div>
+                    <div class="captcha-slide-icon captcha-check-icon"></div>
+                </div>
+            </div>
+            <div class="captcha-slide-v2-label">
                 <span>${popups.captcha.sliderText}</span>
             </div>
              <div class="captcha-slide-v3-success-overlay">
@@ -665,11 +674,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 background-color: rgba(255,255,255,0.05);
             }
              .gender-choice svg {
-                stroke: ${customization.typography.textColor};
-                transition: stroke 0.2s;
-            }
-             .gender-choice svg * {
-                transition: fill 0.2s, stroke 0.2s;
+                transition: transform 0.2s;
             }
             .gender-choice span {
                 color: ${customization.typography.textColor};
@@ -682,9 +687,8 @@ export const generatePresellHtml = (config: PageConfig) => {
                 box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
                 border-color: var(--gender-icon-hover-color); 
             }
-            .gender-choice:hover svg { stroke: var(--gender-icon-hover-color); }
-            .gender-choice:hover svg * { fill: var(--gender-icon-hover-color); stroke: var(--gender-icon-hover-color); }
             .gender-choice:hover span { color: var(--gender-icon-hover-color); }
+            .gender-choice:hover svg { transform: scale(1.1); }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
             .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
@@ -738,63 +742,24 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-v2-text { font-size: 14px; }
             .captcha-v2-checkmark { stroke: ${customization.button.color || '#3B82F6'}; stroke-width: 3; fill: none; width: 20px; height: 20px; }
 
-            .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; }
-            .captcha-slide-v2-input { -webkit-appearance: none; appearance: none; width: 100%; height: 100%; background: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); outline: none; margin: 0; padding: 0; cursor: pointer; }
-            .captcha-slide-v2-input::-webkit-slider-thumb { 
-                -webkit-appearance: none; 
-                appearance: none; 
-                width: 50px; 
-                height: 50px; 
-                background-color: var(--captcha-slider-button);
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E");
-                background-repeat: no-repeat;
-                background-position: center;
-                border: none;
-                border-radius: var(--captcha-slider-thumb-radius); 
-                cursor: pointer; 
-                transition: background-color 0.2s;
-                position: relative;
-                z-index: 2;
-            }
-            .captcha-slide-v2-input:disabled { background: var(--captcha-slider-success-bg); }
-            .captcha-slide-v2-input:disabled::-webkit-slider-thumb { 
-                background-color: var(--captcha-slider-success-bg);
-                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
-            }
-            .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); z-index: 1;}
+            .captcha-slide-v2-container { position: relative; width: 100%; max-width: 300px; height: 50px; background-color: var(--captcha-slider-track); border-radius: var(--captcha-slider-radius); overflow: hidden; }
+            .captcha-slide-v2-track { position: absolute; left: 0; top: 0; height: 100%; width: 0; background-color: var(--captcha-slider-success-bg); border-radius: var(--captcha-slider-radius); }
+            .captcha-slide-v2-thumb { position: absolute; left: 0; top: 0; width: 50px; height: 100%; background-color: var(--captcha-slider-button); border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+            .captcha-slide-icon { width: 24px; height: 24px; background-repeat: no-repeat; background-position: center; transition: opacity 0.2s; }
+            .captcha-arrow-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
+            .captcha-check-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); opacity: 0; }
+            .captcha-slide-v2-container.verified .captcha-arrow-icon { opacity: 0; }
+            .captcha-slide-v2-container.verified .captcha-check-icon { opacity: 1; }
+            .captcha-slide-v2-label { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; pointer-events: none; color: var(--captcha-slider-text-color); z-index: 1; }
             .captcha-slide-v2-label .success-text { display: none; }
-            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label span:first-child { display: none; }
-            .captcha-slide-v2-input:disabled + .captcha-slide-v2-label .success-text { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
-            
-            .captcha-slide-v3-input::-webkit-slider-thumb {
-                background-color: var(--captcha-slider-button);
-            }
-             .captcha-slide-v3-input:disabled::-webkit-slider-thumb {
-                background-color: var(--captcha-slider-success-bg);
-            }
-            .captcha-slide-v3-success-overlay {
-                position: absolute;
-                top: 0; left: 0; right: 0; bottom: 0;
-                background-color: var(--captcha-slider-success-bg);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                opacity: 0;
-                pointer-events: none;
-                transition: opacity 0.3s;
-                border-radius: var(--captcha-slider-radius);
-                z-index: 3;
-            }
-            .captcha-slide-v3-success-overlay .success-text {
-                color: var(--captcha-slider-success-text-color);
-                font-weight: bold;
-            }
-            .captcha-slide-v3-input:disabled ~ .captcha-slide-v3-success-overlay {
-                opacity: 1;
-            }
-            .captcha-slide-v3-input:disabled + .captcha-slide-v3-label {
-                opacity: 0;
-            }
+            .captcha-slide-v2-container.verified .captcha-slide-v2-label span:first-child { display: none; }
+            .captcha-slide-v2-container.verified .captcha-slide-v2-label .success-text { display: block; color: var(--captcha-slider-success-text-color); font-weight: bold; }
+            .captcha-slide-v3-container.verified .captcha-slide-v2-track { width: 100% !important; }
+            .captcha-slide-v3-container.verified .captcha-slide-v2-label { opacity: 0; }
+            .captcha-slide-v3-success-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: transparent; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; border-radius: var(--captcha-slider-radius); z-index: 3; }
+            .captcha-slide-v3-success-overlay .success-text { color: var(--captcha-slider-success-text-color); font-weight: bold; }
+            .captcha-slide-v3-container.verified .captcha-slide-v3-success-overlay { opacity: 1; }
+            .captcha-slide-v3-container .captcha-slide-v2-track { background-color: transparent; }
 
 
             .image-only-popup { padding: 0 !important; background-color: transparent !important; border: none !important; }
@@ -822,7 +787,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
-                .choice-images, .gender-choices { gap: 15px; flex-direction: column; align-items: center; }
+                .gender-choices { flex-direction: column; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
@@ -1015,28 +980,63 @@ export const generatePresellHtml = (config: PageConfig) => {
                 }
 
                 if (captchaType.startsWith('slide')) {
-                    if (captchaType === 'slide-v2' || captchaType === 'slide-v3') {
-                         const sliderId = captchaType === 'slide-v2' ? 'captcha-slider-v2' : 'captcha-slider-v3';
-                         const slider = document.getElementById(sliderId);
-                         if (!slider) return;
-                         
-                         const releaseHandler = () => {
-                            if (!slider.disabled && slider.value < 100) {
-                                slider.value = 0;
-                            }
-                         };
+                    const sliderContainer = document.querySelector('.captcha-slide-v2-container');
+                    if (!sliderContainer) return;
+                    
+                    const thumb = sliderContainer.querySelector('.captcha-slide-v2-thumb');
+                    const track = sliderContainer.querySelector('.captcha-slide-v2-track');
+                    let isDragging = false;
 
-                         slider.addEventListener('input', () => {
-                            if (slider.value > 95) {
-                                slider.value = 100;
-                                slider.disabled = true;
-                                setTimeout(() => proceed('captcha-popup'), 400);
+                    const moveThumb = (x) => {
+                        const rect = sliderContainer.getBoundingClientRect();
+                        const newX = Math.max(0, Math.min(x - rect.left - thumb.offsetWidth / 2, rect.width - thumb.offsetWidth));
+                        thumb.style.left = newX + 'px';
+                        if (captchaType === 'slide-v3') {
+                            track.style.width = newX + thumb.offsetWidth / 2 + 'px';
+                        }
+                    };
+
+                    const startDrag = (e) => {
+                        if (sliderContainer.classList.contains('verified')) return;
+                        isDragging = true;
+                        sliderContainer.classList.add('dragging');
+                    };
+
+                    const onDrag = (e) => {
+                        if (!isDragging) return;
+                        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                        moveThumb(clientX);
+                    };
+
+                    const endDrag = (e) => {
+                        if (!isDragging) return;
+                        isDragging = false;
+                        sliderContainer.classList.remove('dragging');
+                        
+                        const rect = sliderContainer.getBoundingClientRect();
+                        const thumbRect = thumb.getBoundingClientRect();
+
+                        if (thumbRect.right >= rect.right - 5) {
+                            sliderContainer.classList.add('verified');
+                             if (captchaType === 'slide-v3') {
+                                track.style.width = '100%';
+                             }
+                            setTimeout(() => proceed('captcha-popup'), 400);
+                        } else {
+                            thumb.style.left = '0px';
+                            if (captchaType === 'slide-v3') {
+                                track.style.width = '0px';
                             }
-                         });
-                         
-                         slider.addEventListener('mouseup', releaseHandler);
-                         slider.addEventListener('touchend', releaseHandler);
-                    }
+                        }
+                    };
+
+                    thumb.addEventListener('mousedown', startDrag);
+                    document.addEventListener('mousemove', onDrag);
+                    document.addEventListener('mouseup', endDrag);
+
+                    thumb.addEventListener('touchstart', startDrag);
+                    document.addEventListener('touchmove', onDrag);
+                    document.addEventListener('touchend', endDrag);
                 }
             }
             
@@ -1061,6 +1061,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
