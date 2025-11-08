@@ -288,19 +288,19 @@ export const generatePresellHtml = (config: PageConfig) => {
         const hoverColor = customization.button.color;
 
         const icons = {
-            male: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#3b82f6" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            male: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
                     <circle cx="50" cy="50" r="35"/>
                     <line x1="50" y1="15" x2="50" y2="0" />
-                    <polyline points="35 15 50 0 65 15" fill="none" />
+                    <polyline points="35 15 50 0 65 15" />
                 </svg>`,
-            female: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#ec4899" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            female: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="50" cy="35" r="30"/>
                         <line x1="50" y1="65" x2="50" y2="100" />
                         <line x1="30" y1="85" x2="70" y2="85" />
                     </svg>`,
-            other: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#8b5cf6" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+            other: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="50" cy="50" r="35"/>
-                        <line x1="25" y1="50" x2="75" y2="50" stroke="white" />
+                        <line x1="30" y1="70" x2="70" y2="30" />
                     </svg>`,
         };
     
@@ -1116,5 +1116,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
 
+
+    
 
     
