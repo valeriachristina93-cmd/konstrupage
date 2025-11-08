@@ -283,6 +283,41 @@ export const generatePresellHtml = (config: PageConfig) => {
         </div>
     ` : '';
 
+    const getGenderIcons = () => {
+        const { iconStyle, iconSize } = popups.gender;
+        const iconColor = customization.typography.textColor;
+        const hoverColor = customization.button.color;
+
+        const iconStyles = {
+            style1: {
+                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5V19M8 15h8"/></svg>`,
+                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4" /><path d="M12 16v6M9 22h6"/></svg>`,
+                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="m14 14 6 6"/><path d="M12 8V2l-4 4"/></svg>`
+            },
+            style2: {
+                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
+                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 7v10"/></svg>`,
+                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="none" stroke="${iconColor}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 10 10"/><path d="M12 2a10 10 0 1 1-10 10"/></svg>`
+            },
+            style3: {
+                male: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M12.5 15h-1v-4h1v4zm0-6h-1V7h1v2z"/></svg>`,
+                female: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M11 17h2v-6h-2v6zm0-8h2V7h-2v2z"/></svg>`,
+                other: `<svg width="${iconSize}" height="${iconSize}" viewBox="0 0 24 24" fill="${iconColor}" stroke="${iconColor}" stroke-width="1"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/><path d="M13 13h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>`
+            }
+        };
+
+        const selectedStyle = iconStyles[iconStyle as keyof typeof iconStyles] || iconStyles.style1;
+        
+        return {
+            male: selectedStyle.male,
+            female: selectedStyle.female,
+            other: selectedStyle.other,
+            hoverColor
+        };
+    };
+
+    const genderIcons = getGenderIcons();
+
     const genderPopup = popups.gender.active ? `
         <div id="gender-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('gender-popup')}
@@ -291,15 +326,15 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <p>${popups.gender.description}</p>
                 <div class="gender-choices">
                     <div class="gender-choice" onclick="proceed('gender-popup')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 8v11m-4-5h8"></path><line x1="12" y1="22" x2="12" y2="19"></line></svg>
+                        ${genderIcons.male}
                         <span>Masculino</span>
                     </div>
                     <div class="gender-choice" onclick="proceed('gender-popup')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 8v11"></path><path d="M12 14l-4 4h8l-4-4z"></path><line x1="12" y1="22" x2="12" y2="19"></line></svg>
+                        ${genderIcons.female}
                         <span>Feminino</span>
                     </div>
                     <div class="gender-choice" onclick="proceed('gender-popup')">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                        ${genderIcons.other}
                         <span>Outro</span>
                     </div>
                 </div>
@@ -345,7 +380,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     `;
     
     const captchaSlideV3 = `
-        <div class="captcha-slide-v2-container captcha-slide-v3-container" data-shape="${popups.captcha.sliderShape}">
+       <div class="captcha-slide-v2-container captcha-slide-v3-container" data-shape="${popups.captcha.sliderShape}">
             <input type="range" min="0" max="100" value="0" class="captcha-slide-v2-input captcha-slide-v3-input" id="captcha-slider-v3">
             <div class="captcha-slide-v2-label captcha-slide-v3-label">
                 <span>${popups.captcha.sliderText}</span>
@@ -474,6 +509,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 --captcha-slider-success-bg: #28a745;
                 --captcha-slider-radius: ${popups.captcha.sliderShape === 'round' ? '25px' : '4px'};
                 --captcha-slider-thumb-radius: ${popups.captcha.sliderShape === 'round' ? '50%' : '4px'};
+                --gender-icon-hover-color: ${genderIcons.hoverColor};
             }
             body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden;}
             .main-wrapper {
@@ -632,6 +668,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 stroke: ${customization.typography.textColor};
                 transition: stroke 0.2s;
             }
+             .gender-choice svg * {
+                transition: fill 0.2s, stroke 0.2s;
+            }
             .gender-choice span {
                 color: ${customization.typography.textColor};
                 font-size: 14px;
@@ -641,10 +680,11 @@ export const generatePresellHtml = (config: PageConfig) => {
             .gender-choice:hover { 
                 transform: translateY(-5px);
                 box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
-                border-color: ${customization.button.color}; 
+                border-color: var(--gender-icon-hover-color); 
             }
-            .gender-choice:hover svg { stroke: ${customization.button.color}; }
-            .gender-choice:hover span { color: ${customization.button.color}; }
+            .gender-choice:hover svg { stroke: var(--gender-icon-hover-color); }
+            .gender-choice:hover svg * { fill: var(--gender-icon-hover-color); stroke: var(--gender-icon-hover-color); }
+            .gender-choice:hover span { color: var(--gender-icon-hover-color); }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
             .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
@@ -782,7 +822,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
-                .choice-images, .gender-choices { gap: 15px; flex-direction: column; }
+                .choice-images, .gender-choices { gap: 15px; flex-direction: column; align-items: center; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }

@@ -88,6 +88,8 @@ export type PageConfig = {
       active: boolean;
       title: string;
       description: string;
+      iconStyle: string;
+      iconSize: number;
     };
     captcha: {
       active: boolean;

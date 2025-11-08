@@ -4,7 +4,7 @@
 
 import React, { useState } from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
+import { flagOptions, animationOptions, discountIconOptions, fontOptions, genderIconOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -362,6 +362,25 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         <div className="space-y-2">
                                             <Label>Descrição</Label>
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Estilo dos Ícones</Label>
+                                            <Select value={pageConfig.popups.gender.iconStyle} onValueChange={value => onConfigChange(['popups', 'gender', 'iconStyle'], value)}>
+                                                <SelectTrigger><SelectValue /></SelectTrigger>
+                                                <SelectContent>
+                                                    {genderIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Tamanho dos Ícones ({pageConfig.popups.gender.iconSize}px)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.popups.gender.iconSize]}
+                                                onValueChange={(value) => onConfigChange(['popups', 'gender', 'iconSize'], value[0])}
+                                                min={24}
+                                                max={96}
+                                                step={4}
+                                            />
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
