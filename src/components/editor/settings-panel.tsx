@@ -363,22 +363,57 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <Label>Descrição</Label>
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
                                         </div>
-                                        <div className="space-y-2">
-                                            <Label>Estilo dos Ícones</Label>
-                                            <Select value={pageConfig.popups.gender.iconStyle} onValueChange={value => onConfigChange(['popups', 'gender', 'iconStyle'], value)}>
-                                                <SelectTrigger><SelectValue /></SelectTrigger>
-                                                <SelectContent>
-                                                    {genderIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
-                                                </SelectContent>
-                                            </Select>
+
+                                        <div className="p-3 border-t mt-3">
+                                            <SettingsToggle label="Usar Imagens Personalizadas" checked={pageConfig.popups.gender.useCustomImages} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'useCustomImages'], checked)} />
                                         </div>
+
+                                        {pageConfig.popups.gender.useCustomImages ? (
+                                            <div className="space-y-4 pt-2">
+                                                <div className='space-y-2'>
+                                                    <Label>Imagem Masculino</Label>
+                                                    <ImageUploadInput
+                                                        value={pageConfig.popups.gender.maleImageUrl}
+                                                        onChange={e => onConfigChange(['popups', 'gender', 'maleImageUrl'], e.target.value)}
+                                                        onFileUpload={file => onImageUpload(file, ['popups', 'gender', 'maleImageUrl'])}
+                                                    />
+                                                </div>
+                                                <div className='space-y-2'>
+                                                    <Label>Imagem Feminino</Label>
+                                                    <ImageUploadInput
+                                                        value={pageConfig.popups.gender.femaleImageUrl}
+                                                        onChange={e => onConfigChange(['popups', 'gender', 'femaleImageUrl'], e.target.value)}
+                                                        onFileUpload={file => onImageUpload(file, ['popups', 'gender', 'femaleImageUrl'])}
+                                                    />
+                                                </div>
+                                                <div className='space-y-2'>
+                                                    <Label>Imagem Outro</Label>
+                                                    <ImageUploadInput
+                                                        value={pageConfig.popups.gender.otherImageUrl}
+                                                        onChange={e => onConfigChange(['popups', 'gender', 'otherImageUrl'], e.target.value)}
+                                                        onFileUpload={file => onImageUpload(file, ['popups', 'gender', 'otherImageUrl'])}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="space-y-2">
+                                                <Label>Estilo dos Ícones</Label>
+                                                <Select value={pageConfig.popups.gender.iconStyle} onValueChange={value => onConfigChange(['popups', 'gender', 'iconStyle'], value)}>
+                                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                                    <SelectContent>
+                                                        {genderIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        )}
+
                                         <div className="space-y-2">
-                                            <Label>Tamanho dos Ícones ({pageConfig.popups.gender.iconSize}px)</Label>
+                                            <Label>Tamanho do Ícone/Imagem ({pageConfig.popups.gender.iconSize}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.popups.gender.iconSize]}
                                                 onValueChange={(value) => onConfigChange(['popups', 'gender', 'iconSize'], value[0])}
                                                 min={24}
-                                                max={96}
+                                                max={128}
                                                 step={4}
                                             />
                                         </div>

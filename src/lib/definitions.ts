@@ -90,6 +90,10 @@ export type PageConfig = {
       description: string;
       iconStyle: string;
       iconSize: number;
+      useCustomImages: boolean;
+      maleImageUrl: string;
+      femaleImageUrl: string;
+      otherImageUrl: string;
     };
     captcha: {
       active: boolean;
