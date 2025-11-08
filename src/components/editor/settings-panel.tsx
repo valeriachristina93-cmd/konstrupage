@@ -347,6 +347,24 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
+
+                                 <AccordionItem value="gender" className="border-b">
+                                    <AccordionSubTrigger 
+                                      title="Pop-up de Gênero"
+                                      checked={pageConfig.popups.gender.active}
+                                      onCheckedChange={(isChecked) => handleSubAccordionToggle('gender', isChecked)}
+                                    />
+                                    <AccordionContent className="pt-4 space-y-4 px-3">
+                                        <div className="space-y-2">
+                                            <Label>Título</Label>
+                                            <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.gender.title} onChange={e => onConfigChange(['popups', 'gender', 'title'], e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Descrição</Label>
+                                            <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
+                                        </div>
+                                    </AccordionContent>
+                                </AccordionItem>
                                 
                                 <AccordionItem value="captcha" className="border-b">
                                     <AccordionSubTrigger 

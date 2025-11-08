@@ -9,7 +9,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         popups, footer, disclaimer, overlay, blur, tracking, customization, seo
     } = config;
 
-    const anyPopupActive = popups.ageVerification.active || popups.captcha.active || popups.custom.active || popups.choice.active || popups.discount.active || popups.cookies.active;
+    const anyPopupActive = popups.ageVerification.active || popups.captcha.active || popups.custom.active || popups.choice.active || popups.gender.active || popups.discount.active || popups.cookies.active;
 
     const getDesktopBgStyle = () => {
         let style = '';
@@ -277,6 +277,30 @@ export const generatePresellHtml = (config: PageConfig) => {
                     </div>
                     <div class="choice-image-wrapper" onclick="proceed('choice-popup')">
                         <img src="${popups.choice.image2Url}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    ` : '';
+
+    const genderPopup = popups.gender.active ? `
+        <div id="gender-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+            ${closeButtonHtml('gender-popup')}
+            <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
+                <h2>${popups.gender.title}</h2>
+                <p>${popups.gender.description}</p>
+                <div class="gender-choices">
+                    <div class="gender-choice" onclick="proceed('gender-popup')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 8v11m-4-5h8"></path><line x1="12" y1="22" x2="12" y2="19"></line></svg>
+                        <span>Masculino</span>
+                    </div>
+                    <div class="gender-choice" onclick="proceed('gender-popup')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="5" r="3"></circle><path d="M12 8v11"></path><path d="M12 14l-4 4h8l-4-4z"></path><line x1="12" y1="22" x2="12" y2="19"></line></svg>
+                        <span>Feminino</span>
+                    </div>
+                    <div class="gender-choice" onclick="proceed('gender-popup')">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                        <span>Outro</span>
                     </div>
                 </div>
             </div>
@@ -587,6 +611,40 @@ export const generatePresellHtml = (config: PageConfig) => {
                 object-fit: cover;
                 display: block;
             }
+            
+            .gender-choices { display: flex; justify-content: center; gap: 20px; width: 100%; }
+            .gender-choice { 
+                flex: 1;
+                max-width: 120px;
+                cursor: pointer;
+                overflow: hidden;
+                transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+                border: 2px solid #ddd;
+                padding: 15px;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 10px;
+                background-color: rgba(255,255,255,0.05);
+            }
+             .gender-choice svg {
+                stroke: ${customization.typography.textColor};
+                transition: stroke 0.2s;
+            }
+            .gender-choice span {
+                color: ${customization.typography.textColor};
+                font-size: 14px;
+                font-weight: 500;
+                transition: color 0.2s;
+            }
+            .gender-choice:hover { 
+                transform: translateY(-5px);
+                box-shadow: 0 8px 15px rgba(0,0,0,0.2); 
+                border-color: ${customization.button.color}; 
+            }
+            .gender-choice:hover svg { stroke: ${customization.button.color}; }
+            .gender-choice:hover span { color: ${customization.button.color}; }
 
             .custom-popup-body { display: flex; flex-direction: column; width: 100%; height: 100%; overflow-y: auto; }
             .custom-popup-main-content { display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; flex-grow: 1; padding: ${customization.popup.paddingY}px ${customization.popup.paddingX}px; }
@@ -724,7 +782,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
                 .popup p { font-size: calc(${customization.typography.textSize}px * 0.95); }
                 .popup button { padding: 12px 18px; font-size: 15px; }
-                .choice-images { gap: 15px; }
+                .choice-images, .gender-choices { gap: 15px; flex-direction: column; }
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
@@ -741,6 +799,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${captchaPopup}
                 ${customPopup}
                 ${choicePopup}
+                ${genderPopup}
                 ${discountPopup}
                 ${cookiePopup}
                 ${exitPopup}
@@ -762,6 +821,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             if (${popups.captcha.active}) regularPopups.push(document.getElementById('captcha-popup'));
             if (${popups.custom.active}) regularPopups.push(document.getElementById('custom-popup'));
             if (${popups.choice.active}) regularPopups.push(document.getElementById('choice-popup'));
+            if (${popups.gender.active}) regularPopups.push(document.getElementById('gender-popup'));
             if (${popups.discount.active}) regularPopups.push(document.getElementById('discount-popup'));
             if (${popups.cookies.active}) regularPopups.push(document.getElementById('cookie-popup'));
 
@@ -884,7 +944,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (captchaType.startsWith('checkbox')) {
                     let isVerifying = false;
                     let customCheckbox;
-
+                    
                     if (captchaType === "checkbox") {
                          customCheckbox = document.querySelector('.captcha-checkbox-custom');
                     } else if (captchaType === "checkbox-v2") {
@@ -905,7 +965,13 @@ export const generatePresellHtml = (config: PageConfig) => {
                             setTimeout(() => proceed('captcha-popup'), 400);
                         }, 1200);
                     };
-                    customCheckbox.addEventListener('click', handleCaptchaClick);
+
+                    const parentLabel = customCheckbox.closest('label');
+                    if (parentLabel && captchaType === 'checkbox-v2') {
+                        parentLabel.addEventListener('click', handleCaptchaClick);
+                    } else {
+                        customCheckbox.addEventListener('click', handleCaptchaClick);
+                    }
                 }
 
                 if (captchaType.startsWith('slide')) {

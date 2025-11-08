@@ -84,6 +84,11 @@ export type PageConfig = {
       image2Url: string;
       customImageWidth: number;
     };
+    gender: {
+      active: boolean;
+      title: string;
+      description: string;
+    };
     captcha: {
       active: boolean;
       title: string;
