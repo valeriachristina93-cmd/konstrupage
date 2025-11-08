@@ -85,7 +85,7 @@ export const initialPageConfig: PageConfig = {
     seo: {
         title: 'Site Page',
         description: '',
-        favicon: 'https://i.imgur.com/ihAZlua.png',
+        favicon: 'https://i.imgur.com/Lo98kWM.png',
     },
     customization: {
         button: {
