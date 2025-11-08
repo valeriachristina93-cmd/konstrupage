@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
+import { flagOptions, animationOptions, discountIconOptions, fontOptions, genderIconOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -397,7 +397,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                 )}
                                             </div>
-                                        ) : null}
+                                        ) : (
+                                            <div className="space-y-2">
+                                                <Label>Estilo de Ícone</Label>
+                                                <Select value={pageConfig.popups.gender.iconStyle} onValueChange={value => onConfigChange(['popups', 'gender', 'iconStyle'], value)}>
+                                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                                    <SelectContent>
+                                                        {genderIconOptions.map(opt => <SelectItem key={opt.value} value={opt.value}>{opt.name}</SelectItem>)}
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                        )}
 
                                         <div className="space-y-2">
                                             <Label>Tamanho do Ícone/Imagem ({pageConfig.popups.gender.iconSize}px)</Label>
@@ -1121,6 +1131,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-6 px-3">
+                                        <div className="space-y-3">
+                                             <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popup.backgroundColor} onChange={e => onConfigChange(['customization', 'popup', 'backgroundColor'], e.target.value)} />
+                                        </div>
                                         <div className="space-y-2">
                                             <Label>Largura do Pop-up ({pageConfig.customization.popup.maxWidth}px)</Label>
                                             <SliderWithControls
@@ -1190,10 +1203,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 max={40}
                                                 step={2}
                                             />
-                                        </div>
-
-                                        <div className="space-y-3 pt-2">
-                                             <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popup.backgroundColor} onChange={e => onConfigChange(['customization', 'popup', 'backgroundColor'], e.target.value)} />
                                         </div>
                                          <div className="p-3 border rounded-md">
                                             <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
