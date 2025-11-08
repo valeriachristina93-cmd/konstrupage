@@ -287,22 +287,22 @@ export const generatePresellHtml = (config: PageConfig) => {
         const { useCustomImages, maleImageUrl, femaleImageUrl, otherImageUrl, includeOther } = popups.gender;
         const hoverColor = customization.button.color;
 
-        const icons = {
+       const icons = {
             male: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#3b82f6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="50" cy="65" r="30"/>
-                    <line x1="50" y1="35" x2="50" y2="5" />
-                    <line x1="35" y1="20" x2="50" y2="5" />
-                    <line x1="65" y1="20" x2="50" y2="5" />
-                </svg>`,
+                <circle cx="45" cy="55" r="30"/>
+                <line x1="69" y1="31" x2="95" y2="5" />
+                <line x1="95" y1="5" x2="75" y2="5" />
+                <line x1="95" y1="5" x2="95" y2="25" />
+            </svg>`,
             female: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#ec4899" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="50" cy="35" r="30"/>
-                        <line x1="50" y1="65" x2="50" y2="100" />
-                        <line x1="30" y1="85" x2="70" y2="85" />
-                    </svg>`,
+                <circle cx="50" cy="35" r="30"/>
+                <line x1="50" y1="65" x2="50" y2="95" />
+                <line x1="30" y1="80" x2="70" y2="80" />
+            </svg>`,
             other: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#8b5cf6" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="50" cy="50" r="30"/>
-                        <line x1="25" y1="50" x2="75" y2="50" />
-                    </svg>`,
+                <circle cx="50" cy="50" r="30"/>
+                <line x1="25" y1="50" x2="75" y2="50" />
+            </svg>`,
         };
     
         const maleIcon = useCustomImages && maleImageUrl 
@@ -338,16 +338,16 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <div class="gender-choices">
                     <div class="gender-choice" onclick="proceed('gender-popup')">
                         <div class="gender-icon-wrapper" style="width:${popups.gender.iconSize}px; height:${popups.gender.iconSize}px;">${genderIcons.male}</div>
-                        <span>Masculino</span>
+                        <span>${popups.gender.maleText}</span>
                     </div>
                     <div class="gender-choice" onclick="proceed('gender-popup')">
                         <div class="gender-icon-wrapper" style="width:${popups.gender.iconSize}px; height:${popups.gender.iconSize}px;">${genderIcons.female}</div>
-                        <span>Feminino</span>
+                        <span>${popups.gender.femaleText}</span>
                     </div>
                     ${popups.gender.includeOther ? `
                     <div class="gender-choice" onclick="proceed('gender-popup')">
                         <div class="gender-icon-wrapper" style="width:${popups.gender.iconSize}px; height:${popups.gender.iconSize}px;">${genderIcons.other}</div>
-                        <span>Outro</span>
+                        <span>${popups.gender.otherText}</span>
                     </div>
                     ` : ''}
                 </div>
@@ -849,11 +849,12 @@ export const generatePresellHtml = (config: PageConfig) => {
             
             const popupWrapper = document.querySelector('.popup-wrapper');
             const exitPopup = document.getElementById('exit-popup');
-            
+            const customPopup = document.getElementById('custom-popup');
+
             const regularPopups = [];
             if (${popups.ageVerification.active}) regularPopups.push(document.getElementById('age-popup'));
             if (${popups.captcha.active}) regularPopups.push(document.getElementById('captcha-popup'));
-            if (${popups.custom.active}) regularPopups.push(document.getElementById('custom-popup'));
+            if (${popups.custom.active && !popups.custom.triggerOnExit}) regularPopups.push(customPopup);
             if (${popups.choice.active}) regularPopups.push(document.getElementById('choice-popup'));
             if (${popups.gender.active}) regularPopups.push(document.getElementById('gender-popup'));
             if (${popups.discount.active}) regularPopups.push(document.getElementById('discount-popup'));
@@ -911,7 +912,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     redirect(AFFILIATE_LINK);
                     return;
                 }
-                 if (regularPopups.length === 0 && !exitPopup) {
+                 if (regularPopups.length === 0 && !exitPopup && !(customPopup && ${popups.custom.triggerOnExit})) {
                     redirect(AFFILIATE_LINK);
                 }
             }
@@ -1089,19 +1090,25 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             ${autoRedirect.active ? `setTimeout(() => { if (AFFILIATE_LINK) redirect(AFFILIATE_LINK); }, ${autoRedirect.time * 1000});` : ''}
 
-            ${popups.exit.active ? `
-                document.addEventListener('mouseleave', function(e) {
-                    if (e.clientY < 0 && !isPopupActive && !exitIntentFired) {
-                        if (exitPopup) {
-                            exitIntentFired = true;
-                            isPopupActive = true;
-                            popupWrapper.style.display = 'flex';
-                            popupWrapper.style.pointerEvents = 'auto';
-                            exitPopup.style.display = 'flex';
-                        }
+            function showExitIntentPopup(popupToShow) {
+                if (popupToShow && !isPopupActive && !exitIntentFired) {
+                    exitIntentFired = true;
+                    isPopupActive = true;
+                    popupWrapper.style.display = 'flex';
+                    popupWrapper.style.pointerEvents = 'auto';
+                    popupToShow.style.display = 'flex';
+                }
+            }
+
+            document.addEventListener('mouseleave', function(e) {
+                if (e.clientY < 0) {
+                    if (${popups.custom.triggerOnExit} && customPopup) {
+                        showExitIntentPopup(customPopup);
+                    } else if (${popups.exit.active} && exitPopup) {
+                        showExitIntentPopup(exitPopup);
                     }
-                });
-            ` : ''}
+                }
+            });
         </script>
     </body>
     </html>`;
@@ -1121,3 +1128,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     
 
     
+

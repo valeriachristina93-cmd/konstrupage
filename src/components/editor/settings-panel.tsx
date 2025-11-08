@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState } from 'react';
@@ -10,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -362,9 +363,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <Label>Descrição</Label>
                                             <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
                                         </div>
+                                        <div className="space-y-2">
+                                            <Label>Texto Masculino</Label>
+                                            <Input type="text" value={pageConfig.popups.gender.maleText} onChange={e => onConfigChange(['popups', 'gender', 'maleText'], e.target.value)} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Texto Feminino</Label>
+                                            <Input type="text" value={pageConfig.popups.gender.femaleText} onChange={e => onConfigChange(['popups', 'gender', 'femaleText'], e.target.value)} />
+                                        </div>
 
                                         <div className="p-3 border-t mt-3 space-y-3">
                                             <SettingsToggle label="Adicionar opção 'Outros'" checked={pageConfig.popups.gender.includeOther} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'includeOther'], checked)} />
+                                            {pageConfig.popups.gender.includeOther && (
+                                                <div className="space-y-2 pt-2 border-t">
+                                                    <Label>Texto Outro</Label>
+                                                    <Input type="text" value={pageConfig.popups.gender.otherText} onChange={e => onConfigChange(['popups', 'gender', 'otherText'], e.target.value)} />
+                                                </div>
+                                            )}
                                             <SettingsToggle label="Usar Imagens Personalizadas" checked={pageConfig.popups.gender.useCustomImages} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'useCustomImages'], checked)} />
                                         </div>
 
@@ -775,6 +790,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                 <SelectItem value="horizontal">Horizontal</SelectItem>
                                                             </SelectContent>
                                                         </Select>
+                                                    </div>
+                                                </AccordionContent>
+                                            </AccordionItem>
+                                            <AccordionItem value="behavior" className="border-b-0">
+                                                <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
+                                                    <div className="flex items-center gap-3">
+                                                    <MoveUpRight className="w-4 h-4 text-primary/80" />
+                                                    <span>Comportamento</span>
+                                                    </div>
+                                                </AccordionTrigger>
+                                                <AccordionContent className="pt-4 space-y-4 px-3">
+                                                    <div className="p-3 border rounded-md">
+                                                        <SettingsToggle 
+                                                            label="Ativar ao Sair da Página" 
+                                                            checked={customPopupConfig.triggerOnExit}
+                                                            onCheckedChange={checked => onConfigChange(['popups', 'custom', 'triggerOnExit'], checked)} 
+                                                        />
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>

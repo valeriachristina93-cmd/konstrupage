@@ -23,6 +23,7 @@ export const initialPageConfig: PageConfig = {
         exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', redirectLink: '', imageOnly: false },
         custom: { 
             active: false, 
+            triggerOnExit: false,
             title: 'Título do Pop-up', 
             description: 'Esta é a descrição do seu pop-up personalizado. Você pode <b>editar</b> este texto e adicionar <a href="#" target="_blank">links</a>.', 
             buttonText: 'Clique Aqui',
@@ -57,7 +58,7 @@ export const initialPageConfig: PageConfig = {
             },
         },
         choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
-        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconSize: 48, useCustomImages: false, includeOther: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '' },
+        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconSize: 48, useCustomImages: false, includeOther: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '', maleText: 'Masculino', femaleText: 'Feminino', otherText: 'Outro' },
         captcha: { 
             active: false, 
             title: 'Verificação Rápida', 

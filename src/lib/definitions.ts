@@ -42,6 +42,7 @@ export type PageConfig = {
     };
     custom: {
       active: boolean;
+      triggerOnExit: boolean;
       title: string;
       description: string;
       buttonText: string;
@@ -94,6 +95,9 @@ export type PageConfig = {
       maleImageUrl: string;
       femaleImageUrl: string;
       otherImageUrl: string;
+      maleText: string;
+      femaleText: string;
+      otherText: string;
     };
     captcha: {
       active: boolean;
