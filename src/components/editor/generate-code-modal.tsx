@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Copy, Download, Check, FileZip } from 'lucide-react';
+import { Copy, Download, Check, FileArchive } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import JSZip from 'jszip';
 import type { PageConfig } from '@/lib/definitions';
@@ -88,7 +88,7 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
                             onClick={downloadZip} 
                             className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
                         >
-                            <FileZip className="w-5 h-5 mr-2" />
+                            <FileArchive className="w-5 h-5 mr-2" />
                             Baixar .zip (2 páginas)
                         </Button>
                     ) : (
