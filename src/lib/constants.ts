@@ -1,10 +1,10 @@
 
 
-import type { PageConfig } from './definitions';
+import type { PageConfig, PostPageConfig } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
 
 const desktopHero = PlaceHolderImages.find((p) => p.id === 'desktop-hero');
-const exitPopup = Place-HolderImages.find((p) => p.id === 'exit-popup');
+const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
 
 export const initialPageConfig: PageConfig = {
