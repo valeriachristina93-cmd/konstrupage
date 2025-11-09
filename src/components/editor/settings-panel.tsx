@@ -656,7 +656,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                     <div className="space-y-2">
                                                         <Label>Descrição</Label>
-                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar &lt;b&gt; e &lt;a&gt; tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
+                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar <b> e <a> tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>
@@ -816,199 +816,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
-                    
-                     <AccordionItem value="content" className="accordion-item-styling border-b">
-                        <AccordionTrigger className="hover:no-underline px-4">
-                            <div className="flex items-center gap-3">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                    <FileText className="h-4 w-4" />
-                                </div>
-                                <span className="font-semibold">Conteúdo e SEO</span>
-                            </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-2 space-y-4 px-4">
-                            <div className="p-3 border rounded-md space-y-3">
-                                <SettingsToggle label="Rodapé" checked={pageConfig.footer.active} onCheckedChange={checked => onConfigChange(['footer', 'active'], checked)} />
-                                {pageConfig.footer.active && (
-                                    <>
-                                        <Input type="text" placeholder="Link Política de Privacidade" value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
-                                        <Input type="text" placeholder="Link Termos de Uso" value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
-                                        <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor do Fundo" value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto" value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                             <div className="p-3 border rounded-md space-y-3">
-                                <SettingsToggle label="Seção Disclaimer" checked={pageConfig.disclaimer.active} onCheckedChange={checked => onConfigChange(['disclaimer', 'active'], checked)} />
-                                {pageConfig.disclaimer.active && (
-                                    <>
-                                        <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
-                                        <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor do Fundo" value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto" value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
-                                        </div>
-                                    </>
-                                )}
-                            </div>
-                             <Accordion type="single" collapsible className="w-full space-y-2">
-                                <AccordionItem value="seo" className="border-b-0">
-                                  <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
-                                    <div className="flex items-center gap-2">
-                                        <Globe className="w-4 h-4 text-primary/80" />
-                                        <h3 className='font-semibold text-sm'>SEO e Metadados</h3>
-                                    </div>
-                                  </AccordionTrigger>
-                                  <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
-                                    {pageConfig.seo && (
-                                        <>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="pageTitle">Título da Página</Label>
-                                                <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
-                                                <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="faviconUrl">URL do Favicon</Label>
-                                                <ImageUploadInput
-                                                    id="faviconUrl"
-                                                    value={pageConfig.seo.favicon}
-                                                    onChange={e => onConfigChange(['seo', 'favicon'], e.target.value)}
-                                                    onFileUpload={file => onImageUpload(file, ['seo', 'favicon'])}
-                                                />
-                                            </div>
-                                        </>
-                                    )}
-                                  </AccordionContent>
-                                </AccordionItem>
-                            </Accordion>
-                        </AccordionContent>
-                    </AccordionItem>
 
-                    <AccordionItem value="configuracao" className="accordion-item-styling border-b">
-                        <AccordionTrigger className="hover:no-underline px-4">
-                            <div className="flex items-center gap-3">
-                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                                    <Settings className="h-4 w-4" />
-                                </div>
-                                <span className="font-semibold">Configuração Avançada</span>
-                            </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="pt-4 space-y-2 px-4">
-                            <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
-                                <div className="flex items-start gap-2">
-                                     <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                                     <div className="flex-1">
-                                        <SettingsToggle 
-                                            label="Clique Total na Página" 
-                                            checked={pageConfig.fullPageClick}
-                                            onCheckedChange={checked => onConfigChange(['fullPageClick'], checked)}
-                                        >
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                                                </TooltipTrigger>
-                                                <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>Ao ativar, qualquer clique na página redireciona para o link de afiliado. Use com cuidado, pois pode impactar negativamente a experiência do usuário e as métricas de suas campanhas.</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </SettingsToggle>
-                                     </div>
-                                </div>
-                            </div>
-                           <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
-                                <div className="flex items-start gap-2">
-                                    <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                                    <div className="flex-1">
-                                         <SettingsToggle 
-                                            label="Redirecionamento Automático" 
-                                            checked={pageConfig.autoRedirect.active} 
-                                            onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)}
-                                        >
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                                                </TooltipTrigger>
-                                                <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>O redirecionamento automático pode afetar a experiência do usuário e as taxas de rejeição. Use com moderação.</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </SettingsToggle>
-                                    </div>
-                                </div>
-                                {pageConfig.autoRedirect.active && (
-                                    <div className="pt-4 space-y-2 border-t mt-4 border-destructive/30">
-                                        <Label className="text-foreground">Tempo ({pageConfig.autoRedirect.time}s)</Label>
-                                        <input type="range" min="3" max="8" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
-                                    </div>
-                                )}
-                            </div>
-                             <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
-                                <div className="flex items-start gap-2">
-                                     <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
-                                     <div className="flex-1">
-                                        <SettingsToggle 
-                                            label="HTML Personalizado" 
-                                            checked={!!pageConfig.customization.customHtml}
-                                            onCheckedChange={(checked) => onConfigChange(['customization', 'customHtml'], checked ? ' ' : '')}
-                                        >
-                                            <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                                                </TooltipTrigger>
-                                                <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>Ao utilizar este recurso, dependendo do uso, você pode sofrer bloqueios em suas contas de anúncios (Facebook Ads, Google Ads) ou danificar a página gerada. Use com conhecimento.</p>
-                                                </TooltipContent>
-                                            </Tooltip>
-                                        </SettingsToggle>
-                                     </div>
-                                </div>
-                                {!!pageConfig.customization.customHtml && (
-                                    <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
-                                )}
-                            </div>
-                            <Accordion type="single" collapsible className="w-full space-y-2">
-                                <AccordionItem value="tracking" className="border-b-0">
-                                    <div className="p-3 border rounded-md">
-                                        <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
-                                            <div className="flex items-center gap-2">
-                                                <Target className="w-4 h-4" />
-                                                <h3 className='font-semibold text-sm'>Rastreamento</h3>
-                                            </div>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4">
-                                            <div className="space-y-2">
-                                                <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
-                                                <Input 
-                                                    id="facebookPixelId"
-                                                    type="text" 
-                                                    placeholder="Cole apenas o número de ID do seu Pixel" 
-                                                    value={pageConfig.tracking.facebookPixelId} 
-                                                    onChange={e => onConfigChange(['tracking', 'facebookPixelId'], e.target.value)}
-                                                />
-                                                <p className='text-xs text-muted-foreground'>Irá disparar um evento de PageView.</p>
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
-                                                <Input 
-                                                    id="googleAdsId"
-                                                    type="text" 
-                                                    placeholder="Ex: AW-123456789" 
-                                                    value={pageConfig.tracking.googleAdsId} 
-                                                    onChange={e => onConfigChange(['tracking', 'googleAdsId'], e.target.value)}
-                                                />
-                                                <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
-                                            </div>
-                                        </AccordionContent>
-                                    </div>
-                                </AccordionItem>
-                            </Accordion>
-                        </AccordionContent>
-                    </AccordionItem>
-                    <AccordionItem value="advanced" className="accordion-item-styling border-b">
+                     <AccordionItem value="advanced" className="accordion-item-styling border-b">
                         <AccordionTrigger className="hover:no-underline px-4">
                             <div className="flex items-center gap-3">
                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -1330,6 +1139,198 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
+                    
+                    <AccordionItem value="content" className="accordion-item-styling border-b">
+                        <AccordionTrigger className="hover:no-underline px-4">
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <FileText className="h-4 w-4" />
+                                </div>
+                                <span className="font-semibold">Conteúdo e SEO</span>
+                            </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-2 space-y-4 px-4">
+                            <div className="p-3 border rounded-md space-y-3">
+                                <SettingsToggle label="Rodapé" checked={pageConfig.footer.active} onCheckedChange={checked => onConfigChange(['footer', 'active'], checked)} />
+                                {pageConfig.footer.active && (
+                                    <>
+                                        <Input type="text" placeholder="Link Política de Privacidade" value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
+                                        <Input type="text" placeholder="Link Termos de Uso" value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
+                                        <div className="space-y-3 pt-2">
+                                            <ColorInput label="Cor do Fundo" value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto" value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                             <div className="p-3 border rounded-md space-y-3">
+                                <SettingsToggle label="Seção Disclaimer" checked={pageConfig.disclaimer.active} onCheckedChange={checked => onConfigChange(['disclaimer', 'active'], checked)} />
+                                {pageConfig.disclaimer.active && (
+                                    <>
+                                        <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
+                                        <div className="space-y-3 pt-2">
+                                            <ColorInput label="Cor do Fundo" value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
+                                            <ColorInput label="Cor do Texto" value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                             <Accordion type="single" collapsible className="w-full space-y-2">
+                                <AccordionItem value="seo" className="border-b-0">
+                                  <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
+                                    <div className="flex items-center gap-2">
+                                        <Globe className="w-4 h-4 text-primary/80" />
+                                        <h3 className='font-semibold text-sm'>SEO e Metadados</h3>
+                                    </div>
+                                  </AccordionTrigger>
+                                  <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                    {pageConfig.seo && (
+                                        <>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="pageTitle">Título da Página</Label>
+                                                <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
+                                                <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="faviconUrl">URL do Favicon</Label>
+                                                <ImageUploadInput
+                                                    id="faviconUrl"
+                                                    value={pageConfig.seo.favicon}
+                                                    onChange={e => onConfigChange(['seo', 'favicon'], e.target.value)}
+                                                    onFileUpload={file => onImageUpload(file, ['seo', 'favicon'])}
+                                                />
+                                            </div>
+                                        </>
+                                    )}
+                                  </AccordionContent>
+                                </AccordionItem>
+                            </Accordion>
+                        </AccordionContent>
+                    </AccordionItem>
+
+                    <AccordionItem value="configuracao" className="accordion-item-styling border-b">
+                        <AccordionTrigger className="hover:no-underline px-4">
+                            <div className="flex items-center gap-3">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                                    <Settings className="h-4 w-4" />
+                                </div>
+                                <span className="font-semibold">Configuração Avançada</span>
+                            </div>
+                        </AccordionTrigger>
+                        <AccordionContent className="pt-4 space-y-2 px-4">
+                            <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
+                                <div className="flex items-start gap-2">
+                                     <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                                     <div className="flex-1">
+                                        <SettingsToggle 
+                                            label="Clique Total na Página" 
+                                            checked={pageConfig.fullPageClick}
+                                            onCheckedChange={checked => onConfigChange(['fullPageClick'], checked)}
+                                        >
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs text-center" side="top">
+                                                    <p>Ao ativar, qualquer clique na página redireciona para o link de afiliado. Use com cuidado, pois pode impactar negativamente a experiência do usuário e as métricas de suas campanhas.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </SettingsToggle>
+                                     </div>
+                                </div>
+                            </div>
+                           <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
+                                <div className="flex items-start gap-2">
+                                    <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                                    <div className="flex-1">
+                                         <SettingsToggle 
+                                            label="Redirecionamento Automático" 
+                                            checked={pageConfig.autoRedirect.active} 
+                                            onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)}
+                                        >
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs text-center" side="top">
+                                                    <p>O redirecionamento automático pode afetar a experiência do usuário e as taxas de rejeição. Use com moderação.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </SettingsToggle>
+                                    </div>
+                                </div>
+                                {pageConfig.autoRedirect.active && (
+                                    <div className="pt-4 space-y-2 border-t mt-4 border-destructive/30">
+                                        <Label className="text-foreground">Tempo ({pageConfig.autoRedirect.time}s)</Label>
+                                        <input type="range" min="3" max="8" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
+                                    </div>
+                                )}
+                            </div>
+                             <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
+                                <div className="flex items-start gap-2">
+                                     <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                                     <div className="flex-1">
+                                        <SettingsToggle 
+                                            label="HTML Personalizado" 
+                                            checked={!!pageConfig.customization.customHtml}
+                                            onCheckedChange={(checked) => onConfigChange(['customization', 'customHtml'], checked ? ' ' : '')}
+                                        >
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs text-center" side="top">
+                                                    <p>Ao utilizar este recurso, dependendo do uso, você pode sofrer bloqueios em suas contas de anúncios (Facebook Ads, Google Ads) ou danificar a página gerada. Use com conhecimento.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </SettingsToggle>
+                                     </div>
+                                </div>
+                                {!!pageConfig.customization.customHtml && (
+                                    <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
+                                )}
+                            </div>
+                            <Accordion type="single" collapsible className="w-full space-y-2">
+                                <AccordionItem value="tracking" className="border-b-0">
+                                    <div className="p-3 border rounded-md">
+                                        <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
+                                            <div className="flex items-center gap-2">
+                                                <Target className="w-4 h-4" />
+                                                <h3 className='font-semibold text-sm'>Rastreamento</h3>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
+                                                <Input 
+                                                    id="facebookPixelId"
+                                                    type="text" 
+                                                    placeholder="Cole apenas o número de ID do seu Pixel" 
+                                                    value={pageConfig.tracking.facebookPixelId} 
+                                                    onChange={e => onConfigChange(['tracking', 'facebookPixelId'], e.target.value)}
+                                                />
+                                                <p className='text-xs text-muted-foreground'>Irá disparar um evento de PageView.</p>
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
+                                                <Input 
+                                                    id="googleAdsId"
+                                                    type="text" 
+                                                    placeholder="Ex: AW-123456789" 
+                                                    value={pageConfig.tracking.googleAdsId} 
+                                                    onChange={e => onConfigChange(['tracking', 'googleAdsId'], e.target.value)}
+                                                />
+                                                <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
+                                            </div>
+                                        </AccordionContent>
+                                    </div>
+                                </AccordionItem>
+                            </Accordion>
+                        </AccordionContent>
+                    </AccordionItem>
                 </Accordion>
             </ScrollArea>
         </TooltipProvider>
@@ -1337,3 +1338,4 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 }
 
     
+
