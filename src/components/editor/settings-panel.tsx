@@ -160,7 +160,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         value={[pageConfig.imageHeightDesktop]}
                                         onValueChange={(value) => onConfigChange(['imageHeightDesktop'], value[0])}
                                         min={10}
-                                        max={200}
+                                        max={500}
                                         step={5}
                                     />
                                 </div>
@@ -170,7 +170,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         value={[pageConfig.imageHeightMobile]}
                                         onValueChange={(value) => onConfigChange(['imageHeightMobile'], value[0])}
                                         min={10}
-                                        max={200}
+                                        max={500}
                                         step={5}
                                     />
                                 </div>
@@ -1338,4 +1338,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 }
 
     
+
 

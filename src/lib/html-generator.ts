@@ -532,17 +532,16 @@ export const generatePresellHtml = (config: PageConfig) => {
                 --captcha-slider-thumb-radius: ${popups.captcha.sliderShape === 'round' ? '50%' : '4px'};
                 --gender-icon-hover-color: ${genderIcons.hoverColor};
             }
-            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: hidden;}
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: auto; }
             .main-wrapper {
                 position: relative;
-                width: 100vw;
-                height: 100vh;
-                overflow: hidden;
+                width: 100%;
+                min-height: 100vh;
             }
             .main-section {
                 cursor: pointer;
                 background-size: cover;
-                background-position: center;
+                background-position: top center;
                 height: ${imageHeightDesktop}vh;
                 position: relative;
                 display: flex;
@@ -804,8 +803,10 @@ export const generatePresellHtml = (config: PageConfig) => {
             @keyframes zoomIn { from { transform: scale(0.9); opacity: 0; } to { transform: scale(1); } }
 
             @media (max-width: 768px) {
+                body { overflow-x: hidden; overflow-y: auto; }
+                .main-section { height: ${imageHeightMobile}vh; }
                 .bg-desktop { display: none; }
-                .bg-mobile { display: flex; height: ${imageHeightMobile}vh; }
+                .bg-mobile { display: flex; }
                 .popup-wrapper { align-items: center; }
                 .popup { max-width: calc(100vw - 2rem); }
                 .popup h2 { font-size: calc(${customization.typography.titleSize}px * 0.85); }
@@ -1128,4 +1129,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     
 
     
+
 
