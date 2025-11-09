@@ -7,7 +7,6 @@ import { initialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
 import { PreviewPanel } from '@/components/editor/preview-panel';
 import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
-import { generatePresellHtml } from '@/lib/html-generator';
 import { getSuggestedLayout } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
@@ -16,7 +15,6 @@ export type ViewMode = 'desktop' | 'mobile';
 
 export default function EditorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig>(initialPageConfig);
-    const [generatedHtml, setGeneratedHtml] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isAISuggesting, startAITransition] = useTransition();
@@ -59,7 +57,6 @@ export default function EditorPage() {
         }
         setIsGenerating(true);
         setTimeout(() => {
-            setGeneratedHtml(generatePresellHtml(pageConfig));
             setIsModalOpen(true);
             setIsGenerating(false);
         }, 500);
@@ -86,11 +83,13 @@ export default function EditorPage() {
                     <PreviewPanel pageConfig={pageConfig} viewMode={viewMode} setViewMode={setViewMode} />
                 </div>
             </main>
-            <GenerateCodeModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                htmlContent={generatedHtml}
-            />
+            {isModalOpen && (
+                <GenerateCodeModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    pageConfig={pageConfig}
+                />
+            )}
         </div>
     );
 }

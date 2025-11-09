@@ -7,7 +7,6 @@ import { initialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
 import { PreviewPanel } from '@/components/editor/preview-panel';
 import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
-import { generatePresellHtml } from '@/lib/html-generator';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -21,7 +20,6 @@ import Link from 'next/link';
 
 export default function GeneratorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig | null>(null);
-    const [generatedHtml, setGeneratedHtml] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isGeneratingWithAI, setIsGeneratingWithAI] = useState(false);
@@ -98,7 +96,6 @@ export default function GeneratorPage() {
         setIsGenerating(true);
         setTimeout(() => {
             if (pageConfig) {
-                setGeneratedHtml(generatePresellHtml(pageConfig));
                 setIsModalOpen(true);
             }
             setIsGenerating(false);
@@ -179,11 +176,13 @@ export default function GeneratorPage() {
                     )}
                 </div>
             </main>
-            <GenerateCodeModal
-                isOpen={isModalOpen}
-                onClose={() => setIsModalOpen(false)}
-                htmlContent={generatedHtml}
-            />
+            {isModalOpen && pageConfig && (
+                <GenerateCodeModal
+                    isOpen={isModalOpen}
+                    onClose={() => setIsModalOpen(false)}
+                    pageConfig={pageConfig}
+                />
+            )}
         </div>
     );
 

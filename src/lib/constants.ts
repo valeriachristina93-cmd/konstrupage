@@ -92,6 +92,12 @@ export const initialPageConfig: PageConfig = {
         description: '',
         favicon: 'https://i.imgur.com/Lo98kWM.png',
     },
+    postPage: {
+        active: false,
+        productName: 'Nome do Produto',
+        content: 'Escreva aqui o conteúdo do seu post...',
+        imageUrl: 'https://picsum.photos/seed/post/800/400',
+    },
     customization: {
         button: {
             color: '#3B82F6',

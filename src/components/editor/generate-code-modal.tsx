@@ -4,23 +4,29 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Copy, Download, Check } from 'lucide-react';
+import { Copy, Download, Check, FileZip } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import JSZip from 'jszip';
+import type { PageConfig } from '@/lib/definitions';
+import { generatePresellHtml, generatePostPageHtml } from '@/lib/html-generator';
 
 interface GenerateCodeModalProps {
     isOpen: boolean;
     onClose: () => void;
-    htmlContent: string;
+    pageConfig: PageConfig;
 }
 
-export function GenerateCodeModal({ isOpen, onClose, htmlContent }: GenerateCodeModalProps) {
+export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeModalProps) {
     const [hasCopied, setHasCopied] = useState(false);
     const { toast } = useToast();
 
+    const presellHtml = generatePresellHtml(pageConfig);
+    const postPageHtml = pageConfig.postPage.active ? generatePostPageHtml(pageConfig) : null;
+
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(htmlContent).then(() => {
+        navigator.clipboard.writeText(presellHtml).then(() => {
             setHasCopied(true);
-            toast({ title: "Copiado!", description: "O código HTML foi copiado para a área de transferência." });
+            toast({ title: "Copiado!", description: "O código HTML da página principal foi copiado." });
             setTimeout(() => setHasCopied(false), 2000);
         }, (err) => {
             toast({ variant: "destructive", title: "Falha ao copiar", description: "Não foi possível copiar o código." });
@@ -28,15 +34,36 @@ export function GenerateCodeModal({ isOpen, onClose, htmlContent }: GenerateCode
         });
     };
 
-    const downloadHtml = () => {
-        const blob = new Blob([htmlContent], { type: 'text/html' });
+    const downloadFile = (content: string, filename: string) => {
+        const blob = new Blob([content], { type: 'text/html' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = 'presell-page.html';
+        link.download = filename;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+    };
+
+    const downloadHtml = () => {
+        downloadFile(presellHtml, 'presell-page.html');
         toast({ title: "Download iniciado", description: "O arquivo presell-page.html está sendo baixado." });
+    };
+
+    const downloadZip = async () => {
+        if (!postPageHtml) return;
+
+        const zip = new JSZip();
+        zip.file("presell-page.html", presellHtml);
+        zip.file("post-page.html", postPageHtml);
+
+        const content = await zip.generateAsync({ type: "blob" });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(content);
+        link.download = 'presell-project.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        toast({ title: "Download iniciado", description: "O arquivo presell-project.zip está sendo baixado." });
     };
 
     return (
@@ -47,7 +74,7 @@ export function GenerateCodeModal({ isOpen, onClose, htmlContent }: GenerateCode
                 </DialogHeader>
                 <ScrollArea className="flex-grow px-6">
                     <pre className="bg-muted p-4 rounded-md text-sm text-foreground whitespace-pre-wrap break-all">
-                        <code>{htmlContent}</code>
+                        <code>{presellHtml}</code>
                     </pre>
                 </ScrollArea>
                 <DialogFooter className="p-6 pt-4 border-t flex-col sm:flex-row gap-2">
@@ -55,13 +82,24 @@ export function GenerateCodeModal({ isOpen, onClose, htmlContent }: GenerateCode
                         {hasCopied ? <Check className="w-5 h-5 mr-2" /> : <Copy className="w-5 h-5 mr-2" />}
                         {hasCopied ? 'Copiado!' : 'Copiar Código'}
                     </Button>
-                    <Button 
-                        onClick={downloadHtml} 
-                        className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
-                    >
-                        <Download className="w-5 h-5 mr-2" />
-                        Baixar HTML
-                    </Button>
+                    
+                    {postPageHtml ? (
+                        <Button 
+                            onClick={downloadZip} 
+                            className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
+                        >
+                            <FileZip className="w-5 h-5 mr-2" />
+                            Baixar .zip (2 páginas)
+                        </Button>
+                    ) : (
+                         <Button 
+                            onClick={downloadHtml} 
+                            className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
+                        >
+                            <Download className="w-5 h-5 mr-2" />
+                            Baixar HTML
+                        </Button>
+                    )}
                 </DialogFooter>
             </DialogContent>
         </Dialog>

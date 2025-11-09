@@ -3,6 +3,51 @@
 import type { PageConfig } from './definitions';
 import { fontOptions } from './constants';
 
+export const generatePostPageHtml = (config: PageConfig): string => {
+    if (!config.postPage.active) return '';
+
+    const { productName, content, imageUrl } = config.postPage;
+    const { seo } = config;
+
+    return `
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${productName}</title>
+        <meta name="description" content="Saiba mais sobre ${productName}">
+        <link rel="icon" href="${seo.favicon}">
+        <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; background-color: #f9fafb; }
+            .container { max-width: 800px; margin: 2rem auto; padding: 2rem; background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; }
+            h1 { font-size: 2.5em; margin-bottom: 0.5rem; color: #111; }
+            .post-image { width: 100%; height: auto; border-radius: 8px; margin-bottom: 2rem; }
+            .content { font-size: 1.1em; }
+            .content p { margin-bottom: 1.5rem; }
+            .cta-button { display: inline-block; background-color: #4F46E5; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 2rem; transition: background-color 0.3s; }
+            .cta-button:hover { background-color: #4338CA; }
+            footer { text-align: center; margin-top: 3rem; font-size: 0.9em; color: #888; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>${productName}</h1>
+            ${imageUrl ? `<img src="${imageUrl}" alt="${productName}" class="post-image">` : ''}
+            <div class="content">
+                ${content.split('\n').map(p => `<p>${p}</p>`).join('')}
+            </div>
+            <a href="${config.affiliateLink}" target="${config.newTab ? '_blank' : '_self'}" class="cta-button">Ver Oferta Especial</a>
+        </div>
+        <footer>
+             <p>&copy; ${new Date().getFullYear()}. Todos os direitos reservados.</p>
+        </footer>
+    </body>
+    </html>
+    `;
+};
+
+
 export const generatePresellHtml = (config: PageConfig) => {
     const { 
         desktopImage, mobileImage, imageHeightDesktop, imageHeightMobile, affiliateLink, autoRedirect, newTab, fullPageClick,

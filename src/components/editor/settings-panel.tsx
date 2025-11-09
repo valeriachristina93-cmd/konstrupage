@@ -160,7 +160,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         value={[pageConfig.imageHeightDesktop]}
                                         onValueChange={(value) => onConfigChange(['imageHeightDesktop'], value[0])}
                                         min={10}
-                                        max={500}
+                                        max={100}
                                         step={5}
                                     />
                                 </div>
@@ -170,7 +170,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         value={[pageConfig.imageHeightMobile]}
                                         onValueChange={(value) => onConfigChange(['imageHeightMobile'], value[0])}
                                         min={10}
-                                        max={500}
+                                        max={100}
                                         step={5}
                                     />
                                 </div>
@@ -1159,7 +1159,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 )}
                             </div>
                              <Accordion type="single" collapsible className="w-full space-y-2">
-                                <AccordionItem value="seo" className="border-b-0">
+                                <AccordionItem value="seo" className="border-b">
                                   <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-4 h-4 text-primary/80" />
@@ -1189,6 +1189,40 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </>
                                     )}
                                   </AccordionContent>
+                                </AccordionItem>
+
+                                <AccordionItem value="post-page" className="border-b-0">
+                                    <div className="p-3 border rounded-md">
+                                        <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
+                                            <div className="flex items-center gap-2">
+                                                <FileText className="w-4 h-4" />
+                                                <h3 className='font-semibold text-sm'>Página de Post</h3>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4">
+                                            <SettingsToggle label="Ativar Página de Post" checked={pageConfig.postPage.active} onCheckedChange={checked => onConfigChange(['postPage', 'active'], checked)} />
+                                             {pageConfig.postPage.active && (
+                                                <div className="space-y-4 pt-4 border-t">
+                                                    <div className="space-y-2">
+                                                        <Label>Nome do Produto</Label>
+                                                        <Input type="text" placeholder="Nome do Produto" value={pageConfig.postPage.productName} onChange={e => onConfigChange(['postPage', 'productName'], e.target.value)} />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label>Conteúdo do Post</Label>
+                                                        <Textarea placeholder="Escreva seu artigo aqui..." value={pageConfig.postPage.content} onChange={e => onConfigChange(['postPage', 'content'], e.target.value)} className="h-40" />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label>URL da Imagem do Post</Label>
+                                                        <ImageUploadInput
+                                                            value={pageConfig.postPage.imageUrl}
+                                                            onChange={e => onConfigChange(['postPage', 'imageUrl'], e.target.value)}
+                                                            onFileUpload={file => onImageUpload(file, ['postPage', 'imageUrl'])}
+                                                        />
+                                                    </div>
+                                                </div>
+                                             )}
+                                        </AccordionContent>
+                                    </div>
                                 </AccordionItem>
                             </Accordion>
                         </AccordionContent>
@@ -1365,6 +1399,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 }
 
     
+
 
 
 

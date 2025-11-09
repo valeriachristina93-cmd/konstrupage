@@ -149,6 +149,12 @@ export type PageConfig = {
     description: string;
     favicon: string;
   };
+  postPage: {
+    active: boolean;
+    productName: string;
+    content: string;
+    imageUrl: string;
+  };
   customization: {
     button: {
       color: string;
