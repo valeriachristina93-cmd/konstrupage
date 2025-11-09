@@ -204,11 +204,11 @@ export const generatePresellHtml = (config: PageConfig) => {
     const popupStandardGap = `gap: ${customization.popup.gap}px;`;
     
     const cookiePopup = popups.cookies.active ? `
-        <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()} background-color: rgba(97, 85, 224, 0.1); border: 1px solid rgba(97, 85, 224, 0.2);">
+        <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                <h3 style="color: #A49DFF;">Políticas de Cookies</h3>
-                <p style="color: #D6D2FF;">${popups.cookies.message}</p>
+                <h3>Políticas de Cookies</h3>
+                <p>${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
                     <button style="${getButtonStyle(customization.button, true)}" onclick="proceed('cookie-popup')">${popups.cookies.buttonText}</button>
                 </div>
@@ -689,8 +689,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
             
-            #cookie-popup h3 { color: #A49DFF; }
-            #cookie-popup p { color: #D6D2FF; }
+            #cookie-popup h3 { color: ${customization.typography.titleColor}; }
+            #cookie-popup p { color: ${customization.typography.textColor}; }
 
             .popup-inner-content {
                 display: flex;
