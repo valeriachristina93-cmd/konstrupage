@@ -793,23 +793,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>
-                                            <AccordionItem value="behavior" className="border-b-0">
-                                                <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
-                                                    <div className="flex items-center gap-3">
-                                                    <MoveUpRight className="w-4 h-4 text-primary/80" />
-                                                    <span>Comportamento</span>
-                                                    </div>
-                                                </AccordionTrigger>
-                                                <AccordionContent className="pt-4 space-y-4 px-3">
-                                                    <div className="p-3 border rounded-md">
-                                                        <SettingsToggle 
-                                                            label="Ativar ao Sair da Página" 
-                                                            checked={customPopupConfig.triggerOnExit}
-                                                            onCheckedChange={checked => onConfigChange(['popups', 'custom', 'triggerOnExit'], checked)} 
-                                                        />
-                                                    </div>
-                                                </AccordionContent>
-                                            </AccordionItem>
                                         </Accordion>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -1221,25 +1204,30 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-2 px-4">
-                             <div className="space-y-3 p-3 border rounded-md">
-                                <SettingsToggle 
-                                    label="Carregamento de Cookies" 
-                                    checked={pageConfig.tracking.cookieLoader.active} 
-                                    onCheckedChange={checked => onConfigChange(['tracking', 'cookieLoader', 'active'], checked)}
-                                >
-                                     <Tooltip>
-                                        <TooltipTrigger asChild>
-                                            <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
-                                        </TooltipTrigger>
-                                        <TooltipContent className="max-w-xs text-center" side="top">
-                                            <p>Carrega um link em um iframe oculto para marcar um cookie. A função fica escondida de bots.</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </SettingsToggle>
+                             <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
+                                <div className="flex items-start gap-2">
+                                     <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
+                                     <div className="flex-1">
+                                        <SettingsToggle 
+                                            label="Carregamento de Cookies" 
+                                            checked={pageConfig.tracking.cookieLoader.active} 
+                                            onCheckedChange={checked => onConfigChange(['tracking', 'cookieLoader', 'active'], checked)}
+                                        >
+                                             <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                                </TooltipTrigger>
+                                                <TooltipContent className="max-w-xs text-center" side="top">
+                                                    <p>Carrega um link em um iframe oculto para marcar um cookie. A função fica escondida de bots.</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </SettingsToggle>
+                                     </div>
+                                </div>
                                 {pageConfig.tracking.cookieLoader.active && (
-                                    <div className="pt-4 space-y-4 border-t mt-4">
+                                    <div className="pt-4 space-y-4 border-t mt-4 border-destructive/30">
                                         <div className="space-y-2">
-                                            <Label>Link do Cookie</Label>
+                                            <Label className='text-foreground'>Link do Cookie</Label>
                                             <Input 
                                                 type="text" 
                                                 placeholder="https://seu-link-de-cookie.com" 
@@ -1248,7 +1236,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Tempo ({pageConfig.tracking.cookieLoader.time}s)</Label>
+                                            <Label className='text-foreground'>Tempo ({pageConfig.tracking.cookieLoader.time}s)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.tracking.cookieLoader.time]}
                                                 onValueChange={(value) => onConfigChange(['tracking', 'cookieLoader', 'time'], value[0])}
@@ -1377,6 +1365,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 }
 
     
+
 
 
 
