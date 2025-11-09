@@ -869,7 +869,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-slide-v2-track { position: absolute; left: 0; top: 0; height: 100%; width: 0; background-color: var(--captcha-slider-success-bg); border-radius: var(--captcha-slider-radius); transition: width 0.1s linear; }
             .captcha-slide-v2-thumb { position: absolute; left: 0; top: 0; width: 50px; height: 100%; background-color: var(--captcha-slider-button); border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: left 0.1s linear; }
             .captcha-slide-icon { width: 24px; height: 24px; background-size: contain; background-repeat: no-repeat; background-position: center; transition: opacity 0.2s; position: absolute; }
-            .captcha-arrow-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
+            .captcha-arrow-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
             .captcha-check-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); opacity: 0; }
             .captcha-slide-v2-container.verified .captcha-arrow-icon { opacity: 0; }
             .captcha-slide-v2-container.verified .captcha-check-icon { opacity: 1; }
@@ -1236,5 +1236,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
 
+
+    
 
     

@@ -3,7 +3,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import type { PageConfig } from '@/lib/definitions';
+import type { PageConfig, PostPageConfig } from '@/lib/definitions';
 import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2 } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -25,6 +25,8 @@ interface SettingsPanelProps {
     onConfigChange: (keys: (string | number)[], value: any) => void;
     onImageUpload: (file: File, keys: (string | number)[]) => void;
     setViewMode: (mode: ViewMode) => void;
+    addPostPage?: () => void;
+    removePostPage?: (index: number) => void;
 }
 
 const SettingsToggle = ({ label, checked, onCheckedChange, children }: { label: string; checked: boolean; onCheckedChange: (checked: boolean) => void, children?: React.ReactNode }) => (
@@ -65,7 +67,7 @@ const AccordionSubTrigger = ({ title, onCheckedChange, checked }: { title: strin
 );
 
 
-export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode }: SettingsPanelProps) {
+export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode, addPostPage, removePostPage }: SettingsPanelProps) {
     const customPopupConfig = pageConfig.popups.custom;
     const [openAccordion, setOpenAccordion] = useState<string>('');
     const [openSubAccordion, setOpenSubAccordion] = useState<string>('');
@@ -160,7 +162,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         value={[pageConfig.imageHeightDesktop]}
                                         onValueChange={(value) => onConfigChange(['imageHeightDesktop'], value[0])}
                                         min={10}
-                                        max={100}
+                                        max={500}
                                         step={5}
                                     />
                                 </div>
@@ -170,7 +172,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         value={[pageConfig.imageHeightMobile]}
                                         onValueChange={(value) => onConfigChange(['imageHeightMobile'], value[0])}
                                         min={10}
-                                        max={100}
+                                        max={500}
                                         step={5}
                                     />
                                 </div>
@@ -1191,38 +1193,60 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                   </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="post-page" className="border-b-0">
-                                    <div className="p-3 border rounded-md">
-                                        <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
-                                            <div className="flex items-center gap-2">
-                                                <FileText className="w-4 h-4" />
-                                                <h3 className='font-semibold text-sm'>Página de Post</h3>
-                                            </div>
-                                        </AccordionTrigger>
-                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4">
-                                            <SettingsToggle label="Ativar Página de Post" checked={pageConfig.postPage.active} onCheckedChange={checked => onConfigChange(['postPage', 'active'], checked)} />
-                                             {pageConfig.postPage.active && (
-                                                <div className="space-y-4 pt-4 border-t">
-                                                    <div className="space-y-2">
-                                                        <Label>Nome do Produto</Label>
-                                                        <Input type="text" placeholder="Nome do Produto" value={pageConfig.postPage.productName} onChange={e => onConfigChange(['postPage', 'productName'], e.target.value)} />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label>Conteúdo do Post</Label>
-                                                        <Textarea placeholder="Escreva seu artigo aqui..." value={pageConfig.postPage.content} onChange={e => onConfigChange(['postPage', 'content'], e.target.value)} className="h-40" />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label>URL da Imagem do Post</Label>
-                                                        <ImageUploadInput
-                                                            value={pageConfig.postPage.imageUrl}
-                                                            onChange={e => onConfigChange(['postPage', 'imageUrl'], e.target.value)}
-                                                            onFileUpload={file => onImageUpload(file, ['postPage', 'imageUrl'])}
-                                                        />
-                                                    </div>
-                                                </div>
-                                             )}
-                                        </AccordionContent>
-                                    </div>
+                                <AccordionItem value="post-page-list" className="border-b-0">
+                                    <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
+                                        <div className="flex items-center gap-2">
+                                            <FileText className="w-4 h-4" />
+                                            <h3 className='font-semibold text-sm'>Páginas de Post</h3>
+                                        </div>
+                                    </AccordionTrigger>
+                                    <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                        {addPostPage && (
+                                            <Button onClick={addPostPage} className="w-full">
+                                                <Plus className="w-4 h-4 mr-2" />
+                                                Adicionar Novo Post
+                                            </Button>
+                                        )}
+                                        {pageConfig.postPages.length > 0 && (
+                                            <Accordion type="multiple" className="space-y-2">
+                                                {pageConfig.postPages.map((post, index) => (
+                                                    <AccordionItem key={index} value={`post-${index}`} className="border rounded-md px-3">
+                                                        <div className="flex items-center">
+                                                            <AccordionTrigger className="flex-1 py-3">{post.productName || `Post ${index + 1}`}</AccordionTrigger>
+                                                            {removePostPage && (
+                                                                <Button variant="ghost" size="icon" onClick={() => removePostPage(index)} className="ml-2 h-7 w-7">
+                                                                    <Trash2 className="h-4 w-4 text-destructive" />
+                                                                </Button>
+                                                            )}
+                                                        </div>
+                                                        <AccordionContent className="space-y-4 pt-4 border-t">
+                                                            <SettingsToggle label="Ativar este Post" checked={post.active} onCheckedChange={checked => onConfigChange(['postPages', index, 'active'], checked)} />
+                                                            {post.active && (
+                                                                <div className="space-y-4">
+                                                                    <div className="space-y-2">
+                                                                        <Label>Nome do Produto</Label>
+                                                                        <Input type="text" placeholder="Nome do Produto" value={post.productName} onChange={e => onConfigChange(['postPages', index, 'productName'], e.target.value)} />
+                                                                    </div>
+                                                                    <div className="space-y-2">
+                                                                        <Label>Conteúdo do Post</Label>
+                                                                        <Textarea placeholder="Escreva seu artigo aqui..." value={post.content} onChange={e => onConfigChange(['postPages', index, 'content'], e.target.value)} className="h-40" />
+                                                                    </div>
+                                                                    <div className="space-y-2">
+                                                                        <Label>URL da Imagem do Post</Label>
+                                                                        <ImageUploadInput
+                                                                            value={post.imageUrl}
+                                                                            onChange={e => onConfigChange(['postPages', index, 'imageUrl'], e.target.value)}
+                                                                            onFileUpload={file => onImageUpload(file, ['postPages', index, 'imageUrl'])}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            )}
+                                                        </AccordionContent>
+                                                    </AccordionItem>
+                                                ))}
+                                            </Accordion>
+                                        )}
+                                    </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
                         </AccordionContent>
@@ -1404,3 +1428,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
 
 
+
+
+    
