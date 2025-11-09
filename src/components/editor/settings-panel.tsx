@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -1221,6 +1221,45 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-2 px-4">
+                             <div className="space-y-3 p-3 border rounded-md">
+                                <SettingsToggle 
+                                    label="Carregamento de Cookies" 
+                                    checked={pageConfig.tracking.cookieLoader.active} 
+                                    onCheckedChange={checked => onConfigChange(['tracking', 'cookieLoader', 'active'], checked)}
+                                >
+                                     <Tooltip>
+                                        <TooltipTrigger asChild>
+                                            <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                                        </TooltipTrigger>
+                                        <TooltipContent className="max-w-xs text-center" side="top">
+                                            <p>Carrega um link em um iframe oculto para marcar um cookie. A função fica escondida de bots.</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </SettingsToggle>
+                                {pageConfig.tracking.cookieLoader.active && (
+                                    <div className="pt-4 space-y-4 border-t mt-4">
+                                        <div className="space-y-2">
+                                            <Label>Link do Cookie</Label>
+                                            <Input 
+                                                type="text" 
+                                                placeholder="https://seu-link-de-cookie.com" 
+                                                value={pageConfig.tracking.cookieLoader.link} 
+                                                onChange={e => onConfigChange(['tracking', 'cookieLoader', 'link'], e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label>Tempo ({pageConfig.tracking.cookieLoader.time}s)</Label>
+                                            <SliderWithControls
+                                                value={[pageConfig.tracking.cookieLoader.time]}
+                                                onValueChange={(value) => onConfigChange(['tracking', 'cookieLoader', 'time'], value[0])}
+                                                min={1}
+                                                max={10}
+                                                step={1}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                             <div className="space-y-3 p-3 border border-destructive/30 bg-destructive/5 rounded-md text-destructive">
                                 <div className="flex items-start gap-2">
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
@@ -1338,5 +1377,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 }
 
     
+
 
 

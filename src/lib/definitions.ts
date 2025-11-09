@@ -138,6 +138,11 @@ export type PageConfig = {
   tracking: {
     facebookPixelId: string;
     googleAdsId: string;
+    cookieLoader: {
+      active: boolean;
+      link: string;
+      time: number;
+    };
   };
   seo: {
     title: string;

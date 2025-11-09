@@ -501,10 +501,33 @@ export const generatePresellHtml = (config: PageConfig) => {
           gtag('config', '${tracking.googleAdsId}');
         </script>
     ` : '';
+    
+    const cookieLoaderScript = tracking.cookieLoader.active && tracking.cookieLoader.link ? `
+        <script>
+            (function() {
+                var loaded = false;
+                function loadIframe() {
+                    if (loaded) return;
+                    loaded = true;
+                    var iframe = document.createElement('iframe');
+                    iframe.src = '${tracking.cookieLoader.link}';
+                    iframe.style.width = '1px';
+                    iframe.style.height = '1px';
+                    iframe.style.position = 'absolute';
+                    iframe.style.left = '-9999px';
+                    iframe.style.top = '-9999px';
+                    iframe.style.border = 'none';
+                    iframe.style.opacity = '0';
+                    document.body.appendChild(iframe);
+                }
+                setTimeout(loadIframe, ${tracking.cookieLoader.time * 1000});
+            })();
+        </script>
+    ` : '';
 
     const pageTitle = seo?.title || 'Site Page';
     const pageDescription = seo?.description || 'Presell page description.';
-    const favicon = seo?.favicon || 'https://i.imgur.com/ihAZlua.png';
+    const favicon = seo?.favicon || 'https://i.imgur.com/Lo98kWM.png';
 
 
     return `
@@ -871,6 +894,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         ${disclaimerSection}
         ${footerSection}
         ${customization.customHtml || ''}
+        ${cookieLoaderScript}
         <script>
             const AFFILIATE_LINK = '${affiliateLink}';
             const NEW_TAB = ${newTab};

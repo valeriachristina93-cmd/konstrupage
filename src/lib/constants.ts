@@ -81,6 +81,11 @@ export const initialPageConfig: PageConfig = {
     tracking: {
         facebookPixelId: '',
         googleAdsId: '',
+        cookieLoader: {
+            active: false,
+            link: '',
+            time: 3,
+        },
     },
     seo: {
         title: 'Site Page',
@@ -200,4 +205,3 @@ export const fontOptions = [
 
 
     
-
