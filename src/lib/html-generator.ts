@@ -522,6 +522,34 @@ export const generatePresellHtml = (config: PageConfig) => {
         ${facebookPixelScript}
         ${googleAdsScript}
         <style>
+            ::-webkit-scrollbar {
+                width: 10px;
+                height: 10px;
+            }
+            ::-webkit-scrollbar-track {
+                background: hsl(240 4.8% 95% / 0.1);
+                border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background: hsl(240 5.9% 85% / 0.5);
+                border-radius: 10px;
+                border: 2px solid transparent;
+                background-clip: content-box;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: hsl(240 5.9% 85% / 0.7);
+                background-clip: content-box;
+            }
+            .dark ::-webkit-scrollbar-track {
+                background: hsl(224 10% 10% / 0.1);
+            }
+            .dark ::-webkit-scrollbar-thumb {
+                background: hsl(224 8% 24% / 0.5);
+            }
+            .dark ::-webkit-scrollbar-thumb:hover {
+                background: hsl(224 8% 24% / 0.7);
+            }
+
             :root {
                 --captcha-slider-button: ${popups.captcha.sliderButtonColor};
                 --captcha-slider-track: ${popups.captcha.sliderTrackColor};
@@ -767,7 +795,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .captcha-slide-v2-thumb { position: absolute; left: 0; top: 0; width: 50px; height: 100%; background-color: var(--captcha-slider-button); border-radius: var(--captcha-slider-thumb-radius); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; box-shadow: 0 2px 5px rgba(0,0,0,0.2); transition: left 0.1s linear; }
             .captcha-slide-icon { width: 24px; height: 24px; background-size: contain; background-repeat: no-repeat; background-position: center; transition: opacity 0.2s; position: absolute; }
             .captcha-arrow-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 18 6-6-6-6'/%3E%3C/svg%3E"); }
-            .captcha-check-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); opacity: 0; }
+            .captcha-check-icon { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E"); opacity: 0; }
             .captcha-slide-v2-container.verified .captcha-arrow-icon { opacity: 0; }
             .captcha-slide-v2-container.verified .captcha-check-icon { opacity: 1; }
             .captcha-slide-v2-container.verified .captcha-slide-v2-thumb { cursor: default; }
@@ -1131,3 +1159,6 @@ export const generatePresellHtml = (config: PageConfig) => {
     
 
 
+
+
+    
