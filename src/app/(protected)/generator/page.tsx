@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState, useCallback, useTransition } from 'react';
-import type { PageConfig } from '@/lib/definitions';
+import type { PageConfig, PostPageConfig } from '@/lib/definitions';
 import { initialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
 import { PreviewPanel } from '@/components/editor/preview-panel';
@@ -33,15 +33,45 @@ export default function GeneratorPage() {
             const newConfig = JSON.parse(JSON.stringify(prev));
             let currentLevel: any = newConfig;
             for (let i = 0; i < keys.length - 1; i++) {
-                if (currentLevel[keys[i]] === undefined) {
-                    currentLevel[keys[i]] = {};
+                 const key = keys[i];
+                if (currentLevel[key] === undefined && typeof keys[i+1] === 'number') {
+                    currentLevel[key] = [];
+                } else if (currentLevel[key] === undefined) {
+                    currentLevel[key] = {};
                 }
-                currentLevel = currentLevel[keys[i]];
+                currentLevel = currentLevel[key];
             }
             currentLevel[keys[keys.length - 1]] = value;
             return newConfig;
         });
     }, []);
+
+    const addPostPage = () => {
+        setPageConfig(prev => {
+            if (!prev) return null;
+            const newConfig = JSON.parse(JSON.stringify(prev));
+            const newPost: PostPageConfig = {
+                active: true,
+                productName: `Novo Post ${newConfig.postPages.length + 1}`,
+                content: 'Escreva o conteúdo do seu post aqui...',
+                imageUrl: 'https://picsum.photos/seed/post1/800/400'
+            };
+            if (!newConfig.postPages) {
+                newConfig.postPages = [];
+            }
+            newConfig.postPages.push(newPost);
+            return newConfig;
+        });
+    };
+
+    const removePostPage = (index: number) => {
+        setPageConfig(prev => {
+            if (!prev) return null;
+            const newConfig = JSON.parse(JSON.stringify(prev));
+            newConfig.postPages.splice(index, 1);
+            return newConfig;
+        });
+    };
 
     const handleImageUpload = (file: File, keys: (string | number)[]) => {
         const reader = new FileReader();
@@ -66,6 +96,10 @@ export default function GeneratorPage() {
         setIsGeneratingWithAI(true);
         try {
           const result = await generatePage(description);
+          // Ensure postPages is an array even if the AI doesn't return it
+          if (!result.postPages) {
+            result.postPages = [];
+          }
           setPageConfig(result);
            toast({
             title: "Página Gerada com Sucesso!",
@@ -117,6 +151,8 @@ export default function GeneratorPage() {
                             onConfigChange={handleConfigChange}
                             onImageUpload={handleImageUpload}
                             setViewMode={setViewMode}
+                            addPostPage={addPostPage}
+                            removePostPage={removePostPage}
                         />
                     ) : (
                         <div className="p-4 flex flex-col h-full">
@@ -187,3 +223,4 @@ export default function GeneratorPage() {
     );
 
     
+
