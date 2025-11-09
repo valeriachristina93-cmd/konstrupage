@@ -4,7 +4,7 @@ import type { PageConfig } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
 
 const desktopHero = PlaceHolderImages.find((p) => p.id === 'desktop-hero');
-const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
+const exitPopup = Place-HolderImages.find((p) => p.id === 'exit-popup');
 
 
 export const initialPageConfig: PageConfig = {
@@ -92,12 +92,7 @@ export const initialPageConfig: PageConfig = {
         description: '',
         favicon: 'https://i.imgur.com/Lo98kWM.png',
     },
-    postPage: {
-        active: false,
-        productName: 'Nome do Produto',
-        content: 'Escreva aqui o conteúdo do seu post...',
-        imageUrl: 'https://picsum.photos/seed/post/800/400',
-    },
+    postPages: [],
     customization: {
         button: {
             color: '#3B82F6',

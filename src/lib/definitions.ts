@@ -1,5 +1,12 @@
 
 
+export type PostPageConfig = {
+  active: boolean;
+  productName: string;
+  content: string;
+  imageUrl: string;
+};
+
 export type PageConfig = {
   desktopImage: string;
   mobileImage: string;
@@ -149,12 +156,7 @@ export type PageConfig = {
     description: string;
     favicon: string;
   };
-  postPage: {
-    active: boolean;
-    productName: string;
-    content: string;
-    imageUrl: string;
-  };
+  postPages: PostPageConfig[];
   customization: {
     button: {
       color: string;

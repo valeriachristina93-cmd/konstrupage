@@ -1,13 +1,13 @@
 
+
 "use client";
 
-import React, { useState, useCallback, useTransition } from 'react';
-import type { PageConfig } from '@/lib/definitions';
+import React, { useState, useCallback } from 'react';
+import type { PageConfig, PostPageConfig } from '@/lib/definitions';
 import { initialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
 import { PreviewPanel } from '@/components/editor/preview-panel';
 import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
-import { getSuggestedLayout } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
 
@@ -17,7 +17,6 @@ export default function EditorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig>(initialPageConfig);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
-    const [isAISuggesting, startAITransition] = useTransition();
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
 
@@ -26,15 +25,44 @@ export default function EditorPage() {
             const newConfig = JSON.parse(JSON.stringify(prev));
             let currentLevel: any = newConfig;
             for (let i = 0; i < keys.length - 1; i++) {
-                if (currentLevel[keys[i]] === undefined) {
-                    currentLevel[keys[i]] = {};
+                const key = keys[i];
+                if (currentLevel[key] === undefined && typeof keys[i+1] === 'number') {
+                    currentLevel[key] = [];
+                } else if (currentLevel[key] === undefined) {
+                    currentLevel[key] = {};
                 }
-                currentLevel = currentLevel[keys[i]];
+                currentLevel = currentLevel[key];
             }
             currentLevel[keys[keys.length - 1]] = value;
             return newConfig;
         });
     }, []);
+
+     const addPostPage = () => {
+        setPageConfig(prev => {
+            const newConfig = JSON.parse(JSON.stringify(prev));
+            const newPost: PostPageConfig = {
+                active: true,
+                productName: `Novo Post ${newConfig.postPages.length + 1}`,
+                content: 'Escreva o conteúdo do seu post aqui...',
+                imageUrl: 'https://picsum.photos/seed/post1/800/400'
+            };
+            if (!newConfig.postPages) {
+                newConfig.postPages = [];
+            }
+            newConfig.postPages.push(newPost);
+            return newConfig;
+        });
+    };
+
+    const removePostPage = (index: number) => {
+        setPageConfig(prev => {
+            const newConfig = JSON.parse(JSON.stringify(prev));
+            newConfig.postPages.splice(index, 1);
+            return newConfig;
+        });
+    };
+
 
     const handleImageUpload = (file: File, keys: (string | number)[]) => {
         const reader = new FileReader();
@@ -76,6 +104,8 @@ export default function EditorPage() {
                         onConfigChange={handleConfigChange}
                         onImageUpload={handleImageUpload}
                         setViewMode={setViewMode}
+                        addPostPage={addPostPage}
+                        removePostPage={removePostPage}
                     />
                 </div>
                 

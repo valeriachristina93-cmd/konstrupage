@@ -1,12 +1,12 @@
 
 
-import type { PageConfig } from './definitions';
+import type { PageConfig, PostPageConfig } from './definitions';
 import { fontOptions } from './constants';
 
-export const generatePostPageHtml = (config: PageConfig): string => {
-    if (!config.postPage.active) return '';
+export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
+    if (!postConfig.active) return '';
 
-    const { productName, content, imageUrl } = config.postPage;
+    const { productName, content, imageUrl } = postConfig;
     const { seo } = config;
 
     return `
@@ -691,6 +691,13 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
             
+            #cookie-popup {
+                background-color: rgba(97, 85, 224, 0.1);
+                border: 1px solid rgba(97, 85, 224, 0.2);
+            }
+            #cookie-popup h3 { color: #A49DFF; }
+            #cookie-popup p { color: #D6D2FF; }
+
             .popup-inner-content {
                 display: flex;
                 flex-direction: column;
