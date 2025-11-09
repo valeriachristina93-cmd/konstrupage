@@ -50,12 +50,12 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
     };
 
     const downloadZip = async () => {
-        if (activePostPages.length === 0) return;
+        if (!pageConfig.postPages || pageConfig.postPages.length === 0) return;
 
         const zip = new JSZip();
         zip.file("presell-page.html", presellHtml);
 
-        activePostPages.forEach((post, index) => {
+        pageConfig.postPages.forEach((post, index) => {
             const postHtml = generatePostPageHtml(pageConfig, post);
             zip.file(`post-page-${index + 1}.html`, postHtml);
         });
@@ -67,7 +67,7 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        toast({ title: "Download iniciado", description: `O arquivo .zip com ${activePostPages.length + 1} páginas está sendo baixado.` });
+        toast({ title: "Download iniciado", description: `O arquivo .zip com ${pageConfig.postPages.length + 1} páginas está sendo baixado.` });
     };
 
     return (
@@ -87,13 +87,13 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
                         {hasCopied ? 'Copiado!' : 'Copiar Código'}
                     </Button>
                     
-                    {activePostPages.length > 0 ? (
+                    {pageConfig.postPages && pageConfig.postPages.length > 0 ? (
                         <Button 
                             onClick={downloadZip} 
                             className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
                         >
                             <FileArchive className="w-5 h-5 mr-2" />
-                            Baixar .zip ({activePostPages.length + 1} páginas)
+                            Baixar .zip ({pageConfig.postPages.length + 1} páginas)
                         </Button>
                     ) : (
                          <Button 
@@ -109,5 +109,7 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
         </Dialog>
     );
 }
+
+    
 
     

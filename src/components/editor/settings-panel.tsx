@@ -1220,27 +1220,24 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                             )}
                                                         </div>
                                                         <AccordionContent className="space-y-4 pt-4 border-t">
-                                                            <SettingsToggle label="Ativar este Post" checked={post.active} onCheckedChange={checked => onConfigChange(['postPages', index, 'active'], checked)} />
-                                                            {post.active && (
-                                                                <div className="space-y-4">
-                                                                    <div className="space-y-2">
-                                                                        <Label>Nome do Produto</Label>
-                                                                        <Input type="text" placeholder="Nome do Produto" value={post.productName} onChange={e => onConfigChange(['postPages', index, 'productName'], e.target.value)} />
-                                                                    </div>
-                                                                    <div className="space-y-2">
-                                                                        <Label>Conteúdo do Post</Label>
-                                                                        <Textarea placeholder="Escreva seu artigo aqui..." value={post.content} onChange={e => onConfigChange(['postPages', index, 'content'], e.target.value)} className="h-40" />
-                                                                    </div>
-                                                                    <div className="space-y-2">
-                                                                        <Label>URL da Imagem do Post</Label>
-                                                                        <ImageUploadInput
-                                                                            value={post.imageUrl}
-                                                                            onChange={e => onConfigChange(['postPages', index, 'imageUrl'], e.target.value)}
-                                                                            onFileUpload={file => onImageUpload(file, ['postPages', index, 'imageUrl'])}
-                                                                        />
-                                                                    </div>
+                                                            <div className="space-y-4">
+                                                                <div className="space-y-2">
+                                                                    <Label>Nome do Produto</Label>
+                                                                    <Input type="text" placeholder="Nome do Produto" value={post.productName} onChange={e => onConfigChange(['postPages', index, 'productName'], e.target.value)} />
                                                                 </div>
-                                                            )}
+                                                                <div className="space-y-2">
+                                                                    <Label>Conteúdo do Post</Label>
+                                                                    <Textarea placeholder="Escreva seu artigo aqui..." value={post.content} onChange={e => onConfigChange(['postPages', index, 'content'], e.target.value)} className="h-40" />
+                                                                </div>
+                                                                <div className="space-y-2">
+                                                                    <Label>URL da Imagem do Post</Label>
+                                                                    <ImageUploadInput
+                                                                        value={post.imageUrl}
+                                                                        onChange={e => onConfigChange(['postPages', index, 'imageUrl'], e.target.value)}
+                                                                        onFileUpload={file => onImageUpload(file, ['postPages', index, 'imageUrl'])}
+                                                                    />
+                                                                </div>
+                                                            </div>
                                                         </AccordionContent>
                                                     </AccordionItem>
                                                 ))}
@@ -1429,5 +1426,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
 
 
+
+    
 
     

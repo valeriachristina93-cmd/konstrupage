@@ -4,8 +4,6 @@ import type { PageConfig, PostPageConfig } from './definitions';
 import { fontOptions } from './constants';
 
 export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
-    if (!postConfig.active) return '';
-
     const { productName, content, imageUrl } = postConfig;
     const { seo } = config;
 
@@ -206,11 +204,11 @@ export const generatePresellHtml = (config: PageConfig) => {
     const popupStandardGap = `gap: ${customization.popup.gap}px;`;
     
     const cookiePopup = popups.cookies.active ? `
-        <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+        <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()} background-color: rgba(97, 85, 224, 0.1); border: 1px solid rgba(97, 85, 224, 0.2);">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                <h3>Políticas de Cookies</h3>
-                <p>${popups.cookies.message}</p>
+                <h3 style="color: #A49DFF;">Políticas de Cookies</h3>
+                <p style="color: #D6D2FF;">${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
                     <button style="${getButtonStyle(customization.button, true)}" onclick="proceed('cookie-popup')">${popups.cookies.buttonText}</button>
                 </div>
@@ -691,10 +689,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
             
-            #cookie-popup {
-                background-color: rgba(97, 85, 224, 0.1);
-                border: 1px solid rgba(97, 85, 224, 0.2);
-            }
             #cookie-popup h3 { color: #A49DFF; }
             #cookie-popup p { color: #D6D2FF; }
 
@@ -825,7 +819,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .body-layout-side.side-right { flex-direction: row-reverse; }
             .body-layout-side .custom-popup-image-container { flex-shrink: 0; }
             .body-layout-side .custom-popup-image { height: 100%; }
-            .body-layout-side .custom-popup-main-content { flex: 1; justify-content: center; }
             .body-layout-side.side-left .custom-popup-image-container { border-top-left-radius: ${customization.popup.borderRadius}px; border-bottom-left-radius: ${customization.popup.borderRadius}px; }
             .body-layout-side.side-right .custom-popup-image-container { border-top-right-radius: ${customization.popup.borderRadius}px; border-bottom-right-radius: ${customization.popup.borderRadius}px; }
             
@@ -1236,6 +1229,8 @@ export const generatePresellHtml = (config: PageConfig) => {
 
 
 
+
+    
 
     
 
