@@ -10,12 +10,26 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
+const StructuredPromptSchema = z.object({
+  pageType: z.string().describe("The type of page to create (e.g., 'Página presell robusta', 'Página review')."),
+  productName: z.string().optional().describe("The name of the product."),
+  videoReviewLink: z.string().optional().describe("The URL for a video review."),
+  salesPageLink: z.string().optional().describe("The URL for the main sales page."),
+  affiliateLink: z.string().optional().describe("The main affiliate link to be used."),
+  description: z.string().describe("The detailed description or extracted content for the page."),
+  advancedSettings: z.object({
+    facebookPixelId: z.string().optional(),
+    googleAdsId: z.string().optional(),
+    customHtml: z.string().optional(),
+  }).describe("Advanced tracking and custom code settings."),
+});
+
 const PageConfigSchema = z.object({
   desktopImage: z.string().describe("URL for a high-resolution desktop background image. Should be royalty-free."),
   mobileImage: z.string().describe("URL for a high-resolution mobile background image (vertical aspect ratio). Should be royalty-free."),
   imageHeightDesktop: z.number().describe("Height of the desktop image in vh units (e.g., 100)."),
   imageHeightMobile: z.number().describe("Height of the mobile image in vh units (e.g., 100)."),
-  affiliateLink: z.string().describe("A placeholder for the affiliate link, like 'https://AFFILIATE-LINK-HERE.com'."),
+  affiliateLink: z.string().describe("An affiliate link, use the one from the input or a placeholder like 'https://AFFILIATE-LINK-HERE.com'."),
   newTab: z.boolean().describe("Whether the affiliate link should open in a new tab."),
   autoRedirect: z.object({
     active: z.boolean(),
@@ -73,22 +87,29 @@ const PageConfigSchema = z.object({
 const generatePagePrompt = ai.definePrompt(
     {
       name: 'generatePagePrompt',
-      input: { schema: z.string() },
+      input: { schema: StructuredPromptSchema },
       output: { schema: PageConfigSchema, format: 'json' },
       prompt: `You are an expert in creating high-converting presell pages. Based on the user's structured request, generate a complete page configuration in JSON format.
 
 The user's request is a "super prompt" containing all the information needed. Your task is to interpret this structured input and populate all the fields in the provided JSON schema to create a cohesive and effective presell page.
 
 **User's Structured Request:**
-\`\`\`
-{{prompt}}
-\`\`\`
+- **Page Type:** {{{pageType}}}
+- **Product Name:** {{{productName}}}
+- **Video Review Link:** {{{videoReviewLink}}}
+- **Sales Page Link:** {{{salesPageLink}}}
+- **Affiliate Link:** {{{affiliateLink}}}
+- **Detailed Description/Content:** {{{description}}}
+- **Advanced Settings:**
+  - Facebook Pixel ID: {{{advancedSettings.facebookPixelId}}}
+  - Google Ads ID: {{{advancedSettings.googleAdsId}}}
+  - Custom HTML/CSS/JS: {{{advancedSettings.customHtml}}}
 
 **Your instructions:**
 
 1.  **Analyze the Request:** Carefully read all sections of the user's request: Page Type, Product Info, Content, and Advanced Settings.
 2.  **Page Type:** Use the specified page type (e.g., 'Página de Review', 'Presell Robusta') as a primary guide for the overall structure and which pop-ups to activate. For a 'Review' page, focus on content. For a 'Robusta' page, activate more interactive elements like age verification or choice pop-ups if they make sense.
-3.  **Product Info:** Use the product name, sales page, and affiliate link to inform the content and links.
+3.  **Product Info:** Use the product name, sales page, and affiliate link to inform the content and links. If an affiliate link is provided in the input, use it.
 4.  **Content:** This is the core. Use the provided description to generate titles, texts for pop-ups, and the main page content. If images are mentioned, find relevant, royalty-free placeholder URLs from services like Unsplash or Pexels.
 5.  **Advanced Settings:**
     *   If a Facebook Pixel ID or Google Ads ID is provided, populate the \`tracking\` object accordingly.
@@ -122,13 +143,11 @@ The user's request is a "super prompt" containing all the information needed. Yo
 export const generatePageFlow = ai.defineFlow(
   {
     name: 'generatePageFlow',
-    inputSchema: z.string(),
+    inputSchema: StructuredPromptSchema,
     outputSchema: PageConfigSchema,
   },
-  async (description) => {
-    const { output } = await generatePagePrompt(description);
+  async (structuredPrompt) => {
+    const { output } = await generatePagePrompt(structuredPrompt);
     return output!;
   }
 );
-
-    
