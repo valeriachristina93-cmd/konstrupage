@@ -15,10 +15,13 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload } from 'lucide-react';
+import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload, FileSignature, Newspaper, Star } from 'lucide-react';
 import { generatePage, extractContentFromUrl } from './actions';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { cn } from '@/lib/utils';
+
+type PageType = 'Página presell robusta' | 'Página review' | 'Artigo estilo blog';
 
 export default function GeneratorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig | null>(null);
@@ -34,6 +37,7 @@ export default function GeneratorPage() {
     const [affiliateLink, setAffiliateLink] = useState('');
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
+    const [pageType, setPageType] = useState<PageType>('Página presell robusta');
 
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
@@ -142,6 +146,8 @@ export default function GeneratorPage() {
         setIsGeneratingWithAI(true);
 
         const fullDescription = `
+            Tipo de página a ser criada: ${pageType}
+
             Nome do Produto: ${productName}
             Link do Vídeo de Review: ${videoReviewLink}
             Link da Página de Vendas: ${salesPageLink}
@@ -329,11 +335,46 @@ export default function GeneratorPage() {
                     {pageConfig ? (
                       <PreviewPanel pageConfig={pageConfig} viewMode={viewMode} setViewMode={setViewMode} />
                     ) : (
-                        <div className="flex-1 flex flex-col items-center justify-center bg-muted/40 h-full rounded-lg border">
+                        <div className="flex-1 flex flex-col items-center justify-center bg-muted/40 h-full rounded-lg border p-8 text-center">
+                            <h3 className="text-xl font-semibold mb-6">Qual tipo de página você quer criar?</h3>
+                            
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8 w-full max-w-2xl">
+                                <Card 
+                                    className={cn("text-left cursor-pointer hover:border-primary transition-colors", pageType === 'Página presell robusta' && 'border-primary ring-2 ring-primary')}
+                                    onClick={() => setPageType('Página presell robusta')}
+                                >
+                                    <CardContent className="p-4">
+                                        <FileSignature className="w-6 h-6 mb-2 text-primary" />
+                                        <h4 className="font-semibold">Presell Robusta</h4>
+                                        <p className="text-xs text-muted-foreground">Página completa com vários pop-ups e opções de interação.</p>
+                                    </CardContent>
+                                </Card>
+                                <Card 
+                                    className={cn("text-left cursor-pointer hover:border-primary transition-colors", pageType === 'Página review' && 'border-primary ring-2 ring-primary')}
+                                    onClick={() => setPageType('Página review')}
+                                >
+                                    <CardContent className="p-4">
+                                        <Star className="w-6 h-6 mb-2 text-primary" />
+                                        <h4 className="font-semibold">Página de Review</h4>
+                                        <p className="text-xs text-muted-foreground">Focada em uma análise detalhada do produto com provas sociais.</p>
+                                    </CardContent>
+                                </Card>
+                                <Card 
+                                    className={cn("text-left cursor-pointer hover:border-primary transition-colors", pageType === 'Artigo estilo blog' && 'border-primary ring-2 ring-primary')}
+                                    onClick={() => setPageType('Artigo estilo blog')}
+                                >
+                                    <CardContent className="p-4">
+                                        <Newspaper className="w-6 h-6 mb-2 text-primary" />
+                                        <h4 className="font-semibold">Artigo de Blog</h4>
+                                        <p className="text-xs text-muted-foreground">Conteúdo informativo que leva a uma oferta no final.</p>
+                                    </CardContent>
+                                </Card>
+                            </div>
+
                            <div className="text-center text-muted-foreground">
                                 <Bot size={48} className="mx-auto mb-4" />
                                 <h3 className="text-xl font-semibold">Aguardando sua ideia...</h3>
-                                <p>Descreva a página que você quer criar para ver a mágica acontecer.</p>
+                                <p>Preencha os campos ao lado para a IA começar a criar.</p>
                            </div>
                         </div>
                     )}
@@ -349,3 +390,5 @@ export default function GeneratorPage() {
         </div>
     );
 }
+
+    
