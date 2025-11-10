@@ -8,7 +8,7 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { z } from 'zod';
 
 const StructuredPromptSchema = z.object({
   pageType: z.string().describe("The type of page to create (e.g., 'Página presell robusta', 'Página review')."),
@@ -89,33 +89,44 @@ const generatePagePrompt = ai.definePrompt(
       name: 'generatePagePrompt',
       input: { schema: StructuredPromptSchema },
       output: { schema: PageConfigSchema, format: 'json' },
-      prompt: `You are an expert in creating high-converting presell pages. Based on the user's structured request, generate a complete page configuration in JSON format.
+      prompt: `
+        You are a Senior Digital Solutions Architect, UX/UI Specialist, and High-Performance Copywriter. Your task is to generate a JSON configuration for a premium, high-conversion review page based on the structured Product Requirements Document (PRD) provided below. Your output MUST be a valid JSON object that conforms to the schema.
 
-The user's request is a "super prompt" containing all the information needed. Your task is to interpret this structured input and populate all the fields in the provided JSON schema to create a cohesive and effective presell page.
+        ## 1. Context and Input Data
 
-**User's Structured Request:**
-- **Page Type:** {{{pageType}}}
-- **Product Name:** {{{productName}}}
-- **Video Review Link:** {{{videoReviewLink}}}
-- **Sales Page Link:** {{{salesPageLink}}}
-- **Affiliate Link:** {{{affiliateLink}}}
-- **Detailed Description/Content:** {{{description}}}
-- **Advanced Settings:**
-  - Facebook Pixel ID: {{{advancedSettings.facebookPixelId}}}
-  - Google Ads ID: {{{advancedSettings.googleAdsId}}}
-  - Custom HTML/CSS/JS: {{{advancedSettings.customHtml}}}
+        | Field                       | Value                                 |
+        | :-------------------------- | :------------------------------------ |
+        | **Page Type**               | {{{pageType}}}                       |
+        | **Product Name**            | {{{productName}}}                    |
+        | **Sales Page (Source)**     | {{{salesPageLink}}}                  |
+        | **Affiliate Link (CTA)**    | {{{affiliateLink}}}                  |
+        | **Video Review (Optional)** | {{{videoReviewLink}}}                |
+        | **Content/Description**     | {{{description}}}                    |
+        | **Facebook Pixel ID**       | {{{advancedSettings.facebookPixelId}}} |
+        | **Google Ads ID**           | {{{advancedSettings.googleAdsId}}}     |
+        | **Custom HTML/JS/CSS**      | {{{advancedSettings.customHtml}}}      |
 
-**Your instructions:**
+        ## 2. Your Directives
 
-1.  **Analyze the Request:** Carefully read all sections of the user's request: Page Type, Product Info, Content, and Advanced Settings.
-2.  **Page Type:** Use the specified page type (e.g., 'Página de Review', 'Presell Robusta') as a primary guide for the overall structure and which pop-ups to activate. For a 'Review' page, focus on content. For a 'Robusta' page, activate more interactive elements like age verification or choice pop-ups if they make sense.
-3.  **Product Info:** Use the product name, sales page, and affiliate link to inform the content and links. If an affiliate link is provided in the input, use it.
-4.  **Content:** This is the core. Use the provided description to generate titles, texts for pop-ups, and the main page content. If images are mentioned, find relevant, royalty-free placeholder URLs from services like Unsplash or Pexels.
-5.  **Advanced Settings:**
-    *   If a Facebook Pixel ID or Google Ads ID is provided, populate the \`tracking\` object accordingly.
-    *   If custom HTML/CSS/JS is provided, place it in the \`customization.customHtml\` field.
-6.  **Make Logical Choices:** For any unspecified details (like colors, exact popup text if not detailed), make logical choices that fit the product and page type. For example, a "detox" product might use a green and white color scheme. An "18+" product should have the age verification pop-up activated.
-7.  **Output:** Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
+        1.  **Analyze & Synthesize**: Read all the input data. The 'Page Type' and 'Content/Description' are your primary guides.
+        2.  **Generate a Cohesive Page Configuration**: Populate ALL fields in the output JSON schema. Make logical, professional choices for any unspecified details.
+        3.  **Content Generation**: Use the 'Content/Description' to create compelling text for titles, descriptions, and pop-ups. If the description is brief, expand upon it to create a full page.
+        4.  **Activate Pop-ups Strategically**:
+            *   For a 'Página review' or 'Artigo estilo blog', focus on content. Consider activating a 'discount' or 'exit' pop-up.
+            *   For a 'Página presell robusta', activate more interactive pop-ups like 'ageVerification', 'choice', or 'captcha' if they fit the product context.
+            *   If the product seems targeted at an adult audience, activate 'ageVerification'.
+        5.  **Design Choices**:
+            *   **Images**: Find high-quality, royalty-free placeholder image URLs from services like Unsplash or Pexels that match the product's theme. Generate different URLs for desktop and mobile if it improves the design.
+            *   **Colors**: Choose a modern, professional color palette that fits the product. A "detox" product might use green/white; a tech product might use blue/dark gray. Define a primary color for CTAs, a text color, and a background color for pop-ups.
+        6.  **Tracking & SEO**:
+            *   Populate the \`tracking\` object with the provided Facebook and Google IDs.
+            *   Populate the \`customization.customHtml\` field with any provided custom code.
+            *   Generate a compelling SEO title and description based on the product name and content.
+
+        ## 7. Final Output
+
+        Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.
+      `,
       config: {
         safetySettings: [
             {

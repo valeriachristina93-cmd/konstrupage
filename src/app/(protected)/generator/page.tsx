@@ -155,26 +155,23 @@ export default function GeneratorPage() {
     
         setIsGeneratingWithAI(true);
 
-        const fullDescription = `
-            Tipo de página a ser criada: ${pageType}
-
-            Nome do Produto: ${productName}
-            Link do Vídeo de Review: ${videoReviewLink}
-            Link da Página de Vendas: ${salesPageLink}
-            Link de Afiliado Principal: ${affiliateLink}
-
-            Descrição Detalhada/Conteúdo Extraído:
-            ${description}
-
-            Configurações Avançadas:
-            - ID do Pixel do Facebook: ${facebookPixelId}
-            - ID da Tag do Google: ${googleAdsId}
-            - HTML/CSS/JS Personalizado a ser injetado: ${customHtml}
-        `;
+        const structuredPrompt = {
+            pageType,
+            productName,
+            videoReviewLink,
+            salesPageLink,
+            affiliateLink,
+            description,
+            advancedSettings: {
+                facebookPixelId,
+                googleAdsId,
+                customHtml
+            }
+        };
 
 
         try {
-          const result = await generatePage(fullDescription);
+          const result = await generatePage(structuredPrompt);
           // Ensure postPages is an array even if the AI doesn't return it
           if (!result.postPages) {
             result.postPages = [];
@@ -502,7 +499,3 @@ export default function GeneratorPage() {
         </div>
     );
 }
-
-    
-
-    

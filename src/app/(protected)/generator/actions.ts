@@ -9,9 +9,24 @@ const ExtractContentInputSchema = z.object({
   url: z.string().url(),
 });
 
-export async function generatePage(description: string) {
+const StructuredPromptSchema = z.object({
+  pageType: z.string(),
+  productName: z.string().optional(),
+  videoReviewLink: z.string().optional(),
+  salesPageLink: z.string().optional(),
+  affiliateLink: z.string().optional(),
+  description: z.string(),
+  advancedSettings: z.object({
+    facebookPixelId: z.string().optional(),
+    googleAdsId: z.string().optional(),
+    customHtml: z.string().optional(),
+  }),
+});
+
+
+export async function generatePage(structuredPrompt: z.infer<typeof StructuredPromptSchema>) {
     try {
-        const result = await generatePageFlow(description);
+        const result = await generatePageFlow(structuredPrompt);
         return result;
     } catch (error) {
         console.error("Error in generatePage server action:", error);
