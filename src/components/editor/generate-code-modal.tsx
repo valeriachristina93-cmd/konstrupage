@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -21,8 +22,7 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
     const { toast } = useToast();
 
     const presellHtml = generatePresellHtml(pageConfig);
-    const activePostPages = pageConfig.postPages.filter(p => p.active);
-
+    
     const copyToClipboard = () => {
         navigator.clipboard.writeText(presellHtml).then(() => {
             setHasCopied(true);
@@ -34,54 +34,16 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
         });
     };
 
-    const downloadFile = (content: string, filename: string) => {
-        const blob = new Blob([content], { type: 'text/html' });
+    const downloadHtml = () => {
+        const blob = new Blob([presellHtml], { type: 'text/html' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = filename;
+        link.download = 'presell-page.html';
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-    };
-
-    const downloadHtml = () => {
-        downloadFile(presellHtml, 'presell-page.html');
         toast({ title: "Download iniciado", description: "O arquivo presell-page.html está sendo baixado." });
     };
-
-    const downloadZip = async () => {
-        const zip = new JSZip();
-        let pageCount = 1;
-        zip.file("presell-page.html", presellHtml);
-
-        if (pageConfig.postPages && pageConfig.postPages.length > 0) {
-            pageConfig.postPages.forEach((post, index) => {
-                const postHtml = generatePostPageHtml(pageConfig, post);
-                zip.file(`post-page-${index + 1}.html`, postHtml);
-                pageCount++;
-            });
-        }
-        
-        if (pageConfig.footer.active && pageConfig.footer.autoGenerate) {
-            const privacyPolicyHtml = generatePrivacyPolicyHtml(pageConfig);
-            const termsOfUseHtml = generateTermsOfUseHtml(pageConfig);
-            zip.file("privacy-policy.html", privacyPolicyHtml);
-            zip.file("terms-of-use.html", termsOfUseHtml);
-            pageCount += 2;
-        }
-
-        const content = await zip.generateAsync({ type: "blob" });
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(content);
-        link.download = 'presell-project.zip';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        toast({ title: "Download iniciado", description: `O arquivo .zip com ${pageCount} páginas está sendo baixado.` });
-    };
-
-    const shouldGenerateZip = (pageConfig.postPages && pageConfig.postPages.length > 0) || (pageConfig.footer.active && pageConfig.footer.autoGenerate);
-
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -100,29 +62,15 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
                         {hasCopied ? 'Copiado!' : 'Copiar Código'}
                     </Button>
                     
-                    {shouldGenerateZip ? (
-                         <Button 
-                            onClick={downloadZip} 
-                            className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
-                        >
-                            <FileArchive className="w-5 h-5 mr-2" />
-                            Baixar .zip
-                        </Button>
-                    ) : (
-                         <Button 
-                            onClick={downloadHtml} 
-                            className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
-                        >
-                            <Download className="w-5 h-5 mr-2" />
-                            Baixar HTML
-                        </Button>
-                    )}
+                    <Button 
+                        onClick={downloadHtml} 
+                        className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
+                    >
+                        <Download className="w-5 h-5 mr-2" />
+                        Baixar HTML
+                    </Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
     );
 }
-
-    
-
-    

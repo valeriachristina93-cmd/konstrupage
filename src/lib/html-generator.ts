@@ -5,33 +5,29 @@ import { fontOptions } from './constants';
 
 export const generatePrivacyPolicyHtml = (config: PageConfig): string => {
     return `
-    <!DOCTYPE html>
-    <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Política de Privacidade</title>
-    <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0;padding:0;background-color:#f4f4f4;color:#333}.container{max-width:800px;margin:2rem auto;padding:2rem;background-color:#fff;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1)}h1{color:#2c3e50}p{margin-bottom:1rem}</style></head>
-    <body><div class="container"><h1>Política de Privacidade</h1>
-    <p>A sua privacidade é importante para nós. É política do nosso site respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar.</p>
-    <p>Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado.</p>
-    <p>Apenas retemos as informações coletadas pelo tempo necessário para fornecer o serviço solicitado. Quando armazenamos dados, protegemos dentro de meios comercialmente aceitáveis ​​para evitar perdas e roubos, bem como acesso, divulgação, cópia, uso ou modificação não autorizados.</p>
-    <p>Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei.</p>
-    <p>O nosso site pode ter links para sites externos que não são operados por nós. Esteja ciente de que não temos controle sobre o conteúdo e práticas desses sites e não podemos aceitar responsabilidade por suas respectivas políticas de privacidade.</p>
-    <p>Você é livre para recusar a nossa solicitação de informações pessoais, entendendo que talvez não possamos fornecer alguns dos serviços desejados.</p>
-    <p>O uso continuado de nosso site será considerado como aceitação de nossas práticas em torno de privacidade e informações pessoais. Se você tiver alguma dúvida sobre como lidamos com dados do usuário e informações pessoais, entre em contato conosco.</p>
-    </div></body></html>`;
+    <div class="legal-modal-content">
+        <h1>Política de Privacidade</h1>
+        <p>A sua privacidade é importante para nós. É política do nosso site respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar.</p>
+        <p>Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado.</p>
+        <p>Apenas retemos as informações coletadas pelo tempo necessário para fornecer o serviço solicitado. Quando armazenamos dados, protegemos dentro de meios comercialmente aceitáveis ​​para evitar perdas e roubos, bem como acesso, divulgação, cópia, uso ou modificação não autorizados.</p>
+        <p>Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei.</p>
+        <p>O nosso site pode ter links para sites externos que não são operados por nós. Esteja ciente de que não temos controle sobre o conteúdo e práticas desses sites e não podemos aceitar responsabilidade por suas respectivas políticas de privacidade.</p>
+        <p>Você é livre para recusar a nossa solicitação de informações pessoais, entendendo que talvez não possamos fornecer alguns dos serviços desejados.</p>
+        <p>O uso continuado de nosso site será considerado como aceitação de nossas práticas em torno de privacidade e informações pessoais. Se você tiver alguma dúvida sobre como lidamos com dados do usuário e informações pessoais, entre em contato conosco.</p>
+    </div>`;
 };
 
 export const generateTermsOfUseHtml = (config: PageConfig): string => {
     return `
-    <!DOCTYPE html>
-    <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Termos de Uso</title>
-    <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0;padding:0;background-color:#f4f4f4;color:#333}.container{max-width:800px;margin:2rem auto;padding:2rem;background-color:#fff;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1)}h1,h2{color:#2c3e50}p{margin-bottom:1rem}</style></head>
-    <body><div class="container"><h1>Termos de Uso</h1>
-    <h2>1. Termos</h2><p>Ao acessar ao site, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis ​​e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis.</p>
-    <h2>2. Uso de Licença</h2><p>É concedida permissão para baixar temporariamente uma cópia dos materiais no site, apenas para visualização transitória pessoal e não comercial.</p>
-    <h2>3. Isenção de responsabilidade</h2><p>Os materiais no site são fornecidos 'como estão'. O site não oferece garantias, expressas ou implícitas, e, por este meio, isenta e nega todas as outras garantias.</p>
-    <h2>4. Limitações</h2><p>Em nenhum caso o site ou seus fornecedores serão responsáveis ​​por quaisquer danos (incluindo, sem limitação, danos por perda de dados или lucro ou devido a interrupção dos negócios) decorrentes do uso ou da incapacidade de usar os materiais.</p>
-    <h2>5. Precisão dos materiais</h2><p>Os materiais exibidos no site podem incluir erros técnicos, tipográficos ou fotográficos. O site não garante que qualquer material em seu site seja preciso, completo ou atual.</p>
-    <h2>6. Links</h2><p>O site não analisou todos os sites vinculados e não é responsável pelo conteúdo de nenhum site vinculado. A inclusão de qualquer link não implica endosso pelo site.</p>
-    </div></body></html>`;
+    <div class="legal-modal-content">
+        <h1>Termos de Uso</h1>
+        <h2>1. Termos</h2><p>Ao acessar ao site, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis ​​e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis.</p>
+        <h2>2. Uso de Licença</h2><p>É concedida permissão para baixar temporariamente uma cópia dos materiais no site, apenas para visualização transitória pessoal e não comercial.</p>
+        <h2>3. Isenção de responsabilidade</h2><p>Os materiais no site são fornecidos 'como estão'. O site não oferece garantias, expressas ou implícitas, e, por este meio, isenta e nega todas as outras garantias.</p>
+        <h2>4. Limitações</h2><p>Em nenhum caso o site ou seus fornecedores serão responsáveis ​​por quaisquer danos (incluindo, sem limitação, danos por perda de dados ou lucro ou devido a interrupção dos negócios) decorrentes do uso ou da incapacidade de usar os materiais.</p>
+        <h2>5. Precisão dos materiais</h2><p>Os materiais exibidos no site podem incluir erros técnicos, tipográficos ou fotográficos. O site não garante que qualquer material em seu site seja preciso, completo ou atual.</p>
+        <h2>6. Links</h2><p>O site não analisou todos os sites vinculados e não é responsável pelo conteúdo de nenhum site vinculado. A inclusão de qualquer link não implica endosso pelo site.</p>
+    </div>`;
 };
 
 export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
@@ -235,11 +231,11 @@ export const generatePresellHtml = (config: PageConfig) => {
     const popupStandardGap = `gap: ${customization.popup.gap}px;`;
     
     const cookiePopup = popups.cookies.active ? `
-        <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()}">
+        <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()} background-color: ${customization.popup.backgroundColor};">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                <h3>Políticas de Cookies</h3>
-                <p>${popups.cookies.message}</p>
+                <h3 style="color: ${customization.typography.titleColor};">Políticas de Cookies</h3>
+                <p style="color: ${customization.typography.textColor};">${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
                     <button style="${getButtonStyle(customization.button, true)}" onclick="proceed('cookie-popup')">${popups.cookies.buttonText}</button>
                 </div>
@@ -531,12 +527,37 @@ export const generatePresellHtml = (config: PageConfig) => {
         </div>
     ` : '';
 
+    const footerLinks = footer.autoGenerate 
+        ? `<a href="#" onclick="openLegalModal('privacy-policy', event)">Política de Privacidade</a>
+           <span>|</span>
+           <a href="#" onclick="openLegalModal('terms-of-use', event)">Termos de Uso</a>`
+        : `<a href="${footer.privacyLink}" style="color: ${footer.textColor};" target="_blank">Política de Privacidade</a>
+           <span>|</span>
+           <a href="${footer.termsLink}" style="color: ${footer.textColor};" target="_blank">Termos de Uso</a>`;
+
     const footerSection = footer.active ? `
         <footer style="background-color: ${footer.backgroundColor}; color: ${footer.textColor};">
-            <a href="${footer.autoGenerate ? './privacy-policy.html' : footer.privacyLink}" style="color: ${footer.textColor};" target="_blank">Política de Privacidade</a>
-            <span>|</span>
-            <a href="${footer.autoGenerate ? './terms-of-use.html' : footer.termsLink}" style="color: ${footer.textColor};" target="_blank">Termos de Uso</a>
+            ${footerLinks}
         </footer>
+    ` : '';
+    
+    const legalModals = footer.active && footer.autoGenerate ? `
+        <div id="privacy-policy-modal" class="legal-modal">
+            <div class="legal-modal-container">
+                <button class="legal-modal-close" onclick="closeLegalModal('privacy-policy', event)">&times;</button>
+                <div class="legal-modal-body">
+                    ${generatePrivacyPolicyHtml(config)}
+                </div>
+            </div>
+        </div>
+        <div id="terms-of-use-modal" class="legal-modal">
+            <div class="legal-modal-container">
+                 <button class="legal-modal-close" onclick="closeLegalModal('terms-of-use', event)">&times;</button>
+                <div class="legal-modal-body">
+                    ${generateTermsOfUseHtml(config)}
+                </div>
+            </div>
+        </div>
     ` : '';
 
     const disclaimerSection = disclaimer.active ? `
@@ -680,7 +701,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             .disclaimer { padding: 8px; text-align: center; font-size: 12px; position: fixed; bottom: ${footer.active ? '49px' : '0'}; width: 100%; z-index: 10;}
             footer { padding: 16px; text-align: center; font-size: 14px; position: fixed; bottom: 0; width: 100%; z-index: 10;}
-            footer a { color: inherit; text-decoration: none; margin: 0 8px; }
+            footer a { color: inherit; text-decoration: none; margin: 0 8px; cursor: pointer; }
             
             .popup-wrapper {
                 position: fixed;
@@ -720,12 +741,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
             
-            #cookie-popup {
-                background-color: ${customization.popup.backgroundColor};
-            }
-            #cookie-popup h3 { color: ${customization.typography.titleColor}; }
-            #cookie-popup p { color: ${customization.typography.textColor}; }
-
             .popup-inner-content {
                 display: flex;
                 flex-direction: column;
@@ -918,6 +933,12 @@ export const generatePresellHtml = (config: PageConfig) => {
             .image-only-popup { padding: 0 !important; background-color: transparent !important; border: none !important; }
             .image-only-popup .exit-image-link { display: block; width: 100%; height: 100%; }
             .image-only-popup img { border-radius: inherit; }
+
+            .legal-modal { position: fixed; inset: 0; background-color: rgba(0,0,0,0.6); z-index: 101; display: none; align-items: center; justify-content: center; }
+            .legal-modal-container { background-color: #fff; color: #333; max-width: 800px; width: 90%; max-height: 80vh; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; display: flex; flex-direction: column; }
+            .legal-modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer; color: #aaa; }
+            .legal-modal-body { overflow-y: auto; padding: 30px; }
+            .legal-modal-content h1, .legal-modal-content h2 { color: #2c3e50; }
             
             @keyframes spin { to { transform: rotate(360deg); } }
             @keyframes checkmark { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
@@ -969,6 +990,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${cookiePopup}
                 ${exitPopup}
             </div>
+            ${legalModals}
         </div>
         ${disclaimerSection}
         ${footerSection}
@@ -1032,6 +1054,30 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (event) event.stopPropagation();
                 redirect(AFFILIATE_LINK);
             }
+
+            function openLegalModal(modalId, event) {
+                event.preventDefault();
+                const modal = document.getElementById(modalId + '-modal');
+                if(modal) modal.style.display = 'flex';
+            }
+
+            function closeLegalModal(modalId, event) {
+                event.stopPropagation();
+                const modal = document.getElementById(modalId + '-modal');
+                if(modal) modal.style.display = 'none';
+            }
+
+            // Close legal modal if clicking outside the content
+            window.addEventListener('click', function(event) {
+                const privacyModal = document.getElementById('privacy-policy-modal');
+                const termsModal = document.getElementById('terms-of-use-modal');
+                if (event.target == privacyModal) {
+                    privacyModal.style.display = "none";
+                }
+                if (event.target == termsModal) {
+                    termsModal.style.display = "none";
+                }
+            });
 
             function redirect(url, forceNewTab = false) {
                 if (!url || url === '#') return;
@@ -1245,27 +1291,3 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-    
-
-
-
-
-    
-
-    
-
-    
