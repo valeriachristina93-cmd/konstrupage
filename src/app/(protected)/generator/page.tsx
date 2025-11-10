@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload, FileSignature, Newspaper, Star, Power } from 'lucide-react';
+import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload, FileSignature, Newspaper, Star, Power, Settings } from 'lucide-react';
 import { generatePage, extractContentFromUrl, generatePageFromApi } from './actions';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
@@ -39,6 +39,11 @@ export default function GeneratorPage() {
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
     const [pageType, setPageType] = useState<PageType>('Página presell robusta');
+
+    // States for advanced settings
+    const [facebookPixelId, setFacebookPixelId] = useState('');
+    const [googleAdsId, setGoogleAdsId] = useState('');
+    const [customHtml, setCustomHtml] = useState('');
 
     // States for API generation
     const [apiUrl, setApiUrl] = useState('');
@@ -160,6 +165,11 @@ export default function GeneratorPage() {
 
             Descrição Detalhada/Conteúdo Extraído:
             ${description}
+
+            Configurações Avançadas:
+            - ID do Pixel do Facebook: ${facebookPixelId}
+            - ID da Tag do Google: ${googleAdsId}
+            - HTML/CSS/JS Personalizado a ser injetado: ${customHtml}
         `;
 
 
@@ -344,6 +354,34 @@ export default function GeneratorPage() {
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>
+                                    <AccordionItem value="advanced-settings" className="border-b">
+                                        <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <Settings className="w-4 h-4 text-primary/80" />
+                                                <span>Configuração Avançada</span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
+                                                <Input id="facebookPixelId" placeholder="Cole apenas o número de ID" value={facebookPixelId} onChange={(e) => setFacebookPixelId(e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
+                                                <Input id="googleAdsId" placeholder="Ex: AW-123456789" value={googleAdsId} onChange={(e) => setGoogleAdsId(e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2 flex-1 flex flex-col">
+                                                <Label htmlFor="customHtml">HTML/CSS/JS Personalizado</Label>
+                                                <Textarea
+                                                    id="customHtml"
+                                                    placeholder="<style>...</style> ou <script>...</script>"
+                                                    value={customHtml}
+                                                    onChange={(e) => setCustomHtml(e.target.value)}
+                                                    className="min-h-[100px] flex-1 font-mono"
+                                                />
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
                                     <AccordionItem value="api-source" className="border-b-0">
                                         <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                             <div className="flex items-center gap-2">
@@ -464,5 +502,7 @@ export default function GeneratorPage() {
         </div>
     );
 }
+
+    
 
     
