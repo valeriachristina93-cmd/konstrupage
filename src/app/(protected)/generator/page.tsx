@@ -20,6 +20,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import Link from 'next/link';
 
 type PageType = 'Página presell robusta' | 'Página review' | 'Artigo estilo blog';
 
