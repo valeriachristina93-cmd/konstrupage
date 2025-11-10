@@ -1,9 +1,10 @@
 
 "use server";
 
-import { generatePageFlow } from "@/ai/flows/generate-page-flow";
-import { extractContentFlow } from "@/ai/flows/extract-content-flow";
 import { z } from 'zod';
+import { generatePageFlow } from '@/ai/flows/generate-page-flow';
+import { extractContentFlow } from "@/ai/flows/extract-content-flow";
+
 
 const ExtractContentInputSchema = z.object({
   url: z.string().url(),
@@ -26,6 +27,8 @@ const StructuredPromptSchema = z.object({
 
 export async function generatePage(structuredPrompt: z.infer<typeof StructuredPromptSchema>) {
     try {
+        // This function now acts as a "super prompt" generator.
+        // It takes structured data and merges it with a template.
         const result = await generatePageFlow(structuredPrompt);
         return result;
     } catch (error) {
@@ -69,8 +72,8 @@ export async function generatePageFromApi(apiUrl: string, apiKey?: string) {
         }
 
         const data = await response.json();
-        // Aqui, assumimos que a API retorna um objeto compatível com PageConfig.
-        // Validações adicionais com Zod podem ser adicionadas aqui se necessário.
+        // Here, we assume the API returns an object compatible with PageConfig.
+        // Additional Zod validations could be added here if needed.
         return data;
 
     } catch (error: any) {
