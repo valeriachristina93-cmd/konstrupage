@@ -25,8 +25,15 @@ export default function GeneratorPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [isGeneratingWithAI, setIsGeneratingWithAI] = useState(false);
     const [isExtracting, setIsExtracting] = useState(false);
-    const [description, setDescription] = useState('');
+    
+    // States for the generator form
+    const [productName, setProductName] = useState('');
+    const [videoReviewLink, setVideoReviewLink] = useState('');
+    const [salesPageLink, setSalesPageLink] = useState('');
+    const [affiliateLink, setAffiliateLink] = useState('');
     const [url, setUrl] = useState('');
+    const [description, setDescription] = useState('');
+
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
 
@@ -121,21 +128,36 @@ export default function GeneratorPage() {
     };
     
     const handleGenerateWithAI = async () => {
-        if (!description.trim()) {
+        if (!description.trim() && !productName.trim()) {
           toast({
             variant: "destructive",
             title: "Descrição necessária",
-            description: "Por favor, descreva a página que você deseja criar.",
+            description: "Por favor, descreva a página que você deseja criar ou preencha os campos.",
           });
           return;
         }
     
         setIsGeneratingWithAI(true);
+
+        const fullDescription = `
+            Nome do Produto: ${productName}
+            Link do Vídeo de Review: ${videoReviewLink}
+            Link da Página de Vendas: ${salesPageLink}
+            Link de Afiliado Principal: ${affiliateLink}
+
+            Descrição Detalhada/Conteúdo Extraído:
+            ${description}
+        `;
+
+
         try {
-          const result = await generatePage(description);
+          const result = await generatePage(fullDescription);
           // Ensure postPages is an array even if the AI doesn't return it
           if (!result.postPages) {
             result.postPages = [];
+          }
+          if(affiliateLink) {
+            result.affiliateLink = affiliateLink;
           }
           setPageConfig(result);
            toast({
@@ -196,7 +218,28 @@ export default function GeneratorPage() {
                             <h2 className="text-lg font-semibold mb-4">Gerar Página com IA</h2>
                             <Card className="shadow-lg flex-1 flex flex-col">
                                 <CardContent className="p-6 flex-1 flex flex-col">
-                                    <div className="space-y-6 flex-1 flex flex-col">
+                                    <div className="space-y-4 flex-1 flex flex-col">
+                                        
+                                        <div className="space-y-2">
+                                            <Label htmlFor="productName" className="text-base font-medium">Nome do Produto</Label>
+                                            <Input id="productName" placeholder="Ex: Slim Caps" value={productName} onChange={(e) => setProductName(e.target.value)} />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="videoReviewLink" className="text-base font-medium">Link do Vídeo de Review (Opcional)</Label>
+                                            <Input id="videoReviewLink" type="url" placeholder="https://youtube.com/watch?v=..." value={videoReviewLink} onChange={(e) => setVideoReviewLink(e.target.value)} />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="salesPageLink" className="text-base font-medium">Link da Página de Vendas (Opcional)</Label>
+                                            <Input id="salesPageLink" type="url" placeholder="https://pagina-de-vendas.com" value={salesPageLink} onChange={(e) => setSalesPageLink(e.target.value)} />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="affiliateLink" className="text-base font-medium">Link de Afiliado (Opcional)</Label>
+                                            <Input id="affiliateLink" type="url" placeholder="https://seu-link-de-afiliado.com" value={affiliateLink} onChange={(e) => setAffiliateLink(e.target.value)} />
+                                        </div>
+                                        
                                         <div className="space-y-2">
                                             <Label htmlFor="url" className="text-base font-medium">Extrair de URL (Opcional)</Label>
                                             <div className="flex gap-2">
@@ -221,7 +264,7 @@ export default function GeneratorPage() {
                                         </div>
                                         <div className="space-y-2 flex-1 flex flex-col">
                                             <Label htmlFor="description" className="text-base font-medium">
-                                            Descreva a página que você precisa
+                                            Descreva a página que você precisa (ou cole o conteúdo)
                                             </Label>
                                             <Textarea
                                                 id="description"
@@ -283,3 +326,5 @@ export default function GeneratorPage() {
         </div>
     );
 }
+
+    
