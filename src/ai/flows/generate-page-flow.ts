@@ -19,6 +19,7 @@ const StructuredPromptSchema = z.object({
   salesPageLink: z.string().optional().describe("The URL for the main sales page."),
   affiliateLink: z.string().optional().describe("The main affiliate link to be used."),
   description: z.string().describe("The detailed description or extracted content for the page."),
+  language: z.string().optional().describe("The language for the generated content."),
   advancedSettings: z.object({
     facebookPixelId: z.string().optional(),
     googleAdsId: z.string().optional(),
@@ -51,6 +52,7 @@ A IA deve utilizar as seguintes informações para extrair dados, inspiração d
 | Campo | Valor | Propósito |
 | :--- | :--- | :--- |
 | **Tipo de Página** | \`${input.pageType}\` | Define a estrutura e o tom do conteúdo. |
+| **Idioma do Conteúdo** | \`${input.language || 'Português (Brasil)'}\` | **CRÍTICO:** Todo o conteúdo textual gerado (títulos, parágrafos, botões) DEVE ser estritamente neste idioma. |
 | **Nome do Produto** | \`${input.productName || 'Não informado'}\` | Usado para pesquisa de conteúdo, SEO e títulos. |
 | **Link da Página de Vendas (Fonte)** | \`${input.salesPageLink || 'Não informado'}\` | Fonte primária para extração de conteúdo (texto, benefícios, imagens), análise de design e tom de voz. |
 | **Link de Afiliado (CTA Target)** | \`${input.affiliateLink || 'Não informado'}\` | URL de destino para **TODOS** os botões de Call-to-Action (CTA). |

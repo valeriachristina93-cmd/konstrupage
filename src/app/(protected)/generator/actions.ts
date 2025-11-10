@@ -17,6 +17,7 @@ const StructuredPromptSchema = z.object({
   salesPageLink: z.string().optional(),
   affiliateLink: z.string().optional(),
   description: z.string(),
+  language: z.string().optional(),
   advancedSettings: z.object({
     facebookPixelId: z.string().optional(),
     googleAdsId: z.string().optional(),

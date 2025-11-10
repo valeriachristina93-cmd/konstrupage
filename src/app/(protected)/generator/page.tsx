@@ -21,6 +21,8 @@ import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import Link from 'next/link';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+
 
 type PageType = 'Página presell robusta' | 'Página review' | 'Artigo estilo blog';
 
@@ -79,6 +81,7 @@ export default function GeneratorPage() {
     const [videoReviewLink, setVideoReviewLink] = useState('');
     const [salesPageLink, setSalesPageLink] = useState('');
     const [affiliateLink, setAffiliateLink] = useState('');
+    const [language, setLanguage] = useState('Português (Brasil)');
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
     const [pageType, setPageType] = useState<PageType>('Página review');
@@ -205,6 +208,7 @@ export default function GeneratorPage() {
             salesPageLink,
             affiliateLink,
             description,
+            language,
             advancedSettings: {
                 facebookPixelId,
                 googleAdsId,
@@ -353,6 +357,19 @@ export default function GeneratorPage() {
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="language">Idioma</Label>
+                                            <Select value={language} onValueChange={setLanguage}>
+                                                <SelectTrigger id="language">
+                                                    <SelectValue placeholder="Selecione o idioma" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="Português (Brasil)">Português (Brasil)</SelectItem>
+                                                    <SelectItem value="English">English</SelectItem>
+                                                    <SelectItem value="Español">Español</SelectItem>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="productName">Nome do Produto</Label>
                                             <Input id="productName" placeholder="Ex: Slim Caps" value={productName} onChange={(e) => setProductName(e.target.value)} />
