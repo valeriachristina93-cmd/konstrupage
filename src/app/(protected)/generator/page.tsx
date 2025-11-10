@@ -367,6 +367,11 @@ export default function GeneratorPage() {
                                                     <SelectItem value="Português (Brasil)">Português (Brasil)</SelectItem>
                                                     <SelectItem value="English">English</SelectItem>
                                                     <SelectItem value="Español">Español</SelectItem>
+                                                    <SelectItem value="Français">Français</SelectItem>
+                                                    <SelectItem value="Deutsch">Deutsch</SelectItem>
+                                                    <SelectItem value="Italiano">Italiano</SelectItem>
+                                                    <SelectItem value="日本語">日本語</SelectItem>
+                                                    <SelectItem value="中文">中文</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
@@ -578,3 +583,5 @@ export default function GeneratorPage() {
         </div>
     );
 }
+
+    
