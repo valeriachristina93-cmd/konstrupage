@@ -15,9 +15,10 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download } from 'lucide-react';
+import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload } from 'lucide-react';
 import { generatePage, extractContentFromUrl } from './actions';
 import Link from 'next/link';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 export default function GeneratorPage() {
     const [pageConfig, setPageConfig] = useState<PageConfig | null>(null);
@@ -36,6 +37,7 @@ export default function GeneratorPage() {
 
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
+    const [openAccordion, setOpenAccordion] = useState<string>('product-info');
 
     const handleConfigChange = useCallback((keys: (string | number)[], value: any) => {
         setPageConfig(prev => {
@@ -216,73 +218,94 @@ export default function GeneratorPage() {
                     ) : (
                         <div className="p-4 flex flex-col h-full">
                             <h2 className="text-lg font-semibold mb-4">Gerar Página com IA</h2>
-                            <Card className="shadow-lg flex-1 flex flex-col">
-                                <CardContent className="p-6 flex-1 flex flex-col">
-                                    <div className="space-y-4 flex-1 flex flex-col">
-                                        
-                                        <div className="space-y-2">
-                                            <Label htmlFor="productName" className="font-medium">Nome do Produto</Label>
-                                            <Input id="productName" placeholder="Ex: Slim Caps" value={productName} onChange={(e) => setProductName(e.target.value)} />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor="videoReviewLink" className="font-medium">Link do Vídeo de Review (Opcional)</Label>
-                                            <Input id="videoReviewLink" type="url" placeholder="https://youtube.com/watch?v=..." value={videoReviewLink} onChange={(e) => setVideoReviewLink(e.target.value)} />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor="salesPageLink" className="font-medium">Link da Página de Vendas (Opcional)</Label>
-                                            <Input id="salesPageLink" type="url" placeholder="https://pagina-de-vendas.com" value={salesPageLink} onChange={(e) => setSalesPageLink(e.target.value)} />
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor="affiliateLink" className="font-medium">Link de Afiliado (Opcional)</Label>
-                                            <Input id="affiliateLink" type="url" placeholder="https://seu-link-de-afiliado.com" value={affiliateLink} onChange={(e) => setAffiliateLink(e.target.value)} />
-                                        </div>
-                                        
-                                        <div className="space-y-2">
-                                            <Label htmlFor="url" className="font-medium">Extrair de URL (Opcional)</Label>
-                                            <div className="flex gap-2">
-                                                <Input 
-                                                    id="url"
-                                                    type="url"
-                                                    placeholder="Cole a URL de um artigo ou página de produto"
-                                                    value={url}
-                                                    onChange={(e) => setUrl(e.target.value)}
-                                                    className="flex-1"
-                                                    disabled={isExtracting}
-                                                />
-                                                <Button
-                                                    variant="secondary"
-                                                    onClick={handleExtract}
-                                                    disabled={isExtracting}
-                                                    aria-label="Extrair Conteúdo da URL"
-                                                >
-                                                    {isExtracting ? <Loader2 className="h-5 w-5 animate-spin"/> : <Download className="h-5 w-5" />}
-                                                </Button>
+                            <div className="flex-1 flex flex-col">
+                                <Accordion 
+                                    type="single" 
+                                    collapsible 
+                                    className="w-full space-y-2"
+                                    value={openAccordion}
+                                    onValueChange={setOpenAccordion}
+                                >
+                                    <AccordionItem value="product-info" className="border-b">
+                                        <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <Info className="w-4 h-4 text-primary/80" />
+                                                <span>Informações do Produto</span>
                                             </div>
-                                        </div>
-                                        <div className="space-y-2 flex-1 flex flex-col">
-                                            <Label htmlFor="description" className="font-medium">
-                                            Descreva a página que você precisa (ou cole o conteúdo)
-                                            </Label>
-                                            <Textarea
-                                                id="description"
-                                                placeholder="Ex: Uma página de presell para um produto de emagrecimento chamado 'Slim Caps'. Use uma imagem de uma pessoa feliz e saudável. O pop-up deve ser de verificação de idade."
-                                                value={description}
-                                                onChange={(e) => setDescription(e.target.value)}
-                                                className="min-h-[120px] flex-1"
-                                            />
-                                            <p className="text-sm text-muted-foreground pt-1">
-                                                Seja o mais descritivo possível para obter o melhor resultado. Você pode colar o conteúdo ou extrair de uma URL.
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <Button
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="productName">Nome do Produto</Label>
+                                                <Input id="productName" placeholder="Ex: Slim Caps" value={productName} onChange={(e) => setProductName(e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="videoReviewLink">Link do Vídeo de Review (Opcional)</Label>
+                                                <Input id="videoReviewLink" type="url" placeholder="https://youtube.com/watch?v=..." value={videoReviewLink} onChange={(e) => setVideoReviewLink(e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="salesPageLink">Link da Página de Vendas (Opcional)</Label>
+                                                <Input id="salesPageLink" type="url" placeholder="https://pagina-de-vendas.com" value={salesPageLink} onChange={(e) => setSalesPageLink(e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="affiliateLink">Link de Afiliado (Opcional)</Label>
+                                                <Input id="affiliateLink" type="url" placeholder="https://seu-link-de-afiliado.com" value={affiliateLink} onChange={(e) => setAffiliateLink(e.target.value)} />
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                     <AccordionItem value="content-source" className="border-b-0">
+                                        <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <FileText className="w-4 h-4 text-primary/80" />
+                                                <span>Fonte de Conteúdo</span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="url">Extrair de URL (Opcional)</Label>
+                                                <div className="flex gap-2">
+                                                    <Input 
+                                                        id="url"
+                                                        type="url"
+                                                        placeholder="Cole a URL de um artigo"
+                                                        value={url}
+                                                        onChange={(e) => setUrl(e.target.value)}
+                                                        className="flex-1"
+                                                        disabled={isExtracting}
+                                                    />
+                                                    <Button
+                                                        variant="secondary"
+                                                        onClick={handleExtract}
+                                                        disabled={isExtracting}
+                                                        aria-label="Extrair Conteúdo da URL"
+                                                    >
+                                                        {isExtracting ? <Loader2 className="h-5 w-5 animate-spin"/> : <Upload className="h-5 w-5" />}
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                            <div className="space-y-2 flex-1 flex flex-col">
+                                                <Label htmlFor="description">
+                                                Descreva a página (ou cole o conteúdo)
+                                                </Label>
+                                                <Textarea
+                                                    id="description"
+                                                    placeholder="Ex: Uma página de presell para um produto de emagrecimento chamado 'Slim Caps'. Use uma imagem de uma pessoa feliz e saudável. O pop-up deve ser de verificação de idade."
+                                                    value={description}
+                                                    onChange={(e) => setDescription(e.target.value)}
+                                                    className="min-h-[150px] flex-1"
+                                                />
+                                                <p className="text-sm text-muted-foreground pt-1">
+                                                    Seja o mais descritivo possível. Você pode colar o conteúdo ou extrair de uma URL.
+                                                </p>
+                                            </div>
+                                        </AccordionContent>
+                                    </AccordionItem>
+                                </Accordion>
+                                 <div className="mt-auto pt-4">
+                                     <Button
                                         onClick={handleGenerateWithAI}
                                         disabled={isGeneratingWithAI || isExtracting}
                                         size="lg"
-                                        className="w-full mt-6 font-bold text-lg py-6 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700"
+                                        className="w-full font-bold text-lg py-6 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700"
                                     >
                                         {isGeneratingWithAI ? (
                                         <>
@@ -296,8 +319,8 @@ export default function GeneratorPage() {
                                         </>
                                         )}
                                     </Button>
-                                </CardContent>
-                            </Card>
+                                </div>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -326,7 +349,3 @@ export default function GeneratorPage() {
         </div>
     );
 }
-
-    
-
-    
