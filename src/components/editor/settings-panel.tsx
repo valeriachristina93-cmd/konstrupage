@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2 } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2, Eye } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -27,6 +27,7 @@ interface SettingsPanelProps {
     setViewMode: (mode: ViewMode) => void;
     addPostPage?: () => void;
     removePostPage?: (index: number) => void;
+    onPreviewPost?: (index: number | null) => void;
 }
 
 const SettingsToggle = ({ label, checked, onCheckedChange, children }: { label: string; checked: boolean; onCheckedChange: (checked: boolean) => void, children?: React.ReactNode }) => (
@@ -67,7 +68,7 @@ const AccordionSubTrigger = ({ title, onCheckedChange, checked }: { title: strin
 );
 
 
-export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode, addPostPage, removePostPage }: SettingsPanelProps) {
+export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setViewMode, addPostPage, removePostPage, onPreviewPost }: SettingsPanelProps) {
     const customPopupConfig = pageConfig.popups.custom;
     const [openAccordion, setOpenAccordion] = useState<string>('');
     const [openSubAccordion, setOpenSubAccordion] = useState<string>('');
@@ -1138,14 +1139,20 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             <div className="p-3 border rounded-md space-y-3">
                                 <SettingsToggle label="Rodapé" checked={pageConfig.footer.active} onCheckedChange={checked => onConfigChange(['footer', 'active'], checked)} />
                                 {pageConfig.footer.active && (
-                                    <>
-                                        <Input type="text" placeholder="Link Política de Privacidade" value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
-                                        <Input type="text" placeholder="Link Termos de Uso" value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
+                                    <div className="pt-3 border-t">
+                                        <SettingsToggle label="Gerar Páginas Automaticamente" checked={pageConfig.footer.autoGenerate} onCheckedChange={checked => onConfigChange(['footer', 'autoGenerate'], checked)} />
+                                        
+                                        {!pageConfig.footer.autoGenerate && (
+                                            <>
+                                                <Input type="text" placeholder="Link Política de Privacidade" value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
+                                                <Input type="text" placeholder="Link Termos de Uso" value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
+                                            </>
+                                        )}
                                         <div className="space-y-3 pt-2">
                                             <ColorInput label="Cor do Fundo" value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
                                             <ColorInput label="Cor do Texto" value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
                                         </div>
-                                    </>
+                                    </div>
                                 )}
                             </div>
                              <div className="p-3 border rounded-md space-y-3">
@@ -1213,6 +1220,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <AccordionItem key={index} value={`post-${index}`} className="border rounded-md px-3">
                                                         <div className="flex items-center">
                                                             <AccordionTrigger className="flex-1 py-3">{post.productName || `Post ${index + 1}`}</AccordionTrigger>
+                                                            {onPreviewPost && (
+                                                                <Button variant="ghost" size="icon" onClick={() => onPreviewPost(index)} className="ml-2 h-7 w-7">
+                                                                    <Eye className="h-4 w-4 text-blue-500" />
+                                                                </Button>
+                                                            )}
                                                             {removePostPage && (
                                                                 <Button variant="ghost" size="icon" onClick={() => removePostPage(index)} className="ml-2 h-7 w-7">
                                                                     <Trash2 className="h-4 w-4 text-destructive" />

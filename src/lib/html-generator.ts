@@ -3,6 +3,37 @@
 import type { PageConfig, PostPageConfig } from './definitions';
 import { fontOptions } from './constants';
 
+export const generatePrivacyPolicyHtml = (config: PageConfig): string => {
+    return `
+    <!DOCTYPE html>
+    <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Política de Privacidade</title>
+    <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0;padding:0;background-color:#f4f4f4;color:#333}.container{max-width:800px;margin:2rem auto;padding:2rem;background-color:#fff;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1)}h1{color:#2c3e50}p{margin-bottom:1rem}</style></head>
+    <body><div class="container"><h1>Política de Privacidade</h1>
+    <p>A sua privacidade é importante para nós. É política do nosso site respeitar a sua privacidade em relação a qualquer informação sua que possamos coletar.</p>
+    <p>Solicitamos informações pessoais apenas quando realmente precisamos delas para lhe fornecer um serviço. Fazemo-lo por meios justos e legais, com o seu conhecimento e consentimento. Também informamos por que estamos coletando e como será usado.</p>
+    <p>Apenas retemos as informações coletadas pelo tempo necessário para fornecer o serviço solicitado. Quando armazenamos dados, protegemos dentro de meios comercialmente aceitáveis ​​para evitar perdas e roubos, bem como acesso, divulgação, cópia, uso ou modificação não autorizados.</p>
+    <p>Não compartilhamos informações de identificação pessoal publicamente ou com terceiros, exceto quando exigido por lei.</p>
+    <p>O nosso site pode ter links para sites externos que não são operados por nós. Esteja ciente de que não temos controle sobre o conteúdo e práticas desses sites e não podemos aceitar responsabilidade por suas respectivas políticas de privacidade.</p>
+    <p>Você é livre para recusar a nossa solicitação de informações pessoais, entendendo que talvez não possamos fornecer alguns dos serviços desejados.</p>
+    <p>O uso continuado de nosso site será considerado como aceitação de nossas práticas em torno de privacidade e informações pessoais. Se você tiver alguma dúvida sobre como lidamos com dados do usuário e informações pessoais, entre em contato conosco.</p>
+    </div></body></html>`;
+};
+
+export const generateTermsOfUseHtml = (config: PageConfig): string => {
+    return `
+    <!DOCTYPE html>
+    <html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Termos de Uso</title>
+    <style>body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;line-height:1.6;margin:0;padding:0;background-color:#f4f4f4;color:#333}.container{max-width:800px;margin:2rem auto;padding:2rem;background-color:#fff;border-radius:8px;box-shadow:0 0 10px rgba(0,0,0,.1)}h1,h2{color:#2c3e50}p{margin-bottom:1rem}</style></head>
+    <body><div class="container"><h1>Termos de Uso</h1>
+    <h2>1. Termos</h2><p>Ao acessar ao site, concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis ​​e concorda que é responsável pelo cumprimento de todas as leis locais aplicáveis.</p>
+    <h2>2. Uso de Licença</h2><p>É concedida permissão para baixar temporariamente uma cópia dos materiais no site, apenas para visualização transitória pessoal e não comercial.</p>
+    <h2>3. Isenção de responsabilidade</h2><p>Os materiais no site são fornecidos 'como estão'. O site não oferece garantias, expressas ou implícitas, e, por este meio, isenta e nega todas as outras garantias.</p>
+    <h2>4. Limitações</h2><p>Em nenhum caso o site ou seus fornecedores serão responsáveis ​​por quaisquer danos (incluindo, sem limitação, danos por perda de dados или lucro ou devido a interrupção dos negócios) decorrentes do uso ou da incapacidade de usar os materiais.</p>
+    <h2>5. Precisão dos materiais</h2><p>Os materiais exibidos no site podem incluir erros técnicos, tipográficos ou fotográficos. O site não garante que qualquer material em seu site seja preciso, completo ou atual.</p>
+    <h2>6. Links</h2><p>O site não analisou todos os sites vinculados e não é responsável pelo conteúdo de nenhum site vinculado. A inclusão de qualquer link não implica endosso pelo site.</p>
+    </div></body></html>`;
+};
+
 export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
     const { productName, content, imageUrl } = postConfig;
     const { seo } = config;
@@ -502,9 +533,9 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const footerSection = footer.active ? `
         <footer style="background-color: ${footer.backgroundColor}; color: ${footer.textColor};">
-            <a href="${footer.privacyLink}" style="color: ${footer.textColor};">Política de Privacidade</a>
+            <a href="${footer.autoGenerate ? './privacy-policy.html' : footer.privacyLink}" style="color: ${footer.textColor};" target="_blank">Política de Privacidade</a>
             <span>|</span>
-            <a href="${footer.termsLink}" style="color: ${footer.textColor};">Termos de Uso</a>
+            <a href="${footer.autoGenerate ? './terms-of-use.html' : footer.termsLink}" style="color: ${footer.textColor};" target="_blank">Termos de Uso</a>
         </footer>
     ` : '';
 
@@ -689,6 +720,9 @@ export const generatePresellHtml = (config: PageConfig) => {
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
             
+            #cookie-popup {
+                background-color: ${customization.popup.backgroundColor};
+            }
             #cookie-popup h3 { color: ${customization.typography.titleColor}; }
             #cookie-popup p { color: ${customization.typography.textColor}; }
 

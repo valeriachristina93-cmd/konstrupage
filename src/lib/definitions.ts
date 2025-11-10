@@ -127,6 +127,7 @@ export type PageConfig = {
     termsLink: string;
     backgroundColor: string;
     textColor: string;
+    autoGenerate: boolean;
   };
   disclaimer: {
     active: boolean;

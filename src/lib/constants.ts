@@ -74,7 +74,7 @@ export const initialPageConfig: PageConfig = {
             checkboxText: 'Não sou um robô',
         }
     },
-    footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB' },
+    footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB', autoGenerate: false },
     disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.', backgroundColor: '#F3F4F6', textColor: '#4B5563' },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 3 },

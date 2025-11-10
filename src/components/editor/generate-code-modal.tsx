@@ -8,7 +8,7 @@ import { Copy, Download, Check, FileArchive } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import JSZip from 'jszip';
 import type { PageConfig } from '@/lib/definitions';
-import { generatePresellHtml, generatePostPageHtml } from '@/lib/html-generator';
+import { generatePresellHtml, generatePostPageHtml, generatePrivacyPolicyHtml, generateTermsOfUseHtml } from '@/lib/html-generator';
 
 interface GenerateCodeModalProps {
     isOpen: boolean;
@@ -50,15 +50,25 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
     };
 
     const downloadZip = async () => {
-        if (!pageConfig.postPages || pageConfig.postPages.length === 0) return;
-
         const zip = new JSZip();
+        let pageCount = 1;
         zip.file("presell-page.html", presellHtml);
 
-        pageConfig.postPages.forEach((post, index) => {
-            const postHtml = generatePostPageHtml(pageConfig, post);
-            zip.file(`post-page-${index + 1}.html`, postHtml);
-        });
+        if (pageConfig.postPages && pageConfig.postPages.length > 0) {
+            pageConfig.postPages.forEach((post, index) => {
+                const postHtml = generatePostPageHtml(pageConfig, post);
+                zip.file(`post-page-${index + 1}.html`, postHtml);
+                pageCount++;
+            });
+        }
+        
+        if (pageConfig.footer.active && pageConfig.footer.autoGenerate) {
+            const privacyPolicyHtml = generatePrivacyPolicyHtml(pageConfig);
+            const termsOfUseHtml = generateTermsOfUseHtml(pageConfig);
+            zip.file("privacy-policy.html", privacyPolicyHtml);
+            zip.file("terms-of-use.html", termsOfUseHtml);
+            pageCount += 2;
+        }
 
         const content = await zip.generateAsync({ type: "blob" });
         const link = document.createElement('a');
@@ -67,8 +77,11 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        toast({ title: "Download iniciado", description: `O arquivo .zip com ${pageConfig.postPages.length + 1} páginas está sendo baixado.` });
+        toast({ title: "Download iniciado", description: `O arquivo .zip com ${pageCount} páginas está sendo baixado.` });
     };
+
+    const shouldGenerateZip = (pageConfig.postPages && pageConfig.postPages.length > 0) || (pageConfig.footer.active && pageConfig.footer.autoGenerate);
+
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -87,13 +100,13 @@ export function GenerateCodeModal({ isOpen, onClose, pageConfig }: GenerateCodeM
                         {hasCopied ? 'Copiado!' : 'Copiar Código'}
                     </Button>
                     
-                    {pageConfig.postPages && pageConfig.postPages.length > 0 ? (
-                        <Button 
+                    {shouldGenerateZip ? (
+                         <Button 
                             onClick={downloadZip} 
                             className="w-full sm:w-auto bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
                         >
                             <FileArchive className="w-5 h-5 mr-2" />
-                            Baixar .zip ({pageConfig.postPages.length + 1} páginas)
+                            Baixar .zip
                         </Button>
                     ) : (
                          <Button 
