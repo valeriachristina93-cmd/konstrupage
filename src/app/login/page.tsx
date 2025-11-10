@@ -36,8 +36,8 @@ export default function LoginPage() {
           <Image 
             src="https://i.imgur.com/ihAZlua.png" 
             alt="Konstrupages Logo" 
-            width={80} 
-            height={80}
+            width={60} 
+            height={60}
             className="mx-auto" 
           />
           <div>
