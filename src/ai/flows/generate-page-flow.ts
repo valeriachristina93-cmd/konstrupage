@@ -34,6 +34,10 @@ const PageConfigSchema = z.object({
   disclaimer: z.object({ active: z.boolean(), text: z.string(), backgroundColor: z.string().describe("Hex color code"), textColor: z.string().describe("Hex color code") }),
   overlay: z.object({ active: z.boolean(), opacity: z.number().min(0.1).max(1) }),
   blur: z.object({ active: z.boolean(), intensity: z.number().min(1).max(50) }),
+   tracking: z.object({
+        facebookPixelId: z.string().optional(),
+        googleAdsId: z.string().optional(),
+    }),
   seo: z.object({
     title: z.string().describe("The title of the page for SEO."),
     description: z.string().describe("The meta description of the page for SEO."),
@@ -71,18 +75,26 @@ const generatePagePrompt = ai.definePrompt(
       name: 'generatePagePrompt',
       input: { schema: z.string() },
       output: { schema: PageConfigSchema, format: 'json' },
-      prompt: `You are an expert in creating high-converting presell pages. Based on the user's description, generate a complete page configuration in JSON format.
+      prompt: `You are an expert in creating high-converting presell pages. Based on the user's structured request, generate a complete page configuration in JSON format.
 
-User Description: "{{prompt}}"
+The user's request is a "super prompt" containing all the information needed. Your task is to interpret this structured input and populate all the fields in the provided JSON schema to create a cohesive and effective presell page.
 
-Your task is to populate all the fields in the provided JSON schema to create a cohesive and effective presell page. Make logical choices for colors, text, and images.
+**User's Structured Request:**
+\`\`\`
+{{prompt}}
+\`\`\`
 
-- Images: Use placeholder URLs from an image service like unsplash or picsum. Make sure the images are relevant to the user's description.
-- Popups: Only activate the popups that are explicitly or implicitly requested in the description. For example, if the user mentions "18+", activate the age verification popup. If they mention cookies, activate the cookie popup.
-- Colors: Choose a color scheme that matches the product or theme. Use hex color codes.
-- Text: Write compelling and relevant text for titles, descriptions, and buttons.
+**Your instructions:**
 
-Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
+1.  **Analyze the Request:** Carefully read all sections of the user's request: Page Type, Product Info, Content, and Advanced Settings.
+2.  **Page Type:** Use the specified page type (e.g., 'Página de Review', 'Presell Robusta') as a primary guide for the overall structure and which pop-ups to activate. For a 'Review' page, focus on content. For a 'Robusta' page, activate more interactive elements like age verification or choice pop-ups if they make sense.
+3.  **Product Info:** Use the product name, sales page, and affiliate link to inform the content and links.
+4.  **Content:** This is the core. Use the provided description to generate titles, texts for pop-ups, and the main page content. If images are mentioned, find relevant, royalty-free placeholder URLs from services like Unsplash or Pexels.
+5.  **Advanced Settings:**
+    *   If a Facebook Pixel ID or Google Ads ID is provided, populate the \`tracking\` object accordingly.
+    *   If custom HTML/CSS/JS is provided, place it in the \`customization.customHtml\` field.
+6.  **Make Logical Choices:** For any unspecified details (like colors, exact popup text if not detailed), make logical choices that fit the product and page type. For example, a "detox" product might use a green and white color scheme. An "18+" product should have the age verification pop-up activated.
+7.  **Output:** Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
       config: {
         safetySettings: [
             {
@@ -118,3 +130,5 @@ export const generatePageFlow = ai.defineFlow(
     return output!;
   }
 );
+
+    
