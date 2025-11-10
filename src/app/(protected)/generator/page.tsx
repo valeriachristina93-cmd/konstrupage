@@ -221,27 +221,27 @@ export default function GeneratorPage() {
                                     <div className="space-y-4 flex-1 flex flex-col">
                                         
                                         <div className="space-y-2">
-                                            <Label htmlFor="productName" className="text-base font-medium">Nome do Produto</Label>
+                                            <Label htmlFor="productName" className="font-medium">Nome do Produto</Label>
                                             <Input id="productName" placeholder="Ex: Slim Caps" value={productName} onChange={(e) => setProductName(e.target.value)} />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="videoReviewLink" className="text-base font-medium">Link do Vídeo de Review (Opcional)</Label>
+                                            <Label htmlFor="videoReviewLink" className="font-medium">Link do Vídeo de Review (Opcional)</Label>
                                             <Input id="videoReviewLink" type="url" placeholder="https://youtube.com/watch?v=..." value={videoReviewLink} onChange={(e) => setVideoReviewLink(e.target.value)} />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="salesPageLink" className="text-base font-medium">Link da Página de Vendas (Opcional)</Label>
+                                            <Label htmlFor="salesPageLink" className="font-medium">Link da Página de Vendas (Opcional)</Label>
                                             <Input id="salesPageLink" type="url" placeholder="https://pagina-de-vendas.com" value={salesPageLink} onChange={(e) => setSalesPageLink(e.target.value)} />
                                         </div>
 
                                         <div className="space-y-2">
-                                            <Label htmlFor="affiliateLink" className="text-base font-medium">Link de Afiliado (Opcional)</Label>
+                                            <Label htmlFor="affiliateLink" className="font-medium">Link de Afiliado (Opcional)</Label>
                                             <Input id="affiliateLink" type="url" placeholder="https://seu-link-de-afiliado.com" value={affiliateLink} onChange={(e) => setAffiliateLink(e.target.value)} />
                                         </div>
                                         
                                         <div className="space-y-2">
-                                            <Label htmlFor="url" className="text-base font-medium">Extrair de URL (Opcional)</Label>
+                                            <Label htmlFor="url" className="font-medium">Extrair de URL (Opcional)</Label>
                                             <div className="flex gap-2">
                                                 <Input 
                                                     id="url"
@@ -263,7 +263,7 @@ export default function GeneratorPage() {
                                             </div>
                                         </div>
                                         <div className="space-y-2 flex-1 flex flex-col">
-                                            <Label htmlFor="description" className="text-base font-medium">
+                                            <Label htmlFor="description" className="font-medium">
                                             Descreva a página que você precisa (ou cole o conteúdo)
                                             </Label>
                                             <Textarea
@@ -271,9 +271,9 @@ export default function GeneratorPage() {
                                                 placeholder="Ex: Uma página de presell para um produto de emagrecimento chamado 'Slim Caps'. Use uma imagem de uma pessoa feliz e saudável. O pop-up deve ser de verificação de idade."
                                                 value={description}
                                                 onChange={(e) => setDescription(e.target.value)}
-                                                className="min-h-[120px] text-base flex-1"
+                                                className="min-h-[120px] flex-1"
                                             />
-                                            <p className="text-sm text-muted-foreground pt-2">
+                                            <p className="text-sm text-muted-foreground pt-1">
                                                 Seja o mais descritivo possível para obter o melhor resultado. Você pode colar o conteúdo ou extrair de uma URL.
                                             </p>
                                         </div>
@@ -326,5 +326,7 @@ export default function GeneratorPage() {
         </div>
     );
 }
+
+    
 
     
