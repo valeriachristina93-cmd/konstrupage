@@ -32,3 +32,34 @@ export async function extractContentFromUrl(url: string) {
         throw new Error("Falha ao extrair conteúdo da URL.");
     }
 }
+
+export async function generatePageFromApi(apiUrl: string, apiKey?: string) {
+    try {
+        const headers: HeadersInit = {
+            'Content-Type': 'application/json',
+        };
+
+        if (apiKey) {
+            headers['Authorization'] = `Bearer ${apiKey}`;
+        }
+
+        const response = await fetch(apiUrl, {
+            method: 'GET',
+            headers: headers,
+        });
+
+        if (!response.ok) {
+            const errorBody = await response.text();
+            throw new Error(`A chamada à API falhou com status ${response.status}: ${errorBody}`);
+        }
+
+        const data = await response.json();
+        // Aqui, assumimos que a API retorna um objeto compatível com PageConfig.
+        // Validações adicionais com Zod podem ser adicionadas aqui se necessário.
+        return data;
+
+    } catch (error: any) {
+        console.error("Error in generatePageFromApi server action:", error);
+        throw new Error(error.message || "Falha ao buscar dados da API externa.");
+    }
+}

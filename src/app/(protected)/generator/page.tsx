@@ -15,8 +15,8 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload, FileSignature, Newspaper, Star } from 'lucide-react';
-import { generatePage, extractContentFromUrl } from './actions';
+import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload, FileSignature, Newspaper, Star, Power } from 'lucide-react';
+import { generatePage, extractContentFromUrl, generatePageFromApi } from './actions';
 import Link from 'next/link';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
@@ -29,6 +29,7 @@ export default function GeneratorPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const [isGeneratingWithAI, setIsGeneratingWithAI] = useState(false);
     const [isExtracting, setIsExtracting] = useState(false);
+    const [isGeneratingFromApi, setIsGeneratingFromApi] = useState(false);
     
     // States for the generator form
     const [productName, setProductName] = useState('');
@@ -38,6 +39,10 @@ export default function GeneratorPage() {
     const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
     const [pageType, setPageType] = useState<PageType>('Página presell robusta');
+
+    // States for API generation
+    const [apiUrl, setApiUrl] = useState('');
+    const [apiKey, setApiKey] = useState('');
 
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
@@ -184,6 +189,40 @@ export default function GeneratorPage() {
         }
       };
 
+    const handleGenerateFromApi = async () => {
+        if (!apiUrl.trim()) {
+            toast({
+                variant: "destructive",
+                title: "URL da API necessária",
+                description: "Por favor, insira a URL da API para gerar a página.",
+            });
+            return;
+        }
+
+        setIsGeneratingFromApi(true);
+        try {
+            const result = await generatePageFromApi(apiUrl, apiKey);
+             // Ensure postPages is an array even if the API doesn't return it
+            if (!result.postPages) {
+                result.postPages = [];
+            }
+            setPageConfig(result);
+            toast({
+                title: "Página Gerada via API!",
+                description: "A estrutura da sua página foi criada a partir da API externa.",
+            });
+        } catch (error: any) {
+            console.error(error);
+            toast({
+                variant: "destructive",
+                title: "Erro ao gerar via API",
+                description: error.message || "Houve um problema ao comunicar com a API.",
+            });
+        } finally {
+            setIsGeneratingFromApi(false);
+        }
+    };
+
 
     const handleFinalGenerate = () => {
         if (!pageConfig?.affiliateLink) {
@@ -258,7 +297,7 @@ export default function GeneratorPage() {
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>
-                                     <AccordionItem value="content-source" className="border-b-0">
+                                     <AccordionItem value="content-source" className="border-b">
                                         <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                             <div className="flex items-center gap-2">
                                                 <FileText className="w-4 h-4 text-primary/80" />
@@ -305,6 +344,41 @@ export default function GeneratorPage() {
                                             </div>
                                         </AccordionContent>
                                     </AccordionItem>
+                                    <AccordionItem value="api-source" className="border-b-0">
+                                        <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
+                                            <div className="flex items-center gap-2">
+                                                <Power className="w-4 h-4 text-primary/80" />
+                                                <span>Gerar com API Externa</span>
+                                            </div>
+                                        </AccordionTrigger>
+                                        <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="apiUrl">URL da API</Label>
+                                                <Input id="apiUrl" type="url" placeholder="https://sua-api.com/gerar-pagina" value={apiUrl} onChange={(e) => setApiUrl(e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label htmlFor="apiKey">Chave da API (Opcional)</Label>
+                                                <Input id="apiKey" type="password" placeholder="Cole sua Bearer Token aqui" value={apiKey} onChange={(e) => setApiKey(e.target.value)} />
+                                            </div>
+                                            <Button
+                                                onClick={handleGenerateFromApi}
+                                                disabled={isGeneratingFromApi}
+                                                className="w-full"
+                                            >
+                                                {isGeneratingFromApi ? (
+                                                    <>
+                                                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                                                        Gerando...
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Power className="mr-2 h-5 w-5" />
+                                                        Gerar via API
+                                                    </>
+                                                )}
+                                            </Button>
+                                        </AccordionContent>
+                                    </AccordionItem>
                                 </Accordion>
                                  <div className="mt-auto pt-4">
                                      <Button
@@ -321,7 +395,7 @@ export default function GeneratorPage() {
                                         ) : (
                                         <>
                                             <Sparkles className="mr-2 h-5 w-5" />
-                                            Gerar Página
+                                            Gerar Página com IA
                                         </>
                                         )}
                                     </Button>
