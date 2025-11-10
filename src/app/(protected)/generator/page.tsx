@@ -12,10 +12,11 @@ import { EditorHeader } from '@/components/editor/editor-header';
 import type { ViewMode } from '@/app/(protected)/editor/page';
 import { Card, CardContent } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Loader2, Sparkles, Bot, ArrowLeft } from 'lucide-react';
-import { generatePage } from './actions';
+import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download } from 'lucide-react';
+import { generatePage, extractContentFromUrl } from './actions';
 import Link from 'next/link';
 
 export default function GeneratorPage() {
@@ -23,7 +24,9 @@ export default function GeneratorPage() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const [isGeneratingWithAI, setIsGeneratingWithAI] = useState(false);
+    const [isExtracting, setIsExtracting] = useState(false);
     const [description, setDescription] = useState('');
+    const [url, setUrl] = useState('');
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
 
@@ -81,6 +84,40 @@ export default function GeneratorPage() {
             }
         };
         reader.readAsDataURL(file);
+    };
+
+    const handleExtract = async () => {
+        if (!url.trim()) {
+            toast({
+                variant: 'destructive',
+                title: 'URL necessária',
+                description: 'Por favor, insira uma URL para extrair o conteúdo.'
+            });
+            return;
+        }
+
+        setIsExtracting(true);
+        try {
+            const result = await extractContentFromUrl(url);
+            let combinedContent = result.textContent;
+            if (result.imageUrls && result.imageUrls.length > 0) {
+                combinedContent += `\n\nImagens encontradas na página:\n${result.imageUrls.join('\n')}`;
+            }
+            setDescription(combinedContent);
+            toast({
+                title: 'Conteúdo Extraído!',
+                description: 'O texto e os links de imagem foram preenchidos. Revise antes de gerar a página.'
+            });
+        } catch (error: any) {
+            console.error(error);
+            toast({
+                variant: 'destructive',
+                title: 'Erro ao extrair conteúdo',
+                description: error.message || 'Não foi possível buscar o conteúdo da URL fornecida.',
+            });
+        } finally {
+            setIsExtracting(false);
+        }
     };
     
     const handleGenerateWithAI = async () => {
@@ -159,24 +196,48 @@ export default function GeneratorPage() {
                             <h2 className="text-lg font-semibold mb-4">Gerar Página com IA</h2>
                             <Card className="shadow-lg flex-1 flex flex-col">
                                 <CardContent className="p-6 flex-1 flex flex-col">
-                                    <div className="space-y-4 flex-1 flex flex-col">
-                                        <Label htmlFor="description" className="text-lg font-medium">
-                                        Descreva a página que você precisa
-                                        </Label>
-                                        <Textarea
-                                        id="description"
-                                        placeholder="Ex: Uma página de presell para um produto de emagrecimento chamado 'Slim Caps'. Use uma imagem de uma pessoa feliz e saudável. O pop-up deve ser de verificação de idade."
-                                        value={description}
-                                        onChange={(e) => setDescription(e.target.value)}
-                                        className="min-h-[120px] text-base flex-1"
-                                        />
-                                        <p className="text-sm text-muted-foreground">
-                                        Seja o mais descritivo possível para obter o melhor resultado. Mencione o produto, o público-alvo e os elementos que você deseja.
-                                        </p>
+                                    <div className="space-y-6 flex-1 flex flex-col">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="url" className="text-base font-medium">Extrair de URL (Opcional)</Label>
+                                            <div className="flex gap-2">
+                                                <Input 
+                                                    id="url"
+                                                    type="url"
+                                                    placeholder="Cole a URL de um artigo ou página de produto"
+                                                    value={url}
+                                                    onChange={(e) => setUrl(e.target.value)}
+                                                    className="flex-1"
+                                                    disabled={isExtracting}
+                                                />
+                                                <Button
+                                                    variant="secondary"
+                                                    onClick={handleExtract}
+                                                    disabled={isExtracting}
+                                                    aria-label="Extrair Conteúdo da URL"
+                                                >
+                                                    {isExtracting ? <Loader2 className="h-5 w-5 animate-spin"/> : <Download className="h-5 w-5" />}
+                                                </Button>
+                                            </div>
+                                        </div>
+                                        <div className="space-y-2 flex-1 flex flex-col">
+                                            <Label htmlFor="description" className="text-base font-medium">
+                                            Descreva a página que você precisa
+                                            </Label>
+                                            <Textarea
+                                                id="description"
+                                                placeholder="Ex: Uma página de presell para um produto de emagrecimento chamado 'Slim Caps'. Use uma imagem de uma pessoa feliz e saudável. O pop-up deve ser de verificação de idade."
+                                                value={description}
+                                                onChange={(e) => setDescription(e.target.value)}
+                                                className="min-h-[120px] text-base flex-1"
+                                            />
+                                            <p className="text-sm text-muted-foreground pt-2">
+                                                Seja o mais descritivo possível para obter o melhor resultado. Você pode colar o conteúdo ou extrair de uma URL.
+                                            </p>
+                                        </div>
                                     </div>
                                     <Button
                                         onClick={handleGenerateWithAI}
-                                        disabled={isGeneratingWithAI}
+                                        disabled={isGeneratingWithAI || isExtracting}
                                         size="lg"
                                         className="w-full mt-6 font-bold text-lg py-6 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700"
                                     >
@@ -221,6 +282,4 @@ export default function GeneratorPage() {
             )}
         </div>
     );
-
-    
-
+}
