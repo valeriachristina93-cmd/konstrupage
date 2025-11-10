@@ -37,7 +37,7 @@ URL to process: {{{url}}}
 
 Respond with ONLY a valid JSON object that conforms to the output schema. Do not include any other text, markdown, or explanations.`,
     config: {
-        model: 'googleai/gemini-2.5-flash',
+        model: 'googleai/gemini-1.5-pro',
     }
   },
 );
