@@ -21,7 +21,7 @@ export default function DashboardPage() {
           </h1>
           <p className="text-xl text-muted-foreground">Sua ferramenta para criar páginas de presell de alta conversão.</p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-1 gap-8 max-w-lg mx-auto">
           <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
             <div>
               <CardHeader>
@@ -38,28 +38,6 @@ export default function DashboardPage() {
               <Link href="/editor" className="w-full">
                 <Button className="w-full font-bold text-lg py-6 group bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all">
                   Começar a Criar
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-            </CardFooter>
-          </Card>
-
-          <Card className="flex flex-col justify-between border-2 border-primary/20 hover:border-primary/50 hover:shadow-xl transition-all duration-300">
-            <div>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-3 text-primary text-xl font-bold">
-                  <Bot className="h-7 w-7" />
-                  <span>Gerador de Páginas Presell</span>
-                </CardTitle>
-                <CardDescription className="pt-2 text-base">
-                  Descreva a página que você quer e deixe a IA criar uma versão otimizada para conversão para você.
-                </CardDescription>
-              </CardHeader>
-            </div>
-            <CardFooter>
-              <Link href="/generator" className="w-full">
-                <Button className="w-full font-bold text-lg py-6 group bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all">
-                  Usar Gerador IA
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
