@@ -716,7 +716,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 align-items: center;
                 justify-content: center;
                 padding: 1rem;
-                pointer-events: auto;
             }
             
             .popup-wrapper {
@@ -739,6 +738,11 @@ export const generatePresellHtml = (config: PageConfig) => {
                 overflow: hidden;
                 display: none; /* Popups are hidden by default */
             }
+
+            #exit-popup, #custom-popup.exit-intent {
+                z-index: 101; /* Higher z-index for exit popups */
+            }
+
             .popup-center { margin: auto; }
             .popup-bottom { margin-top: auto; }
             .popup-top { margin-bottom: auto; }
@@ -778,7 +782,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 color: ${customization.closeButtonColor};
                 opacity: 0.7;
                 padding: 4px;
-                z-index: 101;
+                z-index: 102;
             }
             .popup .close-button:hover {
                 opacity: 1;
@@ -1019,27 +1023,38 @@ export const generatePresellHtml = (config: PageConfig) => {
             if (${popups.cookies.active}) regularPopups.push(document.getElementById('cookie-popup'));
 
             let currentPopupIndex = -1;
-            let isPopupActive = false;
+            let isRegularPopupActive = false;
             let exitIntentFired = false;
 
             function showNextPopup() {
-                if (isPopupActive) return;
+                if (isRegularPopupActive) return;
+
+                // Hide any currently displayed popup
+                const currentlyVisible = document.querySelector('.popup[style*="display: flex"]');
+                if (currentlyVisible) {
+                    currentlyVisible.style.display = 'none';
+                }
+
                 currentPopupIndex++;
                 if (currentPopupIndex < regularPopups.length) {
                     const popup = regularPopups[currentPopupIndex];
                     if (popup) {
-                        isPopupActive = true;
+                        isRegularPopupActive = true;
                         popupWrapper.style.display = 'flex';
                         popupWrapper.style.pointerEvents = 'auto';
                         popup.style.display = 'flex';
                     } else {
+                        // Skip null/undefined popups
                         showNextPopup();
                     }
                 } else {
-                    isPopupActive = false;
-                    popupWrapper.style.display = 'none';
-                    popupWrapper.style.pointerEvents = 'none';
-                    if (AFFILIATE_LINK) {
+                    // All regular popups have been shown
+                    isRegularPopupActive = false;
+                    if (!exitIntentFired) {
+                        popupWrapper.style.display = 'none';
+                        popupWrapper.style.pointerEvents = 'none';
+                    }
+                     if (AFFILIATE_LINK && regularPopups.length > 0) {
                         redirect(AFFILIATE_LINK);
                     }
                 }
@@ -1050,7 +1065,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if (popup) {
                     popup.style.display = 'none';
                 }
-                isPopupActive = false;
+                isRegularPopupActive = false;
                 showNextPopup();
             }
 
@@ -1071,7 +1086,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 if(modal) modal.style.display = 'none';
             }
 
-            // Close legal modal if clicking outside the content
             window.addEventListener('click', function(event) {
                 const privacyModal = document.getElementById('privacy-policy-modal');
                 const termsModal = document.getElementById('terms-of-use-modal');
@@ -1104,7 +1118,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                     showNextPopup();
                 }
             });
-
 
             ${popups.custom.countdown.active ? `
                 (function() {
@@ -1273,9 +1286,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             ${autoRedirect.active ? `setTimeout(() => { if (AFFILIATE_LINK) redirect(AFFILIATE_LINK); }, ${autoRedirect.time * 1000});` : ''}
 
             function showExitIntentPopup(popupToShow) {
-                if (popupToShow && !isPopupActive && !exitIntentFired) {
+                 if (popupToShow && !exitIntentFired) {
                     exitIntentFired = true;
-                    isPopupActive = true;
                     popupWrapper.style.display = 'flex';
                     popupWrapper.style.pointerEvents = 'auto';
                     popupToShow.style.display = 'flex';
@@ -1284,7 +1296,8 @@ export const generatePresellHtml = (config: PageConfig) => {
 
             document.addEventListener('mouseleave', function(e) {
                 if (e.clientY < 0) {
-                    if (${popups.custom.triggerOnExit} && customPopup) {
+                    if (${popups.custom.active && popups.custom.triggerOnExit} && customPopup) {
+                        customPopup.classList.add('exit-intent');
                         showExitIntentPopup(customPopup);
                     } else if (${popups.exit.active} && exitPopup) {
                         showExitIntentPopup(exitPopup);
