@@ -72,7 +72,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     const customPopupConfig = pageConfig.popups.custom;
     const [openAccordion, setOpenAccordion] = useState<string>('');
     const [openSubAccordion, setOpenSubAccordion] = useState<string>('');
-
+    const [openContentSubAccordion, setOpenContentSubAccordion] = useState<string>('');
 
     const handleSubAccordionToggle = (accordionValue: string, isChecked: boolean) => {
         const path = ['popups', accordionValue, 'active'];
@@ -83,6 +83,19 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         } else {
             if (openSubAccordion === accordionValue) {
                 setOpenSubAccordion('');
+            }
+        }
+    };
+    
+    const handleContentSubAccordionToggle = (accordionValue: 'footer' | 'disclaimer', isChecked: boolean) => {
+        const path = [accordionValue, 'active'];
+        onConfigChange(path, isChecked);
+
+        if (isChecked) {
+            setOpenContentSubAccordion(accordionValue);
+        } else {
+            if (openContentSubAccordion === accordionValue) {
+                setOpenContentSubAccordion('');
             }
         }
     };
@@ -670,7 +683,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     </div>
                                                     <div className="space-y-2">
                                                         <Label>Descrição</Label>
-                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar <b> e <a> tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
+                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar &lt;b&gt; e &lt;a&gt; tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>
@@ -1147,12 +1160,18 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-2 space-y-4 px-4">
-                             <Accordion type="single" collapsible className="w-full space-y-2">
+                             <Accordion 
+                                type="single" 
+                                collapsible 
+                                className="w-full space-y-2"
+                                value={openContentSubAccordion}
+                                onValueChange={setOpenContentSubAccordion}
+                            >
                                 <AccordionItem value="footer">
                                     <AccordionSubTrigger 
                                       title="Rodapé"
                                       checked={pageConfig.footer.active}
-                                      onCheckedChange={(checked) => onConfigChange(['footer', 'active'], checked)}
+                                      onCheckedChange={(isChecked) => handleContentSubAccordionToggle('footer', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <SettingsToggle label="Gerar Páginas Automaticamente" checked={pageConfig.footer.autoGenerate} onCheckedChange={checked => onConfigChange(['footer', 'autoGenerate'], checked)} />
@@ -1174,7 +1193,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                       title="Seção Disclaimer"
                                       checked={pageConfig.disclaimer.active}
-                                      onCheckedChange={(checked) => onConfigChange(['disclaimer', 'active'], checked)}
+                                      onCheckedChange={(isChecked) => handleContentSubAccordionToggle('disclaimer', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
@@ -1401,7 +1420,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      </div>
                                 </div>
                                 {!!pageConfig.customization.customHtml && (
-                                    <Textarea placeholder="<style>...</style> ou <script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
+                                    <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
                                 )}
                             </div>
                             <Accordion type="single" collapsible className="w-full space-y-2">
@@ -1462,5 +1481,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
 
 
+
+    
 
     
