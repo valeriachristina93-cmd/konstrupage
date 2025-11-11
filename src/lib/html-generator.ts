@@ -678,7 +678,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 --captcha-slider-thumb-radius: ${popups.captcha.sliderShape === 'round' ? '50%' : '4px'};
                 --gender-icon-hover-color: ${genderIcons.hoverColor};
             }
-            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow: auto; }
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow-x: hidden; }
             .main-wrapper {
                 position: relative;
                 width: 100%;
@@ -701,8 +701,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             .bg-desktop { ${getDesktopBgStyle()} }
             .bg-mobile { ${getMobileBgStyle()} display: none; }
 
-            .disclaimer { padding: 8px; text-align: center; font-size: 12px; width: 100%; z-index: 10;}
-            footer { padding: 16px; text-align: center; font-size: 14px; width: 100%; z-index: 10;}
+            .disclaimer { padding: 8px; text-align: center; font-size: 12px; width: 100%; z-index: 10; box-sizing: border-box; }
+            footer { padding: 16px; text-align: center; font-size: 14px; width: 100%; z-index: 10; box-sizing: border-box;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; cursor: pointer; }
             
             .popup-wrapper {
