@@ -233,10 +233,10 @@ export default function SalesPage() {
         <main className="flex-1">
             {/* Hero Section */}
             <section
-              className="relative py-8 sm:py-12 text-center overflow-hidden bg-gradient-to-b from-background to-muted/30"
+              className="relative py-12 sm:py-20 text-center overflow-hidden bg-gradient-to-b from-background to-muted/30"
             >
-                <div className="absolute inset-0 bg-[url('https://i.imgur.com/pBw24f4.png')] bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
-                <div className="container relative z-10">
+                <div className="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
+                <div className="container relative z-10 px-4">
 
                     <SalesNotification sale={salesData[0]} position="top-1/3 left-8" animation="float-up-1" />
                     <SalesNotification sale={salesData[1]} position="top-1/4 right-8" animation="float-up-2" />
@@ -245,7 +245,7 @@ export default function SalesPage() {
                     <SalesNotification sale={salesData[4]} position="top-[55%] left-8" animation="float-up-5" />
                     <SalesNotification sale={salesData[5]} position="top-[45%] right-8" animation="float-up-6" />
                     
-                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tighter mt-8">
+                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mt-8">
                         Crie Presells de Alta Conversão em Minutos
                     </h2>
                     <p className="max-w-2xl mx-auto mt-4 text-lg text-muted-foreground">
@@ -270,7 +270,7 @@ export default function SalesPage() {
                         </div>
                     </div>
 
-                    <div className="mt-8 flex flex-col items-center sm:block">
+                    <div className="mt-8 flex flex-col items-center">
                          <Link href="/login?action=signup" className="w-full sm:w-auto">
                              <Button size="lg" className="w-full sm:w-auto text-lg h-14 px-10 font-semibold bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
                                 Quero construir minha presell
@@ -286,7 +286,7 @@ export default function SalesPage() {
             
             {/* Features Section */}
             <section id="features" className="py-20 sm:py-24 bg-muted/20">
-                <div className="container space-y-16 sm:space-y-24">
+                <div className="container px-4 space-y-16 sm:space-y-24">
                      <div className="text-center">
                         <h2 className="text-3xl sm:text-4xl font-bold">Pop-ups Poderosos para Cada Estratégia</h2>
                         <p className="max-w-xl mx-auto mt-3 text-muted-foreground">
@@ -325,7 +325,7 @@ export default function SalesPage() {
 
              {/* Power Features Section */}
             <section id="power-features" className="py-20 sm:py-24">
-                <div className="container">
+                <div className="container px-4">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl sm:text-4xl font-bold">Ferramentas Poderosas para Maximizar seu ROI</h2>
                         <p className="max-w-2xl mx-auto mt-3 text-muted-foreground">
@@ -347,7 +347,7 @@ export default function SalesPage() {
 
              {/* Testimonials Section */}
             <section id="testimonials" className="py-20 sm:py-24 relative overflow-hidden bg-muted/20">
-                <div className="container">
+                <div className="container px-4">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl sm:text-4xl font-bold">O que Nossos Usuários Dizem</h2>
                         <p className="max-w-xl mx-auto mt-3 text-muted-foreground">
@@ -401,7 +401,7 @@ export default function SalesPage() {
 
              {/* Guarantee Section */}
             <section id="guarantee" className="py-20 sm:py-24">
-                <div className="container max-w-4xl mx-auto">
+                <div className="container px-4 max-w-4xl mx-auto">
                     <div className="text-center border-2 border-dashed border-primary/50 rounded-xl p-8 bg-muted/30">
                         <ShieldCheck className="w-16 h-16 mx-auto mb-6 text-primary" />
                         <h2 className="text-3xl sm:text-4xl font-bold">Totalmente Gratuito</h2>
@@ -421,7 +421,7 @@ export default function SalesPage() {
 
              {/* FAQ Section */}
             <section id="faq" className="py-20 sm:py-24">
-                <div className="container max-w-3xl mx-auto">
+                <div className="container px-4 max-w-3xl mx-auto">
                     <div className="text-center mb-12">
                         <h2 className="text-3xl sm:text-4xl font-bold">Ainda tem Dúvidas?</h2>
                         <p className="mt-3 text-muted-foreground">
@@ -444,7 +444,7 @@ export default function SalesPage() {
         
         {/* New Complete Footer */}
         <footer className="bg-muted/20 border-t border-border/50">
-            <div className="container py-12">
+            <div className="container py-12 px-4">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     {/* Coluna 1: Logo e Descrição */}
                     <div className="col-span-1 md:col-span-2">
