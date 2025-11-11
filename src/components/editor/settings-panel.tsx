@@ -1147,10 +1147,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-2 space-y-4 px-4">
-                            <div className="p-3 border rounded-md space-y-3">
-                                <SettingsToggle label="Rodapé" checked={pageConfig.footer.active} onCheckedChange={checked => onConfigChange(['footer', 'active'], checked)} />
-                                {pageConfig.footer.active && (
-                                    <div className="pt-3 border-t">
+                             <Accordion type="single" collapsible className="w-full space-y-2">
+                                <AccordionItem value="footer">
+                                    <AccordionSubTrigger 
+                                      title="Rodapé"
+                                      checked={pageConfig.footer.active}
+                                      onCheckedChange={(checked) => onConfigChange(['footer', 'active'], checked)}
+                                    />
+                                    <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <SettingsToggle label="Gerar Páginas Automaticamente" checked={pageConfig.footer.autoGenerate} onCheckedChange={checked => onConfigChange(['footer', 'autoGenerate'], checked)} />
                                         
                                         {!pageConfig.footer.autoGenerate && (
@@ -1163,22 +1167,24 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <ColorInput label="Cor do Fundo" value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
                                             <ColorInput label="Cor do Texto" value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
                                         </div>
-                                    </div>
-                                )}
-                            </div>
-                             <div className="p-3 border rounded-md space-y-3">
-                                <SettingsToggle label="Seção Disclaimer" checked={pageConfig.disclaimer.active} onCheckedChange={checked => onConfigChange(['disclaimer', 'active'], checked)} />
-                                {pageConfig.disclaimer.active && (
-                                    <>
+                                    </AccordionContent>
+                                </AccordionItem>
+
+                                <AccordionItem value="disclaimer">
+                                    <AccordionSubTrigger 
+                                      title="Seção Disclaimer"
+                                      checked={pageConfig.disclaimer.active}
+                                      onCheckedChange={(checked) => onConfigChange(['disclaimer', 'active'], checked)}
+                                    />
+                                    <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
                                         <div className="space-y-3 pt-2">
                                             <ColorInput label="Cor do Fundo" value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
                                             <ColorInput label="Cor do Texto" value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
                                         </div>
-                                    </>
-                                )}
-                            </div>
-                             <Accordion type="single" collapsible className="w-full space-y-2">
+                                    </AccordionContent>
+                                </AccordionItem>
+
                                 <AccordionItem value="seo" className="border-b">
                                   <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                     <div className="flex items-center gap-2">
@@ -1455,3 +1461,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
 
+
+
+    
