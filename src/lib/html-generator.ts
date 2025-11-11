@@ -701,8 +701,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             .bg-desktop { ${getDesktopBgStyle()} }
             .bg-mobile { ${getMobileBgStyle()} display: none; }
 
-            .disclaimer { padding: 8px; text-align: center; font-size: 12px; width: 100%; z-index: 10; box-sizing: border-box; }
-            footer { padding: 16px; text-align: center; font-size: 14px; width: 100%; z-index: 10; box-sizing: border-box;}
+            .disclaimer { padding: 8px; text-align: center; font-size: 12px; width: 100%; z-index: 1; box-sizing: border-box; }
+            footer { padding: 16px; text-align: center; font-size: 14px; width: 100%; z-index: 1; box-sizing: border-box;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; cursor: pointer; }
             
             .popup-wrapper {
@@ -737,6 +737,14 @@ export const generatePresellHtml = (config: PageConfig) => {
                 max-height: 95vh;
                 overflow: hidden;
                 display: none; /* Popups are hidden by default */
+            }
+
+            .popup.force-center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                margin: 0;
             }
 
             #exit-popup, #custom-popup.exit-intent {
@@ -1031,7 +1039,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
                 // Hide any currently displayed popup
                 const currentlyVisible = document.querySelector('.popup[style*="display: flex"]');
-                if (currentlyVisible) {
+                if (currentlyVisible && !currentlyVisible.classList.contains('exit-intent')) {
                     currentlyVisible.style.display = 'none';
                 }
 
@@ -1290,6 +1298,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                     exitIntentFired = true;
                     popupWrapper.style.display = 'flex';
                     popupWrapper.style.pointerEvents = 'auto';
+                    popupToShow.classList.add('force-center');
                     popupToShow.style.display = 'flex';
                 }
             }
