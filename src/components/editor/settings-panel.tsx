@@ -240,6 +240,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     onCheckedChange={(isChecked) => handleSubAccordionToggle('cookies', isChecked)}
                                   />
                                   <AccordionContent className="pt-4 space-y-4 px-3">
+                                      <div className="space-y-2">
+                                          <Label>Título</Label>
+                                          <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.cookies.title} onChange={e => onConfigChange(['popups', 'cookies', 'title'], e.target.value)} />
+                                      </div>
                                       <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24" />
                                       <div className="space-y-2">
                                           <Label>Texto do Botão</Label>
@@ -1449,4 +1453,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
     
+
 

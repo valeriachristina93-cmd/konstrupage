@@ -234,7 +234,7 @@ export const generatePresellHtml = (config: PageConfig) => {
         <div id="cookie-popup" class="popup ${getPopupPositionClass()} ${getPopupAnimationClass()}" style="${popupStyles} ${getPopupContourStyle()} background-color: ${customization.popup.backgroundColor};">
             ${closeButtonHtml('cookie-popup')}
             <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                <h3 style="color: ${customization.typography.titleColor};">Políticas de Cookies</h3>
+                <h3 style="color: ${customization.typography.titleColor};">${popups.cookies.title}</h3>
                 <p style="color: ${customization.typography.textColor};">${popups.cookies.message}</p>
                 <div class="button-container" style="${buttonContainerStyle}">
                     <button style="${getButtonStyle(customization.button, true)}" onclick="proceed('cookie-popup')">${popups.cookies.buttonText}</button>

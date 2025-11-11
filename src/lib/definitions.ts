@@ -22,6 +22,7 @@ export type PageConfig = {
   popups: {
     cookies: {
       active: boolean;
+      title: string;
       message: string;
       buttonText: string;
     };
