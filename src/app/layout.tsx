@@ -24,7 +24,7 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" href="https://i.imgur.com/Lo98kWM.png" type="image/png" />
+        <link rel="icon" href="https://i.imgur.com/ihAZlua.png" type="image/png" />
       </head>
       <body className="font-body antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
