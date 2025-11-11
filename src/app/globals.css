@@ -81,6 +81,60 @@
   }
 }
 
+@layer utilities {
+    .marquee-container {
+        overflow: hidden;
+        position: relative;
+        width: 100%;
+    }
+    .marquee-content {
+        display: flex;
+        animation: marquee 60s linear infinite;
+        gap: 1.5rem; /* Corresponds to gap-6 */
+    }
+    @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+    }
+
+    @keyframes float-up-1 {
+        0%, 100% { transform: translateY(0); opacity: 0.8; }
+        50% { transform: translateY(-20px); opacity: 1; }
+    }
+    .float-up-1 { animation: float-up-1 8s ease-in-out infinite; animation-delay: 0s; }
+
+    @keyframes float-up-2 {
+        0%, 100% { transform: translateY(0); opacity: 0.8; }
+        50% { transform: translateY(-25px); opacity: 1; }
+    }
+    .float-up-2 { animation: float-up-2 9s ease-in-out infinite; animation-delay: 1.5s; }
+
+    @keyframes float-up-3 {
+        0%, 100% { transform: translateY(0); opacity: 0.8; }
+        50% { transform: translateY(-15px); opacity: 1; }
+    }
+    .float-up-3 { animation: float-up-3 7s ease-in-out infinite; animation-delay: 3s; }
+    
+    @keyframes float-up-4 {
+        0%, 100% { transform: translateY(0); opacity: 0.7; }
+        50% { transform: translateY(-22px); opacity: 1; }
+    }
+    .float-up-4 { animation: float-up-4 10s ease-in-out infinite; animation-delay: 0.5s; }
+
+    @keyframes float-up-5 {
+        0%, 100% { transform: translateY(0); opacity: 0.8; }
+        50% { transform: translateY(-18px); opacity: 1; }
+    }
+    .float-up-5 { animation: float-up-5 8.5s ease-in-out infinite; animation-delay: 2.5s; }
+
+    @keyframes float-up-6 {
+        0%, 100% { transform: translateY(0); opacity: 0.75; }
+        50% { transform: translateY(-28px); opacity: 1; }
+    }
+    .float-up-6 { animation: float-up-6 9.5s ease-in-out infinite; animation-delay: 4s; }
+}
+
+
 @layer components {
   .accordion-item-styling[data-state='open'] > [data-radix-accordion-trigger] {
     @apply bg-primary/10 text-primary;
