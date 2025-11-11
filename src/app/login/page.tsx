@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -51,14 +52,20 @@ const SalesNotification = ({ sale, position, animation }: { sale: typeof salesDa
 
 
 export default function SalesPage() {
-    const { isLoggedIn, loading } = useAuth();
+    const { isLoggedIn, loading, login } = useAuth();
     const router = useRouter();
+     const [isSigningUp, setIsSigningUp] = useState(false);
 
     useEffect(() => {
         if (!loading && isLoggedIn) {
             router.replace('/editor');
         }
     }, [isLoggedIn, loading, router]);
+    
+    const handleLogin = () => {
+        setIsSigningUp(true);
+        login();
+    };
 
 
     if (loading || isLoggedIn) {
@@ -165,10 +172,6 @@ export default function SalesPage() {
             answer: 'Sim! As páginas geradas são HTML puro, compatíveis com qualquer plataforma de anúncios como Facebook Ads, Google Ads, Taboola, TikTok Ads, etc. Você pode hospedar o arquivo em seu próprio site ou em serviços de hospedagem gratuitos.'
         },
         {
-            question: 'A ferramenta oferece alguma proteção contra bloqueios?',
-            answer: 'Sim. A funcionalidade de "Blindagem" (ou "cloaking") é projetada para proteger suas campanhas. Ela exibe uma página de conteúdo genérico (como uma receita) para robôs e moderadores, enquanto os usuários reais são direcionados para sua presell. Isso aumenta significativamente a vida útil das suas campanhas.'
-        },
-        {
             question: 'Posso cancelar minha assinatura a qualquer momento?',
             answer: 'Sim. Você pode gerenciar e cancelar sua assinatura a qualquer momento diretamente no seu painel de usuário, sem burocracia.'
         }
@@ -220,12 +223,15 @@ export default function SalesPage() {
                     </h1>
                 </Link>
                 <nav className="flex items-center gap-1 sm:gap-2">
-                    <Link href="/login">
-                        <Button variant="ghost" size="sm">Entrar</Button>
-                    </Link>
-                     <Link href="/login?action=signup" className="w-full">
-                        <Button size="sm" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">Criar Conta Grátis</Button>
-                     </Link>
+                    <Button variant="ghost" size="sm" onClick={handleLogin}>Entrar</Button>
+                    <Button 
+                        size="sm" 
+                        onClick={handleLogin}
+                        disabled={isSigningUp}
+                        className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                    >
+                        {isSigningUp ? <Loader2 className="animate-spin" /> : 'Criar Conta Grátis'}
+                    </Button>
                 </nav>
             </div>
         </header>
@@ -233,9 +239,8 @@ export default function SalesPage() {
         <main className="flex-1">
             {/* Hero Section */}
             <section
-              className="relative py-12 sm:py-20 text-center overflow-hidden bg-gradient-to-b from-background to-muted/30"
+              className="relative py-12 sm:py-20 text-center overflow-hidden bg-background"
             >
-                <div className="absolute inset-0 bg-center [mask-image:linear-gradient(180deg,white,rgba(255,255,255,0))]"></div>
                 <div className="container relative z-10 px-4">
 
                     <SalesNotification sale={salesData[0]} position="top-1/3 left-8" animation="float-up-1" />
@@ -271,11 +276,14 @@ export default function SalesPage() {
                     </div>
 
                     <div className="mt-8 flex flex-col items-center">
-                         <Link href="/login?action=signup" className="w-full sm:w-auto">
-                             <Button size="lg" className="w-full sm:w-auto text-lg h-14 px-10 font-semibold bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow">
-                                Quero construir minha presell
-                            </Button>
-                        </Link>
+                         <Button 
+                            size="lg"
+                            onClick={handleLogin}
+                            disabled={isSigningUp}
+                            className="w-full sm:w-auto text-lg h-14 px-10 font-semibold bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow"
+                         >
+                            {isSigningUp ? <Loader2 className="animate-spin" /> : 'Quero construir minha presell'}
+                        </Button>
                     </div>
                     <div className="mt-4">
                         <p className="text-sm text-muted-foreground">Comece a lucrar mais hoje mesmo.</p>
@@ -312,11 +320,14 @@ export default function SalesPage() {
                                 </div>
                                 <h3 className="text-2xl font-bold">{feature.title}</h3>
                                 <p className="text-muted-foreground text-lg">{feature.description}</p>
-                                <Link href="/login?action=signup">
-                                <Button size="sm" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
-                                    Criar Conta Grátis <ArrowRight className="ml-2 h-4 w-4" />
+                                <Button 
+                                    size="sm" 
+                                    onClick={handleLogin}
+                                    disabled={isSigningUp}
+                                    className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                                >
+                                     {isSigningUp ? <Loader2 className="h-4 w-4 animate-spin" /> : <>Criar Conta Grátis <ArrowRight className="ml-2 h-4 w-4" /></>}
                                 </Button>
-                                </Link>
                             </div>
                         </div>
                     ))}
@@ -409,11 +420,14 @@ export default function SalesPage() {
                             Aproveite todos os recursos da ferramenta sem custo algum. Crie quantas páginas precisar e otimize suas campanhas ao máximo.
                         </p>
                         <div className="mt-8">
-                             <Link href="/login?action=signup">
-                                <Button size="lg" className="font-semibold text-lg py-7 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700">
-                                    Começar a Usar de Graça
-                                </Button>
-                             </Link>
+                             <Button 
+                                size="lg" 
+                                onClick={handleLogin}
+                                disabled={isSigningUp}
+                                className="font-semibold text-lg py-7 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700"
+                            >
+                                {isSigningUp ? <Loader2 className="animate-spin" /> : 'Começar a Usar de Graça'}
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -482,3 +496,5 @@ export default function SalesPage() {
     </div>
   );
 }
+
+    
