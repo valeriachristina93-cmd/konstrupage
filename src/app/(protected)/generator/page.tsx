@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Loader2, Sparkles, Bot, ArrowLeft, Link as LinkIcon, Download, Info, FileText, Upload, FileSignature, Newspaper, Star, Power, Settings, Copy, Check } from 'lucide-react';
-import { generatePage, extractContentFromUrl, generatePageFromApi } from './actions';
+import { generatePage, generatePageFromApi } from './actions';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
@@ -82,7 +82,6 @@ export default function GeneratorPage() {
     const [salesPageLink, setSalesPageLink] = useState('');
     const [affiliateLink, setAffiliateLink] = useState('');
     const [language, setLanguage] = useState('Português (Brasil)');
-    const [url, setUrl] = useState('');
     const [description, setDescription] = useState('');
     const [pageType, setPageType] = useState<PageType>('Página review');
 
@@ -155,39 +154,6 @@ export default function GeneratorPage() {
         reader.readAsDataURL(file);
     };
 
-    const handleExtract = async () => {
-        if (!url.trim()) {
-            toast({
-                variant: 'destructive',
-                title: 'URL necessária',
-                description: 'Por favor, insira uma URL para extrair o conteúdo.'
-            });
-            return;
-        }
-
-        setIsExtracting(true);
-        try {
-            const result = await extractContentFromUrl(url);
-            let combinedContent = result.textContent;
-            if (result.imageUrls && result.imageUrls.length > 0) {
-                combinedContent += `\n\nImagens encontradas na página:\n${result.imageUrls.join('\n')}`;
-            }
-            setDescription(combinedContent);
-            toast({
-                title: 'Conteúdo Extraído!',
-                description: 'O texto e os links de imagem foram preenchidos. Revise antes de gerar a página.'
-            });
-        } catch (error: any) {
-            console.error(error);
-            toast({
-                variant: 'destructive',
-                title: 'Erro ao extrair conteúdo',
-                description: error.message || 'Não foi possível buscar o conteúdo da URL fornecida.',
-            });
-        } finally {
-            setIsExtracting(false);
-        }
-    };
     
     const handleGenerateWithAI = async () => {
         if (!description.trim() && !productName.trim()) {
@@ -401,28 +367,7 @@ export default function GeneratorPage() {
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="url">Extrair de URL (Opcional)</Label>
-                                            <div className="flex gap-2">
-                                                <Input 
-                                                    id="url"
-                                                    type="url"
-                                                    placeholder="Cole a URL de um artigo"
-                                                    value={url}
-                                                    onChange={(e) => setUrl(e.target.value)}
-                                                    className="flex-1"
-                                                    disabled={isExtracting}
-                                                />
-                                                <Button
-                                                    variant="secondary"
-                                                    onClick={handleExtract}
-                                                    disabled={isExtracting}
-                                                    aria-label="Extrair Conteúdo da URL"
-                                                >
-                                                    {isExtracting ? <Loader2 className="h-5 w-5 animate-spin"/> : <Upload className="h-5 w-5" />}
-                                                </Button>
-                                            </div>
-                                        </div>
+                                        
                                         <div className="space-y-2 flex-1 flex flex-col">
                                             <Label htmlFor="description">
                                             Descreva a página (ou cole o conteúdo)
@@ -583,5 +528,7 @@ export default function GeneratorPage() {
         </div>
     );
 }
+
+    
 
     

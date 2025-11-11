@@ -3,12 +3,7 @@
 
 import { z } from 'zod';
 import { generatePageFlow } from '@/ai/flows/generate-page-flow';
-import { extractContentFlow } from "@/ai/flows/extract-content-flow";
 
-
-const ExtractContentInputSchema = z.object({
-  url: z.string().url(),
-});
 
 const StructuredPromptSchema = z.object({
   pageType: z.string(),
@@ -35,20 +30,6 @@ export async function generatePage(structuredPrompt: z.infer<typeof StructuredPr
     } catch (error) {
         console.error("Error in generatePage server action:", error);
         throw new Error("Failed to get page structure from AI.");
-    }
-}
-
-export async function extractContentFromUrl(url: string) {
-    try {
-        const validatedInput = ExtractContentInputSchema.parse({ url });
-        const result = await extractContentFlow(validatedInput);
-        return result;
-    } catch (error) {
-        console.error("Error in extractContentFromUrl server action:", error);
-        if (error instanceof z.ZodError) {
-            throw new Error("URL inválida. Por favor, insira uma URL válida.");
-        }
-        throw new Error("Falha ao extrair conteúdo da URL.");
     }
 }
 
@@ -82,3 +63,6 @@ export async function generatePageFromApi(apiUrl: string, apiKey?: string) {
         throw new Error(error.message || "Falha ao buscar dados da API externa.");
     }
 }
+
+
+    
