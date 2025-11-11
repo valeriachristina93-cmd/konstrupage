@@ -682,7 +682,9 @@ export const generatePresellHtml = (config: PageConfig) => {
             .main-wrapper {
                 position: relative;
                 width: 100%;
-                min-height: 100vh;
+                min-height: ${(footer.active || disclaimer.active) ? 'auto' : '100vh'};
+                display: flex;
+                flex-direction: column;
             }
             .main-section {
                 cursor: pointer;
@@ -699,8 +701,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             .bg-desktop { ${getDesktopBgStyle()} }
             .bg-mobile { ${getMobileBgStyle()} display: none; }
 
-            .disclaimer { padding: 8px; text-align: center; font-size: 12px; position: fixed; bottom: ${footer.active ? '49px' : '0'}; width: 100%; z-index: 10;}
-            footer { padding: 16px; text-align: center; font-size: 14px; position: fixed; bottom: 0; width: 100%; z-index: 10;}
+            .disclaimer { padding: 8px; text-align: center; font-size: 12px; width: 100%; z-index: 10;}
+            footer { padding: 16px; text-align: center; font-size: 14px; width: 100%; z-index: 10;}
             footer a { color: inherit; text-decoration: none; margin: 0 8px; cursor: pointer; }
             
             .popup-wrapper {
@@ -980,6 +982,9 @@ export const generatePresellHtml = (config: PageConfig) => {
              <div class="main-section bg-desktop" onclick="mainAction()"></div>
              <div class="main-section bg-mobile" onclick="mainAction()"></div>
             
+            ${disclaimerSection}
+            ${footerSection}
+
             <div class="popup-wrapper">
                 ${agePopup}
                 ${captchaPopup}
@@ -992,8 +997,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             </div>
             ${legalModals}
         </div>
-        ${disclaimerSection}
-        ${footerSection}
+        
         ${customization.customHtml || ''}
         ${cookieLoaderScript}
         <script>
@@ -1291,3 +1295,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
+    
