@@ -549,6 +549,13 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         onCheckedChange={(isChecked) => handleSubAccordionToggle('custom', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-6 px-3">
+                                        <div className="p-3 border rounded-md">
+                                            <SettingsToggle 
+                                                label="Acionar na Saída" 
+                                                checked={customPopupConfig.triggerOnExit} 
+                                                onCheckedChange={checked => onConfigChange(['popups', 'custom', 'triggerOnExit'], checked)} 
+                                            />
+                                        </div>
                                         <Accordion type="single" collapsible className="w-full space-y-2">
                                             {/* Image Layout */}
                                             <AccordionItem value="image-layout">
@@ -1442,3 +1449,4 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
     
+
