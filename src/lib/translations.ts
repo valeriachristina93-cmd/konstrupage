@@ -36,7 +36,7 @@ export const translations = {
     customize: 'Personalizar',
     age_verification_popup: 'Pop-up Verificação de Idade',
     yes_button_text: "Texto do Botão 'Sim'",
-    no_button_text: "Texto do Botão 'Não'",
+    no_button_text: "Texto do Botão 'No'",
     yes_button_color: "Cor do Botão 'Sim'",
     no_button_color: "Cor do Botão 'No'",
     button_width: 'Largura dos Botões',
@@ -96,7 +96,7 @@ export const translations = {
     inner_image: 'Imagem Interna',
     enable_inner_image: 'Ativar Imagem Interna',
     inner_image_url: 'URL da Imagem Interna',
-    inner_image_width: 'Largura da Imagem Interna',
+    inner_image_width: 'Ancho de la Imagen Interna',
     text_content: 'Conteúdo do Texto',
     popup_description_html: 'Descrição do pop-up. Você pode usar <b> e <a> tags.',
     countdown_timer: 'Contador Regressivo',
@@ -197,8 +197,8 @@ export const translations = {
     full_page_click_tooltip: 'Ao ativar, qualquer clique na página redireciona para o link de afiliado. Use com cuidado, pois pode impactar negativamente a experiência do usuário e as métricas de suas campanhas.',
     auto_redirect: 'Redirecionamento Automático',
     auto_redirect_tooltip: 'O redirecionamento automático pode afetar a experiência do usuário e as taxas de rejeição. Use com moderação.',
-    custom_html: 'HTML Personalizado',
-    custom_html_tooltip: 'Ao utilizar este recurso, dependendo do uso, você pode sofrer bloqueios em suas contas de anúncios (Facebook Ads, Google Ads) ou danificar a página gerada. Use com conhecimento.',
+    custom_html: 'Scripts e Pixels (HTML)',
+    custom_html_tooltip: 'Adicione códigos HTML, como pixels de rastreamento (Filtrepixel, etc.), scripts de análise ou CSS personalizado.',
     tracking: 'Rastreamento',
     facebook_pixel_id: 'ID do Pixel do Facebook',
     facebook_pixel_id_placeholder: 'Cole apenas o número de ID do seu Pixel',
@@ -437,8 +437,8 @@ export const translations = {
     full_page_click_tooltip: 'When enabled, any click on the page redirects to the affiliate link. Use with caution as it may negatively impact user experience and campaign metrics.',
     auto_redirect: 'Auto Redirect',
     auto_redirect_tooltip: 'Auto-redirect can affect user experience and bounce rates. Use with moderation.',
-    custom_html: 'Custom HTML',
-    custom_html_tooltip: 'By using this feature, depending on usage, you may get blocked from your ad accounts (Facebook Ads, Google Ads) or damage the generated page. Use with knowledge.',
+    custom_html: 'Scripts & Pixels (HTML)',
+    custom_html_tooltip: 'Add HTML snippets like tracking pixels (Filtrepixel, etc.), analytics scripts, or custom CSS.',
     tracking: 'Tracking',
     facebook_pixel_id: 'Facebook Pixel ID',
     facebook_pixel_id_placeholder: 'Paste only your Pixel ID number',
@@ -677,8 +677,8 @@ export const translations = {
     full_page_click_tooltip: 'Cuando está habilitado, cualquier clic en la página redirige al enlace de afiliado. Úsalo con precaución, ya que puede afectar negativamente la experiencia del usuario y las métricas de la campaña.',
     auto_redirect: 'Redirección Automática',
     auto_redirect_tooltip: 'La redirección automática puede afectar la experiencia del usuario y las tasas de rebote. Úsalo con moderación.',
-    custom_html: 'HTML Personalizado',
-    custom_html_tooltip: 'Al usar esta función, dependiendo del uso, puedes ser bloqueado de tus cuentas de anuncios (Facebook Ads, Google Ads) o dañar la página generada. Úsalo con conocimiento.',
+    custom_html: 'Scripts y Píxeles (HTML)',
+    custom_html_tooltip: 'Añade fragmentos de HTML como píxeles de seguimiento (Filtrepixel, etc.), scripts de análisis o CSS personalizado.',
     tracking: 'Seguimiento',
     facebook_pixel_id: 'ID del Píxel de Facebook',
     facebook_pixel_id_placeholder: 'Pega solo el número de ID de tu Píxel',
@@ -723,3 +723,5 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations.pt;
+
+    

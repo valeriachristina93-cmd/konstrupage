@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState } from 'react';
@@ -1467,7 +1466,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      </div>
                                 </div>
                                 {!!pageConfig.customization.customHtml && (
-                                    <Textarea placeholder="&lt;style&gt;...&lt;/style&gt; ou &lt;script&gt;...&lt;/script&gt;" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
+                                    <Textarea placeholder="<script>...</script>" value={pageConfig.customization.customHtml} onChange={e => onConfigChange(['customization', 'customHtml'], e.target.value)} className="text-sm h-32 font-mono bg-background/50 border-destructive/20 focus-visible:ring-destructive" />
                                 )}
                             </div>
                             <Accordion type="single" collapsible className="w-full space-y-2">
@@ -1513,3 +1512,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
+
+    
