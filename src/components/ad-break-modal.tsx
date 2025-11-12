@@ -47,7 +47,7 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     const [countdown, setCountdown] = useState(5);
     const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
-    const adSlotIds = ['7995115463', '4647596135', '1783487248'];
+    const adSlotIds = ['7995115463', '4647596135', '1783487248', '3013405679'];
     
     useEffect(() => {
         if (isOpen) {
@@ -110,7 +110,7 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
           </DialogClose>
         )}
 
-        <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
+        <div className="flex-grow grid grid-cols-2 md:grid-cols-2 gap-6 py-6">
             {adSlotIds.map(id => (
                  <div key={id} className="aspect-square">
                     <AdSlot client={adsenseClient} slotId={id} />
