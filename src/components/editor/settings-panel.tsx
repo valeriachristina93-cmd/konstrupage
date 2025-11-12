@@ -575,9 +575,28 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 onFileUpload={file => onImageUpload(file, ['popups', 'exit', 'imageUrl'])}
                                             />
                                         </div>
-                                        <Input type="text" placeholder={t('redirect_link_optional')} value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
                                         <div className="p-3 border rounded-md">
                                             <SettingsToggle label={t('image_only')} checked={pageConfig.popups.exit.imageOnly} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'imageOnly'], checked)} />
+                                        </div>
+                                         {!pageConfig.popups.exit.imageOnly && (
+                                            <div className="pt-4 space-y-4 border-t">
+                                                 <div className="space-y-2">
+                                                    <Label>{t('title')}</Label>
+                                                    <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.exit.title} onChange={e => onConfigChange(['popups', 'exit', 'title'], e.target.value)} />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>{t('description')}</Label>
+                                                    <Textarea placeholder={t('popup_description')} value={pageConfig.popups.exit.description} onChange={e => onConfigChange(['popups', 'exit', 'description'], e.target.value)} className="text-sm h-24" />
+                                                </div>
+                                                <div className="space-y-2">
+                                                    <Label>{t('button_text')}</Label>
+                                                    <Input type="text" placeholder={t('button_text')} value={pageConfig.popups.exit.buttonText} onChange={e => onConfigChange(['popups', 'exit', 'buttonText'], e.target.value)} />
+                                                </div>
+                                            </div>
+                                        )}
+                                        <div className="space-y-2">
+                                            <Label>{t('redirect_link_optional')}</Label>
+                                            <Input type="text" placeholder="https://..." value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
                                         </div>
                                         <CustomizeLink />
                                     </AccordionContent>

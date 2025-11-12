@@ -20,7 +20,15 @@ export const initialPageConfig: PageConfig = {
         cookies: { active: false, title: 'Políticas de Cookies', message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
         ageVerification: { active: false, message: 'Você confirma que tem mais de 18 anos?', yesButtonText: 'Sim', noButtonText: 'Não', yesButtonColor: '#3B82F6', noButtonColor: '#6B7280', buttonWidth: 48 },
         discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: 'percent', iconSize: 48 },
-        exit: { active: false, imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', redirectLink: '', imageOnly: false },
+        exit: { 
+            active: false, 
+            imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', 
+            redirectLink: '', 
+            imageOnly: false,
+            title: 'Espere, não vá embora!',
+            description: 'Temos uma oferta especial para você.',
+            buttonText: 'Pegar Oferta'
+        },
         custom: { 
             active: false, 
             triggerOnExit: false,

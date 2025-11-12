@@ -516,10 +516,10 @@ export const generatePresellHtml = (config: PageConfig) => {
                 <div style="padding:0; display: flex; flex-direction: column;">
                     <img src="${popups.exit.imageUrl}" alt="Oferta de Saída" style="width:100%; height:auto; display:block; border-top-left-radius: ${customization.popup.borderRadius}px; border-top-right-radius: ${customization.popup.borderRadius}px;" />
                     <div class="popup-inner-content" style="${popupContentStyles} ${popupStandardGap}">
-                        <h3>Espere, não vá embora!</h3>
-                        <p>Temos uma oferta especial para você.</p>
+                        <h3>${popups.exit.title}</h3>
+                        <p>${popups.exit.description}</p>
                         <div class="button-container" style="${buttonContainerStyle}">
-                            <button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">Pegar Oferta</button>
+                            <button style="${getButtonStyle(customization.button, true)}" onclick="redirect('${popups.exit.redirectLink || affiliateLink}', true)">${popups.exit.buttonText}</button>
                         </div>
                     </div>
                 </div>
