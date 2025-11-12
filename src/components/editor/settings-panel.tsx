@@ -390,43 +390,43 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
                                  <AccordionItem value="gender" className="border-b">
                                     <AccordionSubTrigger 
-                                      title="Pop-up de Gênero"
+                                      title={t('gender_popup')}
                                       checked={pageConfig.popups.gender.active}
                                       onCheckedChange={(isChecked) => handleSubAccordionToggle('gender', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-2">
-                                            <Label>Título</Label>
-                                            <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.gender.title} onChange={e => onConfigChange(['popups', 'gender', 'title'], e.target.value)} />
+                                            <Label>{t('title')}</Label>
+                                            <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.gender.title} onChange={e => onConfigChange(['popups', 'gender', 'title'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Descrição</Label>
-                                            <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
+                                            <Label>{t('description')}</Label>
+                                            <Textarea placeholder={t('popup_description')} value={pageConfig.popups.gender.description} onChange={e => onConfigChange(['popups', 'gender', 'description'], e.target.value)} className="text-sm h-24" />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Texto Masculino</Label>
+                                            <Label>{t('male_text')}</Label>
                                             <Input type="text" value={pageConfig.popups.gender.maleText} onChange={e => onConfigChange(['popups', 'gender', 'maleText'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Texto Feminino</Label>
+                                            <Label>{t('female_text')}</Label>
                                             <Input type="text" value={pageConfig.popups.gender.femaleText} onChange={e => onConfigChange(['popups', 'gender', 'femaleText'], e.target.value)} />
                                         </div>
 
                                         <div className="p-3 border-t mt-3 space-y-3">
-                                            <SettingsToggle label="Adicionar opção 'Outros'" checked={pageConfig.popups.gender.includeOther} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'includeOther'], checked)} />
+                                            <SettingsToggle label={t('add_other_option')} checked={pageConfig.popups.gender.includeOther} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'includeOther'], checked)} />
                                             {pageConfig.popups.gender.includeOther && (
                                                 <div className="space-y-2 pt-2 border-t">
-                                                    <Label>Texto Outro</Label>
+                                                    <Label>{t('other_text')}</Label>
                                                     <Input type="text" value={pageConfig.popups.gender.otherText} onChange={e => onConfigChange(['popups', 'gender', 'otherText'], e.target.value)} />
                                                 </div>
                                             )}
-                                            <SettingsToggle label="Usar Imagens Personalizadas" checked={pageConfig.popups.gender.useCustomImages} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'useCustomImages'], checked)} />
+                                            <SettingsToggle label={t('use_custom_images')} checked={pageConfig.popups.gender.useCustomImages} onCheckedChange={checked => onConfigChange(['popups', 'gender', 'useCustomImages'], checked)} />
                                         </div>
 
                                         {pageConfig.popups.gender.useCustomImages ? (
                                             <div className="space-y-4 pt-2">
                                                 <div className='space-y-2'>
-                                                    <Label>Imagem Masculino</Label>
+                                                    <Label>{t('male_image')}</Label>
                                                     <ImageUploadInput
                                                         value={pageConfig.popups.gender.maleImageUrl}
                                                         onChange={e => onConfigChange(['popups', 'gender', 'maleImageUrl'], e.target.value)}
@@ -434,7 +434,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     />
                                                 </div>
                                                 <div className='space-y-2'>
-                                                    <Label>Imagem Feminino</Label>
+                                                    <Label>{t('female_image')}</Label>
                                                     <ImageUploadInput
                                                         value={pageConfig.popups.gender.femaleImageUrl}
                                                         onChange={e => onConfigChange(['popups', 'gender', 'femaleImageUrl'], e.target.value)}
@@ -443,7 +443,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 </div>
                                                 {pageConfig.popups.gender.includeOther && (
                                                     <div className='space-y-2'>
-                                                        <Label>Imagem Outro</Label>
+                                                        <Label>{t('other_image')}</Label>
                                                         <ImageUploadInput
                                                             value={pageConfig.popups.gender.otherImageUrl}
                                                             onChange={e => onConfigChange(['popups', 'gender', 'otherImageUrl'], e.target.value)}
@@ -457,7 +457,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         )}
 
                                         <div className="space-y-2">
-                                            <Label>Tamanho do Ícone/Imagem ({pageConfig.popups.gender.iconSize}px)</Label>
+                                            <Label>{t('icon_size')} ({pageConfig.popups.gender.iconSize}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.popups.gender.iconSize]}
                                                 onValueChange={(value) => onConfigChange(['popups', 'gender', 'iconSize'], value[0])}
@@ -472,56 +472,56 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 
                                 <AccordionItem value="captcha" className="border-b">
                                     <AccordionSubTrigger 
-                                        title="Pop-up Captcha"
+                                        title={t('captcha_popup')}
                                         checked={pageConfig.popups.captcha.active}
                                         onCheckedChange={(isChecked) => handleSubAccordionToggle('captcha', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
-                                        <Input type="text" placeholder="Título do Pop-up" value={pageConfig.popups.captcha.title} onChange={e => onConfigChange(['popups', 'captcha', 'title'], e.target.value)} />
-                                        <Textarea placeholder="Descrição do Pop-up" value={pageConfig.popups.captcha.description} onChange={e => onConfigChange(['popups', 'captcha', 'description'], e.target.value)} className="text-sm h-24" />
+                                        <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.captcha.title} onChange={e => onConfigChange(['popups', 'captcha', 'title'], e.target.value)} />
+                                        <Textarea placeholder={t('popup_description')} value={pageConfig.popups.captcha.description} onChange={e => onConfigChange(['popups', 'captcha', 'description'], e.target.value)} className="text-sm h-24" />
                                         <div className="space-y-2">
-                                            <Label>Tipo de Captcha</Label>
+                                            <Label>{t('captcha_type')}</Label>
                                             <Select value={pageConfig.popups.captcha.captchaType} onValueChange={value => onConfigChange(['popups', 'captcha', 'captchaType'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="checkbox">Checkbox</SelectItem>
-                                                    <SelectItem value="checkbox-v2">Checkbox V2</SelectItem>
-                                                    <SelectItem value="slide-v2">Deslizar V2</SelectItem>
-                                                    <SelectItem value="slide-v3">Deslizar V3</SelectItem>
+                                                    <SelectItem value="checkbox">{t('checkbox')}</SelectItem>
+                                                    <SelectItem value="checkbox-v2">{t('checkbox')} V2</SelectItem>
+                                                    <SelectItem value="slide-v2">{t('slide')} V2</SelectItem>
+                                                    <SelectItem value="slide-v3">{t('slide')} V3</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         {(pageConfig.popups.captcha.captchaType === 'checkbox' || pageConfig.popups.captcha.captchaType === 'checkbox-v2') && (
                                              <div className="space-y-2">
-                                                <Label>Texto do Checkbox</Label>
+                                                <Label>{t('checkbox_text')}</Label>
                                                 <Input type="text" value={pageConfig.popups.captcha.checkboxText} onChange={e => onConfigChange(['popups', 'captcha', 'checkboxText'], e.target.value)} />
                                             </div>
                                         )}
                                         {(pageConfig.popups.captcha.captchaType === 'slide-v2' || pageConfig.popups.captcha.captchaType === 'slide-v3') && (
                                             <div className="pt-4 mt-4 border-t space-y-4">
-                                                <h4 className="font-semibold text-sm">Personalização do Slider</h4>
+                                                <h4 className="font-semibold text-sm">{t('slider_customization')}</h4>
                                                 <div className="space-y-2">
-                                                    <Label>Texto da Barra</Label>
+                                                    <Label>{t('slider_bar_text')}</Label>
                                                     <Input type="text" value={pageConfig.popups.captcha.sliderText} onChange={e => onConfigChange(['popups', 'captcha', 'sliderText'], e.target.value)} />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label>Texto de Sucesso</Label>
+                                                    <Label>{t('slider_success_text')}</Label>
                                                     <Input type="text" value={pageConfig.popups.captcha.sliderSuccessText} onChange={e => onConfigChange(['popups', 'captcha', 'sliderSuccessText'], e.target.value)} />
                                                 </div>
                                                  <div className="space-y-2">
-                                                    <Label>Formato da Barra</Label>
+                                                    <Label>{t('slider_bar_shape')}</Label>
                                                     <Select value={pageConfig.popups.captcha.sliderShape} onValueChange={value => onConfigChange(['popups', 'captcha', 'sliderShape'], value)}>
                                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                                         <SelectContent>
-                                                            <SelectItem value="round">Redonda</SelectItem>
-                                                            <SelectItem value="square">Quadrada</SelectItem>
+                                                            <SelectItem value="round">{t('round')}</SelectItem>
+                                                            <SelectItem value="square">{t('square')}</SelectItem>
                                                         </SelectContent>
                                                     </Select>
                                                 </div>
-                                                <ColorInput label="Cor do Botão" value={pageConfig.popups.captcha.sliderButtonColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderButtonColor'], e.target.value)} />
-                                                <ColorInput label="Cor da Barra" value={pageConfig.popups.captcha.sliderTrackColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderTrackColor'], e.target.value)} />
-                                                <ColorInput label="Cor do Texto" value={pageConfig.popups.captcha.sliderTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderTextColor'], e.target.value)} />
-                                                <ColorInput label="Cor do Texto de Sucesso" value={pageConfig.popups.captcha.sliderSuccessTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderSuccessTextColor'], e.target.value)} />
+                                                <ColorInput label={t('button_color')} value={pageConfig.popups.captcha.sliderButtonColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderButtonColor'], e.target.value)} />
+                                                <ColorInput label={t('bar_color')} value={pageConfig.popups.captcha.sliderTrackColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderTrackColor'], e.target.value)} />
+                                                <ColorInput label={t('text_color')} value={pageConfig.popups.captcha.sliderTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderTextColor'], e.target.value)} />
+                                                <ColorInput label={t('success_text_color')} value={pageConfig.popups.captcha.sliderSuccessTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderSuccessTextColor'], e.target.value)} />
                                             </div>
                                         )}
                                         <CustomizeLink />
@@ -530,15 +530,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
                                 <AccordionItem value="discount" className="border-b">
                                     <AccordionSubTrigger 
-                                        title="Pop-up de Desconto"
+                                        title={t('discount_popup')}
                                         checked={pageConfig.popups.discount.active}
                                         onCheckedChange={(isChecked) => handleSubAccordionToggle('discount', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
-                                        <Input type="text" placeholder="Texto do desconto" value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
-                                        <Textarea placeholder="Descrição da oferta" value={pageConfig.popups.discount.description} onChange={e => onConfigChange(['popups', 'discount', 'description'], e.target.value)} className="text-sm h-24" />
+                                        <Input type="text" placeholder={t('discount_text')} value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
+                                        <Textarea placeholder={t('offer_description')} value={pageConfig.popups.discount.description} onChange={e => onConfigChange(['popups', 'discount', 'description'], e.target.value)} className="text-sm h-24" />
                                         <div className="space-y-2">
-                                            <Label>Ícone</Label>
+                                            <Label>{t('icon')}</Label>
                                             <Select value={pageConfig.popups.discount.icon} onValueChange={value => onConfigChange(['popups', 'discount', 'icon'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
@@ -547,7 +547,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Tamanho do Ícone ({pageConfig.popups.discount.iconSize}px)</Label>
+                                            <Label>{t('icon_size')} ({pageConfig.popups.discount.iconSize}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.popups.discount.iconSize]}
                                                 onValueChange={(value) => onConfigChange(['popups', 'discount', 'iconSize'], value[0])}
@@ -562,22 +562,22 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 
                                 <AccordionItem value="exit" className="border-b">
                                     <AccordionSubTrigger 
-                                        title="Pop-up de Saída"
+                                        title={t('exit_popup')}
                                         checked={pageConfig.popups.exit.active}
                                         onCheckedChange={(isChecked) => handleSubAccordionToggle('exit', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className='space-y-2'>
-                                            <Label>Imagem (16:9)</Label>
+                                            <Label>{t('image_16_9')}</Label>
                                             <ImageUploadInput
                                                 value={pageConfig.popups.exit.imageUrl}
                                                 onChange={e => onConfigChange(['popups', 'exit', 'imageUrl'], e.target.value)}
                                                 onFileUpload={file => onImageUpload(file, ['popups', 'exit', 'imageUrl'])}
                                             />
                                         </div>
-                                        <Input type="text" placeholder="Link de Redirecionamento (Opcional)" value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
+                                        <Input type="text" placeholder={t('redirect_link_optional')} value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
                                         <div className="p-3 border rounded-md">
-                                            <SettingsToggle label="Somente Imagem" checked={pageConfig.popups.exit.imageOnly} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'imageOnly'], checked)} />
+                                            <SettingsToggle label={t('image_only')} checked={pageConfig.popups.exit.imageOnly} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'imageOnly'], checked)} />
                                         </div>
                                         <CustomizeLink />
                                     </AccordionContent>
@@ -585,14 +585,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
                                 <AccordionItem value="custom" className="border-b-0">
                                     <AccordionSubTrigger 
-                                        title="Pop-up Personalizado"
+                                        title={t('custom_popup')}
                                         checked={customPopupConfig.active}
                                         onCheckedChange={(isChecked) => handleSubAccordionToggle('custom', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-6 px-3">
                                         <div className="p-3 border rounded-md">
                                             <SettingsToggle 
-                                                label="Acionar na Saída" 
+                                                label={t('trigger_on_exit')} 
                                                 checked={customPopupConfig.triggerOnExit} 
                                                 onCheckedChange={checked => onConfigChange(['popups', 'custom', 'triggerOnExit'], checked)} 
                                             />
@@ -603,25 +603,25 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
                                                     <ImageIcon className="w-4 h-4 text-primary/80" />
-                                                    <span>Layout da Imagem Principal</span>
+                                                    <span>{t('main_image_layout')}</span>
                                                     </div>
                                                 </AccordionTrigger>
                                                 <AccordionContent className="pt-4 space-y-4 px-3">
                                                     <div className="space-y-2">
-                                                        <Label>Estilo do Layout</Label>
+                                                        <Label>{t('layout_style')}</Label>
                                                         <Select value={customPopupConfig.imageLayout} onValueChange={value => onConfigChange(['popups', 'custom', 'imageLayout'], value)}>
                                                             <SelectTrigger><SelectValue /></SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem value="none">Nenhum</SelectItem>
-                                                                <SelectItem value="top">Imagem no Topo</SelectItem>
-                                                                <SelectItem value="side">Imagem Lateral</SelectItem>
+                                                                <SelectItem value="none">{t('none')}</SelectItem>
+                                                                <SelectItem value="top">{t('top_image')}</SelectItem>
+                                                                <SelectItem value="side">{t('side_image')}</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
                                                     {customPopupConfig.imageLayout !== 'none' && (
                                                         <>
                                                             <div className='space-y-2'>
-                                                                <Label>URL da Imagem</Label>
+                                                                <Label>{t('image_url')}</Label>
                                                                 <ImageUploadInput
                                                                     value={customPopupConfig.imageUrl}
                                                                     onChange={e => onConfigChange(['popups', 'custom', 'imageUrl'], e.target.value)}
@@ -631,17 +631,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                             {customPopupConfig.imageLayout === 'side' && (
                                                                 <>
                                                                     <div className="space-y-2">
-                                                                        <Label>Posição da Imagem</Label>
+                                                                        <Label>{t('image_position')}</Label>
                                                                         <Select value={customPopupConfig.imageSide} onValueChange={value => onConfigChange(['popups', 'custom', 'imageSide'], value)}>
                                                                             <SelectTrigger><SelectValue /></SelectTrigger>
                                                                             <SelectContent>
-                                                                                <SelectItem value="left">Esquerda</SelectItem>
-                                                                                <SelectItem value="right">Direita</SelectItem>
+                                                                                <SelectItem value="left">{t('left')}</SelectItem>
+                                                                                <SelectItem value="right">{t('right')}</SelectItem>
                                                                             </SelectContent>
                                                                         </Select>
                                                                     </div>
                                                                     <div className="space-y-2">
-                                                                        <Label>Largura da Imagem ({customPopupConfig.imageSideWidth}%)</Label>
+                                                                        <Label>{t('image_width')} ({customPopupConfig.imageSideWidth}%)</Label>
                                                                         <SliderWithControls
                                                                             value={[customPopupConfig.imageSideWidth]}
                                                                             onValueChange={(value) => onConfigChange(['popups', 'custom', 'imageSideWidth'], value[0])}
@@ -662,15 +662,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
                                                         <ImageIcon className="w-4 h-4 text-primary/80" />
-                                                        <span>Imagem Interna</span>
+                                                        <span>{t('inner_image')}</span>
                                                     </div>
                                                 </AccordionTrigger>
                                                 <AccordionContent className="pt-4 space-y-4 px-3">
-                                                    <SettingsToggle label="Ativar Imagem Interna" checked={customPopupConfig.imageInner.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'imageInner', 'active'], checked)} />
+                                                    <SettingsToggle label={t('enable_inner_image')} checked={customPopupConfig.imageInner.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'imageInner', 'active'], checked)} />
                                                     {customPopupConfig.imageInner.active && (
                                                         <>
                                                             <div className='space-y-2'>
-                                                                <Label>URL da Imagem Interna</Label>
+                                                                <Label>{t('inner_image_url')}</Label>
                                                                 <ImageUploadInput
                                                                     value={customPopupConfig.imageInner.imageUrl}
                                                                     onChange={e => onConfigChange(['popups', 'custom', 'imageInner', 'imageUrl'], e.target.value)}
@@ -678,7 +678,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                 />
                                                             </div>
                                                             <div className="space-y-2">
-                                                                <Label>Largura da Imagem Interna ({customPopupConfig.imageInner.width}%)</Label>
+                                                                <Label>{t('inner_image_width')} ({customPopupConfig.imageInner.width}%)</Label>
                                                                 <SliderWithControls
                                                                     value={[customPopupConfig.imageInner.width]}
                                                                     onValueChange={(value) => onConfigChange(['popups', 'custom', 'imageInner', 'width'], value[0])}
@@ -697,17 +697,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
                                                         <FileText className="w-4 h-4 text-primary/80" />
-                                                        <span>Conteúdo do Texto</span>
+                                                        <span>{t('text_content')}</span>
                                                     </div>
                                                 </AccordionTrigger>
                                                 <AccordionContent className="pt-4 space-y-4 px-3">
                                                     <div className="space-y-2">
-                                                        <Label>Título</Label>
-                                                        <Input type="text" placeholder="Título do Pop-up" value={customPopupConfig.title} onChange={e => onConfigChange(['popups', 'custom', 'title'], e.target.value)} />
+                                                        <Label>{t('title')}</Label>
+                                                        <Input type="text" placeholder={t('popup_title')} value={customPopupConfig.title} onChange={e => onConfigChange(['popups', 'custom', 'title'], e.target.value)} />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Descrição</Label>
-                                                        <Textarea placeholder="Descrição do pop-up. Você pode usar &lt;b&gt; e &lt;a&gt; tags." value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
+                                                        <Label>{t('description')}</Label>
+                                                        <Textarea placeholder={t('popup_description_html')} value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                     </div>
                                                 </AccordionContent>
                                             </AccordionItem>
@@ -717,40 +717,40 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
                                                     <Timer className="w-4 h-4 text-primary/80" />
-                                                    <span>Contador Regressivo</span>
+                                                    <span>{t('countdown_timer')}</span>
                                                     </div>
                                                 </AccordionTrigger>
                                                 <AccordionContent className="pt-4 space-y-4 px-3">
-                                                    <SettingsToggle label="Ativar Contador" checked={customPopupConfig.countdown.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'countdown', 'active'], checked)} />
+                                                    <SettingsToggle label={t('enable_countdown')} checked={customPopupConfig.countdown.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'countdown', 'active'], checked)} />
                                                     {customPopupConfig.countdown.active && (
                                                         <div className="space-y-4">
                                                             <div className="space-y-2">
-                                                                <Label>Tempo (HH:MM:SS)</Label>
+                                                                <Label>{t('time_hhmmss')}</Label>
                                                                 <Input type="text" placeholder="00:15:00" value={customPopupConfig.countdown.time} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'time'], e.target.value)} />
                                                             </div>
                                                             <div className="space-y-2">
-                                                                <Label>Posição</Label>
+                                                                <Label>{t('position')}</Label>
                                                                 <Select value={customPopupConfig.countdown.position} onValueChange={value => onConfigChange(['popups', 'custom', 'countdown', 'position'], value)}>
                                                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                                                     <SelectContent>
-                                                                        <SelectItem value="aboveTitle">Acima do Título</SelectItem>
-                                                                        <SelectItem value="belowText">Abaixo do Texto</SelectItem>
+                                                                        <SelectItem value="aboveTitle">{t('above_title')}</SelectItem>
+                                                                        <SelectItem value="belowText">{t('below_text')}</SelectItem>
                                                                     </SelectContent>
                                                                 </Select>
                                                             </div>
                                                             <div className="space-y-2">
-                                                                <Label>Estilo</Label>
+                                                                <Label>{t('style')}</Label>
                                                                 <Select value={customPopupConfig.countdown.style} onValueChange={value => onConfigChange(['popups', 'custom', 'countdown', 'style'], value)}>
                                                                     <SelectTrigger><SelectValue /></SelectTrigger>
                                                                     <SelectContent>
-                                                                        <SelectItem value="style1">Simples</SelectItem>
-                                                                        <SelectItem value="style2">Em caixas</SelectItem>
-                                                                        <SelectItem value="style3">Círculos</SelectItem>
+                                                                        <SelectItem value="style1">{t('simple')}</SelectItem>
+                                                                        <SelectItem value="style2">{t('boxed')}</SelectItem>
+                                                                        <SelectItem value="style3">{t('circled')}</SelectItem>
                                                                     </SelectContent>
                                                                 </Select>
                                                             </div>
                                                             <div className="space-y-2">
-                                                                <Label>Tamanho da Fonte ({customPopupConfig.countdown.fontSize}px)</Label>
+                                                                <Label>{t('font_size')} ({customPopupConfig.countdown.fontSize}px)</Label>
                                                                 <SliderWithControls
                                                                     value={[customPopupConfig.countdown.fontSize]}
                                                                     onValueChange={(value) => onConfigChange(['popups', 'custom', 'countdown', 'fontSize'], value[0])}
@@ -759,9 +759,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                     step={1}
                                                                 />
                                                             </div>
-                                                            <ColorInput label="Cor do Contador" value={customPopupConfig.countdown.color} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'color'], e.target.value)} />
+                                                            <ColorInput label={t('countdown_color')} value={customPopupConfig.countdown.color} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'color'], e.target.value)} />
                                                             {(customPopupConfig.countdown.style === 'style2' || customPopupConfig.countdown.style === 'style3') && (
-                                                                <ColorInput label="Cor da Caixa" value={customPopupConfig.countdown.boxColor} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'boxColor'], e.target.value)} />
+                                                                <ColorInput label={t('box_color')} value={customPopupConfig.countdown.boxColor} onChange={e => onConfigChange(['popups', 'custom', 'countdown', 'boxColor'], e.target.value)} />
                                                             )}
                                                         </div>
                                                     )}
@@ -773,39 +773,39 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
                                                     <Settings className="w-4 h-4 text-primary/80" />
-                                                    <span>Botões</span>
+                                                    <span>{t('buttons')}</span>
                                                     </div>
                                                 </AccordionTrigger>
                                                 <AccordionContent className="pt-4 space-y-4 px-3">
                                                     <div className="space-y-2">
-                                                        <Label>Texto do Botão Principal</Label>
-                                                        <Input type="text" placeholder="Texto do Botão Principal" value={customPopupConfig.buttonText} onChange={e => onConfigChange(['popups', 'custom', 'buttonText'], e.target.value)} />
+                                                        <Label>{t('main_button_text')}</Label>
+                                                        <Input type="text" placeholder={t('main_button_text')} value={customPopupConfig.buttonText} onChange={e => onConfigChange(['popups', 'custom', 'buttonText'], e.target.value)} />
                                                     </div>
                                                     <div className="p-3 border rounded-md space-y-3">
-                                                        <SettingsToggle label="Ativar Botão Secundário" checked={customPopupConfig.secondButton.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'secondButton', 'active'], checked)} />
+                                                        <SettingsToggle label={t('enable_secondary_button')} checked={customPopupConfig.secondButton.active} onCheckedChange={checked => onConfigChange(['popups', 'custom', 'secondButton', 'active'], checked)} />
                                                         {customPopupConfig.secondButton.active && (
                                                             <div className="pt-3 border-t space-y-4">
                                                                 <div className="space-y-2">
-                                                                    <Label>Texto do Botão Secundário</Label>
-                                                                    <Input type="text" placeholder="Texto do Botão Secundário" value={customPopupConfig.secondButton.text} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'text'], e.target.value)} />
+                                                                    <Label>{t('secondary_button_text')}</Label>
+                                                                    <Input type="text" placeholder={t('secondary_button_text')} value={customPopupConfig.secondButton.text} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'text'], e.target.value)} />
                                                                 </div>
                                                                 <div className="space-y-2">
-                                                                    <Label>Link do Botão Secundário</Label>
+                                                                    <Label>{t('secondary_button_link')}</Label>
                                                                     <Input type="text" placeholder="https://link-secundario.com" value={customPopupConfig.secondButton.link} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'link'], e.target.value)} />
                                                                 </div>
                                                                 <div className="space-y-2">
-                                                                    <Label>Tipo de Botão</Label>
+                                                                    <Label>{t('button_type')}</Label>
                                                                     <Select value={customPopupConfig.secondButton.style} onValueChange={value => onConfigChange(['popups', 'custom', 'secondButton', 'style'], value)}>
                                                                         <SelectTrigger><SelectValue /></SelectTrigger>
                                                                         <SelectContent>
-                                                                            <SelectItem value="filled">Normal</SelectItem>
-                                                                            <SelectItem value="outline">Contorno</SelectItem>
+                                                                            <SelectItem value="filled">{t('filled')}</SelectItem>
+                                                                            <SelectItem value="outline">{t('outline')}</SelectItem>
                                                                         </SelectContent>
                                                                     </Select>
                                                                 </div>
                                                                 {customPopupConfig.secondButton.style === 'outline' && (
                                                                     <div className="space-y-2">
-                                                                        <Label>Largura do Contorno ({customPopupConfig.secondButton.outlineWidth}px)</Label>
+                                                                        <Label>{t('outline_width')} ({customPopupConfig.secondButton.outlineWidth}px)</Label>
                                                                         <SliderWithControls
                                                                             value={[customPopupConfig.secondButton.outlineWidth]}
                                                                             onValueChange={(value) => onConfigChange(['popups', 'custom', 'secondButton', 'outlineWidth'], value[0])}
@@ -816,7 +816,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                     </div>
                                                                 )}
                                                                 <div className="space-y-2">
-                                                                    <Label>Largura do Botão Secundário ({customPopupConfig.secondButton.width}%)</Label>
+                                                                    <Label>{t('secondary_button_width')} ({customPopupConfig.secondButton.width}%)</Label>
                                                                     <SliderWithControls
                                                                         value={[customPopupConfig.secondButton.width]}
                                                                         onValueChange={(value) => onConfigChange(['popups', 'custom', 'secondButton', 'width'], value[0])}
@@ -826,19 +826,19 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                     />
                                                                 </div>
                                                                 <div className="space-y-3 pt-2">
-                                                                    <ColorInput label="Cor Principal" value={customPopupConfig.secondButton.color} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'color'], e.target.value)} />
-                                                                    <ColorInput label="Cor do Texto" value={customPopupConfig.secondButton.textColor} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'textColor'], e.target.value)} />
+                                                                    <ColorInput label={t('main_color')} value={customPopupConfig.secondButton.color} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'color'], e.target.value)} />
+                                                                    <ColorInput label={t('text_color')} value={customPopupConfig.secondButton.textColor} onChange={e => onConfigChange(['popups', 'custom', 'secondButton', 'textColor'], e.target.value)} />
                                                                 </div>
                                                             </div>
                                                         )}
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Alinhamento dos Botões</Label>
+                                                        <Label>{t('buttons_alignment')}</Label>
                                                         <Select value={customPopupConfig.buttonsAlignment} onValueChange={value => onConfigChange(['popups', 'custom', 'buttonsAlignment'], value)}>
                                                             <SelectTrigger><SelectValue /></SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem value="vertical">Vertical</SelectItem>
-                                                                <SelectItem value="horizontal">Horizontal</SelectItem>
+                                                                <SelectItem value="vertical">{t('vertical')}</SelectItem>
+                                                                <SelectItem value="horizontal">{t('horizontal')}</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
@@ -857,7 +857,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                     <Settings2 className="h-4 w-4" />
                                 </div>
-                                <span className="font-semibold">Opções do Pop-up</span>
+                                <span className="font-semibold">{t('popup_options')}</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
@@ -866,23 +866,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
                                             <Brush className="w-4 h-4 text-primary/80" />
-                                            <span>Configuração do Botão</span>
+                                            <span>{t('button_config')}</span>
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-2">
-                                            <Label>Tipo de Botão</Label>
+                                            <Label>{t('button_type')}</Label>
                                             <Select value={pageConfig.customization.button.style} onValueChange={value => onConfigChange(['customization', 'button', 'style'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="filled">Normal</SelectItem>
-                                                    <SelectItem value="outline">Contorno</SelectItem>
+                                                    <SelectItem value="filled">{t('filled')}</SelectItem>
+                                                    <SelectItem value="outline">{t('outline')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         {pageConfig.customization.button.style === 'outline' && (
                                             <div className="space-y-2">
-                                                <Label>Largura do Contorno ({pageConfig.customization.button.outlineWidth}px)</Label>
+                                                <Label>{t('outline_width')} ({pageConfig.customization.button.outlineWidth}px)</Label>
                                                 <SliderWithControls
                                                     value={[pageConfig.customization.button.outlineWidth]}
                                                     onValueChange={(value) => onConfigChange(['customization', 'button', 'outlineWidth'], value[0])}
@@ -893,11 +893,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             </div>
                                         )}
                                         <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor Principal" value={pageConfig.customization.button.color} onChange={e => onConfigChange(['customization', 'button', 'color'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto" value={pageConfig.customization.button.textColor} onChange={e => onConfigChange(['customization', 'button', 'textColor'], e.target.value)} />
+                                            <ColorInput label={t('main_color')} value={pageConfig.customization.button.color} onChange={e => onConfigChange(['customization', 'button', 'color'], e.target.value)} />
+                                            <ColorInput label={t('text_color')} value={pageConfig.customization.button.textColor} onChange={e => onConfigChange(['customization', 'button', 'textColor'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Largura do Botão ({pageConfig.customization.button.width}%)</Label>
+                                            <Label>{t('button_width')} ({pageConfig.customization.button.width}%)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.button.width]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'button', 'width'], value[0])}
@@ -907,18 +907,18 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                          <div className="space-y-2">
-                                            <Label>Alinhamento do Botão</Label>
+                                            <Label>{t('button_alignment')}</Label>
                                             <Select value={pageConfig.customization.button.alignment} onValueChange={value => onConfigChange(['customization', 'button', 'alignment'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="left">Esquerda</SelectItem>
-                                                    <SelectItem value="center">Centro</SelectItem>
-                                                    <SelectItem value="right">Direita</SelectItem>
+                                                    <SelectItem value="left">{t('left')}</SelectItem>
+                                                    <SelectItem value="center">{t('center')}</SelectItem>
+                                                    <SelectItem value="right">{t('right')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Raio da Borda ({pageConfig.customization.button.borderRadius}px)</Label>
+                                            <Label>{t('border_radius')} ({pageConfig.customization.button.borderRadius}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.button.borderRadius]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'button', 'borderRadius'], value[0])}
@@ -928,11 +928,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="p-3 border rounded-md">
-                                            <SettingsToggle label="Sombra do Botão" checked={pageConfig.customization.button.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'button', 'shadow', 'active'], checked)} />
+                                            <SettingsToggle label={t('button_shadow')} checked={pageConfig.customization.button.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'button', 'shadow', 'active'], checked)} />
                                             {pageConfig.customization.button.shadow.active && (
                                                 <div className="pt-4 space-y-4 border-t mt-4">
                                                     <div className="space-y-2">
-                                                        <Label>Intensidade ({pageConfig.customization.button.shadow.intensity}px)</Label>
+                                                        <Label>{t('intensity')} ({pageConfig.customization.button.shadow.intensity}px)</Label>
                                                         <SliderWithControls
                                                             value={[pageConfig.customization.button.shadow.intensity]}
                                                             onValueChange={(value) => onConfigChange(['customization', 'button', 'shadow', 'intensity'], value[0])}
@@ -951,12 +951,12 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
                                             <Type className="w-4 h-4 text-primary/80" />
-                                            <span>Tipografia do Pop-up</span>
+                                            <span>{t('popup_typography')}</span>
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-2">
-                                            <Label>Fonte</Label>
+                                            <Label>{t('font')}</Label>
                                             <Select value={pageConfig.customization.typography.fontFamily} onValueChange={value => onConfigChange(['customization', 'typography', 'fontFamily'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
@@ -965,11 +965,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             </Select>
                                         </div>
                                         <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor do Título" value={pageConfig.customization.typography.titleColor} onChange={e => onConfigChange(['customization', 'typography', 'titleColor'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto" value={pageConfig.customization.typography.textColor} onChange={e => onConfigChange(['customization', 'typography', 'textColor'], e.target.value)} />
+                                            <ColorInput label={t('title_color')} value={pageConfig.customization.typography.titleColor} onChange={e => onConfigChange(['customization', 'typography', 'titleColor'], e.target.value)} />
+                                            <ColorInput label={t('text_color')} value={pageConfig.customization.typography.textColor} onChange={e => onConfigChange(['customization', 'typography', 'textColor'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Tamanho do Título ({pageConfig.customization.typography.titleSize}px)</Label>
+                                            <Label>{t('title_size')} ({pageConfig.customization.typography.titleSize}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.typography.titleSize]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'typography', 'titleSize'], value[0])}
@@ -979,7 +979,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Tamanho do Texto ({pageConfig.customization.typography.textSize}px)</Label>
+                                            <Label>{t('text_size')} ({pageConfig.customization.typography.textSize}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.typography.textSize]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'typography', 'textSize'], value[0])}
@@ -994,15 +994,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
                                             <Palette className="w-4 h-4 text-primary/80" />
-                                            <span>Estilo do Pop-up</span>
+                                            <span>{t('popup_style')}</span>
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-6 px-3">
                                         <div className="space-y-3">
-                                             <ColorInput label="Cor do Fundo do Pop-up" value={pageConfig.customization.popup.backgroundColor} onChange={e => onConfigChange(['customization', 'popup', 'backgroundColor'], e.target.value)} />
+                                             <ColorInput label={t('popup_bg_color')} value={pageConfig.customization.popup.backgroundColor} onChange={e => onConfigChange(['customization', 'popup', 'backgroundColor'], e.target.value)} />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Largura do Pop-up ({pageConfig.customization.popup.maxWidth}px)</Label>
+                                            <Label>{t('popup_width')} ({pageConfig.customization.popup.maxWidth}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.maxWidth]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'maxWidth'], value[0])}
@@ -1012,7 +1012,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento Vertical ({pageConfig.customization.popup.paddingY}px)</Label>
+                                            <Label>{t('vertical_spacing')} ({pageConfig.customization.popup.paddingY}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.paddingY]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'paddingY'], value[0])}
@@ -1022,7 +1022,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento Horizontal ({pageConfig.customization.popup.paddingX}px)</Label>
+                                            <Label>{t('horizontal_spacing')} ({pageConfig.customization.popup.paddingX}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.paddingX]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'paddingX'], value[0])}
@@ -1032,7 +1032,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento Geral ({pageConfig.customization.popup.gap}px)</Label>
+                                            <Label>{t('general_spacing')} ({pageConfig.customization.popup.gap}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.gap]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'gap'], value[0])}
@@ -1042,7 +1042,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento do Título ({pageConfig.customization.popup.titleBottomMargin}px)</Label>
+                                            <Label>{t('title_spacing')} ({pageConfig.customization.popup.titleBottomMargin}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.titleBottomMargin]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'titleBottomMargin'], value[0])}
@@ -1052,7 +1052,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Espaçamento da Descrição ({pageConfig.customization.popup.descriptionBottomMargin}px)</Label>
+                                            <Label>{t('description_spacing')} ({pageConfig.customization.popup.descriptionBottomMargin}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.descriptionBottomMargin]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'descriptionBottomMargin'], value[0])}
@@ -1062,7 +1062,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                          <div className="space-y-2">
-                                            <Label>Arredondamento da Borda ({pageConfig.customization.popup.borderRadius}px)</Label>
+                                            <Label>{t('border_radius')} ({pageConfig.customization.popup.borderRadius}px)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popup.borderRadius]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popup', 'borderRadius'], value[0])}
@@ -1072,14 +1072,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                          <div className="p-3 border rounded-md">
-                                            <SettingsToggle label="Contorno do Pop-up" checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
+                                            <SettingsToggle label={t('popup_contour')} checked={pageConfig.customization.popupContour.active} onCheckedChange={checked => onConfigChange(['customization', 'popupContour', 'active'], checked)} />
                                             {pageConfig.customization.popupContour.active && (
                                                 <div className="pt-4 space-y-6 border-t mt-4">
                                                     <div className="space-y-3">
-                                                        <ColorInput label="Cor do Contorno" value={pageConfig.customization.popupContour.color} onChange={e => onConfigChange(['customization', 'popupContour', 'color'], e.target.value)} />
+                                                        <ColorInput label={t('contour_color')} value={pageConfig.customization.popupContour.color} onChange={e => onConfigChange(['customization', 'popupContour', 'color'], e.target.value)} />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Largura ({pageConfig.customization.popupContour.width}px)</Label>
+                                                        <Label>{t('width')} ({pageConfig.customization.popupContour.width}px)</Label>
                                                         <SliderWithControls
                                                             value={[pageConfig.customization.popupContour.width]}
                                                             onValueChange={(value) => onConfigChange(['customization', 'popupContour', 'width'], value[0])}
@@ -1089,13 +1089,13 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Estilo do Contorno</Label>
+                                                        <Label>{t('contour_style')}</Label>
                                                         <Select value={pageConfig.customization.popupContour.style} onValueChange={value => onConfigChange(['customization', 'popupContour', 'style'], value)}>
                                                             <SelectTrigger><SelectValue /></SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem value="solid">Sólido</SelectItem>
-                                                                <SelectItem value="dashed">Tracejado</SelectItem>
-                                                                <SelectItem value="dotted">Pontilhado</SelectItem>
+                                                                <SelectItem value="solid">{t('solid')}</SelectItem>
+                                                                <SelectItem value="dashed">{t('dashed')}</SelectItem>
+                                                                <SelectItem value="dotted">{t('dotted')}</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
@@ -1103,11 +1103,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             )}
                                         </div>
                                         <div className="p-3 border rounded-md">
-                                            <SettingsToggle label="Sombra do Pop-up" checked={pageConfig.customization.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'shadow', 'active'], checked)} />
+                                            <SettingsToggle label={t('popup_shadow')} checked={pageConfig.customization.shadow.active} onCheckedChange={checked => onConfigChange(['customization', 'shadow', 'active'], checked)} />
                                             {pageConfig.customization.shadow.active && (
                                                 <div className="pt-4 space-y-4 border-t mt-4">
                                                     <div className="space-y-2">
-                                                        <Label>Intensidade ({pageConfig.customization.shadow.intensity}px)</Label>
+                                                        <Label>{t('intensity')} ({pageConfig.customization.shadow.intensity}px)</Label>
                                                         <SliderWithControls
                                                             value={[pageConfig.customization.shadow.intensity]}
                                                             onValueChange={(value) => onConfigChange(['customization', 'shadow', 'intensity'], value[0])}
@@ -1126,23 +1126,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
                                             <Settings className="w-4 h-4 text-primary/80" />
-                                            <span>Comportamento e Animação</span>
+                                            <span>{t('behavior_animation')}</span>
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 space-y-6 px-3">
                                         <div className="space-y-2">
-                                            <Label>Posição do Pop-up</Label>
+                                            <Label>{t('popup_position')}</Label>
                                             <Select value={pageConfig.customization.popupPosition} onValueChange={value => onConfigChange(['customization', 'popupPosition'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="top">Topo</SelectItem>
-                                                    <SelectItem value="center">Centro da Tela</SelectItem>
-                                                    <SelectItem value="bottom">Inferior</SelectItem>
+                                                    <SelectItem value="top">{t('top')}</SelectItem>
+                                                    <SelectItem value="center">{t('center_screen')}</SelectItem>
+                                                    <SelectItem value="bottom">{t('bottom')}</SelectItem>
                                                 </SelectContent>
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Animação do Pop-up</Label>
+                                            <Label>{t('popup_animation')}</Label>
                                             <Select value={pageConfig.customization.popupAnimation} onValueChange={value => onConfigChange(['customization', 'popupAnimation'], value)}>
                                                 <SelectTrigger><SelectValue /></SelectTrigger>
                                                 <SelectContent>
@@ -1151,7 +1151,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             </Select>
                                         </div>
                                         <div className="space-y-2">
-                                            <Label>Duração da Animação ({pageConfig.customization.popupAnimationDuration}s)</Label>
+                                            <Label>{t('animation_duration')} ({pageConfig.customization.popupAnimationDuration}s)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.customization.popupAnimationDuration]}
                                                 onValueChange={(value) => onConfigChange(['customization', 'popupAnimationDuration'], value[0])}
@@ -1161,10 +1161,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="p-3 border rounded-md space-y-3">
-                                            <SettingsToggle label="Mostrar botão de fechar" checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
+                                            <SettingsToggle label={t('show_close_button')} checked={pageConfig.customization.showCloseButton} onCheckedChange={checked => onConfigChange(['customization', 'showCloseButton'], checked)} />
                                             {pageConfig.customization.showCloseButton && (
                                                 <div className="pt-4 space-y-3 border-t mt-4">
-                                                    <ColorInput label="Cor do Botão de Fechar" value={pageConfig.customization.closeButtonColor} onChange={e => onConfigChange(['customization', 'closeButtonColor'], e.target.value)} />
+                                                    <ColorInput label={t('close_button_color')} value={pageConfig.customization.closeButtonColor} onChange={e => onConfigChange(['customization', 'closeButtonColor'], e.target.value)} />
                                                 </div>
                                             )}
                                         </div>
@@ -1180,7 +1180,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                     <FileText className="h-4 w-4" />
                                 </div>
-                                <span className="font-semibold">Conteúdo e SEO</span>
+                                <span className="font-semibold">{t('content_seo')}</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-2 space-y-4 px-4">
@@ -1193,37 +1193,37 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             >
                                 <AccordionItem value="footer">
                                     <AccordionSubTrigger 
-                                      title="Rodapé"
+                                      title={t('footer')}
                                       checked={pageConfig.footer.active}
                                       onCheckedChange={(isChecked) => handleContentSubAccordionToggle('footer', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
-                                        <SettingsToggle label="Gerar Páginas Automaticamente" checked={pageConfig.footer.autoGenerate} onCheckedChange={checked => onConfigChange(['footer', 'autoGenerate'], checked)} />
+                                        <SettingsToggle label={t('auto_generate_pages')} checked={pageConfig.footer.autoGenerate} onCheckedChange={checked => onConfigChange(['footer', 'autoGenerate'], checked)} />
                                         
                                         {!pageConfig.footer.autoGenerate && (
                                             <>
-                                                <Input type="text" placeholder="Link Política de Privacidade" value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
-                                                <Input type="text" placeholder="Link Termos de Uso" value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
+                                                <Input type="text" placeholder={t('privacy_policy_link')} value={pageConfig.footer.privacyLink} onChange={e => onConfigChange(['footer', 'privacyLink'], e.target.value)} />
+                                                <Input type="text" placeholder={t('terms_of_use_link')} value={pageConfig.footer.termsLink} onChange={e => onConfigChange(['footer', 'termsLink'], e.target.value)} />
                                             </>
                                         )}
                                         <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor do Fundo" value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto" value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
+                                            <ColorInput label={t('background_color')} value={pageConfig.footer.backgroundColor} onChange={e => onConfigChange(['footer', 'backgroundColor'], e.target.value)} />
+                                            <ColorInput label={t('text_color')} value={pageConfig.footer.textColor} onChange={e => onConfigChange(['footer', 'textColor'], e.target.value)} />
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
 
                                 <AccordionItem value="disclaimer">
                                     <AccordionSubTrigger 
-                                      title="Seção Disclaimer"
+                                      title={t('disclaimer_section')}
                                       checked={pageConfig.disclaimer.active}
                                       onCheckedChange={(isChecked) => handleContentSubAccordionToggle('disclaimer', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
                                         <div className="space-y-3 pt-2">
-                                            <ColorInput label="Cor do Fundo" value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
-                                            <ColorInput label="Cor do Texto" value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
+                                            <ColorInput label={t('background_color')} value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
+                                            <ColorInput label={t('text_color')} value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
@@ -1232,22 +1232,22 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                   <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-4 h-4 text-primary/80" />
-                                        <h3 className='font-semibold text-sm'>SEO e Metadados</h3>
+                                        <h3 className='font-semibold text-sm'>{t('seo_metadata')}</h3>
                                     </div>
                                   </AccordionTrigger>
                                   <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                     {pageConfig.seo && (
                                         <>
                                             <div className="space-y-2">
-                                                <Label htmlFor="pageTitle">Título da Página</Label>
-                                                <Input id="pageTitle" type="text" placeholder="Título que aparece na aba" value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
+                                                <Label htmlFor="pageTitle">{t('page_title')}</Label>
+                                                <Input id="pageTitle" type="text" placeholder={t('page_title_placeholder')} value={pageConfig.seo.title} onChange={e => onConfigChange(['seo', 'title'], e.target.value)} />
                                             </div>
                                             <div className="space-y-2">
-                                                <Label htmlFor="pageDescription">Descrição da Página (Meta Description)</Label>
-                                                <Textarea id="pageDescription" placeholder="Descrição para os motores de busca" value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
+                                                <Label htmlFor="pageDescription">{t('page_description')}</Label>
+                                                <Textarea id="pageDescription" placeholder={t('page_description_placeholder')} value={pageConfig.seo.description} onChange={e => onConfigChange(['seo', 'description'], e.target.value)} className="h-20" />
                                             </div>
                                             <div className="space-y-2">
-                                                <Label htmlFor="faviconUrl">URL do Favicon</Label>
+                                                <Label htmlFor="faviconUrl">{t('favicon_url')}</Label>
                                                 <ImageUploadInput
                                                     id="faviconUrl"
                                                     value={pageConfig.seo.favicon}
@@ -1264,14 +1264,14 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                         <div className="flex items-center gap-2">
                                             <FileText className="w-4 h-4" />
-                                            <h3 className='font-semibold text-sm'>Páginas de Post</h3>
+                                            <h3 className='font-semibold text-sm'>{t('post_pages')}</h3>
                                         </div>
                                     </AccordionTrigger>
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         {addPostPage && (
                                             <Button onClick={addPostPage} className="w-full">
                                                 <Plus className="w-4 h-4 mr-2" />
-                                                Adicionar Novo Post
+                                                {t('add_new_post')}
                                             </Button>
                                         )}
                                         {pageConfig.postPages.length > 0 && (
@@ -1294,15 +1294,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                         <AccordionContent className="space-y-4 pt-4 border-t">
                                                             <div className="space-y-4">
                                                                 <div className="space-y-2">
-                                                                    <Label>Nome do Produto</Label>
-                                                                    <Input type="text" placeholder="Nome do Produto" value={post.productName} onChange={e => onConfigChange(['postPages', index, 'productName'], e.target.value)} />
+                                                                    <Label>{t('product_name')}</Label>
+                                                                    <Input type="text" placeholder={t('product_name')} value={post.productName} onChange={e => onConfigChange(['postPages', index, 'productName'], e.target.value)} />
                                                                 </div>
                                                                 <div className="space-y-2">
-                                                                    <Label>Conteúdo do Post</Label>
-                                                                    <Textarea placeholder="Escreva seu artigo aqui..." value={post.content} onChange={e => onConfigChange(['postPages', index, 'content'], e.target.value)} className="h-40" />
+                                                                    <Label>{t('post_content')}</Label>
+                                                                    <Textarea placeholder={t('write_your_article_here')} value={post.content} onChange={e => onConfigChange(['postPages', index, 'content'], e.target.value)} className="h-40" />
                                                                 </div>
                                                                 <div className="space-y-2">
-                                                                    <Label>URL da Imagem do Post</Label>
+                                                                    <Label>{t('post_image_url')}</Label>
                                                                     <ImageUploadInput
                                                                         value={post.imageUrl}
                                                                         onChange={e => onConfigChange(['postPages', index, 'imageUrl'], e.target.value)}
@@ -1327,7 +1327,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/10 text-primary">
                                     <Settings className="h-4 w-4" />
                                 </div>
-                                <span className="font-semibold">Configuração Avançada</span>
+                                <span className="font-semibold">{t('advanced_settings')}</span>
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-2 px-4">
@@ -1336,7 +1336,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
                                      <div className="flex-1">
                                         <SettingsToggle 
-                                            label="Carregamento de Cookies" 
+                                            label={t('cookie_loading')} 
                                             checked={pageConfig.tracking.cookieLoader.active} 
                                             onCheckedChange={checked => onConfigChange(['tracking', 'cookieLoader', 'active'], checked)}
                                         >
@@ -1345,7 +1345,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
                                                 </TooltipTrigger>
                                                 <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>Carrega um link em um iframe oculto para marcar um cookie. A função fica escondida de bots.</p>
+                                                    <p>{t('cookie_loading_tooltip')}</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                         </SettingsToggle>
@@ -1354,7 +1354,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 {pageConfig.tracking.cookieLoader.active && (
                                     <div className="pt-4 space-y-4 border-t mt-4 border-destructive/30">
                                         <div className="space-y-2">
-                                            <Label className='text-foreground'>Link do Cookie</Label>
+                                            <Label className='text-foreground'>{t('cookie_link')}</Label>
                                             <Input 
                                                 type="text" 
                                                 placeholder="https://seu-link-de-cookie.com" 
@@ -1363,7 +1363,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <Label className='text-foreground'>Tempo ({pageConfig.tracking.cookieLoader.time}s)</Label>
+                                            <Label className='text-foreground'>{t('time')} ({pageConfig.tracking.cookieLoader.time}s)</Label>
                                             <SliderWithControls
                                                 value={[pageConfig.tracking.cookieLoader.time]}
                                                 onValueChange={(value) => onConfigChange(['tracking', 'cookieLoader', 'time'], value[0])}
@@ -1380,7 +1380,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
                                      <div className="flex-1">
                                         <SettingsToggle 
-                                            label="Clique Total na Página" 
+                                            label={t('full_page_click')} 
                                             checked={pageConfig.fullPageClick}
                                             onCheckedChange={checked => onConfigChange(['fullPageClick'], checked)}
                                         >
@@ -1389,7 +1389,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
                                                 </TooltipTrigger>
                                                 <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>Ao ativar, qualquer clique na página redireciona para o link de afiliado. Use com cuidado, pois pode impactar negativamente a experiência do usuário e as métricas de suas campanhas.</p>
+                                                    <p>{t('full_page_click_tooltip')}</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                         </SettingsToggle>
@@ -1401,7 +1401,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
                                     <div className="flex-1">
                                          <SettingsToggle 
-                                            label="Redirecionamento Automático" 
+                                            label={t('auto_redirect')} 
                                             checked={pageConfig.autoRedirect.active} 
                                             onCheckedChange={checked => onConfigChange(['autoRedirect', 'active'], checked)}
                                         >
@@ -1410,7 +1410,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
                                                 </TooltipTrigger>
                                                 <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>O redirecionamento automático pode afetar a experiência do usuário e as taxas de rejeição. Use com moderação.</p>
+                                                    <p>{t('auto_redirect_tooltip')}</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                         </SettingsToggle>
@@ -1418,7 +1418,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </div>
                                 {pageConfig.autoRedirect.active && (
                                     <div className="pt-4 space-y-2 border-t mt-4 border-destructive/30">
-                                        <Label className="text-foreground">Tempo ({pageConfig.autoRedirect.time}s)</Label>
+                                        <Label className="text-foreground">{t('time')} ({pageConfig.autoRedirect.time}s)</Label>
                                         <input type="range" min="3" max="8" step="1" value={pageConfig.autoRedirect.time} onChange={e => onConfigChange(['autoRedirect', 'time'], Number(e.target.value))} />
                                     </div>
                                 )}
@@ -1428,7 +1428,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                      <AlertTriangle className="h-5 w-5 mt-0.5 flex-shrink-0" />
                                      <div className="flex-1">
                                         <SettingsToggle 
-                                            label="HTML Personalizado" 
+                                            label={t('custom_html')} 
                                             checked={!!pageConfig.customization.customHtml}
                                             onCheckedChange={(checked) => onConfigChange(['customization', 'customHtml'], checked ? ' ' : '')}
                                         >
@@ -1437,7 +1437,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
                                                 </TooltipTrigger>
                                                 <TooltipContent className="max-w-xs text-center" side="top">
-                                                    <p>Ao utilizar este recurso, dependendo do uso, você pode sofrer bloqueios em suas contas de anúncios (Facebook Ads, Google Ads) ou danificar a página gerada. Use com conhecimento.</p>
+                                                    <p>{t('custom_html_tooltip')}</p>
                                                 </TooltipContent>
                                             </Tooltip>
                                         </SettingsToggle>
@@ -1453,23 +1453,23 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
                                             <div className="flex items-center gap-2">
                                                 <Target className="w-4 h-4" />
-                                                <h3 className='font-semibold text-sm'>Rastreamento</h3>
+                                                <h3 className='font-semibold text-sm'>{t('tracking')}</h3>
                                             </div>
                                         </AccordionTrigger>
                                         <AccordionContent className="pt-4 mt-2 border-t space-y-4">
                                             <div className="space-y-2">
-                                                <Label htmlFor="facebookPixelId">ID do Pixel do Facebook</Label>
+                                                <Label htmlFor="facebookPixelId">{t('facebook_pixel_id')}</Label>
                                                 <Input 
                                                     id="facebookPixelId"
                                                     type="text" 
-                                                    placeholder="Cole apenas o número de ID do seu Pixel" 
+                                                    placeholder={t('facebook_pixel_id_placeholder')} 
                                                     value={pageConfig.tracking.facebookPixelId} 
                                                     onChange={e => onConfigChange(['tracking', 'facebookPixelId'], e.target.value)}
                                                 />
-                                                <p className='text-xs text-muted-foreground'>Irá disparar um evento de PageView.</p>
+                                                <p className='text-xs text-muted-foreground'>{t('facebook_pixel_id_description')}</p>
                                             </div>
                                             <div className="space-y-2">
-                                                <Label htmlFor="googleAdsId">ID da Tag do Google (Google Ads)</Label>
+                                                <Label htmlFor="googleAdsId">{t('google_ads_id')}</Label>
                                                 <Input 
                                                     id="googleAdsId"
                                                     type="text" 
@@ -1477,7 +1477,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     value={pageConfig.tracking.googleAdsId} 
                                                     onChange={e => onConfigChange(['tracking', 'googleAdsId'], e.target.value)}
                                                 />
-                                                <p className='text-xs text-muted-foreground'>Irá configurar sua tag para remarketing (equivale a um PageView).</p>
+                                                <p className='text-xs text-muted-foreground'>{t('google_ads_id_description')}</p>
                                             </div>
                                         </AccordionContent>
                                     </div>
@@ -1490,3 +1490,5 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
+
+    
