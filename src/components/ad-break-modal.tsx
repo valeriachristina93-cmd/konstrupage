@@ -44,7 +44,7 @@ const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; sty
 export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
     const [isClosable, setIsClosable] = useState(false);
-    const [countdown, setCountdown] = useState(5);
+    const [countdown, setCountdown] = useState(10);
     const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
     const adSlotIds = ['7995115463', '4647596135', '1783487248', '3013405679'];
@@ -52,7 +52,7 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     useEffect(() => {
         if (isOpen) {
             setIsClosable(false);
-            setCountdown(5);
+            setCountdown(10);
             
             countdownRef.current = setInterval(() => {
                 setCountdown(prev => {
