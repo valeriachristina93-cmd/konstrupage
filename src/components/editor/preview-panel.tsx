@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import type { PageConfig } from '@/lib/definitions';
-import { generatePresellHtml } from '@/lib/html-generator';
+import { generatePresellHtml, generatePostPageHtml } from '@/lib/html-generator';
 import { Laptop, Smartphone, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -14,12 +14,14 @@ interface PreviewPanelProps {
     pageConfig: PageConfig;
     viewMode: ViewMode;
     setViewMode: (mode: ViewMode) => void;
+    previewingPostIndex?: number | null;
 }
 
-export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanelProps) {
+export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPostIndex }: PreviewPanelProps) {
     const [isRendering, setIsRendering] = useState(true);
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const debouncedPageConfig = useDebounce(pageConfig, 500);
+    const debouncedPostIndex = useDebounce(previewingPostIndex, 500);
 
     useEffect(() => {
         setIsRendering(true);
@@ -27,26 +29,30 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
         const iframe = iframeRef.current;
         if (!iframe) return;
 
-        // Start fade-out transition
         iframe.style.opacity = '0';
 
         const handleLoad = () => {
-            // Start fade-in transition
             iframe.style.opacity = '1';
             setIsRendering(false);
         };
         
         const timer = setTimeout(() => {
-            const html = generatePresellHtml(debouncedPageConfig);
+            let html;
+            if (typeof debouncedPostIndex === 'number' && debouncedPageConfig.postPages[debouncedPostIndex]) {
+                const postConfig = debouncedPageConfig.postPages[debouncedPostIndex];
+                html = generatePostPageHtml(debouncedPageConfig, postConfig);
+            } else {
+                html = generatePresellHtml(debouncedPageConfig);
+            }
             iframe.srcdoc = html;
             iframe.addEventListener('load', handleLoad, { once: true });
-        }, 250); // Wait for fade-out to be noticeable
+        }, 250); 
 
         return () => {
             clearTimeout(timer);
             iframe.removeEventListener('load', handleLoad);
         };
-    }, [debouncedPageConfig]);
+    }, [debouncedPageConfig, debouncedPostIndex]);
 
     return (
         <div className="flex-1 flex flex-col items-center justify-center relative bg-muted/40 h-full rounded-lg border">
@@ -74,7 +80,7 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode }: PreviewPanel
                         title="Presell Preview"
                         className="w-full h-full border-0 transition-opacity duration-300 ease-in-out"
                         sandbox="allow-scripts allow-same-origin"
-                        style={{ opacity: 0 }} // Start with iframe invisible
+                        style={{ opacity: 0 }}
                     />
                 </div>
             </div>

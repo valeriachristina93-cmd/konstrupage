@@ -19,6 +19,7 @@ export default function EditorPage() {
     const [isGenerating, setIsGenerating] = useState(false);
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
+    const [previewingPostIndex, setPreviewingPostIndex] = useState<number | null>(null);
 
     const handleConfigChange = useCallback((keys: (string | number)[], value: any) => {
         setPageConfig(prev => {
@@ -61,6 +62,14 @@ export default function EditorPage() {
             newConfig.postPages.splice(index, 1);
             return newConfig;
         });
+    };
+    
+    const handlePreviewPost = (index: number | null) => {
+        if (previewingPostIndex === index) {
+            setPreviewingPostIndex(null);
+        } else {
+            setPreviewingPostIndex(index);
+        }
     };
 
 
@@ -106,11 +115,17 @@ export default function EditorPage() {
                         setViewMode={setViewMode}
                         addPostPage={addPostPage}
                         removePostPage={removePostPage}
+                        onPreviewPost={handlePreviewPost}
                     />
                 </div>
                 
                  <div className="flex-1 flex flex-col relative min-h-[600px] md:min-h-0">
-                    <PreviewPanel pageConfig={pageConfig} viewMode={viewMode} setViewMode={setViewMode} />
+                    <PreviewPanel 
+                        pageConfig={pageConfig} 
+                        viewMode={viewMode} 
+                        setViewMode={setViewMode}
+                        previewingPostIndex={previewingPostIndex}
+                    />
                 </div>
             </main>
             {isModalOpen && (
