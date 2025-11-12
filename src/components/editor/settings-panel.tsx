@@ -19,6 +19,7 @@ import { SliderWithControls } from './slider-with-controls';
 import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useLanguage } from '@/context/language-context';
+import { cn } from '@/lib/utils';
 
 
 interface SettingsPanelProps {
@@ -58,7 +59,10 @@ const ColorInput = ({ label, value, onChange }: { label: string; value: string; 
 );
 
 const AccordionSubTrigger = ({ title, onCheckedChange, checked }: { title: string, onCheckedChange: (checked: boolean) => void, checked: boolean }) => (
-  <div className='flex w-full items-center justify-between p-3 border rounded-md bg-muted/50 dark:bg-white/5'>
+  <div className={cn(
+    'flex w-full items-center justify-between p-3 border rounded-md bg-muted/50 dark:bg-white/5 transition-all',
+    checked ? 'border-primary/50 ring-1 ring-primary/50' : 'border'
+    )}>
     <AccordionTrigger className="p-0 hover:no-underline flex-1">
       <div className="flex items-center gap-2">
         <span className="font-semibold text-sm">{title}</span>
@@ -260,7 +264,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 value={openSubAccordion}
                                 onValueChange={setOpenSubAccordion}
                             >
-                                <AccordionItem value="cookies" className="border-b">
+                                <AccordionItem value="cookies" className="border-b-0">
                                   <AccordionSubTrigger 
                                     title={t('cookie_popup')}
                                     checked={pageConfig.popups.cookies.active}
@@ -284,7 +288,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 </AccordionItem>
 
 
-                                <AccordionItem value="ageVerification" className="border-b">
+                                <AccordionItem value="ageVerification" className="border-b-0">
                                     <AccordionSubTrigger 
                                         title={t('age_verification_popup')}
                                         checked={pageConfig.popups.ageVerification.active}
@@ -319,7 +323,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="choice" className="border-b">
+                                <AccordionItem value="choice" className="border-b-0">
                                     <AccordionSubTrigger 
                                       title={t('choice_popup')}
                                       checked={pageConfig.popups.choice.active}
@@ -388,7 +392,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                 <AccordionItem value="gender" className="border-b">
+                                 <AccordionItem value="gender" className="border-b-0">
                                     <AccordionSubTrigger 
                                       title={t('gender_popup')}
                                       checked={pageConfig.popups.gender.active}
@@ -470,7 +474,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
                                 
-                                <AccordionItem value="captcha" className="border-b">
+                                <AccordionItem value="captcha" className="border-b-0">
                                     <AccordionSubTrigger 
                                         title={t('captcha_popup')}
                                         checked={pageConfig.popups.captcha.active}
@@ -528,7 +532,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="discount" className="border-b">
+                                <AccordionItem value="discount" className="border-b-0">
                                     <AccordionSubTrigger 
                                         title={t('discount_popup')}
                                         checked={pageConfig.popups.discount.active}
@@ -560,7 +564,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
                                 
-                                <AccordionItem value="exit" className="border-b">
+                                <AccordionItem value="exit" className="border-b-0">
                                     <AccordionSubTrigger 
                                         title={t('exit_popup')}
                                         checked={pageConfig.popups.exit.active}
@@ -1210,7 +1214,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 value={openContentSubAccordion}
                                 onValueChange={setOpenContentSubAccordion}
                             >
-                                <AccordionItem value="footer">
+                                <AccordionItem value="footer" className="border-b-0">
                                     <AccordionSubTrigger 
                                       title={t('footer')}
                                       checked={pageConfig.footer.active}
@@ -1232,7 +1236,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="disclaimer">
+                                <AccordionItem value="disclaimer" className="border-b-0">
                                     <AccordionSubTrigger 
                                       title={t('disclaimer_section')}
                                       checked={pageConfig.disclaimer.active}
@@ -1247,7 +1251,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                <AccordionItem value="seo" className="border-b">
+                                <AccordionItem value="seo" className="border-b-0">
                                   <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm bg-muted/50 dark:bg-white/5">
                                     <div className="flex items-center gap-2">
                                         <Globe className="w-4 h-4 text-slate-400" />
