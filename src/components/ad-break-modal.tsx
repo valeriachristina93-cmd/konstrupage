@@ -87,9 +87,9 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && isClosable && onClose()}>
-      <DialogContent className="max-w-4xl w-full h-auto flex flex-col p-8" onPointerDownOutside={(e) => { if(!isClosable) e.preventDefault() }}>
+      <DialogContent className="max-w-3xl w-full flex flex-col p-6" onPointerDownOutside={(e) => { if(!isClosable) e.preventDefault() }}>
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold flex items-center gap-2">
+          <DialogTitle className="text-xl font-bold flex items-center gap-2">
             <PlayCircle className="text-primary"/>
             Uma pausa para nossos patrocinadores
           </DialogTitle>
@@ -110,15 +110,15 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
           </DialogClose>
         )}
 
-        <div className="flex-grow grid grid-cols-2 md:grid-cols-2 gap-6 py-6">
+        <div className="flex-grow grid grid-cols-2 gap-4 py-4">
             {adSlotIds.map(id => (
-                 <div key={id} className="aspect-square">
+                 <div key={id} className="w-full h-auto min-h-[250px] max-h-[250px]">
                     <AdSlot client={adsenseClient} slotId={id} />
                  </div>
             ))}
         </div>
         
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-2">
             <Button onClick={onClose} size="lg" disabled={!isClosable}>
                 {isClosable ? "Continuar usando a ferramenta" : `Aguarde ${countdown} segundos...`}
             </Button>
