@@ -41,7 +41,7 @@ const announcements = [
 ];
 
 const tools = [
-    { name: 'Lightshot', url: 'https://chromewebstore.google.com/detail/take-webpage-screenshots/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Camera /> },
+    { name: 'Lightshot', url: 'https://chromewebstore.google.com/detail/captura-de-ecr%C3%A3-e-gravado/edlifbnjlicfpckhgjhflgkeeibhhcii', icon: <Camera /> },
     { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Camera /> },
     { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl', icon: <Camera /> },
     { name: 'iLoveIMG', url: 'https://www.iloveimg.com/pt', icon: <ImageIcon /> },
