@@ -52,7 +52,7 @@ const tools = [
     { name: 'Grok', url: 'https://grok.com/', icon: <Bot /> },
     { name: 'Upload Imgur', url: 'https://uploadimgur.com/', icon: <ImageUp /> },
     { name: 'Glasp Reader', url: 'https://glasp.co/reader', icon: <BookOpen /> },
-    { name: 'Canal do Rogerio', url: 'https://www.youtube.com/@-rogerio', icon: <Youtube /> },
+    { name: 'Canal do Rogerio', url: 'https://www.youtube.com/@-rogerio.?sub_confirmation=1', icon: <Youtube /> },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
