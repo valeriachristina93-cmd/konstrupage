@@ -28,6 +28,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useState } from 'react';
 import { useAuth } from '@/context/auth-context';
+import { useLanguage } from '@/context/language-context';
 
 interface EditorHeaderProps {
     onGenerate: () => void;
@@ -57,6 +58,7 @@ const tools = [
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
     const { logout } = useAuth();
+    const { t, setLanguage, language } = useLanguage();
 
     return (
         <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
@@ -81,7 +83,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                         className="font-bold text-base py-5 bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
                     >
                         {isGenerating && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                        Gerar Página
+                        {t('generate_page')}
                     </Button>
 
                     <div className="flex items-center gap-1 md:gap-2">
@@ -97,7 +99,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                             </SheetTrigger>
                             <SheetContent>
                                 <SheetHeader>
-                                    <SheetTitle>Anúncios</SheetTitle>
+                                    <SheetTitle>{t('announcements')}</SheetTitle>
                                 </SheetHeader>
                                 <div className="mt-4 space-y-4">
                                     {announcements.map((item, index) => (
@@ -110,6 +112,23 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                 </div>
                             </SheetContent>
                         </Sheet>
+                        
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon">
+                                    <Languages className="h-5 w-5" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>{t('language')}</DropdownMenuLabel>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuRadioGroup value={language} onValueChange={setLanguage}>
+                                    <DropdownMenuRadioItem value="pt">Português</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="en">English</DropdownMenuRadioItem>
+                                    <DropdownMenuRadioItem value="es">Español</DropdownMenuRadioItem>
+                                </DropdownMenuRadioGroup>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
 
                         <ThemeToggle />
 
@@ -121,7 +140,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                             </SheetTrigger>
                             <SheetContent>
                                 <SheetHeader>
-                                    <SheetTitle>Ferramentas Úteis</SheetTitle>
+                                    <SheetTitle>{t('useful_tools')}</SheetTitle>
                                 </SheetHeader>
                                  <div className="mt-4 space-y-2">
                                     {tools.map((tool) => (
@@ -142,18 +161,18 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                 </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
-                                <DropdownMenuLabel>Minha Conta</DropdownMenuLabel>
+                                <DropdownMenuLabel>{t('my_account')}</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                                 <Link href="/profile" passHref>
                                     <DropdownMenuItem>
                                         <User className="mr-2 h-4 w-4" />
-                                        <span>Perfil</span>
+                                        <span>{t('profile')}</span>
                                     </DropdownMenuItem>
                                 </Link>
                                 <DropdownMenuSeparator />
                                 <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={logout}>
                                     <LogOut className="mr-2 h-4 w-4" />
-                                    <span>Sair</span>
+                                    <span>{t('logout')}</span>
                                 </DropdownMenuItem>
                             </DropdownMenuContent>
                         </DropdownMenu>
