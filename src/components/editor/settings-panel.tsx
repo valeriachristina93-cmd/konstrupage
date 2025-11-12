@@ -621,7 +621,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <AccordionItem value="image-layout">
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
-                                                    <ImageIcon className="w-4 h-4 text-primary/80" />
+                                                    <ImageIcon className="w-4 h-4 text-slate-400" />
                                                     <span>{t('main_image_layout')}</span>
                                                     </div>
                                                 </AccordionTrigger>
@@ -680,7 +680,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <AccordionItem value="inner-image-layout">
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
-                                                        <ImageIcon className="w-4 h-4 text-primary/80" />
+                                                        <ImageIcon className="w-4 h-4 text-slate-400" />
                                                         <span>{t('inner_image')}</span>
                                                     </div>
                                                 </AccordionTrigger>
@@ -715,7 +715,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <AccordionItem value="content">
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
-                                                        <FileText className="w-4 h-4 text-primary/80" />
+                                                        <FileText className="w-4 h-4 text-slate-400" />
                                                         <span>{t('text_content')}</span>
                                                     </div>
                                                 </AccordionTrigger>
@@ -735,7 +735,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <AccordionItem value="countdown">
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
-                                                    <Timer className="w-4 h-4 text-primary/80" />
+                                                    <Timer className="w-4 h-4 text-slate-400" />
                                                     <span>{t('countdown_timer')}</span>
                                                     </div>
                                                 </AccordionTrigger>
@@ -791,7 +791,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <AccordionItem value="buttons">
                                                 <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                                     <div className="flex items-center gap-3">
-                                                    <Settings className="w-4 h-4 text-primary/80" />
+                                                    <Settings className="w-4 h-4 text-slate-400" />
                                                     <span>{t('buttons')}</span>
                                                     </div>
                                                 </AccordionTrigger>
@@ -884,7 +884,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <AccordionItem value="button-config">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
-                                            <Brush className="w-4 h-4 text-primary/80" />
+                                            <Brush className="w-4 h-4 text-slate-400" />
                                             <span>{t('button_config')}</span>
                                         </div>
                                     </AccordionTrigger>
@@ -969,7 +969,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <AccordionItem value="typography-config">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
-                                            <Type className="w-4 h-4 text-primary/80" />
+                                            <Type className="w-4 h-4 text-slate-400" />
                                             <span>{t('popup_typography')}</span>
                                         </div>
                                     </AccordionTrigger>
@@ -1012,7 +1012,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <AccordionItem value="popup-style-config" className="border-b-0">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
-                                            <Palette className="w-4 h-4 text-primary/80" />
+                                            <Palette className="w-4 h-4 text-slate-400" />
                                             <span>{t('popup_style')}</span>
                                         </div>
                                     </AccordionTrigger>
@@ -1144,7 +1144,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <AccordionItem value="behavior-config">
                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm">
                                         <div className="flex items-center gap-3">
-                                            <Settings className="w-4 h-4 text-primary/80" />
+                                            <Settings className="w-4 h-4 text-slate-400" />
                                             <span>{t('behavior_animation')}</span>
                                         </div>
                                     </AccordionTrigger>
@@ -1250,7 +1250,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <AccordionItem value="seo" className="border-b">
                                   <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                     <div className="flex items-center gap-2">
-                                        <Globe className="w-4 h-4 text-primary/80" />
+                                        <Globe className="w-4 h-4 text-slate-400" />
                                         <h3 className='font-semibold text-sm'>{t('seo_metadata')}</h3>
                                     </div>
                                   </AccordionTrigger>
@@ -1282,7 +1282,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                 <AccordionItem value="post-page-list" className="border-b-0">
                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm w-full justify-between">
                                         <div className="flex items-center gap-2">
-                                            <FileText className="w-4 h-4" />
+                                            <FileText className="w-4 h-4 text-slate-400" />
                                             <h3 className='font-semibold text-sm'>{t('post_pages')}</h3>
                                         </div>
                                     </AccordionTrigger>
@@ -1471,7 +1471,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <div className="p-3 border rounded-md">
                                         <AccordionTrigger className="hover:no-underline p-0 w-full justify-start">
                                             <div className="flex items-center gap-2">
-                                                <Target className="w-4 h-4" />
+                                                <Target className="w-4 h-4 text-slate-400" />
                                                 <h3 className='font-semibold text-sm'>{t('tracking')}</h3>
                                             </div>
                                         </AccordionTrigger>
