@@ -1,25 +1,30 @@
 
-
 "use client";
 
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import type { PageConfig, PostPageConfig } from '@/lib/definitions';
-import { initialPageConfig } from '@/lib/constants';
+import { getInitialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
 import { PreviewPanel } from '@/components/editor/preview-panel';
 import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
+import { useLanguage } from '@/context/language-context';
 
 export type ViewMode = 'desktop' | 'mobile';
 
 export default function EditorPage() {
-    const [pageConfig, setPageConfig] = useState<PageConfig>(initialPageConfig);
+    const { t } = useLanguage();
+    const [pageConfig, setPageConfig] = useState<PageConfig>(getInitialPageConfig(t));
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
     const [previewingPostIndex, setPreviewingPostIndex] = useState<number | null>(null);
+
+    useEffect(() => {
+        setPageConfig(getInitialPageConfig(t));
+    }, [t]);
 
     const handleConfigChange = useCallback((keys: (string | number)[], value: any) => {
         setPageConfig(prev => {
@@ -44,8 +49,8 @@ export default function EditorPage() {
             const newConfig = JSON.parse(JSON.stringify(prev));
             const newPost: PostPageConfig = {
                 active: true,
-                productName: `Novo Post ${newConfig.postPages.length + 1}`,
-                content: 'Escreva o conteúdo do seu post aqui...',
+                productName: `${t('new_post')} ${newConfig.postPages.length + 1}`,
+                content: t('write_your_article_here'),
                 imageUrl: 'https://picsum.photos/seed/post1/800/400'
             };
             if (!newConfig.postPages) {
@@ -87,8 +92,8 @@ export default function EditorPage() {
         if (!pageConfig.affiliateLink) {
              toast({
                 variant: "destructive",
-                title: "Link de Afiliado Obrigatório",
-                description: "Por favor, insira um link de afiliado para gerar a página.",
+                title: t('affiliate_link_required_title'),
+                description: t('affiliate_link_required_desc'),
             });
             return;
         }

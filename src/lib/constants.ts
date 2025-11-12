@@ -2,12 +2,11 @@
 
 import type { PageConfig, PostPageConfig } from './definitions';
 import { PlaceHolderImages } from './placeholder-images';
+import type { TranslationKey } from './translations';
 
-const desktopHero = PlaceHolderImages.find((p) => p.id === 'desktop-hero');
 const exitPopup = PlaceHolderImages.find((p) => p.id === 'exit-popup');
 
-
-export const initialPageConfig: PageConfig = {
+export const getInitialPageConfig = (t: (key: TranslationKey) => string): PageConfig => ({
     desktopImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     mobileImage: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     imageHeightDesktop: 100,
@@ -17,24 +16,24 @@ export const initialPageConfig: PageConfig = {
     fullPageClick: false,
     autoRedirect: { active: false, time: 5 },
     popups: {
-        cookies: { active: false, title: 'Políticas de Cookies', message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.', buttonText: 'Aceitar' },
-        ageVerification: { active: false, message: 'Você confirma que tem mais de 18 anos?', yesButtonText: 'Sim', noButtonText: 'Não', yesButtonColor: '#3B82F6', noButtonColor: '#6B7280', buttonWidth: 48 },
-        discount: { active: false, text: '25% de Desconto', description: 'Oferta por tempo limitado!', icon: 'percent', iconSize: 48 },
+        cookies: { active: false, title: t('default_cookie_title'), message: t('default_cookie_message'), buttonText: t('default_cookie_button') },
+        ageVerification: { active: false, message: t('default_age_message'), yesButtonText: t('default_age_yes'), noButtonText: t('default_age_no'), yesButtonColor: '#3B82F6', noButtonColor: '#6B7280', buttonWidth: 48 },
+        discount: { active: false, text: t('default_discount_text'), description: t('default_discount_description'), icon: 'percent', iconSize: 48 },
         exit: { 
             active: false, 
             imageUrl: exitPopup?.imageUrl ?? 'https://i.imgur.com/n1oqLb9.jpeg', 
             redirectLink: '', 
             imageOnly: false,
-            title: 'Espere, não vá embora!',
-            description: 'Temos uma oferta especial para você.',
-            buttonText: 'Pegar Oferta'
+            title: t('default_exit_title'),
+            description: t('default_exit_description'),
+            buttonText: t('default_exit_button')
         },
         custom: { 
             active: false, 
             triggerOnExit: false,
-            title: 'Título do Pop-up', 
-            description: 'Esta é a descrição do seu pop-up personalizado. Você pode <b>editar</b> este texto e adicionar <a href="#" target="_blank">links</a>.', 
-            buttonText: 'Clique Aqui',
+            title: t('default_custom_title'),
+            description: t('default_custom_description'),
+            buttonText: t('default_custom_button'),
             imageUrl: 'https://picsum.photos/seed/1/600/400',
             imageLayout: 'none',
             imageSide: 'left',
@@ -46,7 +45,7 @@ export const initialPageConfig: PageConfig = {
             },
             secondButton: {
                 active: false,
-                text: 'Botão Secundário',
+                text: t('default_custom_second_button'),
                 link: '#',
                 style: 'filled',
                 color: '#6B7280',
@@ -65,25 +64,25 @@ export const initialPageConfig: PageConfig = {
                 boxColor: '#000000',
             },
         },
-        choice: { active: false, title: 'Selecione seu idioma', description: 'Escolha seu idioma para continuar.', useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
-        gender: { active: false, title: 'Selecione seu Gênero', description: 'Isso nos ajuda a personalizar sua experiência.', iconSize: 48, useCustomImages: false, includeOther: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '', maleText: 'Masculino', femaleText: 'Feminino', otherText: 'Outro' },
+        choice: { active: false, title: t('default_choice_title'), description: t('default_choice_description'), useCustomImages: false, image1Url: 'https://flagcdn.com/w160/br.png', image2Url: 'https://flagcdn.com/w160/us.png', customImageWidth: 120 },
+        gender: { active: false, title: t('default_gender_title'), description: t('default_gender_description'), iconSize: 48, useCustomImages: false, includeOther: false, maleImageUrl: '', femaleImageUrl: '', otherImageUrl: '', maleText: t('default_gender_male'), femaleText: t('default_gender_female'), otherText: t('default_gender_other') },
         captcha: { 
             active: false, 
-            title: 'Verificação Rápida', 
-            description: 'Clique abaixo para provar que você não é um robô e continuar.', 
+            title: t('default_captcha_title'), 
+            description: t('default_captcha_description'), 
             captchaType: 'checkbox',
             sliderButtonColor: '#3B82F6',
             sliderTrackColor: '#e9ecef',
             sliderTextColor: '#6c757d',
             sliderSuccessTextColor: '#FFFFFF',
-            sliderText: 'Deslize para verificar',
-            sliderSuccessText: 'Verificado!',
+            sliderText: t('default_captcha_slider_text'),
+            sliderSuccessText: t('default_captcha_slider_success_text'),
             sliderShape: 'round',
-            checkboxText: 'Não sou um robô',
+            checkboxText: t('default_captcha_checkbox_text'),
         }
     },
     footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB', autoGenerate: false },
-    disclaimer: { active: false, text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.', backgroundColor: '#F3F4F6', textColor: '#4B5563' },
+    disclaimer: { active: false, text: t('default_disclaimer_text'), backgroundColor: '#F3F4F6', textColor: '#4B5563' },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 3 },
     tracking: {
@@ -149,7 +148,7 @@ export const initialPageConfig: PageConfig = {
             intensity: 10,
         },
     }
-};
+});
 
 export const discountIconOptions = [
     { name: 'Nenhum', value: 'none' },

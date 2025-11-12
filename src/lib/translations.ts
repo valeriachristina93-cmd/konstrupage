@@ -38,7 +38,7 @@ export const translations = {
     yes_button_text: "Texto do Botão 'Sim'",
     no_button_text: "Texto do Botão 'Não'",
     yes_button_color: "Cor do Botão 'Sim'",
-    no_button_color: "Cor do Botão 'Não'",
+    no_button_color: "Cor do Botão 'No'",
     button_width: 'Largura dos Botões',
     choice_popup: 'Pop-up de Escolha',
     description: 'Descrição',
@@ -184,6 +184,7 @@ export const translations = {
     product_name: 'Nome do Produto',
     post_content: 'Conteúdo do Post',
     write_your_article_here: 'Escreva seu artigo aqui...',
+    new_post: 'Novo Post',
     post_image_url: 'URL da Imagem do Post',
 
     // Advanced Settings
@@ -204,6 +205,40 @@ export const translations = {
     facebook_pixel_id_description: 'Irá disparar um evento de PageView.',
     google_ads_id: 'ID da Tag do Google (Google Ads)',
     google_ads_id_description: 'Irá configurar sua tag para remarketing (equivale a um PageView).',
+
+    // Other
+    affiliate_link_required_title: 'Link de Afiliado Obrigatório',
+    affiliate_link_required_desc: 'Por favor, insira um link de afiliado para gerar a página.',
+
+    // Default popup texts
+    default_cookie_title: 'Políticas de Cookies',
+    default_cookie_message: 'Usamos cookies para melhorar sua experiência. Ao continuar a navegar, você concorda com a nossa utilização de cookies.',
+    default_cookie_button: 'Aceitar',
+    default_age_message: 'Você confirma que tem mais de 18 anos?',
+    default_age_yes: 'Sim',
+    default_age_no: 'Não',
+    default_discount_text: '25% de Desconto',
+    default_discount_description: 'Oferta por tempo limitado!',
+    default_exit_title: 'Espere, não vá embora!',
+    default_exit_description: 'Temos uma oferta especial para você.',
+    default_exit_button: 'Pegar Oferta',
+    default_custom_title: 'Título do Pop-up',
+    default_custom_description: 'Esta é a descrição do seu pop-up personalizado. Você pode <b>editar</b> este texto e adicionar <a href="#" target="_blank">links</a>.',
+    default_custom_button: 'Clique Aqui',
+    default_custom_second_button: 'Botão Secundário',
+    default_choice_title: 'Selecione seu idioma',
+    default_choice_description: 'Escolha seu idioma para continuar.',
+    default_gender_title: 'Selecione seu Gênero',
+    default_gender_description: 'Isso nos ajuda a personalizar sua experiência.',
+    default_gender_male: 'Masculino',
+    default_gender_female: 'Feminino',
+    default_gender_other: 'Outro',
+    default_captcha_title: 'Verificação Rápida',
+    default_captcha_description: 'Clique abaixo para provar que você não é um robô e continuar.',
+    default_captcha_slider_text: 'Deslize para verificar',
+    default_captcha_slider_success_text: 'Verificado!',
+    default_captcha_checkbox_text: 'Não sou um robô',
+    default_disclaimer_text: 'Este é um anúncio. Os resultados podem variar e não são garantidos.',
   },
   en: {
     // Header
@@ -389,6 +424,7 @@ export const translations = {
     product_name: 'Product Name',
     post_content: 'Post Content',
     write_your_article_here: 'Write your article here...',
+    new_post: 'New Post',
     post_image_url: 'Post Image URL',
 
     // Advanced Settings
@@ -409,6 +445,40 @@ export const translations = {
     facebook_pixel_id_description: 'Will fire a PageView event.',
     google_ads_id: 'Google Tag ID (Google Ads)',
     google_ads_id_description: 'Will set up your tag for remarketing (equivalent to a PageView).',
+
+    // Other
+    affiliate_link_required_title: 'Affiliate Link Required',
+    affiliate_link_required_desc: 'Please enter an affiliate link to generate the page.',
+
+    // Default popup texts
+    default_cookie_title: 'Cookie Policy',
+    default_cookie_message: 'We use cookies to improve your experience. By continuing to browse, you agree to our use of cookies.',
+    default_cookie_button: 'Accept',
+    default_age_message: 'Do you confirm you are over 18 years old?',
+    default_age_yes: 'Yes',
+    default_age_no: 'No',
+    default_discount_text: '25% Discount',
+    default_discount_description: 'Limited time offer!',
+    default_exit_title: 'Wait, don\'t go!',
+    default_exit_description: 'We have a special offer for you.',
+    default_exit_button: 'Get Offer',
+    default_custom_title: 'Pop-up Title',
+    default_custom_description: 'This is the description of your custom pop-up. You can <b>edit</b> this text and add <a href="#" target="_blank">links</a>.',
+    default_custom_button: 'Click Here',
+    default_custom_second_button: 'Secondary Button',
+    default_choice_title: 'Select your language',
+    default_choice_description: 'Choose your language to continue.',
+    default_gender_title: 'Select your Gender',
+    default_gender_description: 'This helps us personalize your experience.',
+    default_gender_male: 'Male',
+    default_gender_female: 'Female',
+    default_gender_other: 'Other',
+    default_captcha_title: 'Quick Verification',
+    default_captcha_description: 'Click below to prove you are not a robot and continue.',
+    default_captcha_slider_text: 'Slide to verify',
+    default_captcha_slider_success_text: 'Verified!',
+    default_captcha_checkbox_text: 'I\'m not a robot',
+    default_disclaimer_text: 'This is an advertisement. Results may vary and are not guaranteed.',
   },
   es: {
     // Header
@@ -594,6 +664,7 @@ export const translations = {
     product_name: 'Nombre del Producto',
     post_content: 'Contenido de la Publicación',
     write_your_article_here: 'Escribe tu artículo aquí...',
+    new_post: 'Nueva Publicación',
     post_image_url: 'URL de la Imagen de la Publicación',
 
     // Advanced Settings
@@ -614,9 +685,41 @@ export const translations = {
     facebook_pixel_id_description: 'Disparará un evento PageView.',
     google_ads_id: 'ID de Etiqueta de Google (Google Ads)',
     google_ads_id_description: 'Configurará tu etiqueta para remarketing (equivale a un PageView).',
+
+    // Other
+    affiliate_link_required_title: 'Enlace de Afiliado Requerido',
+    affiliate_link_required_desc: 'Por favor, ingrese un enlace de afiliado para generar la página.',
+
+    // Default popup texts
+    default_cookie_title: 'Política de Cookies',
+    default_cookie_message: 'Usamos cookies para mejorar tu experiencia. Al continuar navegando, aceptas nuestro uso de cookies.',
+    default_cookie_button: 'Aceptar',
+    default_age_message: '¿Confirmas que tienes más de 18 años?',
+    default_age_yes: 'Sí',
+    default_age_no: 'No',
+    default_discount_text: '25% de Descuento',
+    default_discount_description: '¡Oferta por tiempo limitado!',
+    default_exit_title: '¡Espera, no te vayas!',
+    default_exit_description: 'Tenemos una oferta especial para ti.',
+    default_exit_button: 'Obtener Oferta',
+    default_custom_title: 'Título del Pop-up',
+    default_custom_description: 'Esta es la descripción de tu pop-up personalizado. Puedes <b>editar</b> este texto y agregar <a href="#" target="_blank">enlaces</a>.',
+    default_custom_button: 'Haz Clic Aquí',
+    default_custom_second_button: 'Botón Secundario',
+    default_choice_title: 'Selecciona tu idioma',
+    default_choice_description: 'Elige tu idioma para continuar.',
+    default_gender_title: 'Selecciona tu Género',
+    default_gender_description: 'Esto nos ayuda a personalizar tu experiencia.',
+    default_gender_male: 'Masculino',
+    default_gender_female: 'Femenino',
+    default_gender_other: 'Otro',
+    default_captcha_title: 'Verificación Rápida',
+    default_captcha_description: 'Haz clic abajo para demostrar que no eres un robot y continuar.',
+    default_captcha_slider_text: 'Desliza para verificar',
+    default_captcha_slider_success_text: '¡Verificado!',
+    default_captcha_checkbox_text: 'No soy un robot',
+    default_disclaimer_text: 'Esto es un anuncio. Los resultados pueden variar y no están garantizados.',
   },
 };
 
 export type TranslationKey = keyof typeof translations.pt;
-
-    
