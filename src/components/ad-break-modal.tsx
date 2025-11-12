@@ -1,10 +1,10 @@
 
 "use client";
 
-import React, { useEffect } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import React, { useEffect, useState, useRef } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Loader2, PlayCircle } from 'lucide-react';
+import { Loader2, PlayCircle, X } from 'lucide-react';
 
 declare global {
   interface Window {
@@ -43,11 +43,42 @@ const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; sty
 
 export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
+    const [isClosable, setIsClosable] = useState(false);
+    const [countdown, setCountdown] = useState(5);
+    const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
     const adSlotIds = ['7995115463', '4647596135', '1783487248'];
     
+    useEffect(() => {
+        if (isOpen) {
+            setIsClosable(false);
+            setCountdown(5);
+            
+            countdownRef.current = setInterval(() => {
+                setCountdown(prev => {
+                    if (prev <= 1) {
+                        clearInterval(countdownRef.current!);
+                        setIsClosable(true);
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+
+        } else {
+            if (countdownRef.current) {
+                clearInterval(countdownRef.current);
+            }
+        }
+
+        return () => {
+            if (countdownRef.current) {
+                clearInterval(countdownRef.current);
+            }
+        };
+    }, [isOpen]);
+
     if (!adsenseClient) {
-        // If adsense is not configured, we should not block the user.
         if (isOpen) {
           onClose();
         }
@@ -55,8 +86,8 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     }
 
   return (
-    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-w-4xl w-full h-auto flex flex-col p-8" onPointerDownOutside={(e) => e.preventDefault()}>
+    <Dialog open={isOpen} onOpenChange={(open) => !open && isClosable && onClose()}>
+      <DialogContent className="max-w-4xl w-full h-auto flex flex-col p-8" onPointerDownOutside={(e) => { if(!isClosable) e.preventDefault() }}>
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold flex items-center gap-2">
             <PlayCircle className="text-primary"/>
@@ -67,6 +98,18 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
           </DialogDescription>
         </DialogHeader>
 
+        {isClosable && (
+          <DialogClose asChild>
+            <button
+                className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground"
+                onClick={onClose}
+                aria-label="Close"
+            >
+                <X className="h-4 w-4" />
+            </button>
+          </DialogClose>
+        )}
+
         <div className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-6 py-6">
             {adSlotIds.map(id => (
                  <div key={id} className="aspect-square">
@@ -76,8 +119,8 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
         </div>
         
         <div className="flex justify-center">
-            <Button onClick={onClose} size="lg">
-                Continuar usando a ferramenta
+            <Button onClick={onClose} size="lg" disabled={!isClosable}>
+                {isClosable ? "Continuar usando a ferramenta" : `Aguarde ${countdown} segundos...`}
             </Button>
         </div>
       </DialogContent>
