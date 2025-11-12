@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/context/auth-context';
 import { ThemeProvider } from '@/components/theme-provider';
 import { LanguageProvider } from '@/context/language-context';
+import Script from 'next/script';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -26,6 +27,14 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <link rel="icon" href="https://i.imgur.com/ihAZlua.png" type="image/png" />
+        {process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
       </head>
       <body className="font-body antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
