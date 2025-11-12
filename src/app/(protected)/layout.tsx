@@ -7,7 +7,6 @@ import { useEffect } from "react";
 
 export default function ProtectedLayout({
   children,
-  ...props
 }: {
   children: React.ReactNode;
 }) {
