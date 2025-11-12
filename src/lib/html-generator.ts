@@ -32,7 +32,17 @@ export const generateTermsOfUseHtml = (config: PageConfig): string => {
 
 export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
     const { productName, content, imageUrl } = postConfig;
-    const { seo } = config;
+    const { seo, affiliateLink, newTab, footer } = config;
+
+    // Use a placeholder if productName is empty, to avoid empty titles
+    const pageTitle = productName || seo.title || 'Detalhes do Produto';
+
+    const renderContent = () => {
+        // Simple parser to replace **text** with <strong>text</strong>
+        // And to wrap paragraphs.
+        const boldedContent = content.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        return boldedContent.split('\n').filter(p => p.trim() !== '').map(p => `<p>${p}</p>`).join('');
+    };
 
     return `
     <!DOCTYPE html>
@@ -40,32 +50,206 @@ export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageCon
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${productName}</title>
-        <meta name="description" content="Saiba mais sobre ${productName}">
+        <title>${pageTitle} | Blog Beleza & Saúde</title>
+        <meta name="description" content="${seo.description || `Saiba mais sobre ${pageTitle}`}">
         <link rel="icon" href="${seo.favicon}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
         <style>
-            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; background-color: #f9fafb; }
-            .container { max-width: 800px; margin: 2rem auto; padding: 2rem; background-color: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 8px; }
-            h1 { font-size: 2.5em; margin-bottom: 0.5rem; color: #111; }
-            .post-image { width: 100%; height: auto; border-radius: 8px; margin-bottom: 2rem; }
-            .content { font-size: 1.1em; }
-            .content p { margin-bottom: 1.5rem; }
-            .cta-button { display: inline-block; background-color: #4F46E5; color: white; padding: 12px 24px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 2rem; transition: background-color 0.3s; }
-            .cta-button:hover { background-color: #4338CA; }
-            footer { text-align: center; margin-top: 3rem; font-size: 0.9em; color: #888; }
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Merriweather', Georgia, serif;
+            }
+            :root {
+                --primary: #2c3e50;
+                --secondary: #e74c3c;
+                --accent: #3498db;
+                --light: #f8f9fa;
+                --gray: #7f8c8d;
+                --dark: #2c3e50;
+                --text: #333;
+            }
+            body {
+                background-color: #fff;
+                color: var(--text);
+                line-height: 1.7;
+                font-weight: 400;
+                font-size: 18px;
+            }
+            header {
+                background-color: var(--primary);
+                padding: 1rem 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+            }
+            nav {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 0 2rem;
+            }
+            .logo {
+                font-size: 1.8rem;
+                font-weight: 700;
+                color: white;
+                text-decoration: none;
+                letter-spacing: -0.5px;
+                font-family: 'Montserrat', sans-serif;
+                text-transform: uppercase;
+            }
+            main {
+                max-width: 800px;
+                margin: 0 auto;
+                padding: 2rem 1.5rem;
+            }
+            article {
+                background-color: white;
+                border-radius: 0;
+                overflow: hidden;
+            }
+            .post-header {
+                padding: 3rem 0 1.5rem;
+                text-align: center;
+                border-bottom: 1px solid #eee;
+            }
+            .post-title {
+                font-size: 2.8rem;
+                margin-bottom: 0;
+                font-weight: 700;
+                line-height: 1.2;
+                color: var(--dark);
+            }
+            .post-image {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+                margin: 2rem 0;
+            }
+            .post-content {
+                padding: 2rem 0;
+            }
+            .post-content p {
+                margin-bottom: 1.8rem;
+                text-align: justify;
+            }
+            .post-content h2 {
+                color: var(--dark);
+                margin: 2.5rem 0 1.2rem;
+                font-size: 1.8rem;
+                font-weight: 700;
+                line-height: 1.3;
+                position: relative;
+                padding-bottom: 0.8rem;
+            }
+            .post-content h2::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 60px;
+                height: 3px;
+                background-color: var(--secondary);
+            }
+            .post-actions {
+                margin: 3rem 0;
+                display: flex;
+                justify-content: center;
+            }
+            .action-btn {
+                background-color: var(--secondary);
+                color: white;
+                border: none;
+                padding: 1rem 2.5rem;
+                font-size: 1.2rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-weight: 600;
+                font-family: 'Montserrat', sans-serif;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                text-decoration: none;
+            }
+            .action-btn:hover {
+                background-color: #c0392b;
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3);
+            }
+            footer {
+                background-color: var(--primary);
+                color: white;
+                text-align: center;
+                padding: 2rem 0;
+                margin-top: 4rem;
+            }
+            .footer-links {
+                margin-bottom: 1rem;
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1.5rem;
+            }
+            .footer-links a {
+                color: rgba(255, 255, 255, 0.8);
+                text-decoration: none;
+                font-size: 0.9rem;
+                transition: color 0.3s ease;
+                font-family: 'Montserrat', sans-serif;
+            }
+            .footer-links a:hover {
+                color: white;
+            }
+            .copyright {
+                font-size: 0.85rem;
+                color: rgba(255, 255, 255, 0.7);
+            }
+            @media (max-width: 768px) {
+                .post-title {
+                    font-size: 2.2rem;
+                }
+                .post-content h2 {
+                    font-size: 1.5rem;
+                }
+            }
         </style>
     </head>
     <body>
-        <div class="container">
-            <h1>${productName}</h1>
-            ${imageUrl ? `<img src="${imageUrl}" alt="${productName}" class="post-image">` : ''}
-            <div class="content">
-                ${content.split('\n').map(p => `<p>${p}</p>`).join('')}
-            </div>
-            <a href="${config.affiliateLink}" target="${config.newTab ? '_blank' : '_self'}" class="cta-button">Ver Oferta Especial</a>
-        </div>
+        <header>
+            <nav>
+                <a href="#" class="logo">blogpost</a>
+            </nav>
+        </header>
+        <main>
+            <article>
+                <div class="post-header">
+                    <h1 class="post-title">${pageTitle}</h1>
+                </div>
+                ${imageUrl ? `<img src="${imageUrl}" alt="${pageTitle}" class="post-image">` : ''}
+                <div class="post-content">
+                    ${renderContent()}
+                </div>
+                <div class="post-actions">
+                    <a href="${affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="action-btn">Comprar Agora</a>
+                </div>
+            </article>
+        </main>
         <footer>
-             <p>&copy; ${new Date().getFullYear()}. Todos os direitos reservados.</p>
+             ${footer.active ? `
+            <div class="footer-links">
+                <a href="${footer.autoGenerate ? '#' : footer.privacyLink}" ${footer.autoGenerate ? `onclick="openLegalModal('privacy-policy', event)"` : `target="_blank"`}>Política de Privacidade</a>
+                <a href="${footer.autoGenerate ? '#' : footer.termsLink}" ${footer.autoGenerate ? `onclick="openLegalModal('terms-of-use', event)"` : `target="_blank"`}>Termos de Uso</a>
+            </div>` : ''}
+            <div class="copyright">
+                © ${new Date().getFullYear()} blogpost - Todos os direitos reservados
+            </div>
         </footer>
     </body>
     </html>
@@ -593,6 +777,8 @@ export const generatePresellHtml = (config: PageConfig) => {
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
+
+          // A 'config' command for Google Ads sends a page_view hit.
           gtag('config', '${tracking.googleAdsId}');
         </script>
     ` : '';
@@ -1319,3 +1505,4 @@ export const generatePresellHtml = (config: PageConfig) => {
 };
 
     
+
