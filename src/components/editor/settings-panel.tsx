@@ -58,7 +58,7 @@ const ColorInput = ({ label, value, onChange }: { label: string; value: string; 
 );
 
 const AccordionSubTrigger = ({ title, onCheckedChange, checked }: { title: string, onCheckedChange: (checked: boolean) => void, checked: boolean }) => (
-  <div className='flex w-full items-center justify-between p-3 border rounded-md'>
+  <div className='flex w-full items-center justify-between p-3 border rounded-md bg-muted/50 dark:bg-white/5'>
     <AccordionTrigger className="p-0 hover:no-underline flex-1">
       <div className="flex items-center gap-2">
         <span className="font-semibold text-sm">{title}</span>
