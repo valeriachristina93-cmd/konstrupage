@@ -24,7 +24,7 @@ const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; sty
     } catch (e) {
       console.error('AdSense error:', e);
     }
-  }, []);
+  }, [slotId, client]);
 
   return (
     <div className="w-full h-full bg-muted/50 rounded-md flex items-center justify-center border border-dashed">
@@ -44,8 +44,8 @@ const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; sty
 export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
-    // TODO: Replace with actual ad slot IDs from AdSense account
-    const adSlotIds = ['1234567890', '0987654321', '1122334455'];
+    // We will replace the placeholder IDs once you provide the other two.
+    const adSlotIds = ['7995115463', '0987654321', '1122334455'];
     
     if (!adsenseClient) {
         // If adsense is not configured, we should not block the user.
