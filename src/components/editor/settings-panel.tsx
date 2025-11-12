@@ -11,7 +11,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2, Eye } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2, Eye, Link as LinkIcon } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -88,9 +88,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     };
     
     const handleContentSubAccordionToggle = (accordionValue: 'footer' | 'disclaimer', isChecked: boolean) => {
-        const path = [accordionValue, 'active'];
-        onConfigChange(path, isChecked);
-
+        onConfigChange([accordionValue, 'active'], isChecked);
         if (isChecked) {
             setOpenContentSubAccordion(accordionValue);
         } else {
@@ -99,6 +97,20 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
             }
         }
     };
+
+    const handleCustomizeClick = () => {
+        setOpenSubAccordion('');
+        setOpenAccordion('advanced');
+    };
+
+    const CustomizeLink = () => (
+        <div className="pt-3 mt-3 border-t">
+            <button onClick={handleCustomizeClick} className="text-sm text-primary hover:underline font-semibold flex items-center gap-1">
+                <LinkIcon className="w-3 h-3"/>
+                Personalizar Pop-up
+            </button>
+        </div>
+    );
 
 
     return (
@@ -262,6 +274,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                           <Label>Texto do Botão</Label>
                                           <Input type="text" placeholder="Texto do Botão" value={pageConfig.popups.cookies.buttonText} onChange={e => onConfigChange(['popups', 'cookies', 'buttonText'], e.target.value)} />
                                       </div>
+                                      <CustomizeLink />
                                   </AccordionContent>
                                 </AccordionItem>
 
@@ -297,6 +310,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 step={1}
                                             />
                                         </div>
+                                        <CustomizeLink />
                                     </AccordionContent>
                                 </AccordionItem>
 
@@ -365,6 +379,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 step={10}
                                             />
                                         </div>
+                                        <CustomizeLink />
                                     </AccordionContent>
                                 </AccordionItem>
 
@@ -446,6 +461,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 step={4}
                                             />
                                         </div>
+                                        <CustomizeLink />
                                     </AccordionContent>
                                 </AccordionItem>
                                 
@@ -503,6 +519,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <ColorInput label="Cor do Texto de Sucesso" value={pageConfig.popups.captcha.sliderSuccessTextColor} onChange={e => onConfigChange(['popups', 'captcha', 'sliderSuccessTextColor'], e.target.value)} />
                                             </div>
                                         )}
+                                        <CustomizeLink />
                                     </AccordionContent>
                                 </AccordionItem>
 
@@ -534,6 +551,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 step={4}
                                             />
                                         </div>
+                                        <CustomizeLink />
                                     </AccordionContent>
                                 </AccordionItem>
                                 
@@ -556,6 +574,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         <div className="p-3 border rounded-md">
                                             <SettingsToggle label="Somente Imagem" checked={pageConfig.popups.exit.imageOnly} onCheckedChange={checked => onConfigChange(['popups', 'exit', 'imageOnly'], checked)} />
                                         </div>
+                                        <CustomizeLink />
                                     </AccordionContent>
                                 </AccordionItem>
 
