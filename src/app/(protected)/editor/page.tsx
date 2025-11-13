@@ -14,7 +14,7 @@ import { useLanguage } from '@/context/language-context';
 
 export type ViewMode = 'desktop' | 'mobile';
 
-const AD_BREAK_INTERVAL = 10 * 60 * 1000; // 10 minutes
+const AD_BREAK_INTERVAL = 8 * 60 * 1000; // 8 minutes
 
 export default function EditorPage() {
     const { t } = useLanguage();
