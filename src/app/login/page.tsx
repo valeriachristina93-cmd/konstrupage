@@ -80,6 +80,14 @@ export default function LoginPage() {
       // The `setDoc` operation is non-blocking. We handle success and error in the chained methods.
       // We are NOT awaiting this promise here.
       setDoc(userDocRef, userProfileData)
+        .then(() => {
+            // This runs on successful write.
+            toast({
+                title: 'Sucesso!',
+                description: 'Sua conta foi criada. Redirecionando...',
+            });
+            router.push('/dashboard');
+        })
         .catch((serverError) => {
           // This is the critical part. We create and emit the detailed error.
           const permissionError = new FirestorePermissionError({
@@ -89,21 +97,13 @@ export default function LoginPage() {
           });
           errorEmitter.emit('permission-error', permissionError);
 
-          // We can still show a generic error to the user if we want.
+          // Optional: Show a generic error toast if needed, but the detailed one will appear in dev overlay.
           toast({
               variant: 'destructive',
               title: 'Erro de Permissão',
               description: 'Você não tem permissão para criar um perfil de usuário.',
           });
         });
-
-      // Because we are not awaiting, we can show an optimistic message and navigate.
-      // The onAuthStateChanged listener will handle the UI update.
-      toast({
-        title: 'Sucesso!',
-        description: 'Sua conta foi criada. Redirecionando...',
-      });
-      router.push('/dashboard');
 
     } catch (error: any) {
       // This will catch auth errors from createUserWithEmailAndPassword, like "auth/email-already-in-use".
@@ -115,6 +115,8 @@ export default function LoginPage() {
             : 'Ocorreu um erro inesperado. Tente novamente.',
       });
     } finally {
+      // We only stop the loading spinner for auth errors. For Firestore, it's non-blocking.
+      // Or we can decide to keep it simple and always turn it off. For better UX, let's turn it off.
       setIsLoading(false);
     }
   };
@@ -295,3 +297,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
