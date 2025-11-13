@@ -286,7 +286,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                           <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.cookies.title} onChange={e => onConfigChange(['popups', 'cookies', 'title'], e.target.value)} />
                                       </div>
                                       <div className="space-y-2">
-                                          <Label>{t('message')}</Label>
+                                          <div className="flex items-center gap-2">
+                                            <Label>{t('message')}</Label>
+                                            <HtmlTooltip />
+                                          </div>
                                           <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24" />
                                       </div>
                                       <div className="space-y-2">
