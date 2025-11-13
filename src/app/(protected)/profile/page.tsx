@@ -7,10 +7,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { ArrowLeft, User, CheckCircle, LogOut, Palette, Loader2 } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { useAuth, useUser } from '@/firebase';
+import { useAuth, useUser, useFirestore } from '@/firebase';
 import { Separator } from '@/components/ui/separator';
 import { doc, getDoc } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
 import { useEffect, useState } from 'react';
 
 interface UserProfile {
@@ -28,11 +27,15 @@ export default function ProfilePage() {
 
     useEffect(() => {
         const fetchUserProfile = async () => {
-            if (user) {
-                const userDocRef = doc(firestore, "users", user.uid);
-                const userDoc = await getDoc(userDocRef);
-                if (userDoc.exists()) {
-                    setUserProfile(userDoc.data() as UserProfile);
+            if (user && firestore) {
+                try {
+                    const userDocRef = doc(firestore, "users", user.uid);
+                    const userDoc = await getDoc(userDocRef);
+                    if (userDoc.exists()) {
+                        setUserProfile(userDoc.data() as UserProfile);
+                    }
+                } catch (error) {
+                    console.error("Error fetching user profile:", error);
                 }
             }
             setIsLoadingProfile(false);
@@ -50,6 +53,15 @@ export default function ProfilePage() {
     if (isUserLoading || isLoadingProfile) {
         return (
             <div className="flex h-screen w-full items-center justify-center bg-background">
+                <Loader2 className="h-12 w-12 animate-spin text-primary" />
+            </div>
+        );
+    }
+
+    if (!user) {
+        // This can happen briefly during redirection, so we show a loader as well.
+        return (
+             <div className="flex h-screen w-full items-center justify-center bg-background">
                 <Loader2 className="h-12 w-12 animate-spin text-primary" />
             </div>
         );
