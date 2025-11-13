@@ -76,34 +76,37 @@ export default function LoginPage() {
       };
       
       const userDocRef = doc(firestore, "users", user.uid);
-
-      // Non-blocking write with contextual error handling
+      
+      // The `setDoc` operation is non-blocking. We handle success and error in the chained methods.
+      // We are NOT awaiting this promise here.
       setDoc(userDocRef, userProfileData)
-        .then(() => {
-            toast({
-              title: 'Sucesso!',
-              description: 'Sua conta foi criada. Você já está logado.',
-            });
-            router.push('/dashboard');
-        })
-        .catch((error) => {
-            const permissionError = new FirestorePermissionError({
-              path: userDocRef.path,
-              operation: 'create',
-              requestResourceData: userProfileData,
-            });
-            errorEmitter.emit('permission-error', permissionError);
-            
-            // Also show a toast to the user
-             toast({
+        .catch((serverError) => {
+          // This is the critical part. We create and emit the detailed error.
+          const permissionError = new FirestorePermissionError({
+            path: userDocRef.path,
+            operation: 'create',
+            requestResourceData: userProfileData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+
+          // We can still show a generic error to the user if we want.
+          toast({
               variant: 'destructive',
               title: 'Erro de Permissão',
-              description: 'Não foi possível salvar os dados do perfil.',
-            });
+              description: 'Você não tem permissão para criar um perfil de usuário.',
+          });
         });
 
+      // Because we are not awaiting, we can show an optimistic message and navigate.
+      // The onAuthStateChanged listener will handle the UI update.
+      toast({
+        title: 'Sucesso!',
+        description: 'Sua conta foi criada. Redirecionando...',
+      });
+      router.push('/dashboard');
+
     } catch (error: any) {
-      // This will catch errors from createUserWithEmailAndPassword (e.g., email already in use)
+      // This will catch auth errors from createUserWithEmailAndPassword, like "auth/email-already-in-use".
       toast({
         variant: 'destructive',
         title: 'Erro ao criar conta',
@@ -112,7 +115,6 @@ export default function LoginPage() {
             : 'Ocorreu um erro inesperado. Tente novamente.',
       });
     } finally {
-      // We set loading to false here, but the navigation/success toast is now in the .then() block
       setIsLoading(false);
     }
   };
