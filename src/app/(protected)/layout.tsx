@@ -20,8 +20,12 @@ export default function ProtectedLayout({
     }
   }, [user, isUserLoading, router]);
 
-  if (isUserLoading || !user) {
+  if (isUserLoading) {
      return <div className="flex h-screen w-full items-center justify-center bg-background"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>
+  }
+
+  if (!user) {
+    return null; // ou um loader, ou nada, enquanto o useEffect redireciona
   }
 
   return (
