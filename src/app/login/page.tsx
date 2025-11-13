@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -23,7 +24,9 @@ const registerSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
   phone: z.string().min(10, { message: 'O telefone deve ter pelo menos 10 caracteres.' }),
   email: z.string().email({ message: 'Por favor, insira um email válido.' }),
-  password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' }),
+  password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' })
+    .regex(/(?=.*[A-Z])/, { message: 'A senha deve conter pelo menos uma letra maiúscula.' })
+    .regex(/(?=.*[0-9])/, { message: 'A senha deve conter pelo menos um número.' }),
 });
 
 const loginSchema = z.object({
