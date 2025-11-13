@@ -1,0 +1,550 @@
+{
+  "entities": {
+    "PageConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PageConfig",
+      "type": "object",
+      "description": "Represents the configuration for a presell page.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PageConfig entity."
+        },
+        "desktopImage": {
+          "type": "string",
+          "description": "URL of the image for desktop devices."
+        },
+        "mobileImage": {
+          "type": "string",
+          "description": "URL of the image for mobile devices."
+        },
+        "imageHeightDesktop": {
+          "type": "number",
+          "description": "Height of the image on desktop devices, in pixels."
+        },
+        "imageHeightMobile": {
+          "type": "number",
+          "description": "Height of the image on mobile devices, in pixels."
+        },
+        "affiliateLink": {
+          "type": "string",
+          "description": "Affiliate link to redirect users to."
+        },
+        "autoRedirectId": {
+          "type": "string",
+          "description": "Reference to AutoRedirectConfig. (Relationship: PageConfig 1:1 AutoRedirectConfig)"
+        },
+        "popupsId": {
+          "type": "string",
+          "description": "Reference to PopupsConfig. (Relationship: PageConfig 1:1 PopupsConfig)"
+        },
+        "footerId": {
+          "type": "string",
+          "description": "Reference to FooterConfig. (Relationship: PageConfig 1:1 FooterConfig)"
+        },
+        "disclaimerId": {
+          "type": "string",
+          "description": "Reference to DisclaimerConfig. (Relationship: PageConfig 1:1 DisclaimerConfig)"
+        },
+        "overlayId": {
+          "type": "string",
+          "description": "Reference to OverlayConfig. (Relationship: PageConfig 1:1 OverlayConfig)"
+        },
+        "customizationId": {
+          "type": "string",
+          "description": "Reference to CustomizationConfig. (Relationship: PageConfig 1:1 CustomizationConfig)"
+        }
+      },
+      "required": [
+        "id",
+        "desktopImage",
+        "mobileImage",
+        "imageHeightDesktop",
+        "imageHeightMobile",
+        "affiliateLink",
+        "autoRedirectId",
+        "popupsId",
+        "footerId",
+        "disclaimerId",
+        "overlayId",
+        "customizationId"
+      ]
+    },
+    "AutoRedirectConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AutoRedirectConfig",
+      "type": "object",
+      "description": "Configuration for automatic redirection.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AutoRedirectConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if automatic redirect is active."
+        },
+        "time": {
+          "type": "number",
+          "description": "Time in seconds before redirecting."
+        }
+      },
+      "required": [
+        "id",
+        "active",
+        "time"
+      ]
+    },
+    "PopupsConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PopupsConfig",
+      "type": "object",
+      "description": "Configuration for various pop-ups.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PopupsConfig entity."
+        },
+        "cookiesId": {
+          "type": "string",
+          "description": "Reference to CookiePopupConfig. (Relationship: PopupsConfig 1:1 CookiePopupConfig)"
+        },
+        "ageVerificationId": {
+          "type": "string",
+          "description": "Reference to AgeVerificationPopupConfig. (Relationship: PopupsConfig 1:1 AgeVerificationPopupConfig)"
+        },
+        "discountId": {
+          "type": "string",
+          "description": "Reference to DiscountPopupConfig. (Relationship: PopupsConfig 1:1 DiscountPopupConfig)"
+        },
+        "exitId": {
+          "type": "string",
+          "description": "Reference to ExitPopupConfig. (Relationship: PopupsConfig 1:1 ExitPopupConfig)"
+        }
+      },
+      "required": [
+        "id",
+        "cookiesId",
+        "ageVerificationId",
+        "discountId",
+        "exitId"
+      ]
+    },
+    "CookiePopupConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CookiePopupConfig",
+      "type": "object",
+      "description": "Configuration for the cookie pop-up.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CookiePopupConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the cookie pop-up is active."
+        },
+        "message": {
+          "type": "string",
+          "description": "Message to display in the cookie pop-up."
+        }
+      },
+      "required": [
+        "id",
+        "active",
+        "message"
+      ]
+    },
+    "AgeVerificationPopupConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "AgeVerificationPopupConfig",
+      "type": "object",
+      "description": "Configuration for the age verification pop-up.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the AgeVerificationPopupConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the age verification pop-up is active."
+        }
+      },
+      "required": [
+        "id",
+        "active"
+      ]
+    },
+    "DiscountPopupConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DiscountPopupConfig",
+      "type": "object",
+      "description": "Configuration for the discount pop-up.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the DiscountPopupConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the discount pop-up is active."
+        },
+        "text": {
+          "type": "string",
+          "description": "Text to display in the discount pop-up."
+        },
+        "icon": {
+          "type": "boolean",
+          "description": "Indicates if the icon should be displayed in the discount pop-up."
+        }
+      },
+      "required": [
+        "id",
+        "active",
+        "text",
+        "icon"
+      ]
+    },
+    "ExitPopupConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "ExitPopupConfig",
+      "type": "object",
+      "description": "Configuration for the exit pop-up.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the ExitPopupConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the exit pop-up is active."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "URL of the image for the exit pop-up."
+        },
+        "redirectLink": {
+          "type": "string",
+          "description": "Link to redirect to from the exit pop-up."
+        }
+      },
+      "required": [
+        "id",
+        "active",
+        "imageUrl",
+        "redirectLink"
+      ]
+    },
+    "FooterConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "FooterConfig",
+      "type": "object",
+      "description": "Configuration for the footer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the FooterConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the footer is active."
+        },
+        "privacyLink": {
+          "type": "string",
+          "description": "Link to the privacy policy page."
+        },
+        "termsLink": {
+          "type": "string",
+          "description": "Link to the terms of service page."
+        },
+        "theme": {
+          "type": "string",
+          "description": "Theme of the footer (e.g., dark or light)."
+        }
+      },
+      "required": [
+        "id",
+        "active",
+        "privacyLink",
+        "termsLink",
+        "theme"
+      ]
+    },
+    "DisclaimerConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "DisclaimerConfig",
+      "type": "object",
+      "description": "Configuration for the disclaimer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the DisclaimerConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the disclaimer is active."
+        },
+        "text": {
+          "type": "string",
+          "description": "Text of the disclaimer."
+        }
+      },
+      "required": [
+        "id",
+        "active",
+        "text"
+      ]
+    },
+    "OverlayConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "OverlayConfig",
+      "type": "object",
+      "description": "Configuration for the overlay.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the OverlayConfig entity."
+        },
+        "active": {
+          "type": "boolean",
+          "description": "Indicates if the overlay is active."
+        }
+      },
+      "required": [
+        "id",
+        "active"
+      ]
+    },
+    "CustomizationConfig": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "CustomizationConfig",
+      "type": "object",
+      "description": "Configuration for advanced customizations.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CustomizationConfig entity."
+        },
+        "language": {
+          "type": "string",
+          "description": "Language of the page."
+        },
+        "buttonColor": {
+          "type": "string",
+          "description": "Color of the buttons."
+        },
+        "popupColor": {
+          "type": "string",
+          "description": "Color of the pop-ups."
+        },
+        "popupPosition": {
+          "type": "string",
+          "description": "Position of the pop-ups on the screen."
+        },
+        "customHtml": {
+          "type": "string",
+          "description": "Custom HTML code to include in the page."
+        }
+      },
+      "required": [
+        "id",
+        "language",
+        "buttonColor",
+        "popupColor",
+        "popupPosition",
+        "customHtml"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}/pageConfigs/{pageConfigId}",
+        "definition": {
+          "entityName": "PageConfig",
+          "schema": {
+            "$ref": "#/backend/entities/PageConfig"
+          },
+          "description": "Stores configurations for presell pages, owned by a specific user. Includes all configurations in a single document to make it easier to make atomic updates.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The ID of the user who owns the page configuration."
+            },
+            {
+              "name": "pageConfigId",
+              "description": "The ID of the presell page configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/autoRedirectConfigs/{autoRedirectConfigId}",
+        "definition": {
+          "entityName": "AutoRedirectConfig",
+          "schema": {
+            "$ref": "#/backend/entities/AutoRedirectConfig"
+          },
+          "description": "Stores configurations for automatic redirection.",
+          "params": [
+            {
+              "name": "autoRedirectConfigId",
+              "description": "The ID of the automatic redirection configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/popupsConfigs/{popupsConfigId}",
+        "definition": {
+          "entityName": "PopupsConfig",
+          "schema": {
+            "$ref": "#/backend/entities/PopupsConfig"
+          },
+          "description": "Stores configurations for various pop-ups.",
+          "params": [
+            {
+              "name": "popupsConfigId",
+              "description": "The ID of the Popups Configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/cookiePopupConfigs/{cookiePopupConfigId}",
+        "definition": {
+          "entityName": "CookiePopupConfig",
+          "schema": {
+            "$ref": "#/backend/entities/CookiePopupConfig"
+          },
+          "description": "Stores configurations for the cookie pop-up.",
+          "params": [
+            {
+              "name": "cookiePopupConfigId",
+              "description": "The ID of the cookie popup configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/ageVerificationPopupConfigs/{ageVerificationPopupConfigId}",
+        "definition": {
+          "entityName": "AgeVerificationPopupConfig",
+          "schema": {
+            "$ref": "#/backend/entities/AgeVerificationPopupConfig"
+          },
+          "description": "Stores configurations for the age verification pop-up.",
+          "params": [
+            {
+              "name": "ageVerificationPopupConfigId",
+              "description": "The ID of the age verification popup configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/discountPopupConfigs/{discountPopupConfigId}",
+        "definition": {
+          "entityName": "DiscountPopupConfig",
+          "schema": {
+            "$ref": "#/backend/entities/DiscountPopupConfig"
+          },
+          "description": "Stores configurations for the discount pop-up.",
+          "params": [
+            {
+              "name": "discountPopupConfigId",
+              "description": "The ID of the discount popup configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/exitPopupConfigs/{exitPopupConfigId}",
+        "definition": {
+          "entityName": "ExitPopupConfig",
+          "schema": {
+            "$ref": "#/backend/entities/ExitPopupConfig"
+          },
+          "description": "Stores configurations for the exit pop-up.",
+          "params": [
+            {
+              "name": "exitPopupConfigId",
+              "description": "The ID of the exit popup configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/footerConfigs/{footerConfigId}",
+        "definition": {
+          "entityName": "FooterConfig",
+          "schema": {
+            "$ref": "#/backend/entities/FooterConfig"
+          },
+          "description": "Stores configurations for the footer.",
+          "params": [
+            {
+              "name": "footerConfigId",
+              "description": "The ID of the footer configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/disclaimerConfigs/{disclaimerConfigId}",
+        "definition": {
+          "entityName": "DisclaimerConfig",
+          "schema": {
+            "$ref": "#/backend/entities/DisclaimerConfig"
+          },
+          "description": "Stores configurations for the disclaimer.",
+          "params": [
+            {
+              "name": "disclaimerConfigId",
+              "description": "The ID of the disclaimer configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/overlayConfigs/{overlayConfigId}",
+        "definition": {
+          "entityName": "OverlayConfig",
+          "schema": {
+            "$ref": "#/backend/entities/OverlayConfig"
+          },
+          "description": "Stores configurations for the overlay.",
+          "params": [
+            {
+              "name": "overlayConfigId",
+              "description": "The ID of the overlay configuration."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/customizationConfigs/{customizationConfigId}",
+        "definition": {
+          "entityName": "CustomizationConfig",
+          "schema": {
+            "$ref": "#/backend/entities/CustomizationConfig"
+          },
+          "description": "Stores configurations for advanced customizations.",
+          "params": [
+            {
+              "name": "customizationConfigId",
+              "description": "The ID of the customization configuration."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore data structure is designed to store configurations for presell pages. It leverages structural segregation to isolate different configuration types into separate collections, and path-based ownership for `pageConfigs` owned by a user. This ensures that each collection has a homogeneous security posture and simplifies security rules. Since there's no user entity explicitly defined, I'm assuming an authentication system exists where users can create and manage their configurations.\n\nThe design emphasizes Authorization Independence by avoiding hierarchical dependencies. Instead, each `pageConfig` document can include all the data required for its configuration, avoiding the need to `get()` data from other documents during reads or writes. Since the relationship between `pageConfig` and `AutoRedirectConfig`, `PopupsConfig`, `FooterConfig`, `DisclaimerConfig`, `OverlayConfig`, and `CustomizationConfig` is 1:1, we will nest all these configurations inside `pageConfigs`. \n\nThe structure supports the required QAPs:\n\n*   **Secure List Operations:** The segregation of configuration types into different collections allows for precise security rules that govern which users can list, create, update, or delete configurations.\n\n*   **Atomic operations**: The 1:1 relationships are nested, to avoid inter-document `get()` calls."
+  }
+}

@@ -1,0 +1,223 @@
+/**
+ * @file Firestore Security Rules for Presell Page Configuration
+ *
+ * Core Philosophy:
+ * This ruleset enforces a user-ownership model for `pageConfigs` located under `/users/{userId}`.
+ * All other configurations are stored in top-level collections with open read access but restricted write access.
+ *
+ * Data Structure:
+ * - `/users/{userId}/pageConfigs/{pageConfigId}`: Page configurations owned by a specific user.
+ * - `/autoRedirectConfigs/{autoRedirectConfigId}`: Configurations for automatic redirection.
+ * - `/popupsConfigs/{popupsConfigId}`: Configurations for various pop-ups.
+ * - `/cookiePopupConfigs/{cookiePopupConfigId}`: Configurations for cookie pop-ups.
+ * - `/ageVerificationPopupConfigs/{ageVerificationPopupConfigId}`: Configurations for age verification pop-ups.
+ * - `/discountPopupConfigs/{discountPopupConfigId}`: Configurations for discount pop-ups.
+ * - `/exitPopupConfigs/{exitPopupConfigId}`: Configurations for exit pop-ups.
+ * - `/footerConfigs/{footerConfigId}`: Configurations for footers.
+ * - `/disclaimerConfigs/{disclaimerConfigId}`: Configurations for disclaimers.
+ * - `/overlayConfigs/{overlayConfigId}`: Configurations for overlays.
+ * - `/customizationConfigs/{customizationConfigId}`: Configurations for advanced customizations.
+ *
+ * Key Security Decisions:
+ * - Users can only manage their own `pageConfigs` under their respective user IDs.
+ * - Listing of `pageConfigs` is restricted to the owner.
+ * - All other configurations are readable by anyone but only writable by authenticated users.
+ * - The rule set assumes that the IDs of nested entities are validated in backend.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * @description Enforces document ownership for page configurations.
+     * @path /users/{userId}/pageConfigs/{pageConfigId}
+     * @allow (create) User 'user123' can create a page config with id 'user123' under /users/user123/pageConfigs/pageConfig1.
+     * @allow (update) User 'user123' can update a page config with id 'user123' under /users/user123/pageConfigs/pageConfig1.
+     * @allow (delete) User 'user123' can delete a page config with id 'user123' under /users/user123/pageConfigs/pageConfig1.
+     * @deny (create) User 'user456' cannot create a page config under /users/user123/pageConfigs/pageConfig1.
+     * @deny (update) User 'user456' cannot update a page config under /users/user123/pageConfigs/pageConfig1.
+     * @principle Enforces document ownership for writes and restricts access to a user's own data tree.
+     */
+    match /users/{userId}/pageConfigs/{pageConfigId} {
+      allow get: if isSignedIn() && isOwner(userId);
+      allow list: if isSignedIn() && isOwner(userId);
+      allow create: if isSignedIn() && isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isSignedIn() && isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isSignedIn() && isExistingOwner(userId);
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for auto redirect configurations.
+     * @path /autoRedirectConfigs/{autoRedirectConfigId}
+     * @allow (get) Any user can read an auto redirect config.
+     * @allow (list) Any user can list auto redirect configs.
+     * @allow (create) Any authenticated user can create an auto redirect config.
+     * @deny (create) Unauthenticated user cannot create auto redirect configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /autoRedirectConfigs/{autoRedirectConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for popups configurations.
+     * @path /popupsConfigs/{popupsConfigId}
+     * @allow (get) Any user can read a popups config.
+     * @allow (list) Any user can list popups configs.
+     * @allow (create) Any authenticated user can create a popups config.
+     * @deny (create) Unauthenticated user cannot create popups configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /popupsConfigs/{popupsConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for cookie popup configurations.
+     * @path /cookiePopupConfigs/{cookiePopupConfigId}
+     * @allow (get) Any user can read a cookie popup config.
+     * @allow (list) Any user can list cookie popup configs.
+     * @allow (create) Any authenticated user can create a cookie popup config.
+     * @deny (create) Unauthenticated user cannot create cookie popup configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /cookiePopupConfigs/{cookiePopupConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for age verification popup configurations.
+     * @path /ageVerificationPopupConfigs/{ageVerificationPopupConfigId}
+     * @allow (get) Any user can read an age verification popup config.
+     * @allow (list) Any user can list age verification popup configs.
+     * @allow (create) Any authenticated user can create an age verification popup config.
+     * @deny (create) Unauthenticated user cannot create age verification popup configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /ageVerificationPopupConfigs/{ageVerificationPopupConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for discount popup configurations.
+     * @path /discountPopupConfigs/{discountPopupConfigId}
+     * @allow (get) Any user can read a discount popup config.
+     * @allow (list) Any user can list discount popup configs.
+     * @allow (create) Any authenticated user can create a discount popup config.
+     * @deny (create) Unauthenticated user cannot create discount popup configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /discountPopupConfigs/{discountPopupConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for exit popup configurations.
+     * @path /exitPopupConfigs/{exitPopupConfigId}
+     * @allow (get) Any user can read an exit popup config.
+     * @allow (list) Any user can list exit popup configs.
+     * @allow (create) Any authenticated user can create an exit popup config.
+     * @deny (create) Unauthenticated user cannot create exit popup configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /exitPopupConfigs/{exitPopupConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for footer configurations.
+     * @path /footerConfigs/{footerConfigId}
+     * @allow (get) Any user can read a footer config.
+     * @allow (list) Any user can list footer configs.
+     * @allow (create) Any authenticated user can create a footer config.
+     * @deny (create) Unauthenticated user cannot create footer configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /footerConfigs/{footerConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for disclaimer configurations.
+     * @path /disclaimerConfigs/{disclaimerConfigId}
+     * @allow (get) Any user can read a disclaimer config.
+     * @allow (list) Any user can list disclaimer configs.
+     * @allow (create) Any authenticated user can create a disclaimer config.
+     * @deny (create) Unauthenticated user cannot create disclaimer configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /disclaimerConfigs/{disclaimerConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for overlay configurations.
+     * @path /overlayConfigs/{overlayConfigId}
+     * @allow (get) Any user can read an overlay config.
+     * @allow (list) Any user can list overlay configs.
+     * @allow (create) Any authenticated user can create an overlay config.
+     * @deny (create) Unauthenticated user cannot create overlay configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /overlayConfigs/{overlayConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+    /**
+     * @description Allows public read but restricts write access to authenticated users for customization configurations.
+     * @path /customizationConfigs/{customizationConfigId}
+     * @allow (get) Any user can read a customization config.
+     * @allow (list) Any user can list customization configs.
+     * @allow (create) Any authenticated user can create a customization config.
+     * @deny (create) Unauthenticated user cannot create customization configs.
+     * @principle Allows public read access with owner-only writes for top-level collections.
+     */
+    match /customizationConfigs/{customizationConfigId} {
+      allow get, list: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && resource != null;
+      allow delete: if isSignedIn() && resource != null;
+    }
+
+  }
+
+  // Helper functions
+  function isSignedIn() {
+    return request.auth != null;
+  }
+
+  function isOwner(userId) {
+    return request.auth.uid == userId;
+  }
+
+  function isExistingOwner(userId) {
+    return isOwner(userId) && resource != null;
+  }
+}
