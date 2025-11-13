@@ -7,7 +7,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth } from '@/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { useFirestore } from '@/firebase';
 
@@ -19,10 +19,11 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, UserPlus, LogIn } from 'lucide-react';
 import Image from 'next/image';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
-  phone: z.string().min(10, { message: 'O telefone deve ter pelo menos 10 caracteres.' }),
+  phone: z.string().regex(/^\d+$/, { message: 'O telefone deve conter apenas números.' }).min(10, { message: 'O telefone deve ter pelo menos 10 caracteres.' }),
   email: z.string().email({ message: 'Por favor, insira um email válido.' }),
   password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' })
     .regex(/(?=.*[A-Z])/, { message: 'A senha deve conter pelo menos uma letra maiúscula.' })
@@ -39,6 +40,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
   const router = useRouter();
   const { toast } = useToast();
   const auth = useAuth();
@@ -66,7 +68,6 @@ export default function LoginPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
       
-      // Save user name and phone to Firestore
       await setDoc(doc(firestore, "users", user.uid), {
         uid: user.uid,
         name: data.name,
@@ -111,6 +112,35 @@ export default function LoginPage() {
     }
   };
 
+  const onForgotPassword = async () => {
+    if (!resetEmail) {
+        toast({
+            variant: 'destructive',
+            title: 'Campo obrigatório',
+            description: 'Por favor, insira seu e-mail.',
+        });
+        return;
+    }
+    setIsLoading(true);
+    try {
+        await sendPasswordResetEmail(auth, resetEmail);
+        toast({
+            title: 'E-mail enviado!',
+            description: 'Verifique sua caixa de entrada para o link de redefinição de senha.',
+        });
+    } catch (error: any) {
+        console.error(error);
+        toast({
+            variant: 'destructive',
+            title: 'Erro ao enviar e-mail',
+            description: 'Não foi possível enviar o e-mail. Verifique se o endereço está correto.',
+        });
+    } finally {
+        setIsLoading(false);
+        setResetEmail("");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted/30">
       <div className="w-full max-w-md p-4">
@@ -144,6 +174,41 @@ export default function LoginPage() {
                     <Input id="login-password" type="password" {...registerLogin('password')} />
                      {loginErrors.password && <p className="text-xs text-destructive">{loginErrors.password.message}</p>}
                   </div>
+
+                  <div className="text-right">
+                    <AlertDialog>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="link" type="button" className="p-0 h-auto text-xs">
+                          Esqueceu a senha?
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>Redefinir Senha</AlertDialogTitle>
+                          <AlertDialogDescription>
+                            Digite seu e-mail abaixo. Enviaremos um link para você redefinir sua senha.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <div className="space-y-2">
+                            <Label htmlFor="reset-email" className="sr-only">Email</Label>
+                            <Input
+                                id="reset-email"
+                                type="email"
+                                placeholder="seu@email.com"
+                                value={resetEmail}
+                                onChange={(e) => setResetEmail(e.target.value)}
+                            />
+                        </div>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                          <AlertDialogAction onClick={onForgotPassword} disabled={isLoading}>
+                             {isLoading ? <Loader2 className="animate-spin" /> : 'Enviar Link'}
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  </div>
+
                   <Button type="submit" className="w-full" disabled={isLoading}>
                     {isLoading ? <Loader2 className="animate-spin" /> : <LogIn className="mr-2" />}
                     Entrar
@@ -185,3 +250,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
