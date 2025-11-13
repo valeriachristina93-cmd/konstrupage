@@ -13,8 +13,8 @@ export default function DashboardPage() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4 sm:p-8">
       <div className="w-full max-w-5xl transform -translate-y-[30px]">
         <div className="mb-12 text-center">
-          <div className="flex justify-center mb-4 text-primary">
-            <LayoutTemplate className="h-20 w-20" />
+          <div className="flex justify-center mb-4">
+            <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={80} height={80} />
           </div>
           <h1 className="text-5xl font-bold font-headline mb-2 text-foreground">
             Bem-vindo ao Konstrupages
