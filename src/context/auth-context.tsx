@@ -1,71 +1,27 @@
 
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { FirebaseClientProvider } from '@/firebase';
 
-interface AuthContextType {
-  isLoggedIn: boolean;
-  loading: boolean;
-  login: () => void;
-  logout: () => void;
-}
-
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+// This context is now a shell. The actual auth state will come from FirebaseProvider.
+const AuthContext = createContext<undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(true);
-  
-  const router = useRouter();
-
-  useEffect(() => {
-    try {
-      const storedAuth = localStorage.getItem('isLoggedIn');
-      const userIsLoggedIn = storedAuth === 'true';
-      setIsLoggedIn(userIsLoggedIn);
-    } catch (error) {
-      console.error("Failed to access localStorage:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  const login = () => {
-    try {
-      localStorage.setItem('isLoggedIn', 'true');
-    } catch (error) {
-       console.error("Failed to access localStorage:", error);
-    }
-    setIsLoggedIn(true);
-    router.push('/dashboard');
-  };
-
-  const logout = () => {
-    try {
-      localStorage.removeItem('isLoggedIn');
-    } catch (error) {
-       console.error("Failed to access localStorage:", error);
-    }
-    setIsLoggedIn(false);
-    router.push('/login');
-  };
-
-  if (loading) {
-    return <div className="flex h-screen w-full items-center justify-center bg-background"><div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>;
-  }
-  
   return (
-    <AuthContext.Provider value={{ isLoggedIn, loading, login, logout }}>
-      {children}
-    </AuthContext.Provider>
+    <FirebaseClientProvider>
+        {children}
+    </FirebaseClientProvider>
   );
 }
 
+// This hook is kept for compatibility but doesn't provide auth logic itself.
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    // This message can be updated to reflect the new structure.
+    // "useAuth must be used within an AuthProvider" is still technically true.
   }
-  return context;
+  // The actual auth logic will be handled by useUser from @/firebase/auth/use-user
+  return {};
 }

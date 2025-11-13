@@ -1,26 +1,27 @@
 
 "use client";
 
-import { useAuth } from "@/context/auth-context";
+import { useUser } from "@/firebase/auth/use-user";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { Loader2 } from "lucide-react";
 
 export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { isLoggedIn } = useAuth();
+  const { user, isUserLoading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isUserLoading && !user) {
       router.push('/login');
     }
-  }, [isLoggedIn, router]);
+  }, [user, isUserLoading, router]);
 
-  if (!isLoggedIn) {
-     return <div className="flex h-screen w-full items-center justify-center bg-background"><div className="h-12 w-12 animate-spin rounded-full border-4 border-primary border-t-transparent" /></div>
+  if (isUserLoading || !user) {
+     return <div className="flex h-screen w-full items-center justify-center bg-background"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>
   }
 
   return (

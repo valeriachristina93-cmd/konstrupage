@@ -1,21 +1,28 @@
 
 "use client";
 
-import { useAuth } from '@/context/auth-context';
+import { useUser } from '@/firebase/auth/use-user';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { Loader2 } from 'lucide-react';
 
 export default function HomePage() {
-  const { isLoggedIn } = useAuth();
+  const { user, isUserLoading } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (isLoggedIn) {
-      router.replace('/dashboard');
-    } else {
-      router.replace('/login');
+    if (!isUserLoading) {
+      if (user) {
+        router.replace('/dashboard');
+      } else {
+        router.replace('/login');
+      }
     }
-  }, [isLoggedIn, router]);
+  }, [user, isUserLoading, router]);
 
-  return null;
+  return (
+    <div className="flex h-screen w-full items-center justify-center bg-background">
+      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    </div>
+  );
 }
