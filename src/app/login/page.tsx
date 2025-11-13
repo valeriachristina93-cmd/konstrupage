@@ -6,10 +6,9 @@ import { useRouter } from 'next/navigation';
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { useAuth } from '@/firebase';
+import { useAuth, useFirestore, errorEmitter, FirestorePermissionError } from '@/firebase';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
-import { useFirestore } from '@/firebase';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -68,27 +67,52 @@ export default function LoginPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
-      
-      await setDoc(doc(firestore, "users", user.uid), {
+
+      const userProfileData = {
         uid: user.uid,
         name: data.name,
         email: data.email,
         phone: data.phone,
-      });
+      };
+      
+      const userDocRef = doc(firestore, "users", user.uid);
 
-      toast({
-        title: 'Sucesso!',
-        description: 'Sua conta foi criada. Você já está logado.',
-      });
-      router.push('/dashboard');
+      // Non-blocking write with contextual error handling
+      setDoc(userDocRef, userProfileData)
+        .then(() => {
+            toast({
+              title: 'Sucesso!',
+              description: 'Sua conta foi criada. Você já está logado.',
+            });
+            router.push('/dashboard');
+        })
+        .catch((error) => {
+            const permissionError = new FirestorePermissionError({
+              path: userDocRef.path,
+              operation: 'create',
+              requestResourceData: userProfileData,
+            });
+            errorEmitter.emit('permission-error', permissionError);
+            
+            // Also show a toast to the user
+             toast({
+              variant: 'destructive',
+              title: 'Erro de Permissão',
+              description: 'Não foi possível salvar os dados do perfil.',
+            });
+        });
+
     } catch (error: any) {
-      console.error(error);
+      // This will catch errors from createUserWithEmailAndPassword (e.g., email already in use)
       toast({
         variant: 'destructive',
         title: 'Erro ao criar conta',
-        description: error.message,
+        description: error.code === 'auth/email-already-in-use' 
+            ? 'Este e-mail já está em uso.'
+            : 'Ocorreu um erro inesperado. Tente novamente.',
       });
     } finally {
+      // We set loading to false here, but the navigation/success toast is now in the .then() block
       setIsLoading(false);
     }
   };
@@ -269,6 +293,8 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
 
     
 
