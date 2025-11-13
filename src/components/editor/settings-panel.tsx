@@ -117,6 +117,17 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </div>
     );
 
+    const HtmlTooltip = () => (
+        <Tooltip>
+            <TooltipTrigger asChild>
+                <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+            </TooltipTrigger>
+            <TooltipContent>
+                <p>Use &lt;a href="..."&gt; para adicionar links.</p>
+            </TooltipContent>
+        </Tooltip>
+    );
+
 
     return (
         <TooltipProvider>
@@ -588,8 +599,11 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.exit.title} onChange={e => onConfigChange(['popups', 'exit', 'title'], e.target.value)} />
                                                 </div>
                                                 <div className="space-y-2">
-                                                    <Label>{t('description')}</Label>
-                                                    <Textarea placeholder={t('popup_description')} value={pageConfig.popups.exit.description} onChange={e => onConfigChange(['popups', 'exit', 'description'], e.target.value)} className="text-sm h-24" />
+                                                    <div className="flex items-center gap-2">
+                                                        <Label>{t('description')}</Label>
+                                                        <HtmlTooltip />
+                                                    </div>
+                                                    <Textarea placeholder={t('popup_description_html')} value={pageConfig.popups.exit.description} onChange={e => onConfigChange(['popups', 'exit', 'description'], e.target.value)} className="text-sm h-24" />
                                                 </div>
                                                 <div className="space-y-2">
                                                     <Label>{t('button_text')}</Label>
@@ -728,7 +742,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                         <Input type="text" placeholder={t('popup_title')} value={customPopupConfig.title} onChange={e => onConfigChange(['popups', 'custom', 'title'], e.target.value)} />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>{t('description')}</Label>
+                                                        <div className="flex items-center gap-2">
+                                                            <Label>{t('description')}</Label>
+                                                            <HtmlTooltip />
+                                                        </div>
                                                         <Textarea placeholder={t('popup_description_html')} value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                     </div>
                                                 </AccordionContent>
@@ -1242,7 +1259,13 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                       onCheckedChange={(isChecked) => handleContentSubAccordionToggle('disclaimer', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
-                                        <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
+                                        <div className="space-y-2">
+                                            <div className="flex items-center gap-2">
+                                                <Label>{t('text_content')}</Label>
+                                                <HtmlTooltip />
+                                            </div>
+                                            <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
+                                        </div>
                                         <div className="space-y-3 pt-2">
                                             <ColorInput label={t('background_color')} value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
                                             <ColorInput label={t('text_color')} value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
