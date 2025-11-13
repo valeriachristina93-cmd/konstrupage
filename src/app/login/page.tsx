@@ -17,7 +17,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, UserPlus, LogIn } from 'lucide-react';
+import { Loader2, UserPlus, LogIn, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
@@ -41,6 +41,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
   const auth = useAuth();
@@ -171,7 +172,16 @@ export default function LoginPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="login-password">Senha</Label>
-                    <Input id="login-password" type="password" {...registerLogin('password')} />
+                    <div className="relative">
+                      <Input id="login-password" type={showPassword ? 'text' : 'password'} {...registerLogin('password')} />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                      >
+                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      </button>
+                    </div>
                      {loginErrors.password && <p className="text-xs text-destructive">{loginErrors.password.message}</p>}
                   </div>
 
@@ -224,7 +234,7 @@ export default function LoginPage() {
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="register-phone">Telefone</Label>
-                    <Input id="register-phone" type="tel" placeholder="(00) 00000-0000" {...registerRegister('phone')} />
+                    <Input id="register-phone" type="tel" placeholder="Apenas números" {...registerRegister('phone')} />
                     {registerErrors.phone && <p className="text-xs text-destructive">{registerErrors.phone.message}</p>}
                   </div>
                   <div className="space-y-2">
@@ -234,7 +244,16 @@ export default function LoginPage() {
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="register-password">Senha</Label>
-                    <Input id="register-password" type="password" {...registerRegister('password')} />
+                    <div className="relative">
+                      <Input id="register-password" type={showPassword ? 'text' : 'password'} {...registerRegister('password')} />
+                       <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
+                      >
+                        {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                      </button>
+                    </div>
                     {registerErrors.password && <p className="text-xs text-destructive">{registerErrors.password.message}</p>}
                   </div>
                   <Button type="submit" className="w-full" disabled={isLoading}>
@@ -250,5 +269,7 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
 
     
