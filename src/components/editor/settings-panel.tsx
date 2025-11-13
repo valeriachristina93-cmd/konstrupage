@@ -123,7 +123,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                 <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
             </TooltipTrigger>
             <TooltipContent>
-                <p>Use &lt;a href="..."&gt; para adicionar links.</p>
+                <p>Use &lt;a href="link aqui"&gt;texto do link&lt;/a&gt; para adicionar links.</p>
             </TooltipContent>
         </Tooltip>
     );
