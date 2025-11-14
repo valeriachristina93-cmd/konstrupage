@@ -7,7 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { ArrowLeft, User, CheckCircle, LogOut, Palette, Loader2, Heart } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { useAuth, useUser, useFirestore } from '@/firebase';
+import { useAuth, useUser, useFirestore, errorEmitter, FirestorePermissionError } from '@/firebase';
 import { Separator } from '@/components/ui/separator';
 import { doc, getDoc } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
@@ -28,22 +28,37 @@ export default function ProfilePage() {
     useEffect(() => {
         const fetchUserProfile = async () => {
             if (user && firestore) {
+                const userDocRef = doc(firestore, "users", user.uid);
                 try {
-                    const userDocRef = doc(firestore, "users", user.uid);
                     const userDoc = await getDoc(userDocRef);
                     if (userDoc.exists()) {
                         setUserProfile(userDoc.data() as UserProfile);
+                    } else {
+                        // Document does not exist, not necessarily an error
+                        setUserProfile(null);
                     }
                 } catch (error) {
-                    console.error("Error fetching user profile:", error);
+                     // Check if it's a permission error, then create and emit a contextual error.
+                    if (error instanceof Error && error.message.includes('permission-denied') || error.message.includes('Missing or insufficient permissions')) {
+                         const permissionError = new FirestorePermissionError({
+                            path: userDocRef.path,
+                            operation: 'get',
+                        });
+                        errorEmitter.emit('permission-error', permissionError);
+                    } else {
+                        console.error("An unexpected error occurred while fetching user profile:", error);
+                    }
+                } finally {
+                    setIsLoadingProfile(false);
                 }
+            } else if (!isUserLoading) {
+                // If there's no user and we're not loading, stop loading profile
+                 setIsLoadingProfile(false);
             }
-            setIsLoadingProfile(false);
         };
 
-        if (!isUserLoading) {
-            fetchUserProfile();
-        }
+        fetchUserProfile();
+
     }, [user, isUserLoading, firestore]);
 
     const logout = () => {
@@ -169,3 +184,5 @@ export default function ProfilePage() {
         </div>
   );
 }
+
+    
