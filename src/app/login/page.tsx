@@ -65,64 +65,47 @@ export default function LoginPage() {
 
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
     setIsLoading(true);
-    
-    // The `createUserWithEmailAndPassword` operation can be awaited because it's a one-time auth action.
     try {
-        const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
-        const user = userCredential.user;
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const user = userCredential.user;
 
-        const userProfileData = {
-            uid: user.uid,
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-        };
-        
-        const userDocRef = doc(firestore, "users", user.uid);
-        
-        // The `setDoc` operation is non-blocking. We handle success and error in the chained methods.
-        // We are NOT awaiting this promise here.
-        setDoc(userDocRef, userProfileData)
-            .then(() => {
-                // This runs on successful write.
-                toast({
-                    title: 'Sucesso!',
-                    description: 'Sua conta foi criada. Redirecionando...',
-                });
-                router.push('/dashboard');
-            })
-            .catch((serverError) => {
-                // This is the critical part. We create and emit the detailed error.
-                const permissionError = new FirestorePermissionError({
-                    path: userDocRef.path,
-                    operation: 'create',
-                    requestResourceData: userProfileData,
-                });
-                errorEmitter.emit('permission-error', permissionError);
+      const userProfileData = {
+        uid: user.uid,
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      };
 
-                // Optional: Show a generic error toast if needed, but the detailed one will appear in dev overlay.
-                toast({
-                    variant: 'destructive',
-                    title: 'Erro de Permissão',
-                    description: 'Você não tem permissão para criar um perfil de usuário.',
-                });
-                // We still want to stop loading even if Firestore write fails.
-                setIsLoading(false);
-            });
+      const userDocRef = doc(firestore, 'users', user.uid);
+
+      setDoc(userDocRef, userProfileData)
+        .then(() => {
+          toast({
+            title: 'Sucesso!',
+            description: 'Sua conta foi criada. Redirecionando...',
+          });
+          router.push('/dashboard');
+        })
+        .catch(async (serverError) => {
+          const permissionError = new FirestorePermissionError({
+            path: userDocRef.path,
+            operation: 'create',
+            requestResourceData: userProfileData,
+          });
+          errorEmitter.emit('permission-error', permissionError);
+          setIsLoading(false);
+        });
 
     } catch (error: any) {
-      // This will catch auth errors from createUserWithEmailAndPassword, like "auth/email-already-in-use".
       toast({
         variant: 'destructive',
         title: 'Erro ao criar conta',
-        description: error.code === 'auth/email-already-in-use' 
-            ? 'Este e-mail já está em uso.'
-            : 'Ocorreu um erro inesperado. Tente novamente.',
+        description: error.code === 'auth/email-already-in-use'
+          ? 'Este e-mail já está em uso.'
+          : error.message || 'Ocorreu um erro inesperado. Tente novamente.',
       });
       setIsLoading(false);
     }
-    // We don't set loading to false in the finally block because the Firestore write is async
-    // and we want the loading state to persist until navigation or error.
   };
 
   const onLogin: SubmitHandler<LoginFormValues> = async (data) => {
@@ -309,3 +292,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
