@@ -124,26 +124,6 @@ export default function ProfilePage() {
                             </div>
                         </CardContent>
                     </Card>
-                    
-                    <Card className="shadow-sm">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <Palette className="h-5 w-5" />
-                                <span>Preferências</span>
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">Tema</span>
-                                <span className="font-medium">Escuro</span>
-                            </div>
-                            <Separator />
-                            <div className="flex justify-between items-center">
-                                <span className="text-muted-foreground">Idioma</span>
-                                <span className="font-medium">Português (Brasil)</span>
-                            </div>
-                        </CardContent>
-                    </Card>
 
                     <Card className="shadow-sm border-pink-500/30 bg-pink-500/5">
                         <CardHeader>
