@@ -1,16 +1,43 @@
 
 "use client";
 
-import React, { createContext, useContext, ReactNode } from 'react';
-import { FirebaseClientProvider } from '@/firebase';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
+import { FirebaseClientProvider, useUser as useFirebaseUser } from '@/firebase';
+
+interface AuthContextType {
+  isLoggedIn: boolean;
+  loading: boolean;
+  user: any; 
+}
 
 // This context is now a shell. The actual auth state will come from FirebaseProvider.
-const AuthContext = createContext<undefined>(undefined);
+const AuthContext = createContext<AuthContextType>({
+  isLoggedIn: false,
+  loading: true,
+  user: null,
+});
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { user, isUserLoading } = useFirebaseUser();
+  const [authData, setAuthData] = useState<AuthContextType>({
+    isLoggedIn: !!user,
+    loading: isUserLoading,
+    user: user,
+  });
+
+  useEffect(() => {
+    setAuthData({
+        isLoggedIn: !!user,
+        loading: isUserLoading,
+        user: user,
+    });
+  }, [user, isUserLoading]);
+
   return (
     <FirebaseClientProvider>
-        {children}
+        <AuthContext.Provider value={authData}>
+            {children}
+        </AuthContext.Provider>
     </FirebaseClientProvider>
   );
 }
@@ -19,9 +46,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    // This message can be updated to reflect the new structure.
-    // "useAuth must be used within an AuthProvider" is still technically true.
+    throw new Error("useAuth must be used within an AuthProvider");
   }
-  // The actual auth logic will be handled by useUser from @/firebase/auth/use-user
-  return {};
+  return context;
 }
