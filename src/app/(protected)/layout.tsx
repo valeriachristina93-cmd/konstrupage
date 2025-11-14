@@ -28,9 +28,5 @@ export default function ProtectedLayout({
      );
   }
 
-  return (
-    <div className="min-h-screen bg-secondary">
-      <main>{children}</main>
-    </div>
-  );
+  return <>{children}</>;
 }
