@@ -1,14 +1,70 @@
-/**
- * @file Firestore Security Rules for Presell Page Configuration
- *
- * Core Philosophy:
- * This ruleset enforces a user-ownership model for `pageConfigs` located under `/users/{userId}`.
- * All other configurations are stored in top-level collections with open read access but restricted write access.
- *
- * Data Structure:
- * - `/users/{userId}/pageConfigs/{pageConfigId}`: Page configurations owned by a specific user.
- * - `/autoRedirectConfigs/{autoRedirectConfigId}`: Configurations for automatic redirection.
- * - `/popupsConfigs/{popupsConfigId}`: Configurations for various pop-ups.
- * - `/cookiePopupConfigs/{cookiePopupConfigId}`: Configurations for cookie pop-ups.
- * - `/ageVerificationPopupConfigs/{ageVerificationPopupConfigId}`: Configurations for age verification pop-ups.
- * - `/discountPopupConfigs/{discountPopupConfigId}`: Configurations for discount pop-ups
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+
+    // Rules for user profiles
+    match /users/{userId} {
+      allow read, write: if isSignedIn() && isOwner(userId);
+
+      // Rules for page configurations nested under users
+      match /pageConfigs/{pageConfigId} {
+        allow read, list, create, update, delete: if isSignedIn() && isOwner(userId);
+      }
+    }
+
+    // The following collections have open read access for previews,
+    // but write operations should be restricted (e.g., to admins or specific users).
+    // For this MVP, we are keeping write access closed.
+    match /autoRedirectConfigs/{docId} {
+      allow read: if true;
+      allow write: if false; // Block all writes for now
+    }
+    match /popupsConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /cookiePopupConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /ageVerificationPopupConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /discountPopupConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /exitPopupConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /footerConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /disclaimerConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /overlayConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+    match /customizationConfigs/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}
