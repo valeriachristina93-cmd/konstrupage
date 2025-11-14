@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors, BookOpen, Youtube } from 'lucide-react';
+import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors, BookOpen, Youtube, Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -54,6 +54,7 @@ const tools = [
     { name: 'Upload Imgur', url: 'https://uploadimgur.com/', icon: <ImageUp /> },
     { name: 'Glasp Reader', url: 'https://glasp.co/reader', icon: <BookOpen /> },
     { name: 'Canal do Rogerio', url: 'https://www.youtube.com/@-rogerio.?sub_confirmation=1', icon: <Youtube /> },
+    { name: 'Apoiar com um PIX', url: 'https://nubank.com.br/cobrar/twver/69169d01-6d2e-4e44-96c6-741e08ceaab0', icon: <Heart /> },
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
