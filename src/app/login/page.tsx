@@ -281,7 +281,7 @@ export default function LoginPage() {
           </CardContent>
         </Card>
         <div className="mt-4 text-center">
-            <Link href="/dashboard" passHref>
+            <Link href="/" passHref>
                 <Button variant="link">
                     <ArrowLeft className="mr-2 h-4 w-4" />
                     Voltar ao Início
@@ -292,5 +292,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-    
