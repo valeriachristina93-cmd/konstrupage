@@ -20,7 +20,7 @@ export default function ProtectedLayout({
     }
   }, [user, isUserLoading, router]);
 
-  if (isUserLoading) {
+  if (isUserLoading || !user) {
      return (
         <div className="flex h-screen w-full items-center justify-center bg-background">
             <Loader2 className="h-12 w-12 animate-spin text-primary" />
@@ -28,19 +28,9 @@ export default function ProtectedLayout({
      );
   }
 
-  // Only render children if the user is loaded and exists
-  if (user) {
-      return (
-        <div className="min-h-screen bg-secondary">
-          <main>{children}</main>
-        </div>
-      );
-  }
-
-  // If user is not loaded and not user, show loader while redirecting
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-background">
-      <Loader2 className="h-12 w-12 animate-spin text-primary" />
+    <div className="min-h-screen bg-secondary">
+      <main>{children}</main>
     </div>
   );
 }
