@@ -2,9 +2,11 @@
 "use client";
 
 import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
-import { FirebaseClientProvider, useUser as useFirebaseUser } from '@/firebase';
+import { FirebaseClientProvider } from '@/firebase';
 
 interface AuthContextType {
+  // These values are not used anymore but kept for compatibility
+  // if other components depend on the type. The real source of truth is useUser().
   isLoggedIn: boolean;
   loading: boolean;
   user: any; 
@@ -18,20 +20,15 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const { user, isUserLoading } = useFirebaseUser();
-  const [authData, setAuthData] = useState<AuthContextType>({
-    isLoggedIn: !!user,
-    loading: isUserLoading,
-    user: user,
-  });
-
-  useEffect(() => {
-    setAuthData({
-        isLoggedIn: !!user,
-        loading: isUserLoading,
-        user: user,
-    });
-  }, [user, isUserLoading]);
+  // The state management is now handled by the useUser hook directly in the components that need it.
+  // This provider now only ensures the Firebase context is available.
+  
+  // Dummy values for context
+  const authData: AuthContextType = {
+    isLoggedIn: false,
+    loading: true,
+    user: null,
+  };
 
   return (
     <FirebaseClientProvider>
@@ -48,5 +45,6 @@ export function useAuth() {
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+  // The returned value is a dummy. Components should use `useUser` from `@/firebase` instead.
   return context;
 }
