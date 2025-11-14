@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { useState } from 'react';
-import { useAuth } from '@/context/auth-context';
+import { useAuth } from '@/firebase';
 import { useLanguage } from '@/context/language-context';
 
 interface EditorHeaderProps {
@@ -57,8 +57,12 @@ const tools = [
 ];
 
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
-    const { logout } = useAuth();
+    const auth = useAuth();
     const { t, setLanguage, language } = useLanguage();
+
+    const logout = () => {
+        auth.signOut();
+    };
 
     return (
         <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
