@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { ArrowLeft, User, CheckCircle, LogOut, Palette, Loader2 } from 'lucide-react';
+import { ArrowLeft, User, CheckCircle, LogOut, Palette, Loader2, Heart } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { useAuth, useUser, useFirestore } from '@/firebase';
@@ -143,6 +143,28 @@ export default function ProfilePage() {
                                 <span className="font-medium">Português (Brasil)</span>
                             </div>
                         </CardContent>
+                    </Card>
+
+                    <Card className="shadow-sm border-pink-500/30 bg-pink-500/5">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2 text-pink-500">
+                                <Heart className="h-5 w-5" />
+                                <span>Apoie o Projeto</span>
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <p className="text-muted-foreground">
+                                O Konstrupages é uma ferramenta gratuita. Se ela te ajuda, considere fazer uma doação de qualquer valor para apoiar o desenvolvimento e manter o projeto no ar. Sua ajuda é muito importante!
+                            </p>
+                        </CardContent>
+                        <CardFooter>
+                            <a href="https://nubank.com.br/cobrar/twver/69169d01-6d2e-4e44-96c6-741e08ceaab0" target="_blank" rel="noopener noreferrer" className="w-full">
+                                <Button className="w-full bg-pink-500 hover:bg-pink-600 text-white dark:text-white">
+                                    <Heart className="mr-2 h-4 w-4" />
+                                    Fazer uma Doação
+                                </Button>
+                            </a>
+                        </CardFooter>
                     </Card>
 
                     <Card className="shadow-sm border-destructive/50">
