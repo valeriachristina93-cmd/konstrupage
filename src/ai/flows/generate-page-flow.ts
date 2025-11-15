@@ -22,14 +22,17 @@ const GeneratePageInputSchema = z.object({
 
 export type GeneratePageInput = z.infer<typeof GeneratePageInputSchema>;
 
+const GeneratePageOutputSchema = z.object({
+  superPrompt: z.string().describe('The detailed, generated super prompt.'),
+});
+
+export type GeneratePageOutput = z.infer<typeof GeneratePageOutputSchema>;
+
+
 export async function generatePage(input: GeneratePageInput): Promise<string> {
   const result = await generatePageFlow(input);
   return result.superPrompt;
 }
-
-const GeneratePageOutputSchema = z.object({
-  superPrompt: z.string().describe('The detailed, generated super prompt.'),
-});
 
 
 const prompt = ai.definePrompt({
@@ -84,6 +87,6 @@ const generatePageFlow = ai.defineFlow(
     if (!output) {
       throw new Error('Failed to generate prompt. The AI model did not return a valid output.');
     }
-    return output;
+    return output!;
   }
 );

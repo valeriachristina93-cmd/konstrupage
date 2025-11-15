@@ -2,7 +2,7 @@
 
 import { generatePage, type GeneratePageInput } from "@/ai/flows/generate-page-flow";
 
-export async function generateSuperPrompt(input: GeneratePageInput) {
+export async function generateSuperPrompt(input: GeneratePageInput): Promise<string> {
     try {
         const result = await generatePage(input);
         return result;
