@@ -91,6 +91,8 @@ export const getInitialPageConfig = (t: (key: TranslationKey) => string): PageCo
             active: false,
             textToLink: '',
             linkedPostPageIndex: null,
+            linkType: 'post',
+            url: ''
         }
     },
     overlay: { active: false, opacity: 0.5 },
@@ -110,22 +112,6 @@ export const getInitialPageConfig = (t: (key: TranslationKey) => string): PageCo
         favicon: 'https://i.imgur.com/Lo98kWM.png',
     },
     postPages: [],
-    exitPopupCustomization: {
-        button: {
-            color: '#3B82F6',
-            textColor: '#FFFFFF',
-            style: 'filled',
-            outlineWidth: 2,
-            shadow: {
-                active: false,
-                intensity: 4,
-            },
-        },
-        popup: {
-            backgroundColor: '#1F2937',
-            borderRadius: 12,
-        },
-    },
     customization: {
         button: {
             color: '#3B82F6',

@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import React, { useState } from 'react';
@@ -1241,58 +1242,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     </AccordionContent>
                                 </AccordionItem>
 
-                                {/* Exit Pop-up Customization */}
-                                 <AccordionItem value="exit-popup-style-config" className="border-b-0">
-                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm bg-muted/50 dark:bg-white/5">
-                                        <div className="flex items-center gap-3">
-                                            <MoveUpRight className="w-4 h-4 text-slate-400" />
-                                            <span>Personalização do Pop-up de Saída</span>
-                                        </div>
-                                    </AccordionTrigger>
-                                     <AccordionContent className="pt-4 space-y-4 px-3">
-                                         {pageConfig.exitPopupCustomization ? (
-                                        <>
-                                            <div className="space-y-2">
-                                                <Label>Estilo do Botão</Label>
-                                                <Select value={pageConfig.exitPopupCustomization.button.style} onValueChange={value => onConfigChange(['exitPopupCustomization', 'button', 'style'], value)}>
-                                                    <SelectTrigger><SelectValue /></SelectTrigger>
-                                                    <SelectContent>
-                                                        <SelectItem value="filled">Normal</SelectItem>
-                                                        <SelectItem value="outline">Contorno</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                            </div>
-                                            {pageConfig.exitPopupCustomization.button.style === 'outline' && (
-                                                <div className="space-y-2">
-                                                    <Label>Largura do Contorno ({pageConfig.exitPopupCustomization.button.outlineWidth}px)</Label>
-                                                    <SliderWithControls
-                                                        value={[pageConfig.exitPopupCustomization.button.outlineWidth]}
-                                                        onValueChange={(value) => onConfigChange(['exitPopupCustomization', 'button', 'outlineWidth'], value[0])}
-                                                        min={1} max={8} step={1}
-                                                    />
-                                                </div>
-                                            )}
-                                            <div className="space-y-3 pt-2">
-                                                <ColorInput label="Cor Principal do Botão" value={pageConfig.exitPopupCustomization.button.color} onChange={e => onConfigChange(['exitPopupCustomization', 'button', 'color'], e.target.value)} />
-                                                <ColorInput label="Cor do Texto do Botão" value={pageConfig.exitPopupCustomization.button.textColor} onChange={e => onConfigChange(['exitPopupCustomization', 'button', 'textColor'], e.target.value)} />
-                                            </div>
-                                            <div className="space-y-2">
-                                                <Label>Cor do Fundo do Pop-up</Label>
-                                                <ColorInput label="" value={pageConfig.exitPopupCustomization.popup.backgroundColor} onChange={e => onConfigChange(['exitPopupCustomization', 'popup', 'backgroundColor'], e.target.value)} />
-                                            </div>
-                                             <div className="space-y-2">
-                                                <Label>Raio da Borda ({pageConfig.exitPopupCustomization.popup.borderRadius}px)</Label>
-                                                <SliderWithControls
-                                                    value={[pageConfig.exitPopupCustomization.popup.borderRadius]}
-                                                    onValueChange={(value) => onConfigChange(['exitPopupCustomization', 'popup', 'borderRadius'], value[0])}
-                                                    min={0} max={40} step={2}
-                                                />
-                                            </div>
-                                        </>
-                                         ) : <p>Carregando...</p>}
-                                    </AccordionContent>
-                                </AccordionItem>
-
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
@@ -1364,20 +1313,46 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                         />
                                                     </div>
                                                     <div className="space-y-2">
-                                                        <Label>Artigo para vincular</Label>
+                                                        <Label>Tipo de Link</Label>
                                                         <Select 
-                                                            value={pageConfig.disclaimer.link.linkedPostPageIndex !== null ? String(pageConfig.disclaimer.link.linkedPostPageIndex) : '--'}
-                                                            onValueChange={value => onConfigChange(['disclaimer', 'link', 'linkedPostPageIndex'], value === '--' ? null : Number(value))}
+                                                          value={pageConfig.disclaimer.link.linkType}
+                                                          onValueChange={value => onConfigChange(['disclaimer', 'link', 'linkType'], value)}
                                                         >
-                                                            <SelectTrigger><SelectValue placeholder="Selecione um post" /></SelectTrigger>
+                                                            <SelectTrigger><SelectValue/></SelectTrigger>
                                                             <SelectContent>
-                                                                <SelectItem value="--">Nenhum</SelectItem>
-                                                                {pageConfig.postPages.map((post, index) => (
-                                                                    <SelectItem key={index} value={String(index)}>{post.productName || `Post ${index + 1}`}</SelectItem>
-                                                                ))}
+                                                                <SelectItem value="post">Página de Post</SelectItem>
+                                                                <SelectItem value="url">URL Externa</SelectItem>
                                                             </SelectContent>
                                                         </Select>
                                                     </div>
+
+                                                    {pageConfig.disclaimer.link.linkType === 'post' ? (
+                                                      <div className="space-y-2">
+                                                          <Label>Artigo para vincular</Label>
+                                                          <Select 
+                                                              value={pageConfig.disclaimer.link.linkedPostPageIndex !== null ? String(pageConfig.disclaimer.link.linkedPostPageIndex) : '--'}
+                                                              onValueChange={value => onConfigChange(['disclaimer', 'link', 'linkedPostPageIndex'], value === '--' ? null : Number(value))}
+                                                          >
+                                                              <SelectTrigger><SelectValue placeholder="Selecione um post" /></SelectTrigger>
+                                                              <SelectContent>
+                                                                  <SelectItem value="--">Nenhum</SelectItem>
+                                                                  {pageConfig.postPages.map((post, index) => (
+                                                                      <SelectItem key={index} value={String(index)}>{post.productName || `Post ${index + 1}`}</SelectItem>
+                                                                  ))}
+                                                              </SelectContent>
+                                                          </Select>
+                                                      </div>
+                                                    ) : (
+                                                      <div className="space-y-2">
+                                                        <Label>URL para vincular</Label>
+                                                          <Input 
+                                                            type="text" 
+                                                            placeholder="https://..." 
+                                                            value={pageConfig.disclaimer.link.url}
+                                                            onChange={e => onConfigChange(['disclaimer', 'link', 'url'], e.target.value)}
+                                                          />
+                                                      </div>
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -1657,3 +1632,4 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
     
+
