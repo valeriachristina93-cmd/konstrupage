@@ -11,13 +11,16 @@ import { AdBreakModal } from '@/components/ad-break-modal';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
 import { useLanguage } from '@/context/language-context';
+import { useUser } from '@/firebase';
 
 export type ViewMode = 'desktop' | 'mobile';
 
 const AD_BREAK_INTERVAL = 8 * 60 * 1000; // 8 minutes
+const ADMIN_EMAIL = 'rogerioramos802@gmail.com';
 
 export default function EditorPage() {
     const { t } = useLanguage();
+    const { user } = useUser();
     const [pageConfig, setPageConfig] = useState<PageConfig>(getInitialPageConfig(t));
     const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
     const [isAdBreakModalOpen, setIsAdBreakModalOpen] = useState(false);
@@ -28,7 +31,10 @@ export default function EditorPage() {
     const adBreakTimerRef = useRef<NodeJS.Timeout | null>(null);
     const [isAdTriggeredByGeneration, setIsAdTriggeredByGeneration] = useState(false);
 
+    const isUserAdmin = user?.email === ADMIN_EMAIL;
+
     const resetAdBreakTimer = useCallback(() => {
+        if (isUserAdmin) return;
         if (adBreakTimerRef.current) {
             clearTimeout(adBreakTimerRef.current);
         }
@@ -36,7 +42,7 @@ export default function EditorPage() {
             setIsAdTriggeredByGeneration(false);
             setIsAdBreakModalOpen(true);
         }, AD_BREAK_INTERVAL);
-    }, []);
+    }, [isUserAdmin]);
 
     useEffect(() => {
         resetAdBreakTimer();
@@ -116,6 +122,14 @@ export default function EditorPage() {
         reader.readAsDataURL(file);
     };
 
+    const continueWithGeneration = () => {
+        setIsGenerating(true);
+        setTimeout(() => {
+            setIsGenerateModalOpen(true);
+            setIsGenerating(false);
+        }, 500);
+    };
+
     const handleGenerate = () => {
         if (!pageConfig.affiliateLink) {
              toast({
@@ -125,6 +139,12 @@ export default function EditorPage() {
             });
             return;
         }
+
+        if (isUserAdmin) {
+            continueWithGeneration();
+            return;
+        }
+        
         setIsAdTriggeredByGeneration(true);
         setIsAdBreakModalOpen(true);
     };
@@ -133,11 +153,7 @@ export default function EditorPage() {
         setIsAdBreakModalOpen(false);
         resetAdBreakTimer();
         if (isAdTriggeredByGeneration) {
-            setIsGenerating(true);
-            setTimeout(() => {
-                setIsGenerateModalOpen(true);
-                setIsGenerating(false);
-            }, 500);
+            continueWithGeneration();
         }
     };
 
@@ -177,10 +193,12 @@ export default function EditorPage() {
                     pageConfig={pageConfig}
                 />
             )}
-            <AdBreakModal 
-                isOpen={isAdBreakModalOpen}
-                onClose={handleAdClose}
-            />
+            {!isUserAdmin && (
+                <AdBreakModal 
+                    isOpen={isAdBreakModalOpen}
+                    onClose={handleAdClose}
+                />
+            )}
         </div>
     );
 }
