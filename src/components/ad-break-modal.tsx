@@ -91,10 +91,10 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
             <PlayCircle className="text-primary"/>
-            Uma pausa para nossos patrocinadores
+            Um momento para quem mantém esta ferramenta gratuita
           </DialogTitle>
           <DialogDescription>
-            Sua ferramenta continua gratuita graças a eles. Por favor, considere visitar um anúncio que lhe interesse.
+            A exibição de anúncios é o que nos permite continuar desenvolvendo e oferecendo a Konstrupages sem nenhum custo. Sua atenção, mesmo que por alguns segundos, faz toda a diferença para nós.
           </DialogDescription>
         </DialogHeader>
 
