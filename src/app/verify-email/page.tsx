@@ -78,7 +78,7 @@ export default function VerifyEmailPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="text-center text-muted-foreground px-6">
-                        <Alert>
+                        <Alert variant="warning">
                             <AlertTriangle className="h-4 w-4" />
                             <AlertDescription>
                                 Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam ou lixo eletrônico.
