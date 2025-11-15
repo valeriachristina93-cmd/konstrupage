@@ -60,46 +60,62 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
     const auth = useAuth();
     const { t, setLanguage, language } = useLanguage();
     const [announcements, setAnnouncements] = useState<Announcement[]>([]);
-    const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(false);
+    const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(true);
     const [announcementsError, setAnnouncementsError] = useState<string | null>(null);
+    const [hasNewAnnouncements, setHasNewAnnouncements] = useState(false);
 
     const logout = () => {
         auth.signOut();
     };
 
-    const fetchAnnouncements = async () => {
-        const scriptUrl = process.env.NEXT_PUBLIC_ANNOUNCEMENTS_SCRIPT_URL;
-        if (!scriptUrl) {
-            setAnnouncementsError("A URL de anúncios não está configurada.");
-            return;
-        }
+    useEffect(() => {
+        const fetchAnnouncements = async () => {
+            const scriptUrl = process.env.NEXT_PUBLIC_ANNOUNCEMENTS_SCRIPT_URL;
+            if (!scriptUrl) {
+                setAnnouncementsError("A URL de anúncios não está configurada.");
+                setIsLoadingAnnouncements(false);
+                return;
+            }
 
-        setIsLoadingAnnouncements(true);
-        setAnnouncementsError(null);
-        try {
-            const response = await fetch(scriptUrl);
-            if (!response.ok) {
-                throw new Error('Falha ao buscar anúncios.');
+            setAnnouncementsError(null);
+            try {
+                const response = await fetch(scriptUrl);
+                if (!response.ok) throw new Error('Falha ao buscar anúncios.');
+                
+                const data = await response.json();
+                
+                if (data.announcements && data.announcements.length > 0) {
+                    setAnnouncements(data.announcements);
+                    const lastSeenTimestamp = localStorage.getItem('lastSeenAnnouncementTimestamp');
+                    const latestTimestamp = data.announcements[0].timestamp;
+                    
+                    if (!lastSeenTimestamp || new Date(latestTimestamp) > new Date(lastSeenTimestamp)) {
+                        setHasNewAnnouncements(true);
+                    }
+                } else {
+                    setAnnouncements([]);
+                }
+            } catch (error) {
+                console.error("Error fetching announcements:", error);
+                setAnnouncementsError("Não foi possível carregar os anúncios.");
+            } finally {
+                setIsLoadingAnnouncements(false);
             }
-            const data = await response.json();
-            if (data.announcements) {
-                setAnnouncements(data.announcements);
-            } else {
-                 setAnnouncements([]);
-            }
-        } catch (error) {
-            console.error("Error fetching announcements:", error);
-            setAnnouncementsError("Não foi possível carregar os anúncios.");
-        } finally {
-            setIsLoadingAnnouncements(false);
-        }
-    };
-    
+        };
+
+        fetchAnnouncements();
+    }, []);
+
     const handleSheetOpenChange = (open: boolean) => {
-        if (open && announcements.length === 0 && !isLoadingAnnouncements) {
-            fetchAnnouncements();
+        if (open) {
+            // When panel is opened, mark all as seen
+            if (announcements.length > 0) {
+                localStorage.setItem('lastSeenAnnouncementTimestamp', announcements[0].timestamp);
+                setHasNewAnnouncements(false);
+            }
         }
     };
+
 
     return (
         <header className="flex h-16 items-center justify-between border-b bg-background px-4 md:px-6 sticky top-0 z-40 gap-4">
@@ -132,10 +148,12 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                             <SheetTrigger asChild>
                                 <Button variant="ghost" size="icon" className="relative">
                                     <Bell className="h-5 w-5" />
-                                    <span className="absolute top-1 right-1 flex h-2 w-2">
-                                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary/80"></span>
-                                    </span>
+                                    {hasNewAnnouncements && (
+                                        <span className="absolute top-1 right-1 flex h-2 w-2">
+                                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary/80"></span>
+                                        </span>
+                                    )}
                                 </Button>
                             </SheetTrigger>
                             <SheetContent>
@@ -239,3 +257,6 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
         </header>
     );
 }
+
+
+    
