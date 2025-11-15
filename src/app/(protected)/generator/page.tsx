@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, Bot, FileText, Languages, Loader2, Sparkles, Wand2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
-import { generatePage } from './actions';
+import { generatePage } from '@/lib/actions/generator';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
