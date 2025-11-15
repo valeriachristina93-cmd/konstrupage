@@ -254,15 +254,12 @@ export default function SalesPage() {
                     <div className="max-w-4xl mx-auto mt-10 sm:mt-12">
                         <div className="aspect-video rounded-xl border bg-muted/30 shadow-2xl overflow-hidden p-1.5 shadow-primary/10">
                              <div style={{padding: '56.25% 0 0 0', position: 'relative'}} className="rounded-lg overflow-hidden">
-                                <iframe 
-                                    src="https://fast.wistia.net/embed/iframe/r8nzdjmryo?videoFoam=true" 
-                                    title="konstrupages Video" 
-                                    allow="autoplay; fullscreen" 
-                                    frameBorder="0" 
-                                    scrolling="no" 
-                                    className="wistia_embed" 
-                                    name="wistia_embed" 
-                                    allowFullScreen 
+                                <iframe
+                                    src="https://www.youtube.com/embed/Rb24iTL7u3g"
+                                    title="YouTube video player"
+                                    frameBorder="0"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                    allowFullScreen
                                     style={{position: 'absolute', top: 0, left: 0, width: '100%', height: '100%'}}>
                                 </iframe>
                             </div>
