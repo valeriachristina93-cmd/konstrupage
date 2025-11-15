@@ -44,15 +44,15 @@ const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; sty
 export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
     const [isClosable, setIsClosable] = useState(false);
-    const [countdown, setCountdown] = useState(12);
+    const [countdown, setCountdown] = useState(15);
     const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
-    const adSlotIds = ['7995115463', '4647596135', '1783487248', '3013405679'];
+    const adSlotIds = ['7995115463', '4647596135', '1783487248', '3013405679', '7420334793', '3255635177'];
     
     useEffect(() => {
         if (isOpen) {
             setIsClosable(false);
-            setCountdown(12);
+            setCountdown(15);
             
             countdownRef.current = setInterval(() => {
                 setCountdown(prev => {
@@ -87,7 +87,7 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && isClosable && onClose()}>
-      <DialogContent className="max-w-3xl w-full flex flex-col p-6" onPointerDownOutside={(e) => { if(!isClosable) e.preventDefault() }}>
+      <DialogContent className="max-w-4xl w-full flex flex-col p-6" onPointerDownOutside={(e) => { if(!isClosable) e.preventDefault() }}>
         <DialogHeader>
           <DialogTitle className="text-xl font-bold flex items-center gap-2">
             <PlayCircle className="text-primary"/>
@@ -110,7 +110,7 @@ export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
           </DialogClose>
         )}
 
-        <div className="flex-grow grid grid-cols-2 gap-4 py-4">
+        <div className="flex-grow grid grid-cols-2 md:grid-cols-3 gap-4 py-4">
             {adSlotIds.map(id => (
                  <div key={id} className="w-full h-auto min-h-[250px] max-h-[250px]">
                     <AdSlot client={adsenseClient} slotId={id} />
