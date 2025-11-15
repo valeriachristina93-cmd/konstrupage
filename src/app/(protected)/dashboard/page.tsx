@@ -26,7 +26,7 @@ export default function DashboardPage() {
             <div>
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-primary text-xl font-bold">
-                  <Sparkles className="h-7 w-7" />
+                  <Bot className="h-7 w-7" />
                   <span>Páginas Presell Personalizadas</span>
                 </CardTitle>
                 <CardDescription className="pt-2 text-base">
