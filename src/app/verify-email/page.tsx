@@ -63,15 +63,13 @@ export default function VerifyEmailPage() {
     
     return (
         <div className="flex items-center justify-center min-h-screen bg-muted/30 p-4">
-            <div className="w-full max-w-lg">
+            <div className="w-full max-w-md">
                 <div className="flex justify-center mb-8">
                     <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={64} height={64} />
                 </div>
-                <Card className="overflow-hidden shadow-lg border-primary/20">
-                     <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 flex justify-center items-center">
-                        <MailCheck className="h-24 w-24 text-white/90" />
-                    </div>
-                    <CardHeader className="text-center pt-8">
+                <Card className="shadow-lg border-primary/20">
+                    <CardHeader className="text-center items-center pt-8">
+                        <MailCheck className="h-20 w-20 text-primary mb-4" />
                         <CardTitle className="text-3xl font-bold">
                             Verifique seu E-mail
                         </CardTitle>
@@ -81,17 +79,17 @@ export default function VerifyEmailPage() {
                     </CardHeader>
                     <CardContent className="text-center text-muted-foreground px-8">
                         <p>
-                            Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam.
+                            Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam ou lixo eletrônico.
                         </p>
                     </CardContent>
                     <CardFooter className="flex-col gap-3 p-6 bg-muted/50">
                         <Button
                             onClick={handleResendVerification}
                             disabled={isResending}
-                            className="w-full h-12 text-base"
+                            className="w-full h-12 text-base bg-gradient-to-r from-blue-500 to-purple-600 text-primary-foreground hover:from-blue-600 hover:to-purple-700 transition-all"
                         >
                             {isResending ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5" />}
-                            Reenviar E-mail de Confirmação
+                            Reenviar E-mail
                         </Button>
                         <Link href="/login" className="w-full">
                             <Button variant="ghost" className="w-full h-11 text-base">
@@ -105,3 +103,4 @@ export default function VerifyEmailPage() {
         </div>
     );
 }
+
