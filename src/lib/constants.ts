@@ -82,7 +82,17 @@ export const getInitialPageConfig = (t: (key: TranslationKey) => string): PageCo
         }
     },
     footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB', autoGenerate: false },
-    disclaimer: { active: false, text: t('default_disclaimer_text'), backgroundColor: '#F3F4F6', textColor: '#4B5563' },
+    disclaimer: { 
+        active: false, 
+        text: t('default_disclaimer_text'), 
+        backgroundColor: '#F3F4F6', 
+        textColor: '#4B5563',
+        link: {
+            active: false,
+            textToLink: '',
+            linkedPostPageIndex: null,
+        }
+    },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 3 },
     tracking: {
@@ -100,6 +110,22 @@ export const getInitialPageConfig = (t: (key: TranslationKey) => string): PageCo
         favicon: 'https://i.imgur.com/Lo98kWM.png',
     },
     postPages: [],
+    exitPopupCustomization: {
+        button: {
+            color: '#3B82F6',
+            textColor: '#FFFFFF',
+            style: 'filled',
+            outlineWidth: 2,
+            shadow: {
+                active: false,
+                intensity: 4,
+            },
+        },
+        popup: {
+            backgroundColor: '#1F2937',
+            borderRadius: 12,
+        },
+    },
     customization: {
         button: {
             color: '#3B82F6',

@@ -138,6 +138,11 @@ export type PageConfig = {
     text: string;
     backgroundColor: string;
     textColor: string;
+    link: {
+      active: boolean;
+      textToLink: string;
+      linkedPostPageIndex: number | null;
+    };
   };
   overlay: {
     active: boolean;
@@ -162,6 +167,22 @@ export type PageConfig = {
     favicon: string;
   };
   postPages: PostPageConfig[];
+  exitPopupCustomization: {
+    button: {
+        color: string;
+        textColor: string;
+        style: 'filled' | 'outline';
+        outlineWidth: number;
+        shadow: {
+            active: boolean;
+            intensity: number;
+        };
+    };
+    popup: {
+        backgroundColor: string;
+        borderRadius: number;
+    };
+  };
   customization: {
     button: {
       color: string;
@@ -212,5 +233,5 @@ export type PageConfig = {
   };
 };
 
-
     
+
