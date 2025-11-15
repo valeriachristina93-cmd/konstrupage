@@ -2,8 +2,8 @@
 
 "use client";
 
-import React, { useState } from 'react';
-import type { PageConfig, PostPageConfig } from '@/lib/definitions';
+import React, { useState, useRef, useEffect } from 'react';
+import type { PageConfig, DisclaimerContent } from '@/lib/definitions';
 import { flagOptions, animationOptions, discountIconOptions, fontOptions } from '@/lib/constants';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
@@ -20,6 +20,7 @@ import { Button } from '../ui/button';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { useLanguage } from '@/context/language-context';
 import { cn } from '@/lib/utils';
+import { LinkDisclaimerDialog } from './link-disclaimer-dialog';
 
 
 interface SettingsPanelProps {
@@ -80,6 +81,71 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     const [openSubAccordion, setOpenSubAccordion] = useState<string>('');
     const [openContentSubAccordion, setOpenContentSubAccordion] = useState<string>('');
     const [openExitCustomization, setOpenExitCustomization] = useState(false);
+    
+    // State for disclaimer linking
+    const [isLinkDisclaimerOpen, setIsLinkDisclaimerOpen] = useState(false);
+    const [selectedText, setSelectedText] = useState('');
+    const [selectionRange, setSelectionRange] = useState({ start: 0, end: 0 });
+    const disclaimerTextareaRef = useRef<HTMLTextAreaElement>(null);
+
+    const fullDisclaimerText = pageConfig.disclaimer.content.map(c => c.text).join('');
+
+    const handleDisclaimerTextSelect = () => {
+        const textarea = disclaimerTextareaRef.current;
+        if (textarea) {
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            if (start !== end) {
+                setSelectionRange({ start, end });
+                setSelectedText(textarea.value.substring(start, end));
+            } else {
+                setSelectedText('');
+            }
+        }
+    };
+    
+    const handleApplyDisclaimerLink = (linkData: { linkType: 'url' | 'post'; url: string; postIndex: number | null; newTab: boolean; }) => {
+        const { linkType, url, postIndex, newTab } = linkData;
+        const currentContent = [...pageConfig.disclaimer.content];
+        const newContent: DisclaimerContent[] = [];
+        let charIndex = 0;
+        let selectionApplied = false;
+
+        for (const item of currentContent) {
+            if (item.type === 'link' || selectionApplied) {
+                newContent.push(item);
+                charIndex += item.text.length;
+                continue;
+            }
+
+            const itemEndIndex = charIndex + item.text.length;
+
+            // Case 1: Selection is entirely within this item
+            if (selectionRange.start >= charIndex && selectionRange.end <= itemEndIndex) {
+                const beforeText = item.text.substring(0, selectionRange.start - charIndex);
+                const linkText = item.text.substring(selectionRange.start - charIndex, selectionRange.end - charIndex);
+                const afterText = item.text.substring(selectionRange.end - charIndex);
+
+                if (beforeText) newContent.push({ type: 'text', text: beforeText });
+                newContent.push({
+                    type: 'link',
+                    text: linkText,
+                    url: linkType === 'url' ? url : '#',
+                    postIndex: linkType === 'post' ? postIndex : undefined,
+                    target: newTab ? '_blank' : '_self'
+                });
+                if (afterText) newContent.push({ type: 'text', text: afterText });
+                
+                selectionApplied = true;
+            } else {
+                 newContent.push(item);
+            }
+             charIndex = itemEndIndex;
+        }
+
+        onConfigChange(['disclaimer', 'content'], newContent);
+        setSelectedText('');
+    };
 
     const handleEntryPopupToggle = (toggledKey: string, isChecked: boolean) => {
         const entryPopupKeys = ['cookies', 'ageVerification', 'choice', 'gender', 'captcha', 'discount'];
@@ -1293,69 +1359,27 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <div className="space-y-2">
-                                            <div className="flex items-center gap-2">
-                                                <Label>{t('text_content')}</Label>
-                                                <HtmlTooltip />
+                                            <Label>{t('text_content')}</Label>
+                                            <Textarea
+                                                ref={disclaimerTextareaRef}
+                                                value={fullDisclaimerText}
+                                                onChange={e => onConfigChange(['disclaimer', 'content'], [{ type: 'text', text: e.target.value }])}
+                                                onSelect={handleDisclaimerTextSelect}
+                                                className="text-sm h-24"
+                                            />
+                                            <div className="text-right">
+                                                <Button 
+                                                    size="sm"
+                                                    variant="link"
+                                                    disabled={!selectedText}
+                                                    onClick={() => setIsLinkDisclaimerOpen(true)}
+                                                >
+                                                    <LinkIcon className="mr-2 h-4 w-4" />
+                                                    Lincar Texto
+                                                </Button>
                                             </div>
-                                            <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
                                         </div>
-                                        <div className="space-y-4 pt-4 border-t">
-                                            <SettingsToggle label="Vincular a um artigo de post" checked={pageConfig.disclaimer.link.active} onCheckedChange={checked => onConfigChange(['disclaimer', 'link', 'active'], checked)} />
-                                            {pageConfig.disclaimer.link.active && (
-                                                <div className='space-y-4'>
-                                                    <div className="space-y-2">
-                                                        <Label>Texto para linkar</Label>
-                                                        <Input 
-                                                          type="text" 
-                                                          placeholder="Ex: [leia o artigo completo]" 
-                                                          value={pageConfig.disclaimer.link.textToLink}
-                                                          onChange={e => onConfigChange(['disclaimer', 'link', 'textToLink'], e.target.value)}
-                                                        />
-                                                    </div>
-                                                    <div className="space-y-2">
-                                                        <Label>Tipo de Link</Label>
-                                                        <Select 
-                                                          value={pageConfig.disclaimer.link.linkType}
-                                                          onValueChange={value => onConfigChange(['disclaimer', 'link', 'linkType'], value)}
-                                                        >
-                                                            <SelectTrigger><SelectValue/></SelectTrigger>
-                                                            <SelectContent>
-                                                                <SelectItem value="post">Página de Post</SelectItem>
-                                                                <SelectItem value="url">URL Externa</SelectItem>
-                                                            </SelectContent>
-                                                        </Select>
-                                                    </div>
-
-                                                    {pageConfig.disclaimer.link.linkType === 'post' ? (
-                                                      <div className="space-y-2">
-                                                          <Label>Artigo para vincular</Label>
-                                                          <Select 
-                                                              value={pageConfig.disclaimer.link.linkedPostPageIndex !== null ? String(pageConfig.disclaimer.link.linkedPostPageIndex) : '--'}
-                                                              onValueChange={value => onConfigChange(['disclaimer', 'link', 'linkedPostPageIndex'], value === '--' ? null : Number(value))}
-                                                          >
-                                                              <SelectTrigger><SelectValue placeholder="Selecione um post" /></SelectTrigger>
-                                                              <SelectContent>
-                                                                  <SelectItem value="--">Nenhum</SelectItem>
-                                                                  {pageConfig.postPages.map((post, index) => (
-                                                                      <SelectItem key={index} value={String(index)}>{post.productName || `Post ${index + 1}`}</SelectItem>
-                                                                  ))}
-                                                              </SelectContent>
-                                                          </Select>
-                                                      </div>
-                                                    ) : (
-                                                      <div className="space-y-2">
-                                                        <Label>URL para vincular</Label>
-                                                          <Input 
-                                                            type="text" 
-                                                            placeholder="https://..." 
-                                                            value={pageConfig.disclaimer.link.url}
-                                                            onChange={e => onConfigChange(['disclaimer', 'link', 'url'], e.target.value)}
-                                                          />
-                                                      </div>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
+                                        
                                         <div className="space-y-3 pt-4 border-t">
                                             <ColorInput label={t('background_color')} value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
                                             <ColorInput label={t('text_color')} value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
@@ -1623,6 +1647,15 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                     </AccordionItem>
                 </Accordion>
             </ScrollArea>
+             {isLinkDisclaimerOpen && (
+                <LinkDisclaimerDialog
+                    isOpen={isLinkDisclaimerOpen}
+                    onClose={() => setIsLinkDisclaimerOpen(false)}
+                    selectedText={selectedText}
+                    postPages={pageConfig.postPages}
+                    onApplyLink={handleApplyDisclaimerLink}
+                />
+            )}
         </TooltipProvider>
     );
 }
@@ -1632,4 +1665,3 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     
 
     
-

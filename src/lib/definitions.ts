@@ -6,6 +6,14 @@ export type Announcement = {
   message: string;
 }
 
+export type DisclaimerContent = {
+  type: 'text' | 'link';
+  text: string;
+  url?: string;
+  target?: string;
+  postIndex?: number;
+};
+
 export type PostPageConfig = {
   active: boolean;
   productName: string;
@@ -141,16 +149,9 @@ export type PageConfig = {
   };
   disclaimer: {
     active: boolean;
-    text: string;
+    content: DisclaimerContent[];
     backgroundColor: string;
     textColor: string;
-    link: {
-      active: boolean;
-      textToLink: string;
-      linkedPostPageIndex: number | null;
-      linkType: 'url' | 'post';
-      url: string;
-    };
   };
   overlay: {
     active: boolean;

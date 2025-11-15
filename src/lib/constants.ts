@@ -84,16 +84,9 @@ export const getInitialPageConfig = (t: (key: TranslationKey) => string): PageCo
     footer: { active: false, privacyLink: '#', termsLink: '#', backgroundColor: '#111827', textColor: '#D1D5DB', autoGenerate: false },
     disclaimer: { 
         active: false, 
-        text: t('default_disclaimer_text'), 
+        content: [{ type: 'text', text: t('default_disclaimer_text') }],
         backgroundColor: '#F3F4F6', 
         textColor: '#4B5563',
-        link: {
-            active: false,
-            textToLink: '',
-            linkedPostPageIndex: null,
-            linkType: 'post',
-            url: ''
-        }
     },
     overlay: { active: false, opacity: 0.5 },
     blur: { active: false, intensity: 3 },

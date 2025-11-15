@@ -1,6 +1,6 @@
 
 
-import type { PageConfig, PostPageConfig } from './definitions';
+import type { PageConfig, PostPageConfig, DisclaimerContent } from './definitions';
 import { fontOptions } from './constants';
 
 export const generatePrivacyPolicyHtml = (config: PageConfig): string => {
@@ -78,6 +78,18 @@ export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageCon
     </div>
     `;
 };
+
+function renderRichText(content: DisclaimerContent[]): string {
+  return content.map(item => {
+    if (item.type === 'link') {
+      const href = item.url || '#';
+      const target = item.target || '_self';
+      const onclick = item.postIndex !== undefined ? `showPostPage(${item.postIndex}, event)` : '';
+      return `<a href="${href}" target="${target}" onclick="${onclick}">${item.text}</a>`;
+    }
+    return item.text;
+  }).join('');
+}
 
 
 export const generatePresellHtml = (config: PageConfig) => {
@@ -566,24 +578,10 @@ export const generatePresellHtml = (config: PageConfig) => {
             </div>
         </div>
     ` : '';
-
-    const getDisclaimerText = () => {
-        const { text, link } = disclaimer;
-        if (link.active && link.textToLink) {
-            const linkUrl = link.linkType === 'url' ? link.url : '#';
-            const linkOnclick = link.linkType === 'post' && link.linkedPostPageIndex !== null 
-                ? `onclick="showPostPage(${link.linkedPostPageIndex}, event)"` 
-                : '';
-            const linkTarget = link.linkType === 'url' ? 'target="_blank"' : '';
-            const anchor = `<a href="${linkUrl}" ${linkOnclick} ${linkTarget}>${link.textToLink}</a>`;
-            return text.replace(link.textToLink, anchor);
-        }
-        return text;
-    };
-
+    
     const disclaimerSection = disclaimer.active ? `
         <div class="disclaimer" style="background-color: ${disclaimer.backgroundColor}; color: ${disclaimer.textColor};">
-            <p>${getDisclaimerText()}</p>
+            <p>${renderRichText(disclaimer.content)}</p>
         </div>
     ` : '';
     
