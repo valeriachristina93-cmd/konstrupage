@@ -81,7 +81,11 @@ export default function ProfilePage() {
             </div>
         );
     }
-  
+    
+    const displayName = userProfile?.name || user?.displayName || 'Usuário';
+    const displayEmail = userProfile?.email || user?.email || 'email@example.com';
+    const displayAvatarFallback = displayName.charAt(0).toUpperCase();
+
     return (
         <div className="flex flex-col min-h-screen bg-muted/30">
             <header className="flex h-16 shrink-0 items-center border-b bg-background px-4 md:px-6 sticky top-0 z-40">
@@ -99,11 +103,11 @@ export default function ProfilePage() {
                         <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                             <Avatar className="h-20 w-20 border-2 border-primary/50">
                                 <AvatarImage src={user?.photoURL || ''} alt="User avatar" />
-                                <AvatarFallback className="text-2xl">{userProfile?.name ? userProfile.name.charAt(0) : 'U'}</AvatarFallback>
+                                <AvatarFallback className="text-2xl">{displayAvatarFallback}</AvatarFallback>
                             </Avatar>
                             <div className="flex-1">
-                                <CardTitle className="text-2xl font-bold">{userProfile?.name || 'Usuário'}</CardTitle>
-                                <CardDescription>{userProfile?.email || 'email@example.com'}</CardDescription>
+                                <CardTitle className="text-2xl font-bold">{displayName}</CardTitle>
+                                <CardDescription>{displayEmail}</CardDescription>
                                 <div className="mt-2 flex items-center gap-2">
                                     <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300">
                                         <CheckCircle className="h-3.5 w-3.5 mr-1.5" />
@@ -125,12 +129,12 @@ export default function ProfilePage() {
                         <CardContent className="space-y-4">
                             <div className="flex justify-between items-center">
                                 <span className="text-muted-foreground">Nome</span>
-                                <span className="font-medium">{userProfile?.name || '-'}</span>
+                                <span className="font-medium">{displayName}</span>
                             </div>
                             <Separator />
                             <div className="flex justify-between items-center">
                                 <span className="text-muted-foreground">Email</span>
-                                <span className="font-medium">{userProfile?.email || '-'}</span>
+                                <span className="font-medium">{displayEmail}</span>
                             </div>
                              <Separator />
                             <div className="flex justify-between items-center">
@@ -184,5 +188,3 @@ export default function ProfilePage() {
         </div>
   );
 }
-
-    

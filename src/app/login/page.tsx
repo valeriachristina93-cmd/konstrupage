@@ -8,7 +8,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth, useFirestore, errorEmitter, FirestorePermissionError } from '@/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
@@ -68,6 +68,9 @@ export default function LoginPage() {
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
+
+      // Update Firebase Auth profile
+      await updateProfile(user, { displayName: data.name });
 
       // Send email verification
       await sendEmailVerification(user);
@@ -298,5 +301,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-    
