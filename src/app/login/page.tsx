@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useForm, type SubmitHandler } from 'react-hook-form';
+import { useForm, type SubmitHandler, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth, useFirestore, errorEmitter, FirestorePermissionError } from '@/firebase';
@@ -21,9 +21,18 @@ import { Loader2, UserPlus, LogIn, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 
+const phoneMask = (value: string) => {
+  if (!value) return "";
+  value = value.replace(/\D/g, '');
+  value = value.replace(/^(\d{2})(\d)/, '($1) $2');
+  value = value.replace(/(\d{5})(\d)/, '$1-$2');
+  if (value.length > 15) return value.slice(0, 15);
+  return value;
+};
+
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
-  phone: z.string().regex(/^\d+$/, { message: 'O telefone deve conter apenas números.' }).min(10, { message: 'O telefone deve ter pelo menos 10 caracteres.' }),
+  phone: z.string().transform(val => val.replace(/\D/g, '')).pipe(z.string().min(10, { message: 'O telefone deve ter pelo menos 10 dígitos.' })),
   email: z.string().email({ message: 'Por favor, insira um email válido.' }),
   password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' })
     .regex(/(?=.*[A-Z])/, { message: 'A senha deve conter pelo menos uma letra maiúscula.' })
@@ -46,17 +55,22 @@ async function sendToGoogleSheet(data: { name: string; email: string; phone: str
   }
 
   try {
+    // 'no-cors' mode means we won't get a response back, but the request will be sent.
+    // This is often called a "fire and forget" request.
     await fetch(scriptUrl, {
       method: 'POST',
-      mode: 'no-cors',
+      mode: 'no-cors', 
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
     });
+    // Since we are in 'no-cors' mode, we cannot read the response.
+    // We just assume the request was sent successfully.
   } catch (error) {
+    // This catch block will likely only catch network errors on the client's side
+    // (e.g., user is offline), not errors from the Google Script itself.
     console.error("Error sending data to Google Sheet:", error);
-    // We don't block registration if this fails.
   }
 }
 
@@ -70,11 +84,13 @@ export default function LoginPage() {
   const firestore = useFirestore();
 
   const {
+    control: registerControl,
     register: registerRegister,
     handleSubmit: handleRegisterSubmit,
     formState: { errors: registerErrors },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
+    mode: 'onChange',
   });
 
   const {
@@ -88,8 +104,9 @@ export default function LoginPage() {
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
     setIsLoading(true);
     
-    // Try to send data to Google Sheet but don't wait for it and don't block registration
-    sendToGoogleSheet(data).catch(error => console.warn("Could not send data to Google Sheet:", error));
+    // We don't await this because with 'no-cors' we can't get a response anyway.
+    // This sends the data but doesn't block the registration flow.
+    sendToGoogleSheet(data);
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
@@ -281,7 +298,19 @@ export default function LoginPage() {
                   </div>
                    <div className="space-y-2">
                     <Label htmlFor="register-phone">Telefone</Label>
-                    <Input id="register-phone" type="tel" placeholder="Apenas números" {...registerRegister('phone')} />
+                    <Controller
+                        name="phone"
+                        control={registerControl}
+                        render={({ field }) => (
+                            <Input
+                                {...field}
+                                id="register-phone"
+                                type="tel"
+                                placeholder="(XX) XXXXX-XXXX"
+                                onChange={(e) => field.onChange(phoneMask(e.target.value))}
+                            />
+                        )}
+                    />
                     {registerErrors.phone && <p className="text-xs text-destructive">{registerErrors.phone.message}</p>}
                   </div>
                   <div className="space-y-2">
