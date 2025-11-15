@@ -1,7 +1,7 @@
 
 "use client";
 
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Loader2, PlayCircle, X } from 'lucide-react';
@@ -18,7 +18,7 @@ interface AdBreakModalProps {
 }
 
 const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; style?: React.CSSProperties }) => {
-  useEffect(() => {
+  React.useEffect(() => {
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
@@ -43,13 +43,13 @@ const AdSlot = ({ slotId, client, style }: { slotId: string; client: string; sty
 
 export function AdBreakModal({ isOpen, onClose }: AdBreakModalProps) {
     const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
-    const [isClosable, setIsClosable] = useState(false);
-    const [countdown, setCountdown] = useState(15);
-    const countdownRef = useRef<NodeJS.Timeout | null>(null);
+    const [isClosable, setIsClosable] = React.useState(false);
+    const [countdown, setCountdown] = React.useState(15);
+    const countdownRef = React.useRef<NodeJS.Timeout | null>(null);
 
     const adSlotIds = ['7995115463', '4647596135', '1783487248', '3013405679', '7420334793', '3255635177'];
     
-    useEffect(() => {
+    React.useEffect(() => {
         if (isOpen) {
             setIsClosable(false);
             setCountdown(15);
