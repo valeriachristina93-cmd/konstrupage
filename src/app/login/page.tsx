@@ -41,14 +41,14 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 async function sendToGoogleSheet(data: { name: string; email: string; phone: string; }) {
   const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEET_SCRIPT_URL;
   if (!scriptUrl) {
-    console.error("Google Sheet script URL is not defined in environment variables.");
+    console.warn("Google Sheet script URL is not defined. Skipping sheet integration.");
     return;
   }
 
   try {
     await fetch(scriptUrl, {
       method: 'POST',
-      mode: 'no-cors', // Important for client-side requests to Apps Script
+      mode: 'no-cors',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -87,10 +87,11 @@ export default function LoginPage() {
 
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
     setIsLoading(true);
-    try {
-      // Try to send data to Google Sheet but don't wait for it and don't block registration
-      sendToGoogleSheet(data).catch(error => console.warn("Could not send data to Google Sheet:", error));
+    
+    // Try to send data to Google Sheet but don't wait for it and don't block registration
+    sendToGoogleSheet(data).catch(error => console.warn("Could not send data to Google Sheet:", error));
 
+    try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
 
@@ -323,5 +324,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-    
