@@ -54,7 +54,7 @@ function VerifyEmailContent() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-muted/30">
-      <div className="w-full max-w-md p-4">
+      <div className="w-full max-w-lg p-4">
         <div className="flex justify-center mb-8">
             <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={64} height={64} />
         </div>
