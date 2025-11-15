@@ -37,7 +37,7 @@ const renderPostContent = (content: string) => {
     return boldedContent.split('\n').filter(p => p.trim() !== '').map(p => `<p>${p}</p>`).join('');
 };
 
-const generateSinglePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
+export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
     const { productName, content, imageUrl } = postConfig;
     const { seo, affiliateLink, newTab, footer } = config;
 
@@ -647,7 +647,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     const pageDescription = seo?.description || 'Presell page description.';
     const favicon = seo?.favicon || 'https://i.imgur.com/Lo98kWM.png';
 
-    const allPostPagesHtml = postPages.map(post => generateSinglePostPageHtml(config, post)).join('');
+    const allPostPagesHtml = postPages.map(post => generatePostPageHtml(config, post)).join('');
 
 
     return `
