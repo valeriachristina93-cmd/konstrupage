@@ -1,7 +1,7 @@
 
 'use client';
 
-import { Suspense, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, useUser } from '@/firebase';
@@ -62,41 +62,40 @@ export default function VerifyEmailPage() {
     };
     
     return (
-        <div className="flex items-center justify-center min-h-screen bg-muted/30">
-            <div className="w-full max-w-lg p-4">
+        <div className="flex items-center justify-center min-h-screen bg-muted/30 p-4">
+            <div className="w-full max-w-lg">
                 <div className="flex justify-center mb-8">
                     <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={64} height={64} />
                 </div>
-                <Card>
-                    <CardHeader className="text-center">
-                        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/50 mb-4">
-                            <MailCheck className="h-8 w-8 text-green-500" />
-                        </div>
-                        <CardTitle className="text-2xl font-bold">
+                <Card className="overflow-hidden shadow-lg border-primary/20">
+                     <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 flex justify-center items-center">
+                        <MailCheck className="h-24 w-24 text-white/90" />
+                    </div>
+                    <CardHeader className="text-center pt-8">
+                        <CardTitle className="text-3xl font-bold">
                             Verifique seu E-mail
                         </CardTitle>
-                        <CardDescription>
-                            Enviamos um link de confirmação para <span className="font-semibold text-foreground">{email}</span>.
+                        <CardDescription className="text-base pt-2">
+                            Enviamos um link de confirmação para <br/> <span className="font-semibold text-foreground">{email}</span>.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-center text-muted-foreground">
+                    <CardContent className="text-center text-muted-foreground px-8">
                         <p>
-                            Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam ou lixo eletrônico.
+                            Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam.
                         </p>
                     </CardContent>
-                    <CardFooter className="flex-col gap-4">
+                    <CardFooter className="flex-col gap-3 p-6 bg-muted/50">
                         <Button
                             onClick={handleResendVerification}
                             disabled={isResending}
-                            className="w-full"
-                            variant="secondary"
+                            className="w-full h-12 text-base"
                         >
-                            {isResending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Send className="mr-2 h-4 w-4" />}
-                            Reenviar E-mail
+                            {isResending ? <Loader2 className="mr-2 h-5 w-5 animate-spin" /> : <Send className="mr-2 h-5 w-5" />}
+                            Reenviar E-mail de Confirmação
                         </Button>
                         <Link href="/login" className="w-full">
-                            <Button variant="outline" className="w-full">
-                                <LogIn className="mr-2 h-4 w-4" />
+                            <Button variant="ghost" className="w-full h-11 text-base">
+                                <LogIn className="mr-2 h-5 w-5" />
                                 Voltar para o Login
                             </Button>
                         </Link>
