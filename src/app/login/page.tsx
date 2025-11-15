@@ -8,7 +8,7 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuth, useFirestore, errorEmitter, FirestorePermissionError } from '@/firebase';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, sendEmailVerification } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
@@ -69,6 +69,9 @@ export default function LoginPage() {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
 
+      // Send email verification
+      await sendEmailVerification(user);
+
       const userProfileData = {
         uid: user.uid,
         name: data.name,
@@ -78,13 +81,15 @@ export default function LoginPage() {
 
       const userDocRef = doc(firestore, 'users', user.uid);
 
+      // Using .then() and .catch() for the firestore operation to keep UI responsive
       setDoc(userDocRef, userProfileData)
         .then(() => {
           toast({
-            title: 'Sucesso!',
-            description: 'Sua conta foi criada. Redirecionando...',
+            title: 'Verificação Necessária',
+            description: 'Sua conta foi criada! Verifique seu e-mail para continuar.',
           });
-          router.push('/dashboard');
+          // Redirect to a verification pending page
+          router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         })
         .catch(async (serverError) => {
           const permissionError = new FirestorePermissionError({
@@ -102,7 +107,7 @@ export default function LoginPage() {
         title: 'Erro ao criar conta',
         description: error.code === 'auth/email-already-in-use'
           ? 'Este e-mail já está em uso.'
-          : error.message || 'Ocorreu um erro inesperado. Tente novamente.',
+          : 'Ocorreu um erro inesperado. Tente novamente.',
       });
       setIsLoading(false);
     }
@@ -112,6 +117,7 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
+      // The protected layout will handle redirection based on email verification status
       toast({
         title: 'Login realizado com sucesso!',
       });
@@ -292,3 +298,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
