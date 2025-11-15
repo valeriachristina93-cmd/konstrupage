@@ -6,22 +6,16 @@ import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
 import { getAuth, type Auth } from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
-let firebaseApp: FirebaseApp;
-let auth: Auth;
-let firestore: Firestore;
-
-if (getApps().length === 0) {
-  try {
-    firebaseApp = initializeApp(firebaseConfig);
-  } catch (e) {
-    firebaseApp = initializeApp(firebaseConfig);
+function initializeAppIfNeeded(): FirebaseApp {
+  if (!getApps().length) {
+    return initializeApp(firebaseConfig);
   }
-} else {
-  firebaseApp = getApp();
+  return getApp();
 }
 
-auth = getAuth(firebaseApp);
-firestore = getFirestore(firebaseApp);
+const firebaseApp = initializeAppIfNeeded();
+const auth = getAuth(firebaseApp);
+const firestore = getFirestore(firebaseApp);
 
 export { firebaseApp, auth, firestore };
 

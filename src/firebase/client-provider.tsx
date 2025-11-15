@@ -2,7 +2,7 @@
 'use client';
 
 import React from 'react';
-import { FirebaseProvider, auth, firebaseApp, firestore } from '.';
+import { FirebaseProvider, auth, firebaseApp, firestore } from '@/firebase';
 
 export function FirebaseClientProvider({
   children,
