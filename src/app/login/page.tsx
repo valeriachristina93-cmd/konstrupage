@@ -20,6 +20,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, UserPlus, LogIn, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { sendToGoogleSheet } from './actions';
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
@@ -66,6 +67,13 @@ export default function LoginPage() {
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
     setIsLoading(true);
     try {
+       // First, try to send data to Google Sheet
+      const sheetResult = await sendToGoogleSheet(data);
+      if (!sheetResult.success) {
+        // Log the error but continue with registration
+        console.warn("Could not send data to Google Sheet:", sheetResult.message);
+      }
+
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
 
