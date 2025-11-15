@@ -10,8 +10,9 @@ import { sendEmailVerification } from 'firebase/auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, MailCheck, Send, LogIn } from 'lucide-react';
+import { Loader2, MailCheck, Send, LogIn, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 
 export default function VerifyEmailPage() {
@@ -25,7 +26,6 @@ export default function VerifyEmailPage() {
     const [email, setEmail] = useState('');
 
     useEffect(() => {
-        // We get the email from searchParams on the client side
         const emailFromParams = searchParams.get('email');
         if (emailFromParams) {
             setEmail(emailFromParams);
@@ -77,10 +77,13 @@ export default function VerifyEmailPage() {
                             Enviamos um link de confirmação para <br/> <span className="font-semibold text-foreground">{email}</span>.
                         </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-center text-muted-foreground px-8">
-                        <p>
-                            Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam ou lixo eletrônico.
-                        </p>
+                    <CardContent className="text-center text-muted-foreground px-6">
+                        <Alert>
+                            <AlertTriangle className="h-4 w-4" />
+                            <AlertDescription>
+                                Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam ou lixo eletrônico.
+                            </AlertDescription>
+                        </Alert>
                     </CardContent>
                     <CardFooter className="flex-col gap-3 p-6 bg-muted/50">
                         <Button
@@ -103,4 +106,3 @@ export default function VerifyEmailPage() {
         </div>
     );
 }
-
