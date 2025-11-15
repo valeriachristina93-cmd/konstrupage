@@ -20,7 +20,6 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, UserPlus, LogIn, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
-import { sendToGoogleSheet } from './actions';
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
@@ -38,6 +37,28 @@ const loginSchema = z.object({
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
 type LoginFormValues = z.infer<typeof loginSchema>;
+
+async function sendToGoogleSheet(data: { name: string; email: string; phone: string; }) {
+  const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEET_SCRIPT_URL;
+  if (!scriptUrl) {
+    console.error("Google Sheet script URL is not defined in environment variables.");
+    return;
+  }
+
+  try {
+    await fetch(scriptUrl, {
+      method: 'POST',
+      mode: 'no-cors', // Important for client-side requests to Apps Script
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  } catch (error) {
+    console.error("Error sending data to Google Sheet:", error);
+    // We don't block registration if this fails.
+  }
+}
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -67,12 +88,8 @@ export default function LoginPage() {
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
     setIsLoading(true);
     try {
-       // First, try to send data to Google Sheet
-      const sheetResult = await sendToGoogleSheet(data);
-      if (!sheetResult.success) {
-        // Log the error but continue with registration
-        console.warn("Could not send data to Google Sheet:", sheetResult.message);
-      }
+      // Try to send data to Google Sheet but don't wait for it and don't block registration
+      sendToGoogleSheet(data).catch(error => console.warn("Could not send data to Google Sheet:", error));
 
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
       const user = userCredential.user;
@@ -92,14 +109,12 @@ export default function LoginPage() {
 
       const userDocRef = doc(firestore, 'users', user.uid);
 
-      // Using .then() and .catch() for the firestore operation to keep UI responsive
       setDoc(userDocRef, userProfileData)
         .then(() => {
           toast({
             title: 'Verificação Necessária',
             description: 'Sua conta foi criada! Verifique seu e-mail para continuar.',
           });
-          // Redirect to a verification pending page
           router.push(`/verify-email?email=${encodeURIComponent(data.email)}`);
         })
         .catch(async (serverError) => {
@@ -128,7 +143,6 @@ export default function LoginPage() {
     setIsLoading(true);
     try {
       await signInWithEmailAndPassword(auth, data.email, data.password);
-      // The protected layout will handle redirection based on email verification status
       toast({
         title: 'Login realizado com sucesso!',
       });
@@ -309,3 +323,5 @@ export default function LoginPage() {
     </div>
   );
 }
+
+    
