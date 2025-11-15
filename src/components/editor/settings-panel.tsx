@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2, Eye, Link as LinkIcon } from 'lucide-react';
+import { FileText, MessageSquare, LayoutPanelLeft, Settings2, Settings, Brush, Type, Palette, Target, Image as ImageIcon, Timer, X, AlertTriangle, Globe, HelpCircle, ChevronDown, MoveUpRight, Cookie, Plus, Trash2, Eye, Link as LinkIcon, Edit } from 'lucide-react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { ImageUploadInput } from './image-upload-input';
 import type { ViewMode } from '@/app/(protected)/editor/page';
@@ -78,15 +78,34 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
     const [openAccordion, setOpenAccordion] = useState<string>('');
     const [openSubAccordion, setOpenSubAccordion] = useState<string>('');
     const [openContentSubAccordion, setOpenContentSubAccordion] = useState<string>('');
+    const [openExitCustomization, setOpenExitCustomization] = useState(false);
 
-    const handleSubAccordionToggle = (accordionValue: string, isChecked: boolean) => {
-        const path = ['popups', accordionValue, 'active'];
-        onConfigChange(path, isChecked);
+    const handleEntryPopupToggle = (toggledKey: string, isChecked: boolean) => {
+        const entryPopupKeys = ['cookies', 'ageVerification', 'choice', 'gender', 'captcha', 'discount'];
+        
+        if (toggledKey === 'custom' && pageConfig.popups.custom.triggerOnExit) {
+            onConfigChange(['popups', 'custom', 'active'], isChecked);
+            return;
+        }
 
         if (isChecked) {
-            setOpenSubAccordion(accordionValue);
+            // Deactivate all other entry popups
+            entryPopupKeys.forEach(key => {
+                if (key !== toggledKey) {
+                    onConfigChange(['popups', key, 'active'], false);
+                }
+            });
+            if (toggledKey !== 'custom' && !pageConfig.popups.custom.triggerOnExit) {
+                 onConfigChange(['popups', 'custom', 'active'], false);
+            }
+        }
+
+        onConfigChange(['popups', toggledKey, 'active'], isChecked);
+
+        if (isChecked) {
+            setOpenSubAccordion(toggledKey);
         } else {
-            if (openSubAccordion === accordionValue) {
+            if (openSubAccordion === toggledKey) {
                 setOpenSubAccordion('');
             }
         }
@@ -103,16 +122,19 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         }
     };
 
-    const handleCustomizeClick = () => {
+    const handleCustomizeClick = (isExitPopup: boolean = false) => {
         setOpenSubAccordion('');
         setOpenAccordion('advanced');
+        if (isExitPopup) {
+            setTimeout(() => setOpenExitCustomization(true), 100);
+        }
     };
 
-    const CustomizeLink = () => (
+    const CustomizeLink = ({ isExitPopup = false }: { isExitPopup?: boolean }) => (
         <div className="pt-3 mt-3 border-t">
-            <button onClick={handleCustomizeClick} className="text-sm text-primary hover:underline font-semibold flex items-center gap-1">
-                <LinkIcon className="w-3 h-3"/>
-                {t('customize')}
+            <button onClick={() => handleCustomizeClick(isExitPopup)} className="text-sm text-primary hover:underline font-semibold flex items-center gap-1">
+                <Edit className="w-3 h-3"/>
+                {isExitPopup ? 'Personalizar Pop-up de Saída' : t('customize')}
             </button>
         </div>
     );
@@ -127,7 +149,6 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
             </TooltipContent>
         </Tooltip>
     );
-
 
     return (
         <TooltipProvider>
@@ -278,7 +299,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                   <AccordionSubTrigger 
                                     title={t('cookie_popup')}
                                     checked={pageConfig.popups.cookies.active}
-                                    onCheckedChange={(isChecked) => handleSubAccordionToggle('cookies', isChecked)}
+                                    onCheckedChange={(isChecked) => handleEntryPopupToggle('cookies', isChecked)}
                                   />
                                   <AccordionContent className="pt-4 space-y-4 px-3">
                                       <div className="space-y-2">
@@ -305,7 +326,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title={t('age_verification_popup')}
                                         checked={pageConfig.popups.ageVerification.active}
-                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('ageVerification', isChecked)}
+                                        onCheckedChange={(isChecked) => handleEntryPopupToggle('ageVerification', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-2">
@@ -340,7 +361,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                       title={t('choice_popup')}
                                       checked={pageConfig.popups.choice.active}
-                                      onCheckedChange={(isChecked) => handleSubAccordionToggle('choice', isChecked)}
+                                      onCheckedChange={(isChecked) => handleEntryPopupToggle('choice', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.choice.title} onChange={e => onConfigChange(['popups', 'choice', 'title'], e.target.value)} />
@@ -409,7 +430,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                       title={t('gender_popup')}
                                       checked={pageConfig.popups.gender.active}
-                                      onCheckedChange={(isChecked) => handleSubAccordionToggle('gender', isChecked)}
+                                      onCheckedChange={(isChecked) => handleEntryPopupToggle('gender', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className="space-y-2">
@@ -491,7 +512,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title={t('captcha_popup')}
                                         checked={pageConfig.popups.captcha.active}
-                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('captcha', isChecked)}
+                                        onCheckedChange={(isChecked) => handleEntryPopupToggle('captcha', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <Input type="text" placeholder={t('popup_title')} value={pageConfig.popups.captcha.title} onChange={e => onConfigChange(['popups', 'captcha', 'title'], e.target.value)} />
@@ -549,7 +570,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title={t('discount_popup')}
                                         checked={pageConfig.popups.discount.active}
-                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('discount', isChecked)}
+                                        onCheckedChange={(isChecked) => handleEntryPopupToggle('discount', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <Input type="text" placeholder={t('discount_text')} value={pageConfig.popups.discount.text} onChange={e => onConfigChange(['popups', 'discount', 'text'], e.target.value)} />
@@ -581,7 +602,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title={t('exit_popup')}
                                         checked={pageConfig.popups.exit.active}
-                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('exit', isChecked)}
+                                        onCheckedChange={(isChecked) => onConfigChange(['popups', 'exit', 'active'], isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-4 px-3">
                                         <div className='space-y-2'>
@@ -618,7 +639,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             <Label>{t('redirect_link_optional')}</Label>
                                             <Input type="text" placeholder="https://..." value={pageConfig.popups.exit.redirectLink} onChange={e => onConfigChange(['popups', 'exit', 'redirectLink'], e.target.value)} />
                                         </div>
-                                        <CustomizeLink />
+                                        <CustomizeLink isExitPopup={true} />
                                     </AccordionContent>
                                 </AccordionItem>
 
@@ -626,14 +647,21 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                     <AccordionSubTrigger 
                                         title={t('custom_popup')}
                                         checked={customPopupConfig.active}
-                                        onCheckedChange={(isChecked) => handleSubAccordionToggle('custom', isChecked)}
+                                        onCheckedChange={(isChecked) => handleEntryPopupToggle('custom', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 space-y-6 px-3">
                                         <div className="p-3 border rounded-md">
                                             <SettingsToggle 
                                                 label={t('trigger_on_exit')} 
                                                 checked={customPopupConfig.triggerOnExit} 
-                                                onCheckedChange={checked => onConfigChange(['popups', 'custom', 'triggerOnExit'], checked)} 
+                                                onCheckedChange={(isChecked) => {
+                                                    onConfigChange(['popups', 'custom', 'triggerOnExit'], isChecked);
+                                                    // When enabling triggerOnExit, it might need to be considered an "exit" popup.
+                                                    // This ensures it doesn't get disabled by the entry popup logic.
+                                                    // The handleEntryPopupToggle already checks this, so toggling active state is correct.
+                                                    onConfigChange(['popups', 'custom', 'active'], true); 
+                                                    setOpenSubAccordion('custom');
+                                                }}
                                             />
                                         </div>
                                         <Accordion type="single" collapsible className="w-full space-y-2">
@@ -903,7 +931,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                             </div>
                         </AccordionTrigger>
                         <AccordionContent className="pt-4 space-y-4 px-4">
-                            <Accordion type="single" collapsible className="w-full space-y-2">
+                            <Accordion type="single" collapsible className="w-full space-y-2" value={openExitCustomization ? 'exit-popup-style-config' : undefined} onValueChange={() => setOpenExitCustomization(!openExitCustomization)}>
                                 <AccordionItem value="button-config">
                                      <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm bg-muted/50 dark:bg-white/5">
                                         <div className="flex items-center gap-3">
@@ -1212,6 +1240,59 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
+
+                                {/* Exit Pop-up Customization */}
+                                 <AccordionItem value="exit-popup-style-config" className="border-b-0">
+                                     <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm bg-muted/50 dark:bg-white/5">
+                                        <div className="flex items-center gap-3">
+                                            <MoveUpRight className="w-4 h-4 text-slate-400" />
+                                            <span>Personalização do Pop-up de Saída</span>
+                                        </div>
+                                    </AccordionTrigger>
+                                     <AccordionContent className="pt-4 space-y-4 px-3">
+                                         {pageConfig.exitPopupCustomization ? (
+                                        <>
+                                            <div className="space-y-2">
+                                                <Label>Estilo do Botão</Label>
+                                                <Select value={pageConfig.exitPopupCustomization.button.style} onValueChange={value => onConfigChange(['exitPopupCustomization', 'button', 'style'], value)}>
+                                                    <SelectTrigger><SelectValue /></SelectTrigger>
+                                                    <SelectContent>
+                                                        <SelectItem value="filled">Normal</SelectItem>
+                                                        <SelectItem value="outline">Contorno</SelectItem>
+                                                    </SelectContent>
+                                                </Select>
+                                            </div>
+                                            {pageConfig.exitPopupCustomization.button.style === 'outline' && (
+                                                <div className="space-y-2">
+                                                    <Label>Largura do Contorno ({pageConfig.exitPopupCustomization.button.outlineWidth}px)</Label>
+                                                    <SliderWithControls
+                                                        value={[pageConfig.exitPopupCustomization.button.outlineWidth]}
+                                                        onValueChange={(value) => onConfigChange(['exitPopupCustomization', 'button', 'outlineWidth'], value[0])}
+                                                        min={1} max={8} step={1}
+                                                    />
+                                                </div>
+                                            )}
+                                            <div className="space-y-3 pt-2">
+                                                <ColorInput label="Cor Principal do Botão" value={pageConfig.exitPopupCustomization.button.color} onChange={e => onConfigChange(['exitPopupCustomization', 'button', 'color'], e.target.value)} />
+                                                <ColorInput label="Cor do Texto do Botão" value={pageConfig.exitPopupCustomization.button.textColor} onChange={e => onConfigChange(['exitPopupCustomization', 'button', 'textColor'], e.target.value)} />
+                                            </div>
+                                            <div className="space-y-2">
+                                                <Label>Cor do Fundo do Pop-up</Label>
+                                                <ColorInput label="" value={pageConfig.exitPopupCustomization.popup.backgroundColor} onChange={e => onConfigChange(['exitPopupCustomization', 'popup', 'backgroundColor'], e.target.value)} />
+                                            </div>
+                                             <div className="space-y-2">
+                                                <Label>Raio da Borda ({pageConfig.exitPopupCustomization.popup.borderRadius}px)</Label>
+                                                <SliderWithControls
+                                                    value={[pageConfig.exitPopupCustomization.popup.borderRadius]}
+                                                    onValueChange={(value) => onConfigChange(['exitPopupCustomization', 'popup', 'borderRadius'], value[0])}
+                                                    min={0} max={40} step={2}
+                                                />
+                                            </div>
+                                        </>
+                                         ) : <p>Carregando...</p>}
+                                    </AccordionContent>
+                                </AccordionItem>
+
                             </Accordion>
                         </AccordionContent>
                     </AccordionItem>
@@ -1257,9 +1338,9 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
 
                                 <AccordionItem value="disclaimer" className="border-b-0">
                                     <AccordionSubTrigger 
-                                      title={t('disclaimer_section')}
-                                      checked={pageConfig.disclaimer.active}
-                                      onCheckedChange={(isChecked) => handleContentSubAccordionToggle('disclaimer', isChecked)}
+                                        title={t('disclaimer_section')}
+                                        checked={pageConfig.disclaimer.active}
+                                        onCheckedChange={(isChecked) => handleContentSubAccordionToggle('disclaimer', isChecked)}
                                     />
                                     <AccordionContent className="pt-4 mt-2 border-t space-y-4 px-3">
                                         <div className="space-y-2">
@@ -1269,12 +1350,44 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                             </div>
                                             <Textarea value={pageConfig.disclaimer.text} onChange={e => onConfigChange(['disclaimer', 'text'], e.target.value)} className="text-sm h-24" />
                                         </div>
-                                        <div className="space-y-3 pt-2">
+                                        <div className="space-y-4 pt-4 border-t">
+                                            <SettingsToggle label="Vincular a um artigo de post" checked={pageConfig.disclaimer.link.active} onCheckedChange={checked => onConfigChange(['disclaimer', 'link', 'active'], checked)} />
+                                            {pageConfig.disclaimer.link.active && (
+                                                <div className='space-y-4'>
+                                                    <div className="space-y-2">
+                                                        <Label>Texto para linkar</Label>
+                                                        <Input 
+                                                          type="text" 
+                                                          placeholder="Ex: [leia o artigo completo]" 
+                                                          value={pageConfig.disclaimer.link.textToLink}
+                                                          onChange={e => onConfigChange(['disclaimer', 'link', 'textToLink'], e.target.value)}
+                                                        />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <Label>Artigo para vincular</Label>
+                                                        <Select 
+                                                            value={pageConfig.disclaimer.link.linkedPostPageIndex !== null ? String(pageConfig.disclaimer.link.linkedPostPageIndex) : '--'}
+                                                            onValueChange={value => onConfigChange(['disclaimer', 'link', 'linkedPostPageIndex'], value === '--' ? null : Number(value))}
+                                                        >
+                                                            <SelectTrigger><SelectValue placeholder="Selecione um post" /></SelectTrigger>
+                                                            <SelectContent>
+                                                                <SelectItem value="--">Nenhum</SelectItem>
+                                                                {pageConfig.postPages.map((post, index) => (
+                                                                    <SelectItem key={index} value={String(index)}>{post.productName || `Post ${index + 1}`}</SelectItem>
+                                                                ))}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="space-y-3 pt-4 border-t">
                                             <ColorInput label={t('background_color')} value={pageConfig.disclaimer.backgroundColor} onChange={e => onConfigChange(['disclaimer', 'backgroundColor'], e.target.value)} />
                                             <ColorInput label={t('text_color')} value={pageConfig.disclaimer.textColor} onChange={e => onConfigChange(['disclaimer', 'textColor'], e.target.value)} />
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
+
 
                                 <AccordionItem value="seo" className="border-b-0">
                                   <AccordionTrigger className="hover:no-underline p-3 border rounded-md font-semibold text-sm bg-muted/50 dark:bg-white/5">
@@ -1538,6 +1651,8 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </TooltipProvider>
     );
 }
+
+    
 
     
 
