@@ -26,20 +26,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '@/firebase';
 import { useLanguage } from '@/context/language-context';
+import type { Announcement } from '@/lib/definitions';
+import { formatDistanceToNow } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
-interface EditorHeaderProps {
-    onGenerate: () => void;
-    isGenerating: boolean;
-    affiliateLink: string;
-}
-
-const announcements = [
-    { title: "Novo pop-up de saída!", description: "Aumente suas conversões com nossa nova funcionalidade de pop-up.", date: "2 dias atrás" },
-    { title: "Integração com IA", description: "Sugestões de layout automáticas para otimizar suas páginas.", date: "1 semana atrás" },
-];
 
 const tools = [
     { name: 'Lightshot', url: 'https://chromewebstore.google.com/detail/captura-de-ecr%C3%A3-e-gravado/edlifbnjlicfpckhgjhflgkeeibhhcii', icon: <Camera /> },
@@ -57,12 +50,55 @@ const tools = [
     { name: 'Apoiar com um PIX', url: 'https://nubank.com.br/cobrar/twver/69169d01-6d2e-4e44-96c6-741e08ceaab0', icon: <Heart /> },
 ];
 
+interface EditorHeaderProps {
+    onGenerate: () => void;
+    isGenerating: boolean;
+    affiliateLink: string;
+}
+
 export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: EditorHeaderProps) {
     const auth = useAuth();
     const { t, setLanguage, language } = useLanguage();
+    const [announcements, setAnnouncements] = useState<Announcement[]>([]);
+    const [isLoadingAnnouncements, setIsLoadingAnnouncements] = useState(false);
+    const [announcementsError, setAnnouncementsError] = useState<string | null>(null);
 
     const logout = () => {
         auth.signOut();
+    };
+
+    const fetchAnnouncements = async () => {
+        const scriptUrl = process.env.NEXT_PUBLIC_ANNOUNCEMENTS_SCRIPT_URL;
+        if (!scriptUrl) {
+            setAnnouncementsError("A URL de anúncios não está configurada.");
+            return;
+        }
+
+        setIsLoadingAnnouncements(true);
+        setAnnouncementsError(null);
+        try {
+            const response = await fetch(scriptUrl);
+            if (!response.ok) {
+                throw new Error('Falha ao buscar anúncios.');
+            }
+            const data = await response.json();
+            if (data.announcements) {
+                setAnnouncements(data.announcements);
+            } else {
+                 setAnnouncements([]);
+            }
+        } catch (error) {
+            console.error("Error fetching announcements:", error);
+            setAnnouncementsError("Não foi possível carregar os anúncios.");
+        } finally {
+            setIsLoadingAnnouncements(false);
+        }
+    };
+    
+    const handleSheetOpenChange = (open: boolean) => {
+        if (open && announcements.length === 0 && !isLoadingAnnouncements) {
+            fetchAnnouncements();
+        }
     };
 
     return (
@@ -92,7 +128,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                     </Button>
 
                     <div className="flex items-center gap-1 md:gap-2">
-                        <Sheet>
+                        <Sheet onOpenChange={handleSheetOpenChange}>
                             <SheetTrigger asChild>
                                 <Button variant="ghost" size="icon" className="relative">
                                     <Bell className="h-5 w-5" />
@@ -107,11 +143,28 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                     <SheetTitle>{t('announcements')}</SheetTitle>
                                 </SheetHeader>
                                 <div className="mt-4 space-y-4">
+                                     {isLoadingAnnouncements && (
+                                        <div className="flex items-center justify-center p-8">
+                                            <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                                        </div>
+                                    )}
+                                    {announcementsError && (
+                                        <div className="p-3 rounded-lg border bg-destructive/10 text-destructive-foreground text-sm">
+                                            {announcementsError}
+                                        </div>
+                                    )}
+                                    {!isLoadingAnnouncements && !announcementsError && announcements.length === 0 && (
+                                        <div className="p-3 rounded-lg border bg-muted/50 text-center text-sm text-muted-foreground">
+                                            Nenhum anúncio recente.
+                                        </div>
+                                    )}
                                     {announcements.map((item, index) => (
                                         <div key={index} className="p-3 rounded-lg border bg-card">
                                             <p className="font-semibold">{item.title}</p>
-                                            <p className="text-sm text-muted-foreground">{item.description}</p>
-                                            <p className="text-xs text-muted-foreground mt-2">{item.date}</p>
+                                            <p className="text-sm text-muted-foreground">{item.message}</p>
+                                            <p className="text-xs text-muted-foreground mt-2">
+                                                {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true, locale: ptBR })}
+                                            </p>
                                         </div>
                                     ))}
                                 </div>

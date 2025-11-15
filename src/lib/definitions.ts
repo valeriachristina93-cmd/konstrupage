@@ -1,5 +1,11 @@
 
 
+export type Announcement = {
+  timestamp: string;
+  title: string;
+  message: string;
+}
+
 export type PostPageConfig = {
   active: boolean;
   productName: string;
