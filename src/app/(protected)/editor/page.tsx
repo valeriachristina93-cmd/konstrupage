@@ -15,7 +15,7 @@ import { useUser } from '@/firebase';
 
 export type ViewMode = 'desktop' | 'mobile';
 
-const ADMIN_EMAIL = "rogerioramos802@gmail.com";
+const ADMIN_EMAILS = ["rogerioramos802@gmail.com"];
 const AD_INTERVAL_MINUTES = 7;
 
 export default function EditorPage() {
@@ -29,7 +29,7 @@ export default function EditorPage() {
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
     const [previewingPostIndex, setPreviewingPostIndex] = useState<number | null>(null);
 
-    const isAdmin = user?.email === ADMIN_EMAIL;
+    const isAdmin = user?.email ? ADMIN_EMAILS.includes(user.email) : false;
 
     useEffect(() => {
         setPageConfig(getInitialPageConfig(t));
