@@ -9,7 +9,7 @@ const contactSchema = z.object({
 });
 
 // A URL do script está armazenada aqui de forma segura no servidor.
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_g3A3yK3n1w1yAd7Jj3v0ltoRzJ2d-E0cKWHC3hYVp0yS2k-b_uG2V06aCqg-jXyA/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzynyyxc1sJGmOBxLoBhzyetImsnVzNZp1RQ26_jYTVE1CJTnn8ZJ44iBq9dsP3k7Eg/exec';
 
 /**
  * Envia os dados de contato para a Planilha Google.
@@ -26,8 +26,6 @@ export async function saveContact(data: { name: string; email: string; phone: st
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(validatedData),
-      // O modo 'no-cors' não é necessário ou útil em Server Actions.
-      // A requisição é feita do servidor, então não há restrições de CORS.
     });
 
     // Como o script do Google Apps geralmente redireciona, a resposta pode não ser um JSON.
