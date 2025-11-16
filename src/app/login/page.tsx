@@ -22,18 +22,9 @@ import Image from 'next/image';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { saveContact } from '@/lib/actions/contact';
 
-const phoneMask = (value: string) => {
-  if (!value) return "";
-  value = value.replace(/\D/g, '');
-  value = value.replace(/^(\d{2})(\d)/, '($1) $2');
-  value = value.replace(/(\d{5})(\d)/, '$1-$2');
-  if (value.length > 15) return value.slice(0, 15);
-  return value;
-};
-
 const registerSchema = z.object({
   name: z.string().min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' }),
-  phone: z.string().transform(val => val.replace(/\D/g, '')).pipe(z.string().min(10, { message: 'O telefone deve ter pelo menos 10 dígitos.' })),
+  phone: z.string().min(9, { message: 'Por favor, insira um número de telefone válido.' }),
   email: z.string().email({ message: 'Por favor, insira um email válido.' }),
   password: z.string().min(6, { message: 'A senha deve ter pelo menos 6 caracteres.' })
     .regex(/(?=.*[A-Z])/, { message: 'A senha deve conter pelo menos uma letra maiúscula.' })
@@ -298,8 +289,7 @@ export default function LoginPage() {
                                 {...field}
                                 id="register-phone"
                                 type="tel"
-                                placeholder="(XX) XXXXX-XXXX"
-                                onChange={(e) => field.onChange(phoneMask(e.target.value))}
+                                placeholder="+1 123 456 7890"
                             />
                         )}
                     />
