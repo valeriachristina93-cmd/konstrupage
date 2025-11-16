@@ -161,7 +161,7 @@ export default function EditorPage() {
                         setViewMode={setViewMode}
                         addPostPage={addPostPage}
                         removePostPage={removePostPage}
-                        onPreviewPost={onPreviewPost}
+                        onPreviewPost={handlePreviewPost}
                     />
                 </div>
                 
