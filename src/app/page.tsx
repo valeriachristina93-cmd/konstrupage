@@ -165,10 +165,6 @@ export default function SalesPage() {
             answer: 'Sim! As páginas geradas são HTML puro, compatíveis com qualquer plataforma de anúncios como Facebook Ads, Google Ads, Taboola, TikTok Ads, etc. Você pode hospedar o arquivo em seu próprio site ou em serviços de hospedagem gratuitos.'
         },
         {
-            question: 'A ferramenta oferece alguma proteção contra bloqueios?',
-            answer: 'Sim. A funcionalidade de "Blindagem" (ou "cloaking") é projetada para proteger suas campanhas. Ela exibe uma página de conteúdo genérico (como uma receita) para robôs e moderadores, enquanto os usuários reais são direcionados para sua presell. Isso aumenta significativamente a vida útil das suas campanhas.'
-        },
-        {
             question: 'Posso cancelar minha assinatura a qualquer momento?',
             answer: 'Sim. Você pode gerenciar e cancelar sua assinatura a qualquer momento diretamente no seu painel de usuário, sem burocracia.'
         }
