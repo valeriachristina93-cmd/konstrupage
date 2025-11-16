@@ -96,11 +96,12 @@ export default function EditorPage() {
     };
 
     const continueWithGeneration = useCallback(() => {
+        setIsAdBreakModalOpen(false); // Fecha o modal de anúncio
         setIsGenerating(true);
         setTimeout(() => {
-            setIsGenerateModalOpen(true);
+            setIsGenerateModalOpen(true); // Abre o modal de geração de código
             setIsGenerating(false);
-        }, 500);
+        }, 500); // Um pequeno delay para a transição
     }, []);
 
     const handleGenerate = () => {
@@ -114,10 +115,10 @@ export default function EditorPage() {
         }
 
         if (isAdmin) {
-            // Admin bypasses ads completely
+            // Admin ignora anúncios completamente e vai direto para a geração
             continueWithGeneration();
         } else {
-            // Regular users see the ad modal every time
+            // Usuários normais veem o modal de anúncio toda vez
             setIsAdBreakModalOpen(true);
         }
     };
