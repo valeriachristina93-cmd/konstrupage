@@ -10,17 +10,25 @@ import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
 import { useLanguage } from '@/context/language-context';
+import { AdBreakModal } from '@/components/editor/ad-break-modal';
+import { useUser } from '@/firebase';
 
 export type ViewMode = 'desktop' | 'mobile';
 
+const ADMIN_EMAIL = "rogerio.j.s.s@gmail.com";
+
 export default function EditorPage() {
     const { t } = useLanguage();
+    const { user } = useUser();
     const [pageConfig, setPageConfig] = useState<PageConfig>(getInitialPageConfig(t));
     const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+    const [isAdBreakModalOpen, setIsAdBreakModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
     const [previewingPostIndex, setPreviewingPostIndex] = useState<number | null>(null);
+
+    const isAdmin = user?.email === ADMIN_EMAIL;
 
     useEffect(() => {
         setPageConfig(getInitialPageConfig(t));
@@ -104,7 +112,12 @@ export default function EditorPage() {
             });
             return;
         }
-        continueWithGeneration();
+
+        if (isAdmin) {
+            continueWithGeneration();
+        } else {
+            setIsAdBreakModalOpen(true);
+        }
     };
 
 
@@ -142,6 +155,13 @@ export default function EditorPage() {
                     isOpen={isGenerateModalOpen}
                     onClose={() => setIsGenerateModalOpen(false)}
                     pageConfig={pageConfig}
+                />
+            )}
+             {isAdBreakModalOpen && (
+                <AdBreakModal
+                    isOpen={isAdBreakModalOpen}
+                    onClose={() => setIsAdBreakModalOpen(false)}
+                    onContinue={continueWithGeneration}
                 />
             )}
         </div>

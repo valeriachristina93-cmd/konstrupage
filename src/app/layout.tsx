@@ -27,6 +27,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
         <link rel="icon" href="https://i.imgur.com/ihAZlua.png" type="image/png" />
+        <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossOrigin="anonymous"></Script>
       </head>
       <body className="font-body antialiased">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
