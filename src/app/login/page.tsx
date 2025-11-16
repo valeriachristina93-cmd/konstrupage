@@ -20,6 +20,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, UserPlus, LogIn, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { saveContact } from '@/lib/actions/contact';
 
 const phoneMask = (value: string) => {
   if (!value) return "";
@@ -47,32 +48,6 @@ const loginSchema = z.object({
 type RegisterFormValues = z.infer<typeof registerSchema>;
 type LoginFormValues = z.infer<typeof loginSchema>;
 
-async function sendToGoogleSheet(data: { name: string; email: string; phone: string; }) {
-  const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SHEET_SCRIPT_URL;
-  if (!scriptUrl) {
-    console.warn("Google Sheet script URL is not defined. Skipping sheet integration.");
-    return;
-  }
-
-  try {
-    // 'no-cors' mode means we won't get a response back, but the request will be sent.
-    // This is often called a "fire and forget" request.
-    await fetch(scriptUrl, {
-      method: 'POST',
-      mode: 'no-cors', 
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    });
-    // Since we are in 'no-cors' mode, we cannot read the response.
-    // We just assume the request was sent successfully.
-  } catch (error) {
-    // This catch block will likely only catch network errors on the client's side
-    // (e.g., user is offline), not errors from the Google Script itself.
-    console.error("Error sending data to Google Sheet:", error);
-  }
-}
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -113,10 +88,6 @@ export default function LoginPage() {
 
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
     setIsLoading(true);
-    
-    // We don't await this because with 'no-cors' we can't get a response anyway.
-    // This sends the data but doesn't block the registration flow.
-    sendToGoogleSheet(data);
 
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
@@ -127,6 +98,17 @@ export default function LoginPage() {
 
       // Send email verification
       await sendEmailVerification(user);
+
+      // Chamar a Server Action para salvar o contato.
+      // Não bloqueia o fluxo principal, é "fire and forget".
+      saveContact({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+      }).catch(error => {
+        // Apenas logamos o erro no servidor, não mostramos ao usuário para não confundir.
+        console.error("Falha ao salvar contato (chamada da página):", error);
+      });
 
       const userProfileData = {
         uid: user.uid,
