@@ -95,13 +95,13 @@ export default function EditorPage() {
         reader.readAsDataURL(file);
     };
 
-    const continueWithGeneration = () => {
+    const continueWithGeneration = useCallback(() => {
         setIsGenerating(true);
         setTimeout(() => {
             setIsGenerateModalOpen(true);
             setIsGenerating(false);
         }, 500);
-    };
+    }, []);
 
     const handleGenerate = () => {
         if (!pageConfig.affiliateLink) {
