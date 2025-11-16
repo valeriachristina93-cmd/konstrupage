@@ -71,7 +71,7 @@ export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps)
                     <ins className="adsbygoogle"
                          style={{ display: isAdLoading ? 'none' : 'block', width: '300px', height: '250px' }}
                          data-ad-client="ca-pub-1234567890123456"
-                         data-ad-slot="1234567890"></ins>
+                         data-ad-slot="3255635177"></ins>
                 </div>
 
                 <DialogFooter>
