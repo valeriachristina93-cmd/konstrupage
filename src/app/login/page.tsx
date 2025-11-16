@@ -91,6 +91,12 @@ export default function LoginPage() {
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     mode: 'onChange',
+    defaultValues: {
+        name: '',
+        phone: '',
+        email: '',
+        password: ''
+    }
   });
 
   const {
@@ -99,6 +105,10 @@ export default function LoginPage() {
     formState: { errors: loginErrors },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+        email: '',
+        password: ''
+    }
   });
 
   const onRegister: SubmitHandler<RegisterFormValues> = async (data) => {
