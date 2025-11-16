@@ -15,7 +15,7 @@ import { useUser } from '@/firebase';
 
 export type ViewMode = 'desktop' | 'mobile';
 
-const ADMIN_EMAIL = "rogerio.j.s.s@gmail.com";
+const ADMIN_EMAIL = "rogerioramos802@gmail.com";
 const AD_INTERVAL_MINUTES = 7;
 
 export default function EditorPage() {
@@ -161,7 +161,7 @@ export default function EditorPage() {
                         setViewMode={setViewMode}
                         addPostPage={addPostPage}
                         removePostPage={removePostPage}
-                        onPreviewPost={handlePreviewPost}
+                        onPreviewPost={onPreviewPost}
                     />
                 </div>
                 
