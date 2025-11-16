@@ -1,57 +1,26 @@
 
 "use client";
 
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import type { PageConfig, PostPageConfig } from '@/lib/definitions';
 import { getInitialPageConfig } from '@/lib/constants';
 import { SettingsPanel } from '@/components/editor/settings-panel';
 import { PreviewPanel } from '@/components/editor/preview-panel';
 import { GenerateCodeModal } from '@/components/editor/generate-code-modal';
-import { AdBreakModal } from '@/components/ad-break-modal';
 import { useToast } from '@/hooks/use-toast';
 import { EditorHeader } from '@/components/editor/editor-header';
 import { useLanguage } from '@/context/language-context';
-import { useUser } from '@/firebase';
 
 export type ViewMode = 'desktop' | 'mobile';
 
-const AD_BREAK_INTERVAL = 8 * 60 * 1000; // 8 minutes
-const ADMIN_EMAIL = 'rogerioramos802@gmail.com';
-
 export default function EditorPage() {
     const { t } = useLanguage();
-    const { user } = useUser();
     const [pageConfig, setPageConfig] = useState<PageConfig>(getInitialPageConfig(t));
     const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
-    const [isAdBreakModalOpen, setIsAdBreakModalOpen] = useState(false);
     const [isGenerating, setIsGenerating] = useState(false);
     const { toast } = useToast();
     const [viewMode, setViewMode] = useState<ViewMode>('desktop');
     const [previewingPostIndex, setPreviewingPostIndex] = useState<number | null>(null);
-    const adBreakTimerRef = useRef<NodeJS.Timeout | null>(null);
-    const [isAdTriggeredByGeneration, setIsAdTriggeredByGeneration] = useState(false);
-
-    const isUserAdmin = user?.email === ADMIN_EMAIL;
-
-    const resetAdBreakTimer = useCallback(() => {
-        if (isUserAdmin) return;
-        if (adBreakTimerRef.current) {
-            clearTimeout(adBreakTimerRef.current);
-        }
-        adBreakTimerRef.current = setTimeout(() => {
-            setIsAdTriggeredByGeneration(false);
-            setIsAdBreakModalOpen(true);
-        }, AD_BREAK_INTERVAL);
-    }, [isUserAdmin]);
-
-    useEffect(() => {
-        resetAdBreakTimer();
-        return () => {
-            if (adBreakTimerRef.current) {
-                clearTimeout(adBreakTimerRef.current);
-            }
-        };
-    }, [resetAdBreakTimer]);
 
     useEffect(() => {
         setPageConfig(getInitialPageConfig(t));
@@ -73,8 +42,7 @@ export default function EditorPage() {
             currentLevel[keys[keys.length - 1]] = value;
             return newConfig;
         });
-        resetAdBreakTimer();
-    }, [resetAdBreakTimer]);
+    }, []);
 
      const addPostPage = () => {
         setPageConfig(prev => {
@@ -91,7 +59,6 @@ export default function EditorPage() {
             newConfig.postPages.push(newPost);
             return newConfig;
         });
-        resetAdBreakTimer();
     };
 
     const removePostPage = (index: number) => {
@@ -100,7 +67,6 @@ export default function EditorPage() {
             newConfig.postPages.splice(index, 1);
             return newConfig;
         });
-        resetAdBreakTimer();
     };
     
     const handlePreviewPost = (index: number | null) => {
@@ -109,7 +75,6 @@ export default function EditorPage() {
         } else {
             setPreviewingPostIndex(index);
         }
-        resetAdBreakTimer();
     };
 
     const handleImageUpload = (file: File, keys: (string | number)[]) => {
@@ -139,23 +104,9 @@ export default function EditorPage() {
             });
             return;
         }
-
-        if (isUserAdmin) {
-            continueWithGeneration();
-            return;
-        }
-        
-        setIsAdTriggeredByGeneration(true);
-        setIsAdBreakModalOpen(true);
+        continueWithGeneration();
     };
 
-    const handleAdClose = () => {
-        setIsAdBreakModalOpen(false);
-        resetAdBreakTimer();
-        if (isAdTriggeredByGeneration) {
-            continueWithGeneration();
-        }
-    };
 
     return (
         <div className="flex flex-col h-screen bg-muted/30 text-foreground">
@@ -191,12 +142,6 @@ export default function EditorPage() {
                     isOpen={isGenerateModalOpen}
                     onClose={() => setIsGenerateModalOpen(false)}
                     pageConfig={pageConfig}
-                />
-            )}
-            {!isUserAdmin && (
-                <AdBreakModal 
-                    isOpen={isAdBreakModalOpen}
-                    onClose={handleAdClose}
                 />
             )}
         </div>
