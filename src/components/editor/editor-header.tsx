@@ -72,15 +72,17 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
         const fetchAnnouncements = async () => {
             const scriptUrl = process.env.NEXT_PUBLIC_ANNOUNCEMENTS_SCRIPT_URL;
             if (!scriptUrl) {
-                // Set loading to false and stop execution if URL is not set
                 setIsLoadingAnnouncements(false);
+                setAnnouncementsError("URL de anúncios não configurada.");
                 return;
             }
 
             setAnnouncementsError(null);
             try {
                 const response = await fetch(scriptUrl);
-                if (!response.ok) throw new Error('Falha ao buscar anúncios.');
+                if (!response.ok) {
+                    throw new Error('Falha ao buscar anúncios.');
+                }
                 
                 const data = await response.json();
                 
@@ -103,7 +105,10 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
             }
         };
 
-        fetchAnnouncements();
+        // This feature is currently disabled to prevent errors.
+        // fetchAnnouncements();
+        setIsLoadingAnnouncements(false);
+
     }, []);
 
     const handleSheetOpenChange = (open: boolean) => {
