@@ -70,14 +70,11 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
 
     useEffect(() => {
         const fetchAnnouncements = async () => {
-            const scriptUrl = process.env.NEXT_PUBLIC_ANNOUNCEMENTS_SCRIPT_URL;
-            if (!scriptUrl) {
-                setIsLoadingAnnouncements(false);
-                setAnnouncementsError("URL de anúncios não configurada.");
-                return;
-            }
-
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbyyoE0k5rw8KL-ikiq5VItMKZchaZHd-lv9uOmiyAfASwXwH4EE4XwEtCIYwWbvVH2E/exec";
+            
+            setIsLoadingAnnouncements(true);
             setAnnouncementsError(null);
+            
             try {
                 const response = await fetch(scriptUrl);
                 if (!response.ok) {
@@ -105,10 +102,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
             }
         };
 
-        // This feature is currently disabled to prevent errors.
-        // fetchAnnouncements();
-        setIsLoadingAnnouncements(false);
-
+        fetchAnnouncements();
     }, []);
 
     const handleSheetOpenChange = (open: boolean) => {
@@ -267,3 +261,4 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
     
 
     
+
