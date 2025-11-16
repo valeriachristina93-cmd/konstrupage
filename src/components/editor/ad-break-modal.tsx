@@ -13,15 +13,15 @@ interface AdBreakModalProps {
     onContinue: () => void;
 }
 
-const COUNTDOWN_SECONDS = 5;
+const COUNTDOWN_SECONDS = 15;
 
 const adSlots = [
-    { slot: "4951935434", key: "teste-1" }, // TESTE 1
-    { slot: "1783487248", key: "anuncio-2" }, // anuncio 2
-    { slot: "4647596135", key: "bloco-2" }, // bloco 2
-    { slot: "3013405679", key: "bloco-3" }, // bloco 3
-    { slot: "7420334793", key: "bloco-4" }, // bloco 4
-    { slot: "3255635177", key: "bloco-5" }, // bloco 5
+    { slot: "4951935434", key: "teste-1" },
+    { slot: "1783487248", key: "anuncio-2" },
+    { slot: "4647596135", key: "bloco-2" },
+    { slot: "3013405679", key: "bloco-3" },
+    { slot: "7420334793", key: "bloco-4" },
+    { slot: "3255635177", key: "bloco-5" },
 ];
 
 export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps) {
@@ -42,14 +42,12 @@ export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps)
         // Simulate ad loading time
         const adLoadTimer = setTimeout(() => {
             setIsAdLoading(false);
-            adSlots.forEach(ad => {
-                try {
-                    // @ts-ignore
-                    (window.adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.error(`AdSense error for slot ${ad.slot}:`, e);
-                }
-            });
+            try {
+                // @ts-ignore
+                (window.adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.error("AdSense push error:", e);
+            }
         }, 1500);
 
         return () => {

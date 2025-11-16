@@ -16,6 +16,7 @@ import { useUser } from '@/firebase';
 export type ViewMode = 'desktop' | 'mobile';
 
 const ADMIN_EMAIL = "rogerio.j.s.s@gmail.com";
+const AD_INTERVAL_MINUTES = 7;
 
 export default function EditorPage() {
     const { t } = useLanguage();
@@ -97,6 +98,13 @@ export default function EditorPage() {
 
     const continueWithGeneration = () => {
         setIsGenerating(true);
+        // Save the current timestamp to local storage
+        try {
+            localStorage.setItem('lastAdShown', Date.now().toString());
+        } catch (error) {
+            console.error("Could not write to localStorage", error);
+        }
+        
         setTimeout(() => {
             setIsGenerateModalOpen(true);
             setIsGenerating(false);
@@ -115,7 +123,23 @@ export default function EditorPage() {
 
         if (isAdmin) {
             continueWithGeneration();
-        } else {
+            return;
+        }
+        
+        try {
+            const lastAdShown = localStorage.getItem('lastAdShown');
+            const now = Date.now();
+            
+            if (lastAdShown && (now - parseInt(lastAdShown, 10)) < AD_INTERVAL_MINUTES * 60 * 1000) {
+                // If the interval has not passed, generate directly
+                continueWithGeneration();
+            } else {
+                // If the interval has passed or it's the first time, show the ad
+                setIsAdBreakModalOpen(true);
+            }
+        } catch (error) {
+            // If localStorage is unavailable, just show the ad
+            console.error("Could not read from localStorage, defaulting to show ad.", error);
             setIsAdBreakModalOpen(true);
         }
     };
