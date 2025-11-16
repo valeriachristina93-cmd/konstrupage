@@ -643,7 +643,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const pageTitle = seo?.title || 'Site Page';
     const pageDescription = seo?.description || 'Presell page description.';
-    const favicon = seo?.favicon || 'https://i.imgur.com/Lo98kWM.png';
+    const favicon = seo?.favicon || 'https://i.imgur.com/ihAZlua.png';
 
     const allPostPagesHtml = postPages.map(post => generatePostPageHtml(config, post)).join('');
 
