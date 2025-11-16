@@ -72,7 +72,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
         const fetchAnnouncements = async () => {
             const scriptUrl = process.env.NEXT_PUBLIC_ANNOUNCEMENTS_SCRIPT_URL;
             if (!scriptUrl) {
-                setAnnouncementsError("A URL de anúncios não está configurada.");
+                // Set loading to false and stop execution if URL is not set
                 setIsLoadingAnnouncements(false);
                 return;
             }
@@ -258,5 +258,7 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
     );
 }
 
+
+    
 
     
