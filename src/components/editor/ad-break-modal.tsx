@@ -4,8 +4,10 @@
 import { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Tv } from 'lucide-react';
 import { ScrollArea } from '../ui/scroll-area';
+import { Progress } from '../ui/progress';
+import { Skeleton } from '../ui/skeleton';
 
 interface AdBreakModalProps {
     isOpen: boolean;
@@ -26,17 +28,24 @@ const adSlots = [
 
 export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps) {
     const [countdown, setCountdown] = useState(COUNTDOWN_SECONDS);
+    const [progress, setProgress] = useState(0);
     const [isAdLoading, setIsAdLoading] = useState(true);
 
     useEffect(() => {
         if (!isOpen) {
             setCountdown(COUNTDOWN_SECONDS);
+            setProgress(0);
             setIsAdLoading(true);
             return;
         }
 
-        const timer = setInterval(() => {
-            setCountdown(prev => (prev > 0 ? prev - 1 : 0));
+        const countdownTimer = setInterval(() => {
+            setCountdown(prev => {
+                const newCountdown = prev > 0 ? prev - 1 : 0;
+                const newProgress = ((COUNTDOWN_SECONDS - newCountdown) / COUNTDOWN_SECONDS) * 100;
+                setProgress(newProgress);
+                return newCountdown;
+            });
         }, 1000);
 
         // Simulate ad loading time
@@ -51,7 +60,7 @@ export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps)
         }, 1500);
 
         return () => {
-            clearInterval(timer);
+            clearInterval(countdownTimer);
             clearTimeout(adLoadTimer);
         };
     }, [isOpen]);
@@ -63,42 +72,50 @@ export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps)
 
     return (
         <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="max-w-4xl w-full h-[90vh] flex flex-col" onInteractOutside={(e) => e.preventDefault()}>
-                <DialogHeader>
-                    <DialogTitle>Aguarde um instante...</DialogTitle>
-                    <DialogDescription>
-                        Para manter a ferramenta gratuita, exibimos alguns anúncios rápidos. Agradecemos sua compreensão!
-                    </DialogDescription>
+            <DialogContent className="max-w-4xl w-full h-[90vh] flex flex-col p-0" onInteractOutside={(e) => e.preventDefault()}>
+                <DialogHeader className="p-6 pb-4">
+                    <div className='flex items-center gap-3'>
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                             <Tv className="h-5 w-5" />
+                        </div>
+                        <div>
+                            <DialogTitle className="text-xl">Um Rápido Intervalo</DialogTitle>
+                            <DialogDescription>
+                                Para manter a ferramenta gratuita, exibimos anúncios rápidos. Agradecemos sua compreensão!
+                            </DialogDescription>
+                        </div>
+                    </div>
                 </DialogHeader>
 
-                <ScrollArea className="flex-1 my-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-1">
-                        {isAdLoading && (
-                            <div className="col-span-full flex flex-col items-center justify-center h-64 gap-2 text-muted-foreground">
-                                <Loader2 className="animate-spin h-8 w-8" />
-                                <span>Carregando anúncios...</span>
-                            </div>
-                        )}
-                        {adSlots.map((ad, index) => (
+                <ScrollArea className="flex-1 my-0 px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {adSlots.map((ad) => (
                              <div key={ad.key} className="bg-muted min-h-[250px] flex items-center justify-center rounded-md">
-                                <ins className="adsbygoogle"
-                                     style={{ display: isAdLoading ? 'none' : 'block', width: '300px', height: '250px' }}
-                                     data-ad-client="ca-pub-1234567890123456"
-                                     data-ad-slot={ad.slot}></ins>
+                                {isAdLoading ? (
+                                    <Skeleton className="w-[300px] h-[250px]" />
+                                ) : (
+                                    <ins className="adsbygoogle"
+                                         style={{ display: 'block', width: '300px', height: '250px' }}
+                                         data-ad-client="ca-pub-1234567890123456"
+                                         data-ad-slot={ad.slot}></ins>
+                                )}
                             </div>
                         ))}
                     </div>
                 </ScrollArea>
 
-                <DialogFooter>
-                    <Button 
-                        onClick={handleContinue} 
-                        disabled={countdown > 0}
-                        className="w-full"
-                        size="lg"
-                    >
-                        {countdown > 0 ? `Continuar em ${countdown}s` : 'Continuar e Gerar Página'}
-                    </Button>
+                <DialogFooter className="p-6 pt-4 border-t">
+                    <div className='w-full flex flex-col gap-2'>
+                        <Button 
+                            onClick={handleContinue} 
+                            disabled={countdown > 0}
+                            className="w-full"
+                            size="lg"
+                        >
+                            {countdown > 0 ? `Aguarde...` : 'Continuar e Gerar Página'}
+                        </Button>
+                         <Progress value={progress} className="h-2" />
+                    </div>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
