@@ -10,6 +10,9 @@ import './globals.css';
 export const metadata: Metadata = {
   title: 'Konstrupages - Presell Page Generator',
   description: 'Crie presell pages de alta conversão em minutos.',
+  icons: {
+    icon: 'https://i.imgur.com/ihAZlua.png',
+  },
 };
 
 export default function RootLayout({
@@ -26,7 +29,6 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@700&display=swap"
           rel="stylesheet"
         />
-        <link rel="icon" href="https://i.imgur.com/ihAZlua.png" type="image/png" />
         <Script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossOrigin="anonymous"></Script>
       </head>
       <body className="font-body antialiased">
