@@ -4,7 +4,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors, BookOpen, Youtube, Heart } from 'lucide-react';
+import { Link as LinkIcon, Bell, Languages, Loader2, User, LogOut, Moon, Sun, Monitor, Smartphone, Check, Sparkles, ArrowLeft, Bot, Camera, ImageIcon, ImageUp, Scissors, BookOpen, Youtube, Heart, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -35,6 +35,7 @@ import { ptBR } from 'date-fns/locale';
 
 
 const tools = [
+    { name: 'Grupo WhatsApp', url: 'https://chat.whatsapp.com/KmkIxS6PAYW2QB3mejHhc8', icon: <MessageCircle /> },
     { name: 'Lightshot', url: 'https://chromewebstore.google.com/detail/captura-de-ecr%C3%A3-e-gravado/edlifbnjlicfpckhgjhflgkeeibhhcii', icon: <Camera /> },
     { name: 'Capturar Imagem da Página', url: 'https://chromewebstore.google.com/detail/capturar-imagem-da-p%C3%A1gina/mcbpblocgmgfnpjjppndjkmgjaogfceg', icon: <Camera /> },
     { name: 'GoFullPage', url: 'https://chromewebstore.google.com/detail/gofullpage-full-page-scre/fdpohaocaechififmbbbbbknoalclacl', icon: <Camera /> },
@@ -262,3 +263,6 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
 
     
 
+
+
+    
