@@ -71,8 +71,19 @@ export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps)
     };
 
     return (
-        <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
-            <DialogContent className="max-w-4xl w-full h-[90vh] flex flex-col p-0" onInteractOutside={(e) => e.preventDefault()}>
+        <Dialog open={isOpen} onOpenChange={(open) => {
+            if (!open && countdown > 0) return; // Prevent closing if countdown is active
+            onClose();
+        }}>
+            <DialogContent 
+                className="max-w-4xl w-full h-[90vh] flex flex-col p-0" 
+                onInteractOutside={(e) => {
+                    if (countdown > 0) e.preventDefault(); // Prevent closing by clicking outside
+                }}
+                onEscapeKeyDown={(e) => {
+                    if (countdown > 0) e.preventDefault(); // Prevent closing with Escape key
+                }}
+            >
                 <DialogHeader className="p-6 pb-4">
                     <div className='flex items-center gap-3'>
                         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -112,7 +123,7 @@ export function AdBreakModal({ isOpen, onClose, onContinue }: AdBreakModalProps)
                             className="w-full"
                             size="lg"
                         >
-                            {countdown > 0 ? `Aguarde...` : 'Continuar e Gerar Página'}
+                            {countdown > 0 ? `Aguarde ${countdown}s...` : 'Continuar e Gerar Página'}
                         </Button>
                          <Progress value={progress} className="h-2" />
                     </div>
