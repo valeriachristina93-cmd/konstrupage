@@ -801,32 +801,23 @@ export const generatePresellHtml = (config: PageConfig) => {
         ${facebookPixelScript}
         ${googleAdsScript}
         <style>
-            ::-webkit-scrollbar {
-                width: 10px;
-                height: 10px;
+            :root {
+                --primary-color: ${customization.button.color};
             }
-            ::-webkit-scrollbar-track {
-                background: hsl(240 4.8% 95% / 0.1);
-                border-radius: 10px;
+            body::-webkit-scrollbar {
+                width: 8px;
             }
-            ::-webkit-scrollbar-thumb {
-                background: hsl(240 5.9% 85% / 0.5);
+            body::-webkit-scrollbar-track {
+                background: rgba(0, 0, 0, 0.1);
+            }
+            body::-webkit-scrollbar-thumb {
+                background-color: var(--primary-color);
                 border-radius: 10px;
                 border: 2px solid transparent;
                 background-clip: content-box;
             }
-            ::-webkit-scrollbar-thumb:hover {
-                background: hsl(240 5.9% 85% / 0.7);
-                background-clip: content-box;
-            }
-            .dark ::-webkit-scrollbar-track {
-                background: hsl(224 10% 10% / 0.1);
-            }
-            .dark ::-webkit-scrollbar-thumb {
-                background: hsl(224 8% 24% / 0.5);
-            }
-            .dark ::-webkit-scrollbar-thumb:hover {
-                background: hsl(224 8% 24% / 0.7);
+            body::-webkit-scrollbar-thumb:hover {
+                background-color: #A495F5;
             }
 
             :root {
@@ -1477,4 +1468,5 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
