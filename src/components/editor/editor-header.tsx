@@ -70,43 +70,40 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
     };
 
     useEffect(() => {
-        // const fetchAnnouncements = async () => {
-        //     const scriptUrl = "https://script.google.com/macros/s/AKfycbyyoE0k5rw8KL-ikiq5VItMKZchaZHd-lv9uOmiyAfASwXwH4EE4XwEtCIYwWbvVH2E/exec";
+        const fetchAnnouncements = async () => {
+            const scriptUrl = "https://script.google.com/macros/s/AKfycbyyoE0k5rw8KL-ikiq5VItMKZchaZHd-lv9uOmiyAfASwXwH4EE4XwEtCIYwWbvVH2E/exec";
             
-        //     setIsLoadingAnnouncements(true);
-        //     setAnnouncementsError(null);
+            setIsLoadingAnnouncements(true);
+            setAnnouncementsError(null);
             
-        //     try {
-        //         const response = await fetch(scriptUrl);
-        //         if (!response.ok) {
-        //             throw new Error('Falha ao buscar anúncios.');
-        //         }
+            try {
+                const response = await fetch(scriptUrl);
+                if (!response.ok) {
+                    throw new Error('Falha ao buscar anúncios.');
+                }
                 
-        //         const data = await response.json();
+                const data = await response.json();
                 
-        //         if (data.announcements && data.announcements.length > 0) {
-        //             setAnnouncements(data.announcements);
-        //             const lastSeenTimestamp = localStorage.getItem('lastSeenAnnouncementTimestamp');
-        //             const latestTimestamp = data.announcements[0].timestamp;
+                if (data.announcements && data.announcements.length > 0) {
+                    setAnnouncements(data.announcements);
+                    const lastSeenTimestamp = localStorage.getItem('lastSeenAnnouncementTimestamp');
+                    const latestTimestamp = data.announcements[0].timestamp;
                     
-        //             if (!lastSeenTimestamp || new Date(latestTimestamp) > new Date(lastSeenTimestamp)) {
-        //                 setHasNewAnnouncements(true);
-        //             }
-        //         } else {
-        //             setAnnouncements([]);
-        //         }
-        //     } catch (error) {
-        //         console.error("Error fetching announcements:", error);
-        //         setAnnouncementsError("Não foi possível carregar os anúncios.");
-        //     } finally {
-        //         setIsLoadingAnnouncements(false);
-        //     }
-        // };
+                    if (!lastSeenTimestamp || new Date(latestTimestamp) > new Date(lastSeenTimestamp)) {
+                        setHasNewAnnouncements(true);
+                    }
+                } else {
+                    setAnnouncements([]);
+                }
+            } catch (error) {
+                console.error("Error fetching announcements:", error);
+                setAnnouncementsError("Não foi possível carregar os anúncios.");
+            } finally {
+                setIsLoadingAnnouncements(false);
+            }
+        };
 
-        // fetchAnnouncements();
-        setIsLoadingAnnouncements(false);
-        setAnnouncements([]);
-
+        fetchAnnouncements();
     }, []);
 
     const handleSheetOpenChange = (open: boolean) => {
