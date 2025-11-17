@@ -1,8 +1,8 @@
 
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, Suspense } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, useUser } from '@/firebase';
 import { sendEmailVerification } from 'firebase/auth';
@@ -14,15 +14,15 @@ import { Loader2, MailCheck, Send, LogIn, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
-
-export default function VerifyEmailPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
+function VerifyEmailContent() {
     const router = useRouter();
     const { user } = useUser();
     const auth = useAuth();
     const { toast } = useToast();
+    const searchParams = useSearchParams();
 
     const [isResending, setIsResending] = useState(false);
-    const email = typeof searchParams.email === 'string' ? searchParams.email : '';
+    const email = searchParams.get('email') || '';
 
 
     const handleResendVerification = async () => {
@@ -97,5 +97,14 @@ export default function VerifyEmailPage({ searchParams }: { searchParams: { [key
                 </Card>
             </div>
         </div>
+    );
+}
+
+
+export default function VerifyEmailPage() {
+    return (
+        <Suspense fallback={<div>Carregando...</div>}>
+            <VerifyEmailContent />
+        </Suspense>
     );
 }
