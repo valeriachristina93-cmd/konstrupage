@@ -47,7 +47,7 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
             }
             iframe.srcdoc = html;
             iframe.addEventListener('load', handleLoad, { once: true });
-        }, 250); 
+        }, 500); 
 
         return () => {
             clearTimeout(timer);
