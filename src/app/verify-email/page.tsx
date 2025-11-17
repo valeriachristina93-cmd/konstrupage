@@ -2,7 +2,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, useUser } from '@/firebase';
 import { sendEmailVerification } from 'firebase/auth';
@@ -15,22 +15,15 @@ import Image from 'next/image';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 
-export default function VerifyEmailPage() {
+export default function VerifyEmailPage({ searchParams }: { searchParams: { [key: string]: string | string[] | undefined } }) {
     const router = useRouter();
-    const searchParams = useSearchParams();
     const { user } = useUser();
     const auth = useAuth();
     const { toast } = useToast();
 
     const [isResending, setIsResending] = useState(false);
-    const [email, setEmail] = useState('');
+    const email = typeof searchParams.email === 'string' ? searchParams.email : '';
 
-    useEffect(() => {
-        const emailFromParams = searchParams.get('email');
-        if (emailFromParams) {
-            setEmail(emailFromParams);
-        }
-    }, [searchParams]);
 
     const handleResendVerification = async () => {
         const currentUser = user || auth.currentUser;
