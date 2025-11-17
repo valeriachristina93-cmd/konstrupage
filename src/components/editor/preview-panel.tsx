@@ -18,7 +18,7 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPostIndex }: PreviewPanelProps) {
-    const [isRendering, setIsRendering] = useState(true);
+    const [isRendering, setIsRendering] = useState(false);
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const debouncedPageConfig = useDebounce(pageConfig, 500);
     const debouncedPostIndex = useDebounce(previewingPostIndex, 500);
@@ -30,6 +30,7 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
         if (!iframe) return;
 
         iframe.style.opacity = '0';
+        iframe.style.transition = 'opacity 0.3s ease-in-out';
 
         const handleLoad = () => {
             iframe.style.opacity = '1';
@@ -50,7 +51,9 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
 
         return () => {
             clearTimeout(timer);
-            iframe.removeEventListener('load', handleLoad);
+            if (iframe) {
+                iframe.removeEventListener('load', handleLoad);
+            }
         };
     }, [debouncedPageConfig, debouncedPostIndex]);
 
@@ -78,9 +81,9 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
                     <iframe
                         ref={iframeRef}
                         title="Presell Preview"
-                        className="w-full h-full border-0 transition-opacity duration-300 ease-in-out"
+                        className="w-full h-full border-0"
                         sandbox="allow-scripts allow-same-origin"
-                        style={{ opacity: 0 }}
+                        style={{ opacity: isRendering ? 0 : 1 }}
                     />
                 </div>
             </div>
