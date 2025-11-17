@@ -50,89 +50,76 @@ export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageCon
         <title>${pageTitle}</title>
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Lora:wght@400;700&display=swap" rel="stylesheet">
         <style>
             body { 
                 margin: 0; 
-                font-family: 'Montserrat', sans-serif; 
-                background-color: #f0f2f5; 
-                color: #333;
+                font-family: 'Inter', sans-serif; 
+                background-color: #f3f4f6; 
+                color: #111827;
                 display: flex;
                 flex-direction: column;
                 min-height: 100vh;
-            }
-            .post-page-container {
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-            }
-            header {
-                background-color: #fff;
-                padding: 1rem;
-                text-align: center;
-                border-bottom: 1px solid #e0e0e0;
-            }
-            .post-title-header {
-                font-family: 'Merriweather', serif;
-                font-size: 1.5rem;
-                font-weight: 700;
-                margin: 0;
-            }
-            main {
-                flex-grow: 1;
-                width: 100%;
-                max-width: 800px;
-                margin: 2rem auto;
-                padding: 0 1rem;
                 box-sizing: border-box;
             }
-            .post-card {
+            .main-content {
+                flex-grow: 1;
+                padding: 2rem 1rem;
+            }
+            .post-container {
+                max-width: 800px;
+                margin: 0 auto;
                 background-color: #fff;
+                padding: 2rem;
                 border-radius: 8px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-                overflow: hidden;
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .post-header {
+                 border-bottom: 1px solid #e5e7eb;
+                 padding-bottom: 1rem;
+                 margin-bottom: 1.5rem;
+            }
+            .post-header h1 {
+                font-family: 'Lora', serif;
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin: 0;
+                line-height: 1.2;
             }
             .post-image {
                 width: 100%;
-                height: 400px;
+                max-height: 400px;
                 object-fit: cover;
+                border-radius: 8px;
+                margin-bottom: 2rem;
             }
-            .post-content-wrapper {
-                padding: 2rem;
-            }
-            .post-content h1, .post-content-wrapper h1 {
-                font-family: 'Merriweather', serif;
-                font-size: 2.2rem;
-                font-weight: 700;
-                margin-top: 0;
-                margin-bottom: 1.5rem;
-                line-height: 1.3;
-            }
-            .post-content {
+            .post-body {
                 font-size: 1.1rem;
-                line-height: 1.8;
-                color: #444;
+                line-height: 1.7;
+                color: #374151;
             }
-            .post-content p {
-                margin-top: 0;
-                margin-bottom: 1.5rem;
+            .post-body h1, .post-body h2, .post-body h3 {
+                font-family: 'Lora', serif;
             }
-            .post-content a {
+            .post-body p {
+                margin: 0 0 1.5rem 0;
+            }
+            .post-body a {
                 color: ${customization.button.color};
                 text-decoration: none;
-                font-weight: bold;
+                font-weight: 600;
             }
-            .post-content a:hover {
+            .post-body a:hover {
                 text-decoration: underline;
             }
             .cta-button {
-                display: block;
-                width: 100%;
+                display: inline-block;
+                width: auto;
                 background-color: ${customization.button.color};
                 color: ${customization.button.textColor};
                 text-align: center;
-                padding: 1rem;
-                font-size: 1.2rem;
+                padding: 0.8rem 2rem;
+                font-size: 1.1rem;
                 font-weight: bold;
                 text-decoration: none;
                 border-radius: 6px;
@@ -147,12 +134,12 @@ export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageCon
                 padding: 2rem;
                 text-align: center;
                 font-size: 0.9rem;
-                color: #6c757d;
-                background-color: #f8f9fa;
-                border-top: 1px solid #e9ecef;
+                color: #6b7280;
+                background-color: #f9fafb;
+                border-top: 1px solid #e5e7eb;
             }
             footer a {
-                color: #6c757d;
+                color: #6b7280;
                 text-decoration: none;
                 margin: 0 8px;
             }
@@ -167,34 +154,30 @@ export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageCon
         </style>
     </head>
     <body>
-        <div class="post-page-container">
-            <header>
-                <h2 class="post-title-header">${pageTitle}</h2>
-            </header>
-            <main>
-                <div class="post-card">
-                    ${imageUrl ? `<img src="${imageUrl}" alt="${productName}" class="post-image">` : ''}
-                    <div class="post-content-wrapper">
-                        <h1>${productName}</h1>
-                        <div class="post-content">
-                            ${renderPostContent(content)}
-                        </div>
-                        <a href="${affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="cta-button">Comprar Agora</a>
-                    </div>
+        <div class="main-content">
+            <div class="post-container">
+                <div class="post-header">
+                    <h1>${productName}</h1>
                 </div>
-            </main>
+                ${imageUrl ? `<img src="${imageUrl}" alt="${productName}" class="post-image">` : ''}
+                <div class="post-body">
+                    ${renderPostContent(content)}
+                </div>
+                <a href="${affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="cta-button">Comprar Agora</a>
+            </div>
+        </div>
+        ${footer.active ? `
             <footer>
-                 ${footer.active ? `
                 <div class="footer-links">
                     <a href="${footer.autoGenerate ? '#' : footer.privacyLink}" ${footer.autoGenerate ? `onclick="openLegalModal('privacy-policy', event)"` : `target="_blank"`}>Política de Privacidade</a>
                     <span>&bull;</span>
                     <a href="${footer.autoGenerate ? '#' : footer.termsLink}" ${footer.autoGenerate ? `onclick="openLegalModal('terms-of-use', event)"` : `target="_blank"`}>Termos de Uso</a>
-                </div>` : ''}
+                </div>
                 <div class="copyright">
                     © ${new Date().getFullYear()} - Todos os direitos reservados.
                 </div>
             </footer>
-        </div>
+        ` : ''}
         <div id="privacy-policy-modal" class="legal-modal">
             <div class="legal-modal-container">
                 <button class="legal-modal-close" onclick="closeLegalModal('privacy-policy', event)">&times;</button>
@@ -1494,3 +1477,4 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
