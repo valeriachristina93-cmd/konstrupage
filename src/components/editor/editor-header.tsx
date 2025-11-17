@@ -176,15 +176,22 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
                                             Nenhum anúncio recente.
                                         </div>
                                     )}
-                                    {announcements.map((item, index) => (
-                                        <div key={index} className="p-3 rounded-lg border bg-card">
-                                            <p className="font-semibold">{item.title}</p>
-                                            <p className="text-sm text-muted-foreground">{item.message}</p>
-                                            <p className="text-xs text-muted-foreground mt-2">
-                                                {formatDistanceToNow(new Date(item.timestamp), { addSuffix: true, locale: ptBR })}
-                                            </p>
-                                        </div>
-                                    ))}
+                                    {announcements.map((item, index) => {
+                                        const date = new Date(item.timestamp);
+                                        const isValidDate = !isNaN(date.getTime());
+                                        
+                                        return (
+                                            <div key={index} className="p-3 rounded-lg border bg-card">
+                                                <p className="font-semibold">{item.title}</p>
+                                                <p className="text-sm text-muted-foreground">{item.message}</p>
+                                                {isValidDate && (
+                                                    <p className="text-xs text-muted-foreground mt-2">
+                                                        {formatDistanceToNow(date, { addSuffix: true, locale: ptBR })}
+                                                    </p>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             </SheetContent>
                         </Sheet>
@@ -257,14 +264,3 @@ export function EditorHeader({ onGenerate, isGenerating, affiliateLink }: Editor
         </header>
     );
 }
-
-
-    
-
-    
-
-
-
-    
-
-    
