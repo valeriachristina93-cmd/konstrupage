@@ -12,7 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { useToast } from '@/hooks/use-toast';
 import { Loader2, MailCheck, Send, LogIn, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 function VerifyEmailContent() {
     const router = useRouter();
@@ -56,7 +56,7 @@ function VerifyEmailContent() {
     
     return (
         <div className="flex items-center justify-center min-h-screen bg-muted/30 p-4">
-            <div className="w-full max-w-md">
+            <div className="w-full max-w-lg">
                 <div className="flex justify-center mb-8">
                     <Image src="https://i.imgur.com/ihAZlua.png" alt="Konstrupages Logo" width={64} height={64} />
                 </div>
@@ -71,10 +71,11 @@ function VerifyEmailContent() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="text-center text-muted-foreground px-6">
-                        <Alert variant="warning">
+                        <Alert variant="warning" className="text-left">
                             <AlertTriangle className="h-4 w-4" />
+                            <AlertTitle className="font-bold">Atenção!</AlertTitle>
                             <AlertDescription>
-                                Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de spam ou lixo eletrônico.
+                                Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de <strong>spam</strong> ou <strong>lixo eletrônico</strong>.
                             </AlertDescription>
                         </Alert>
                     </CardContent>
