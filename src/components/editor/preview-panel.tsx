@@ -44,7 +44,7 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
                 html = generatePresellHtml(debouncedPageConfig);
             }
             iframe.srcdoc = html;
-        }, 500); 
+        }, 600); 
 
         return () => {
             clearTimeout(timer);
