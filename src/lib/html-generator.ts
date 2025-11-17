@@ -38,46 +38,150 @@ const renderPostContent = (content: string) => {
 };
 
 export const generatePostPageHtml = (config: PageConfig, postConfig: PostPageConfig): string => {
-    const { productName, content, imageUrl } = postConfig;
+    const { productName, content } = postConfig;
     const { seo, affiliateLink, newTab, footer } = config;
 
-    // Use a placeholder if productName is empty, to avoid empty titles
     const pageTitle = productName || seo.title || 'Detalhes do Produto';
     
     return `
-    <div class="post-page-content" style="display: none;">
-        <header>
-            <nav>
-                <a href="#" onclick="showMainPage(event)" class="logo">blogpost</a>
-            </nav>
-        </header>
-        <main>
-            <article>
-                <div class="post-header">
-                    <h1 class="post-title">${pageTitle}</h1>
+    <!DOCTYPE html>
+    <html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${pageTitle}</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+        <style>
+            body { 
+                margin: 0; 
+                font-family: 'Inter', sans-serif; 
+                background-color: #f8f9fa; 
+                color: #212529;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
+            }
+            .post-page-container {
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+            }
+            header {
+                padding: 1rem;
+                background-color: #fff;
+                border-bottom: 1px solid #dee2e6;
+                text-align: center;
+            }
+            .logo {
+                font-family: 'Merriweather', serif;
+                font-weight: 700;
+                font-size: 1.5rem;
+                color: #000;
+                text-decoration: none;
+            }
+            main {
+                flex-grow: 1;
+                width: 100%;
+                max-width: 800px;
+                margin: 2rem auto;
+                padding: 0 1rem;
+                box-sizing: border-box;
+            }
+            .post-card {
+                background-color: #fff;
+                border: 1px solid #dee2e6;
+                border-radius: 8px;
+                padding: 2rem;
+            }
+            .post-title {
+                font-family: 'Merriweather', serif;
+                font-size: 2.5rem;
+                font-weight: 700;
+                margin: 0 0 1rem 0;
+            }
+            .post-content {
+                font-size: 1.1rem;
+                line-height: 1.7;
+            }
+            footer {
+                padding: 1rem;
+                text-align: center;
+                font-size: 0.9rem;
+                color: #6c757d;
+                background-color: #fff;
+                border-top: 1px solid #dee2e6;
+            }
+             footer a {
+                color: #6c757d;
+                text-decoration: none;
+                margin: 0 8px;
+            }
+             footer a:hover {
+                text-decoration: underline;
+            }
+             .legal-modal { position: fixed; inset: 0; background-color: rgba(0,0,0,0.6); z-index: 101; display: none; align-items: center; justify-content: center; }
+            .legal-modal-container { background-color: #fff; color: #333; max-width: 800px; width: 90%; max-height: 80vh; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; display: flex; flex-direction: column; }
+            .legal-modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer; color: #aaa; }
+            .legal-modal-body { overflow-y: auto; padding: 30px; }
+            .legal-modal-content h1, .legal-modal-content h2 { color: #2c3e50; }
+        </style>
+    </head>
+    <body>
+        <div class="post-page-container">
+            <header>
+                <a href="#" class="logo">${pageTitle}</a>
+            </header>
+            <main>
+                <div class="post-card">
+                    <h1 class="post-title">${productName}</h1>
+                    <div class="post-content">
+                        ${renderPostContent(content)}
+                    </div>
                 </div>
-                ${imageUrl ? `<img src="${imageUrl}" alt="${pageTitle}" class="post-image">` : ''}
-                <div class="post-content">
-                    ${renderPostContent(content)}
+            </main>
+            <footer>
+                 ${footer.active ? `
+                <div class="footer-links">
+                    <a href="${footer.autoGenerate ? '#' : footer.privacyLink}" ${footer.autoGenerate ? `onclick="openLegalModal('privacy-policy', event)"` : `target="_blank"`}>Política de Privacidade</a>
+                    <span>&bull;</span>
+                    <a href="${footer.autoGenerate ? '#' : footer.termsLink}" ${footer.autoGenerate ? `onclick="openLegalModal('terms-of-use', event)"` : `target="_blank"`}>Termos de Uso</a>
+                </div>` : ''}
+                <div class="copyright">
+                    © ${new Date().getFullYear()} - Todos os direitos reservados.
                 </div>
-                <div class="post-actions">
-                    <a href="${affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="action-btn">Comprar Agora</a>
-                </div>
-            </article>
-        </main>
-        <footer>
-             ${footer.active ? `
-            <div class="footer-links">
-                <a href="${footer.autoGenerate ? '#' : footer.privacyLink}" ${footer.autoGenerate ? `onclick="openLegalModal('privacy-policy', event)"` : `target="_blank"`}>Política de Privacidade</a>
-                <a href="${footer.autoGenerate ? '#' : footer.termsLink}" ${footer.autoGenerate ? `onclick="openLegalModal('terms-of-use', event)"` : `target="_blank"`}>Termos de Uso</a>
-            </div>` : ''}
-            <div class="copyright">
-                © ${new Date().getFullYear()} blogpost - Todos os direitos reservados
-            </div>
-        </footer>
-    </div>
+            </footer>
+        </div>
+        <script>
+            function openLegalModal(modalId, event) {
+                event.preventDefault();
+                const modal = document.getElementById(modalId + '-modal');
+                if(modal) modal.style.display = 'flex';
+            }
+
+            function closeLegalModal(modalId, event) {
+                event.stopPropagation();
+                const modal = document.getElementById(modalId + '-modal');
+                if(modal) modal.style.display = 'none';
+            }
+
+            window.addEventListener('click', function(event) {
+                const privacyModal = document.getElementById('privacy-policy-modal');
+                const termsModal = document.getElementById('terms-of-use-modal');
+                if (event.target == privacyModal) {
+                    privacyModal.style.display = "none";
+                }
+                if (event.target == termsModal) {
+                    termsModal.style.display = "none";
+                }
+            });
+        </script>
+    </body>
+    </html>
     `;
 };
+
 
 function renderRichText(content: DisclaimerContent[]): string {
   return content.map(item => {
@@ -645,9 +749,6 @@ export const generatePresellHtml = (config: PageConfig) => {
     const pageDescription = seo?.description || 'Presell page description.';
     const favicon = seo?.favicon || 'https://i.imgur.com/ihAZlua.png';
 
-    const allPostPagesHtml = postPages.map(post => generatePostPageHtml(config, post)).join('');
-
-
     return `
     <!DOCTYPE html>
     <html lang="pt-BR">
@@ -660,7 +761,6 @@ export const generatePresellHtml = (config: PageConfig) => {
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         ${fontImportUrl ? `<link href="${fontImportUrl}" rel="stylesheet">` : ''}
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
         ${facebookPixelScript}
         ${googleAdsScript}
         <style>
@@ -978,29 +1078,6 @@ export const generatePresellHtml = (config: PageConfig) => {
             .legal-modal-body { overflow-y: auto; padding: 30px; }
             .legal-modal-content h1, .legal-modal-content h2 { color: #2c3e50; }
             
-            /* Post page specific styles */
-            .post-page-container { font-family: 'Merriweather', Georgia, serif; color: #333; }
-            .post-page-container header { background-color: #2c3e50; padding: 1rem 0; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 100; }
-            .post-page-container nav { max-width: 1200px; margin: 0 auto; display: flex; justify-content: center; align-items: center; padding: 0 2rem; }
-            .post-page-container .logo { font-size: 1.8rem; font-weight: 700; color: white; text-decoration: none; letter-spacing: -0.5px; font-family: 'Montserrat', sans-serif; text-transform: uppercase; }
-            .post-page-container main { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
-            .post-page-container article { background-color: white; border-radius: 0; overflow: hidden; }
-            .post-page-container .post-header { padding: 3rem 0 1.5rem; text-align: center; border-bottom: 1px solid #eee; }
-            .post-page-container .post-title { font-size: 2.8rem; margin-bottom: 0; font-weight: 700; line-height: 1.2; color: #2c3e50; }
-            .post-page-container .post-image { width: 100%; height: auto; border-radius: 8px; margin: 2rem 0; }
-            .post-page-container .post-content { padding: 2rem 0; }
-            .post-page-container .post-content p { margin-bottom: 1.8rem; text-align: justify; line-height: 1.7; font-size: 18px; }
-            .post-page-container .post-content h2 { color: #2c3e50; margin: 2.5rem 0 1.2rem; font-size: 1.8rem; font-weight: 700; line-height: 1.3; position: relative; padding-bottom: 0.8rem; }
-            .post-page-container .post-content h2::after { content: ''; position: absolute; left: 0; bottom: 0; width: 60px; height: 3px; background-color: #e74c3c; }
-            .post-page-container .post-actions { margin: 3rem 0; display: flex; justify-content: center; }
-            .post-page-container .action-btn { background-color: #e74c3c; color: white; border: none; padding: 1rem 2.5rem; font-size: 1.2rem; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; font-weight: 600; font-family: 'Montserrat', sans-serif; text-transform: uppercase; letter-spacing: 1px; text-decoration: none; }
-            .post-page-container .action-btn:hover { background-color: #c0392b; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3); }
-            .post-page-container footer { background-color: #2c3e50; color: white; text-align: center; padding: 2rem 0; margin-top: 4rem; }
-            .post-page-container .footer-links { margin-bottom: 1rem; display: flex; justify-content: center; flex-wrap: wrap; gap: 1.5rem; }
-            .post-page-container .footer-links a { color: rgba(255, 255, 255, 0.8); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; font-family: 'Montserrat', sans-serif; }
-            .post-page-container .footer-links a:hover { color: white; }
-            .post-page-container .copyright { font-size: 0.85rem; color: rgba(255, 255, 255, 0.7); }
-            
             @keyframes spin { to { transform: rotate(360deg); } }
             @keyframes checkmark { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
 
@@ -1033,9 +1110,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                 .body-layout-side, .body-layout-side.side-right { flex-direction: column; }
                 .body-layout-side .custom-popup-image-container { flex-basis: auto; max-height: 40vh; }
                 .body-layout-side .custom-popup-main-content { flex: 1; }
-
-                .post-page-container .post-title { font-size: 2.2rem; }
-                .post-page-container .post-content h2 { font-size: 1.5rem; }
             }
         </style>
     </head>
@@ -1059,9 +1133,6 @@ export const generatePresellHtml = (config: PageConfig) => {
                     ${exitPopup}
                 </div>
                 ${legalModals}
-            </div>
-            <div class="post-page-container">
-                ${allPostPagesHtml}
             </div>
         </div>
         
@@ -1089,30 +1160,9 @@ export const generatePresellHtml = (config: PageConfig) => {
             let isRegularPopupActive = false;
             let exitIntentFired = false;
 
-            const mainWrapper = document.querySelector('.main-wrapper');
-            const postPageContainer = document.querySelector('.post-page-container');
-            const postPageContents = document.querySelectorAll('.post-page-content');
-
-            function showPostPage(index, event) {
-                if (event) event.preventDefault();
-                mainWrapper.style.display = 'none';
-                postPageContents.forEach((page, i) => {
-                    page.style.display = i === index ? 'block' : 'none';
-                });
-            }
-
-            function showMainPage(event) {
-                if (event) event.preventDefault();
-                mainWrapper.style.display = 'flex';
-                postPageContents.forEach(page => {
-                    page.style.display = 'none';
-                });
-            }
-
             function showNextPopup() {
                 if (isRegularPopupActive) return;
 
-                // Hide any currently displayed popup
                 const currentlyVisible = document.querySelector('.popup[style*="display: flex"]');
                 if (currentlyVisible && !currentlyVisible.classList.contains('exit-intent')) {
                     currentlyVisible.style.display = 'none';
@@ -1127,11 +1177,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                         popupWrapper.style.pointerEvents = 'auto';
                         popup.style.display = 'flex';
                     } else {
-                        // Skip null/undefined popups
                         showNextPopup();
                     }
                 } else {
-                    // All regular popups have been shown
                     isRegularPopupActive = false;
                     if (!exitIntentFired) {
                         popupWrapper.style.display = 'none';

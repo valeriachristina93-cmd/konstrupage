@@ -18,7 +18,7 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPostIndex }: PreviewPanelProps) {
-    const [isRendering, setIsRendering] = useState(false);
+    const [isRendering, setIsRendering] = useState(true);
     const iframeRef = useRef<HTMLIFrameElement>(null);
     const debouncedPageConfig = useDebounce(pageConfig, 500);
     const debouncedPostIndex = useDebounce(previewingPostIndex, 500);
@@ -29,13 +29,11 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
         const iframe = iframeRef.current;
         if (!iframe) return;
 
-        iframe.style.opacity = '0';
-        iframe.style.transition = 'opacity 0.3s ease-in-out';
-
         const handleLoad = () => {
-            iframe.style.opacity = '1';
             setIsRendering(false);
         };
+        
+        iframe.addEventListener('load', handleLoad, { once: true });
         
         const timer = setTimeout(() => {
             let html;
@@ -46,7 +44,6 @@ export function PreviewPanel({ pageConfig, viewMode, setViewMode, previewingPost
                 html = generatePresellHtml(debouncedPageConfig);
             }
             iframe.srcdoc = html;
-            iframe.addEventListener('load', handleLoad, { once: true });
         }, 500); 
 
         return () => {
