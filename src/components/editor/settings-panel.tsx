@@ -206,13 +206,13 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
         </div>
     );
 
-    const HtmlTooltip = () => (
+    const HtmlTooltip = ({ content }: { content: string }) => (
         <Tooltip>
             <TooltipTrigger asChild>
                 <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
             </TooltipTrigger>
             <TooltipContent>
-                <p>Use &lt;a href="link aqui"&gt;texto do link&lt;/a&gt; para adicionar links.</p>
+                <p>{content}</p>
             </TooltipContent>
         </Tooltip>
     );
@@ -376,7 +376,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                       <div className="space-y-2">
                                           <div className="flex items-center gap-2">
                                             <Label>{t('message')}</Label>
-                                            <HtmlTooltip />
+                                            <HtmlTooltip content="Use <a> para links e <b> para negrito." />
                                           </div>
                                           <Textarea value={pageConfig.popups.cookies.message} onChange={e => onConfigChange(['popups', 'cookies', 'message'], e.target.value)} className="text-sm h-24" />
                                       </div>
@@ -692,7 +692,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                 <div className="space-y-2">
                                                     <div className="flex items-center gap-2">
                                                         <Label>{t('description')}</Label>
-                                                        <HtmlTooltip />
+                                                        <HtmlTooltip content="Use <a> para links e <b> para negrito." />
                                                     </div>
                                                     <Textarea placeholder={t('popup_description_html')} value={pageConfig.popups.exit.description} onChange={e => onConfigChange(['popups', 'exit', 'description'], e.target.value)} className="text-sm h-24" />
                                                 </div>
@@ -842,7 +842,7 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                     <div className="space-y-2">
                                                         <div className="flex items-center gap-2">
                                                             <Label>{t('description')}</Label>
-                                                            <HtmlTooltip />
+                                                            <HtmlTooltip content="Use <a> para links e <b> para negrito." />
                                                         </div>
                                                         <Textarea placeholder={t('popup_description_html')} value={customPopupConfig.description} onChange={e => onConfigChange(['popups', 'custom', 'description'], e.target.value)} className="text-sm h-24" />
                                                     </div>
@@ -1458,7 +1458,10 @@ export function SettingsPanel({ pageConfig, onConfigChange, onImageUpload, setVi
                                                                     <Input type="text" placeholder={t('product_name')} value={post.productName} onChange={e => onConfigChange(['postPages', index, 'productName'], e.target.value)} />
                                                                 </div>
                                                                 <div className="space-y-2">
-                                                                    <Label>{t('post_content')}</Label>
+                                                                    <div className="flex items-center gap-2">
+                                                                        <Label>{t('post_content')}</Label>
+                                                                        <HtmlTooltip content={t('post_content_html_tooltip')} />
+                                                                    </div>
                                                                     <Textarea placeholder={t('write_your_article_here')} value={post.content} onChange={e => onConfigChange(['postPages', index, 'content'], e.target.value)} className="h-40" />
                                                                 </div>
                                                                 <div className="space-y-2">

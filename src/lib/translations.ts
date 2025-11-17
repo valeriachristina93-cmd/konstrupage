@@ -1,4 +1,5 @@
 
+
 export const translations = {
   pt: {
     // Header
@@ -186,6 +187,7 @@ export const translations = {
     write_your_article_here: 'Escreva seu artigo aqui...',
     new_post: 'Novo Post',
     post_image_url: 'URL da Imagem do Post',
+    post_content_html_tooltip: 'Você pode usar tags HTML como <b>, <i>, <a>, etc.',
 
     // Advanced Settings
     advanced_settings: 'Configuração Avançada',
@@ -426,6 +428,7 @@ export const translations = {
     write_your_article_here: 'Write your article here...',
     new_post: 'New Post',
     post_image_url: 'Post Image URL',
+    post_content_html_tooltip: 'You can use HTML tags like <b>, <i>, <a>, etc.',
 
     // Advanced Settings
     advanced_settings: 'Advanced Settings',
@@ -666,6 +669,7 @@ export const translations = {
     write_your_article_here: 'Escribe tu artículo aquí...',
     new_post: 'Nueva Publicación',
     post_image_url: 'URL de la Imagen de la Publicación',
+    post_content_html_tooltip: 'Puedes usar etiquetas HTML como <b>, <i>, <a>, etc.',
 
     // Advanced Settings
     advanced_settings: 'Configuración Avanzada',
