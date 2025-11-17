@@ -811,13 +811,13 @@ export const generatePresellHtml = (config: PageConfig) => {
                 background: rgba(0, 0, 0, 0.1);
             }
             body::-webkit-scrollbar-thumb {
-                background-color: var(--primary-color);
+                background-color: #7D54F4;
                 border-radius: 10px;
                 border: 2px solid transparent;
                 background-clip: content-box;
             }
             body::-webkit-scrollbar-thumb:hover {
-                background-color: #A495F5;
+                background-color: #9373f5;
             }
 
             :root {
@@ -1468,5 +1468,6 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
