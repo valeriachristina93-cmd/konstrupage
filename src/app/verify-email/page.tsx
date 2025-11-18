@@ -71,11 +71,11 @@ function VerifyEmailPage() {
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="text-center text-muted-foreground px-6">
-                        <Alert variant="warning" className="text-left">
+                        <Alert variant="warning" className="text-left bg-yellow-500/10 border-yellow-500/30">
                             <AlertTriangle className="h-4 w-4" />
                             <AlertTitle className="font-bold">Atenção!</AlertTitle>
                             <AlertDescription>
-                                Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de <strong>spam</strong> ou <strong>lixo eletrônico</strong>.
+                                Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de <strong className="underline decoration-yellow-500/50">spam ou lixo eletrônico</strong>.
                             </AlertDescription>
                         </Alert>
                     </CardContent>
