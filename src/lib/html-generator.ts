@@ -817,9 +817,6 @@ export const generatePresellHtml = (config: PageConfig) => {
         ${facebookPixelScript}
         ${googleAdsScript}
         <style>
-            :root {
-                --primary-color: ${customization.button.color};
-            }
             body::-webkit-scrollbar {
                 width: 8px;
             }
@@ -865,6 +862,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 justify-content: center;
                 width: 100%;
                 transition: filter 0.3s ease-in-out;
+                flex-grow: 1;
             }
             .bg-desktop { ${getDesktopBgStyle()} }
             .bg-mobile { ${getMobileBgStyle()} display: none; }
@@ -1123,6 +1121,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             .legal-modal-content h1, .legal-modal-content h2 { color: #2c3e50; }
 
             .post-page-container {
+                display: none;
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -1130,8 +1129,9 @@ export const generatePresellHtml = (config: PageConfig) => {
                 height: 100%;
                 overflow-y: auto;
                 background-color: #f3f4f6;
+                z-index: 200;
             }
-            .post-page-section { display: none; }
+            .post-page-section { display: none; padding: 1rem; box-sizing: border-box; }
             .post-container { max-width: 800px; margin: 2rem auto; background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
             .post-back-button { margin-bottom: 1rem; background: #eee; border: 1px solid #ccc; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
             .post-header h1 { font-family: 'Lora', serif; font-size: 2.5rem; margin-bottom: 1rem; }
@@ -1186,22 +1186,22 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${disclaimerSection}
                 ${footerSection}
 
-                 <div class="post-page-container">
-                    ${postPagesHtml}
-                </div>
-
-                <div class="popup-wrapper">
-                    ${agePopup}
-                    ${captchaPopup}
-                    ${customPopup}
-                    ${choicePopup}
-                    ${genderPopup}
-                    ${discountPopup}
-                    ${cookiePopup}
-                    ${exitPopup}
-                </div>
-                ${legalModals}
             </div>
+             <div class="post-page-container">
+                ${postPagesHtml}
+            </div>
+
+            <div class="popup-wrapper">
+                ${agePopup}
+                ${captchaPopup}
+                ${customPopup}
+                ${choicePopup}
+                ${genderPopup}
+                ${discountPopup}
+                ${cookiePopup}
+                ${exitPopup}
+            </div>
+            ${legalModals}
         </div>
         
         ${customization.customHtml || ''}
@@ -1211,7 +1211,7 @@ export const generatePresellHtml = (config: PageConfig) => {
             const NEW_TAB = ${newTab};
             const FULL_PAGE_CLICK = ${fullPageClick};
             
-            const mainSection = document.querySelector('.main-section');
+            const mainWrapper = document.querySelector('.main-wrapper');
             const postPageContainer = document.querySelector('.post-page-container');
             const popupWrapper = document.querySelector('.popup-wrapper');
             const exitPopup = document.getElementById('exit-popup');
@@ -1237,7 +1237,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 
                 const targetPost = document.getElementById('post-page-' + index);
                 if (targetPost) {
-                    mainSection.style.display = 'none';
+                    mainWrapper.style.display = 'none';
                     postPageContainer.style.display = 'block';
                     targetPost.style.display = 'block';
                 }
@@ -1247,7 +1247,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                  const allPostPages = document.querySelectorAll('.post-page-section');
                 allPostPages.forEach(p => p.style.display = 'none');
                 postPageContainer.style.display = 'none';
-                mainSection.style.display = 'flex';
+                mainWrapper.style.display = 'flex';
             }
 
 
@@ -1531,6 +1531,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
