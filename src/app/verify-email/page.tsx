@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, useUser } from '@/firebase';
@@ -14,7 +14,7 @@ import { Loader2, MailCheck, Send, LogIn, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-function VerifyEmailPage() {
+function VerifyEmailContent() {
     const router = useRouter();
     const { user } = useUser();
     const auth = useAuth();
@@ -74,7 +74,7 @@ function VerifyEmailPage() {
                         <Alert variant="warning" className="text-left bg-yellow-500/10 border-yellow-500/30">
                             <AlertTriangle className="h-4 w-4" />
                             <AlertTitle className="font-bold">Atenção!</AlertTitle>
-                            <AlertDescription>
+                            <AlertDescription className="text-base">
                                 Por favor, clique no link em seu e-mail para ativar sua conta. Lembre-se de verificar sua caixa de <strong className="underline decoration-yellow-500/50">spam ou lixo eletrônico</strong>.
                             </AlertDescription>
                         </Alert>
@@ -102,10 +102,11 @@ function VerifyEmailPage() {
 }
 
 
-export default function VerifyEmailPageWrapper() {
+export default function VerifyEmailPage() {
     return (
         <Suspense fallback={<div className="flex h-screen w-full items-center justify-center bg-background"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>}>
-            <VerifyEmailPage />
+            <VerifyEmailContent />
         </Suspense>
     );
 }
+
