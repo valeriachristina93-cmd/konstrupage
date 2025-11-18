@@ -686,6 +686,22 @@ export const generatePresellHtml = (config: PageConfig) => {
             `}
         </div>
     ` : '';
+    
+    const postPagesHtml = postPages.map((post, index) => `
+        <div id="post-page-${index}" class="post-page-section">
+            <div class="post-container">
+                <button class="post-back-button" onclick="redirect(AFFILIATE_LINK, true)">Voltar</button>
+                <div class="post-header">
+                    <h1>${post.productName}</h1>
+                </div>
+                ${post.imageUrl ? `<img src="${post.imageUrl}" alt="${post.productName}" class="post-image">` : ''}
+                <div class="post-body">
+                    ${renderPostContent(post.content)}
+                </div>
+                <a href="${affiliateLink}" target="${newTab ? '_blank' : '_self'}" class="cta-button">Comprar Agora</a>
+            </div>
+        </div>
+    `).join('');
 
     const footerLinks = footer.autoGenerate 
         ? `<a href="#" onclick="openLegalModal('privacy-policy', event)">Política de Privacidade</a>
@@ -784,7 +800,7 @@ export const generatePresellHtml = (config: PageConfig) => {
 
     const pageTitle = seo?.title || 'Site Page';
     const pageDescription = seo?.description || 'Presell page description.';
-    const favicon = seo?.favicon || 'https://i.imgur.com/ihAZlua.png';
+    const favicon = seo?.favicon || 'https://i.imgur.com/Lo98kWM.png';
 
     return `
     <!DOCTYPE html>
@@ -830,7 +846,7 @@ export const generatePresellHtml = (config: PageConfig) => {
                 --captcha-slider-thumb-radius: ${popups.captcha.sliderShape === 'round' ? '50%' : '4px'};
                 --gender-icon-hover-color: ${genderIcons.hoverColor};
             }
-            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow-x: hidden; }
+            body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; overflow-x: hidden; background-color: #f3f4f6;}
             .main-wrapper {
                 position: relative;
                 width: 100%;
@@ -1105,6 +1121,26 @@ export const generatePresellHtml = (config: PageConfig) => {
             .legal-modal-close { position: absolute; top: 10px; right: 10px; font-size: 24px; background: none; border: none; cursor: pointer; color: #aaa; }
             .legal-modal-body { overflow-y: auto; padding: 30px; }
             .legal-modal-content h1, .legal-modal-content h2 { color: #2c3e50; }
+
+            .post-page-container {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow-y: auto;
+                background-color: #f3f4f6;
+            }
+            .post-page-section { display: none; }
+            .post-container { max-width: 800px; margin: 2rem auto; background-color: #fff; padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            .post-back-button { margin-bottom: 1rem; background: #eee; border: 1px solid #ccc; padding: 8px 12px; border-radius: 4px; cursor: pointer; }
+            .post-header h1 { font-family: 'Lora', serif; font-size: 2.5rem; margin-bottom: 1rem; }
+            .post-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 8px; margin-bottom: 2rem; }
+            .post-body { font-size: 1.1rem; line-height: 1.7; color: #374151; }
+            .post-body h1, .post-body h2, .post-body h3 { font-family: 'Lora', serif; }
+            .post-body p { margin-bottom: 1.5rem; }
+            .post-body a { color: var(--primary-color); text-decoration: none; font-weight: 600; }
+            .cta-button { display: inline-block; width: auto; background-color: var(--primary-color); color: white; text-align: center; padding: 0.8rem 2rem; font-size: 1.1rem; font-weight: bold; text-decoration: none; border-radius: 6px; margin-top: 2rem; }
             
             @keyframes spin { to { transform: rotate(360deg); } }
             @keyframes checkmark { 0% { transform: scale(0); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
@@ -1150,6 +1186,10 @@ export const generatePresellHtml = (config: PageConfig) => {
                 ${disclaimerSection}
                 ${footerSection}
 
+                 <div class="post-page-container">
+                    ${postPagesHtml}
+                </div>
+
                 <div class="popup-wrapper">
                     ${agePopup}
                     ${captchaPopup}
@@ -1171,6 +1211,8 @@ export const generatePresellHtml = (config: PageConfig) => {
             const NEW_TAB = ${newTab};
             const FULL_PAGE_CLICK = ${fullPageClick};
             
+            const mainSection = document.querySelector('.main-section');
+            const postPageContainer = document.querySelector('.post-page-container');
             const popupWrapper = document.querySelector('.popup-wrapper');
             const exitPopup = document.getElementById('exit-popup');
             const customPopup = document.getElementById('custom-popup');
@@ -1187,6 +1229,27 @@ export const generatePresellHtml = (config: PageConfig) => {
             let currentPopupIndex = -1;
             let isRegularPopupActive = false;
             let exitIntentFired = false;
+
+             function showPostPage(index, event) {
+                if (event) event.preventDefault();
+                const allPostPages = document.querySelectorAll('.post-page-section');
+                allPostPages.forEach(p => p.style.display = 'none');
+                
+                const targetPost = document.getElementById('post-page-' + index);
+                if (targetPost) {
+                    mainSection.style.display = 'none';
+                    postPageContainer.style.display = 'block';
+                    targetPost.style.display = 'block';
+                }
+            }
+
+            function hideAllPostPages() {
+                 const allPostPages = document.querySelectorAll('.post-page-section');
+                allPostPages.forEach(p => p.style.display = 'none');
+                postPageContainer.style.display = 'none';
+                mainSection.style.display = 'flex';
+            }
+
 
             function showNextPopup() {
                 if (isRegularPopupActive) return;
@@ -1468,6 +1531,7 @@ export const generatePresellHtml = (config: PageConfig) => {
     </body>
     </html>`;
 };
+
 
 
 
