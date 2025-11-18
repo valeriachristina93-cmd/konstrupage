@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useEffect, Suspense, use } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { useAuth, useUser } from '@/firebase';
@@ -14,7 +14,7 @@ import { Loader2, MailCheck, Send, LogIn, AlertTriangle } from 'lucide-react';
 import Image from 'next/image';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-function VerifyEmailContent() {
+function VerifyEmailPage() {
     const router = useRouter();
     const { user } = useUser();
     const auth = useAuth();
@@ -102,10 +102,10 @@ function VerifyEmailContent() {
 }
 
 
-export default function VerifyEmailPage() {
+export default function VerifyEmailPageWrapper() {
     return (
-        <Suspense fallback={<div>Carregando...</div>}>
-            <VerifyEmailContent />
+        <Suspense fallback={<div className="flex h-screen w-full items-center justify-center bg-background"><Loader2 className="h-12 w-12 animate-spin text-primary" /></div>}>
+            <VerifyEmailPage />
         </Suspense>
     );
 }
